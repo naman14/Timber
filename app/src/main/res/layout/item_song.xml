@@ -3,7 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dp" >
+    android:paddingLeft="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:layout_width="45dp"
@@ -15,7 +17,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dp" >
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" >
 
 
     <TextView
@@ -23,7 +27,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:textSize="17sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
@@ -31,7 +35,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>
 

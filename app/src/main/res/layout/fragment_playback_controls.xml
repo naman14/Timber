@@ -3,13 +3,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="20dp"
     android:padding="8dp">
     <ImageView
         android:id="@+id/album_art"
         tools:src="@drawable/ic_launcher"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:scaleType="centerCrop"
         android:layout_alignParentStart="true"/>
     <LinearLayout
@@ -23,33 +23,24 @@
         android:layout_centerVertical="true">
         <TextView
             android:id="@+id/title"
-            tools:text="The Best Music EVAH1111 THE BEST"
+            android:text="Demons"
             android:ellipsize="end"
             android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"/>
+            android:textColor="#000000"/>
         <TextView
             android:id="@+id/artist"
-            tools:text="John Doe and Band"
+            android:text="John Doe and Band"
             android:ellipsize="end"
             android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000000"/>
 
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
-        <TextView
-            android:id="@+id/extra_info"
-            tools:text="casting to MyCast"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
     <ImageButton
         android:id="@+id/play_pause"

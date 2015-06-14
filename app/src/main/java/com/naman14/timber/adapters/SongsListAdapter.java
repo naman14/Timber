@@ -51,7 +51,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllS
         mArtworkFetcher.loadAlbumImage(allSongsItem.getArtist(), allSongsItem.getAlbum(), allSongsItem.getAlbumId(),
                 allSongsGridHolder.albumArt);
 
-
     }
 
     @Override

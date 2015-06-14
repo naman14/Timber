@@ -40,7 +40,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllS
 
         allSongsGridHolder.title.setText(allSongsItem.getTitle());
         allSongsGridHolder.artist.setText(allSongsItem.getArtist());
-        allSongsGridHolder.albumArt.setImageBitmap(ArtworkUtils.getArtworkFromFile(mContext, allSongsItem.getAlbumId(),25,25));
+        ArtworkUtils.loadBitmap(mContext,allSongsGridHolder.albumArt,allSongsItem.getAlbumId(),25,25);
 
     }
 

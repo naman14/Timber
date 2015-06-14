@@ -1,5 +1,6 @@
 package com.naman14.timber.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +11,8 @@ import android.widget.TextView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.models.SongModel;
-import com.naman14.timber.utils.ArtworkUtils;
+import com.naman14.timber.utils.ArtworkFetcher;
+import com.naman14.timber.utils.TimberUtils;
 
 import java.util.List;
 
@@ -21,10 +23,14 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllS
 
     private List<SongModel> allSongsList;
     private Context mContext;
+    private final ArtworkFetcher mArtworkFetcher;
 
-    public SongsListAdapter(Context context, List<SongModel> allSongsList) {
+    public SongsListAdapter(Activity context, List<SongModel> allSongsList) {
         this.allSongsList = allSongsList;
         this.mContext = context;
+
+        mArtworkFetcher = TimberUtils.getImageFetcher(context);
+
     }
 
     @Override
@@ -40,7 +46,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllS
 
         allSongsGridHolder.title.setText(allSongsItem.getTitle());
         allSongsGridHolder.artist.setText(allSongsItem.getArtist());
-        ArtworkUtils.loadBitmap(mContext,allSongsGridHolder.albumArt,allSongsItem.getAlbumId(),25,25);
+       // ArtworkUtils.loadBitmap(mContext, allSongsGridHolder.albumArt, allSongsItem.getAlbumId(), 25, 25);
+
+        mArtworkFetcher.loadAlbumImage(allSongsItem.getArtist(), allSongsItem.getAlbum(), allSongsItem.getAlbumId(),
+                allSongsGridHolder.albumArt);
+
 
     }
 

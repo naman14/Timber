@@ -3,4 +3,50 @@
 
     <color name="window_background">#FFF5F5F5</color>
     <color name="bt_accent">#00B8D4</color>
+
+    <!-- Letter tile colors -->
+    <color name="letter_tile_default_color">#cccccc</color>
+    <color name="letter_tile_font_color">#ffffff</color>
+    <array name="letter_tile_colors">
+        <item>@color/letter_tile_purple_color</item>
+        <item>@color/letter_tile_blue_color</item>
+        <item>@color/letter_tile_indigo_color</item>
+        <item>@color/letter_tile_teal_color</item>
+        <item>@color/letter_tile_light_green_color</item>
+        <item>@color/letter_tile_red_color</item>
+        <item>@color/letter_tile_grey_color</item>
+        <item>@color/letter_tile_deep_orange_color</item>
+        <item>@color/letter_tile_brown_color</item>
+    </array>
+
+    <array name="letter_tile_vibrant_dark_colors">
+        <item>@color/letter_tile_purple_color_dark</item>
+        <item>@color/letter_tile_blue_color_dark</item>
+        <item>@color/letter_tile_indigo_color_dark</item>
+        <item>@color/letter_tile_teal_color_dark</item>
+        <item>@color/letter_tile_light_green_color_dark</item>
+        <item>@color/letter_tile_red_color_dark</item>
+        <item>@color/letter_tile_grey_color_dark</item>
+        <item>@color/letter_tile_deep_orange_color_dark</item>
+        <item>@color/letter_tile_brown_color_dark</item>
+    </array>
+
+    <color name="letter_tile_purple_color">#9C27B0</color>
+    <color name="letter_tile_blue_color">#2196F3</color>
+    <color name="letter_tile_indigo_color">#3F51B5</color>
+    <color name="letter_tile_teal_color">#009688</color>
+    <color name="letter_tile_light_green_color">#8BC34A</color>
+    <color name="letter_tile_red_color">#F44336</color>
+    <color name="letter_tile_grey_color">#9E9E9E</color>
+    <color name="letter_tile_deep_orange_color">#FF5722</color>
+    <color name="letter_tile_brown_color">#795548</color>
+    <color name="letter_tile_purple_color_dark">#7B1FA2</color>
+    <color name="letter_tile_blue_color_dark">#1976D2</color>
+    <color name="letter_tile_indigo_color_dark">#303F9F</color>
+    <color name="letter_tile_teal_color_dark">#00796B</color>
+    <color name="letter_tile_light_green_color_dark">#689F38</color>
+    <color name="letter_tile_red_color_dark">#D32F2F</color>
+    <color name="letter_tile_grey_color_dark">#616161</color>
+    <color name="letter_tile_deep_orange_color_dark">#E64A19</color>
+    <color name="letter_tile_brown_color_dark">#5D4037</color>
 </resources>

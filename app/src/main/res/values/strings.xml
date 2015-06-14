@@ -5,4 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="letter_tile_letter_font_family" translatable="false">sans-serif-light</string>
+
 </resources>

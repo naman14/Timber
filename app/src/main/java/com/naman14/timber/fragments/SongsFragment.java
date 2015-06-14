@@ -35,6 +35,8 @@ public class SongsFragment extends Fragment {
                 R.layout.fragment_main, container, false);
 
         //getting the song list
+        if (songList!=null)
+            songList.clear();
         setupSongsList(recyclerView);
 
         //sorting songs alphabatically

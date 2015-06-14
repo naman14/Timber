@@ -11,4 +11,6 @@
     <dimen name="grid_item_padding_left">8.0dip</dimen>
     <dimen name="grid_item_padding_right">5.0dip</dimen>
     <dimen name="grid_bottom_height">44dip</dimen>
+
+    <item name="letter_to_tile_ratio" type="dimen">53%</item>
 </resources>

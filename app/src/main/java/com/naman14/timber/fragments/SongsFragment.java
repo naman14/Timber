@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,21 +57,29 @@ public class SongsFragment extends Fragment {
             int titleColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.TITLE);
             int idColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media._ID);
+                    (MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.ARTIST);
+            int albumColumn = musicCursor.getColumnIndex
+                    (MediaStore.Audio.Media.ALBUM);
+            int albumIdColumn = musicCursor.getColumnIndex
+                    (MediaStore.Audio.Media.ALBUM_ID);
+            int durationColumn = musicCursor.getColumnIndex
+                    (MediaStore.Audio.Media.DURATION);
             //add songs to list
             do {
                 long thisId = musicCursor.getLong(idColumn);
+                long albumId = musicCursor.getLong(albumIdColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                songList.add(new SongModel(thisId, thisTitle, thisArtist));
+                String thisALbum = musicCursor.getString(albumColumn);
+                int thisDuration = musicCursor.getInt(durationColumn);
+                songList.add(new SongModel(thisId, thisTitle, thisArtist,thisALbum,albumId,thisDuration));
             }
             while (musicCursor.moveToNext());
         }
 
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         mAdapter = new SongsListAdapter(getActivity(), songList);
         recyclerView.setAdapter(mAdapter);

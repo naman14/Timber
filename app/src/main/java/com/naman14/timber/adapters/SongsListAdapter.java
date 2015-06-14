@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.models.SongModel;
+import com.naman14.timber.utils.ArtworkUtils;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllS
 
         allSongsGridHolder.title.setText(allSongsItem.getTitle());
         allSongsGridHolder.artist.setText(allSongsItem.getArtist());
+        allSongsGridHolder.albumArt.setImageBitmap(ArtworkUtils.getArtworkFromFile(mContext, allSongsItem.getAlbumId(),25,25));
 
     }
 
@@ -49,12 +52,13 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllS
 
     public class AllSongsGridHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title,artist;
+        protected ImageView albumArt;
 
         public AllSongsGridHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
-
+            this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
             view.setOnClickListener(this);
         }
 

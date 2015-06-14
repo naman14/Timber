@@ -7,4 +7,8 @@
     <dimen name="card_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_item_avatar_size">40dp</dimen>
+
+    <dimen name="grid_item_padding_left">8.0dip</dimen>
+    <dimen name="grid_item_padding_right">5.0dip</dimen>
+    <dimen name="grid_bottom_height">44dip</dimen>
 </resources>

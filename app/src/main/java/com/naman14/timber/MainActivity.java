@@ -16,9 +16,6 @@ import android.view.MenuItem;
 
 import com.naman14.timber.fragments.PlaybackControlsFragment;
 import com.naman14.timber.fragments.SongsFragment;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.*;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,18 +52,6 @@ public class MainActivity extends BaseActivity {
             setupViewPager(viewPager);
             viewPager.setOffscreenPageLimit(0);
         }
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .diskCacheSize(50 * 1024 * 1024) // 50 Mb
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-
-                .build();
-        // Initialize ImageLoader with configuration.
-        com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
-
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

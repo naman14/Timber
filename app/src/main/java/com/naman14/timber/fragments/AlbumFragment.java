@@ -24,7 +24,7 @@ public class AlbumFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.fragment_main, container, false);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
         recyclerView.setAdapter(mAdapter);

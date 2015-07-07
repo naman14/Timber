@@ -5,12 +5,12 @@ package com.naman14.timber.models;
  */
 public class Song {
 
-    public final int albumId;
+    public final long albumId;
     public final String albumName;
-    public final int artistId;
+    public final long artistId;
     public final String artistName;
-    public final long duration;
-    public final int id;
+    public final int duration;
+    public final long id;
     public final String title;
     public final int trackNumber;
 
@@ -22,11 +22,11 @@ public class Song {
         this.title = "";
         this.artistName = "";
         this.albumName = "";
-        this.duration = -1L;
+        this.duration = -1;
         this.trackNumber = -1;
     }
 
-    public Song(int _id, int _albumId, int _artistId, String _title, String _artistName, String _albumName, long _duration, int _trackNumber)
+    public Song(long _id, long _albumId, long _artistId, String _title, String _artistName, String _albumName, int _duration, int _trackNumber)
     {
         this.id = _id;
         this.albumId = _albumId;

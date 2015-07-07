@@ -14,6 +14,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_grid, null);
         ItemHolder ml = new ItemHolder(v);
         return ml;
     }
@@ -45,7 +46,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_launcher).resetViewBeforeLoading(true).build());
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt,
+                new DisplayImageOptions.Builder().cacheInMemory(true)
+                .showImageOnFail(R.drawable.ic_launcher)
+                .resetViewBeforeLoading(true)
+                .displayer(new FadeInBitmapDisplayer(400))
+                .build());
 
     }
 
@@ -61,9 +67,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
         public ItemHolder(View view) {
             super(view);
-            this.title = (TextView) view.findViewById(R.id.song_title);
-            this.artist = (TextView) view.findViewById(R.id.song_artist);
-            this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
+            this.title = (TextView) view.findViewById(R.id.album_title);
+            this.artist = (TextView) view.findViewById(R.id.album_artist);
+            this.albumArt=(ImageView) view.findViewById(R.id.album_art);
             view.setOnClickListener(this);
         }
 

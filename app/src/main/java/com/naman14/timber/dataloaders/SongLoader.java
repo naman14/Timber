@@ -2,9 +2,9 @@ package com.naman14.timber.dataloaders;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import com.naman14.timber.models.Song;
 
@@ -15,39 +15,27 @@ import java.util.ArrayList;
  */
 public class SongLoader {
 
-    private static final long[] sEmptyList=new long[0];
+    private static final long[] sEmptyList = new long[0];
 
-    private static final String BASE_SELECTION = "is_music=1 AND title != ''";
+    public static ArrayList<Song> getSongsForCursor(Cursor cursor) {
+        ArrayList arrayList = new ArrayList();
+        if ((cursor != null) && (cursor.moveToFirst()))
+            do {
+                long id = cursor.getLong(0);
+                String title = cursor.getString(1);
+                String artist = cursor.getString(2);
+                String album = cursor.getString(3);
+                int duration = cursor.getInt(4);
+                int trackNumber = cursor.getInt(5);
+                long artistId = cursor.getInt(6);
+                long albumId = cursor.getLong(7);
 
-    public static ArrayList<Song> getAllSongs(Context paramContext)
-    {
-        return getSongs(makeSongCursor(paramContext, null, null));
-    }
-
-    public static ArrayList<Song> getSongs(Context paramContext, String paramString)
-    {
-        return getSongs(makeSongCursor(paramContext, "title LIKE ?", new String[] { "%" + paramString + "%" }));
-    }
-
-    public static ArrayList<Song> getSongs(Cursor paramCursor)
-    {
-        ArrayList localArrayList = new ArrayList();
-        if ((paramCursor != null) && (paramCursor.moveToFirst()))
-            do
-            {
-                String str1 = paramCursor.getString(1);
-                int i = paramCursor.getInt(0);
-                String str2 = paramCursor.getString(2);
-                String str3 = paramCursor.getString(3);
-                long l = paramCursor.getLong(4);
-                int j = paramCursor.getInt(5);
-                int k = paramCursor.getInt(6);
-                localArrayList.add(new Song(i, paramCursor.getInt(7), k, str1, str2, str3, l, j));
+                arrayList.add(new Song(id, albumId, artistId, title, artist, album, duration, trackNumber));
             }
-            while (paramCursor.moveToNext());
-        if (paramCursor != null)
-            paramCursor.close();
-        return localArrayList;
+            while (cursor.moveToNext());
+        if (cursor != null)
+            cursor.close();
+        return arrayList;
     }
 
     public static final long[] getSongListForCursor(Cursor cursor) {
@@ -72,18 +60,19 @@ public class SongLoader {
         return list;
     }
 
-    public static Cursor makeSongCursor(Context paramContext, String paramString, String[] paramArrayOfString)
-    {
-        Object localObject2 = "is_music=1 AND title != ''";
-        Object localObject1 = localObject2;
-        if (paramString != null)
-        {
-            localObject1 = localObject2;
-            if (!paramString.trim().equals(""))
-                localObject1 = "is_music=1 AND title != ''" + " AND " + paramString;
+    public static ArrayList<Song> getAllSongs(Context context) {
+        return getSongsForCursor(makeSongCursor(context, null));
+    }
+
+
+    public static Cursor makeSongCursor(Context context, String selection) {
+        String selectionStatement = "is_music=1 AND title != ''";
+        if (!TextUtils.isEmpty(selection)) {
+            selectionStatement = selectionStatement + " AND " + selection;
         }
-        localObject2 = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        return  paramContext.getContentResolver().query((Uri)localObject2, new String[] { "_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id" }, (String)localObject1, paramArrayOfString, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+
+        return cursor;
     }
 
 }

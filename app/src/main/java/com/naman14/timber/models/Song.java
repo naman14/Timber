@@ -3,7 +3,7 @@ package com.naman14.timber.models;
 /**
  * Created by naman on 13/06/15.
  */
-public class SongModel {
+public class Song {
 
     private long songId;
     private String title;
@@ -14,7 +14,7 @@ public class SongModel {
     private int year;
 
 
-    public SongModel(long songID, String songTitle, String songArtist,String songAlbum,long songalbumId,int songDuration) {
+    public Song(long songID, String songTitle, String songArtist, String songAlbum, long songalbumId, int songDuration) {
         songId=songID;
         title=songTitle;
         artist=songArtist;

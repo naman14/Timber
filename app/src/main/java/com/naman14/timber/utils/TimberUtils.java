@@ -2,9 +2,11 @@ package com.naman14.timber.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -97,5 +99,8 @@ public class TimberUtils {
 
         return name;
     }
-
+    public static Uri getAlbumArtUri(long paramInt)
+    {
+        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), paramInt);
+    }
 }

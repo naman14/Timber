@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
-import com.naman14.timber.models.SongModel;
+import com.naman14.timber.models.Song;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class SongsFragment extends Fragment {
 
-    private List<SongModel> songList = new ArrayList<>();
+    private List<Song> songList = new ArrayList<>();
     private SongsListAdapter mAdapter;
 
     @Override
@@ -40,8 +40,8 @@ public class SongsFragment extends Fragment {
         setupSongsList(recyclerView);
 
         //sorting songs alphabatically
-        Collections.sort(songList, new Comparator<SongModel>() {
-            public int compare(SongModel a, SongModel b) {
+        Collections.sort(songList, new Comparator<Song>() {
+            public int compare(Song a, Song b) {
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
@@ -76,7 +76,7 @@ public class SongsFragment extends Fragment {
                 String thisArtist = musicCursor.getString(artistColumn);
                 String thisALbum = musicCursor.getString(albumColumn);
                 int thisDuration = musicCursor.getInt(durationColumn);
-                songList.add(new SongModel(thisId, thisTitle, thisArtist,thisALbum,albumId,thisDuration));
+                songList.add(new Song(thisId, thisTitle, thisArtist,thisALbum,albumId,thisDuration));
             }
             while (musicCursor.moveToNext());
         }

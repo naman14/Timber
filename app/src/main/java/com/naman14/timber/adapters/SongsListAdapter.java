@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
-import com.naman14.timber.models.SongModel;
+import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.ArtworkFetcher;
 import com.naman14.timber.utils.TimberUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -21,11 +23,11 @@ import java.util.List;
  */
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllSongsGridHolder> {
 
-    private List<SongModel> allSongsList;
+    private List<Song> allSongsList;
     private Context mContext;
     private final ArtworkFetcher mArtworkFetcher;
 
-    public SongsListAdapter(Activity context, List<SongModel> allSongsList) {
+    public SongsListAdapter(Activity context, List<Song> allSongsList) {
         this.allSongsList = allSongsList;
         this.mContext = context;
 
@@ -42,14 +44,16 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.AllS
 
     @Override
     public void onBindViewHolder(AllSongsGridHolder allSongsGridHolder, int i) {
-        SongModel allSongsItem = allSongsList.get(i);
+        Song allSongsItem = allSongsList.get(i);
 
         allSongsGridHolder.title.setText(allSongsItem.getTitle());
         allSongsGridHolder.artist.setText(allSongsItem.getArtist());
        // ArtworkUtils.loadBitmap(mContext, allSongsGridHolder.albumArt, allSongsItem.getAlbumId(), 25, 25);
 
-        mArtworkFetcher.loadAlbumImage(allSongsItem.getArtist(), allSongsItem.getAlbum(), allSongsItem.getAlbumId(),
-                allSongsGridHolder.albumArt);
+//        mArtworkFetcher.loadAlbumImage(allSongsItem.getArtist(), allSongsItem.getAlbum(), allSongsItem.getAlbumId(),
+//                allSongsGridHolder.albumArt);
+
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(allSongsItem.getAlbumId()).toString(), allSongsGridHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_launcher).resetViewBeforeLoading(true).build());
 
     }
 

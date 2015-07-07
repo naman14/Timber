@@ -20,7 +20,6 @@ public class TimberApp extends Application {
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(localImageLoaderConfiguration);
 
-
     }
 
     public static synchronized TimberApp getInstance() {

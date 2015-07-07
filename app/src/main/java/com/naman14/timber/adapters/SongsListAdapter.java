@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.TimberUtils;
@@ -45,10 +46,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
-//        ArtworkUtils.loadBitmap(mContext, itemHolder.albumArt, localItem.getAlbumId(), 25, 25);
-//        mArtworkFetcher.loadAlbumImage(localItem.getArtist(), localItem.getAlbum(), localItem.getAlbumId(),
-//                itemHolder.albumArt);
-
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_launcher).resetViewBeforeLoading(true).build());
 
     }
@@ -73,9 +70,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
         @Override
         public void onClick(View v) {
-
+            MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
         }
 
+    }
+
+    public long[] getSongIds() {
+        long[] ret = new long[getItemCount()];
+        for (int i = 0; i < getItemCount(); i++) {
+            ret[i] = arraylist.get(i).id;
+        }
+
+        return ret;
     }
 }
 

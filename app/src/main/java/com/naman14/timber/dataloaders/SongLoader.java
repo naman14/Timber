@@ -3,6 +3,7 @@ package com.naman14.timber.dataloaders;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.provider.MediaStore;
 
 import com.naman14.timber.models.Song;
@@ -13,6 +14,9 @@ import java.util.ArrayList;
  * Created by naman on 07/07/15.
  */
 public class SongLoader {
+
+    private static final long[] sEmptyList=new long[0];
+
     private static final String BASE_SELECTION = "is_music=1 AND title != ''";
 
     public static ArrayList<Song> getAllSongs(Context paramContext)
@@ -44,6 +48,28 @@ public class SongLoader {
         if (paramCursor != null)
             paramCursor.close();
         return localArrayList;
+    }
+
+    public static final long[] getSongListForCursor(Cursor cursor) {
+        if (cursor == null) {
+            return sEmptyList;
+        }
+        final int len = cursor.getCount();
+        final long[] list = new long[len];
+        cursor.moveToFirst();
+        int columnIndex = -1;
+        try {
+            columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID);
+        } catch (final IllegalArgumentException notaplaylist) {
+            columnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
+        }
+        for (int i = 0; i < len; i++) {
+            list[i] = cursor.getLong(columnIndex);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        cursor = null;
+        return list;
     }
 
     public static Cursor makeSongCursor(Context paramContext, String paramString, String[] paramArrayOfString)

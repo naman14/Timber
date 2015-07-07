@@ -9,15 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.R;
-import com.naman14.timber.adapters.SongsListAdapter;
-import com.naman14.timber.dataloaders.SongLoader;
+import com.naman14.timber.adapters.AlbumAdapter;
+import com.naman14.timber.dataloaders.AlbumLoader;
 
 /**
- * Created by naman on 12/06/15.
+ * Created by naman on 07/07/15.
  */
-public class SongsFragment extends Fragment {
+public class AlbumFragment extends Fragment {
 
-    private SongsListAdapter mAdapter;
+    private AlbumAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,10 +26,11 @@ public class SongsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
-        mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()));
+        mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
         recyclerView.setAdapter(mAdapter);
 
         return recyclerView;
     }
 
 }
+

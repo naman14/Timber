@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,14 +18,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 /**
- * Created by naman on 13/06/15.
+ * Created by naman on 07/07/15.
  */
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> {
 
-    private List<Song> arraylist;
+    private List<Album> arraylist;
     private Context mContext;
 
-    public SongsListAdapter(Activity context, List<Song> arraylist) {
+    public AlbumAdapter(Activity context, List<Album> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
 
@@ -40,16 +40,12 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
     @Override
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
-        Song localItem = arraylist.get(i);
+        Album localItem = arraylist.get(i);
 
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
-//        ArtworkUtils.loadBitmap(mContext, itemHolder.albumArt, localItem.getAlbumId(), 25, 25);
-//        mArtworkFetcher.loadAlbumImage(localItem.getArtist(), localItem.getAlbum(), localItem.getAlbumId(),
-//                itemHolder.albumArt);
-
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_launcher).resetViewBeforeLoading(true).build());
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_launcher).resetViewBeforeLoading(true).build());
 
     }
 
@@ -78,5 +74,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
     }
 }
+
 
 

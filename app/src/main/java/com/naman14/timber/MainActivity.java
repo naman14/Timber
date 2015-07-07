@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.fragments.PlaybackControlsFragment;
 import com.naman14.timber.fragments.SongsFragment;
 
@@ -83,7 +84,7 @@ public class MainActivity extends BaseActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new SongsFragment(), "Category 1");
-        adapter.addFragment(new SongsFragment(), "Category 2");
+        adapter.addFragment(new AlbumFragment(), "Category 2");
         adapter.addFragment(new SongsFragment(), "Category 3");
         viewPager.setAdapter(adapter);
     }

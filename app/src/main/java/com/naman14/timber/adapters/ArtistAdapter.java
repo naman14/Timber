@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
+import com.naman14.timber.lastfmapi.LastFmClient;
+import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
+import com.naman14.timber.lastfmapi.models.ArtistQuery;
+import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -40,20 +44,32 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
     }
 
     @Override
-    public void onBindViewHolder(ItemHolder itemHolder, int i) {
-        Artist localItem = arraylist.get(i);
+    public void onBindViewHolder(final ItemHolder itemHolder, int i) {
+        final Artist localItem = arraylist.get(i);
 
         itemHolder.name.setText(localItem.name);
         String albumNmber=TimberUtils.makeLabel(mContext,R.plurals.Nalbums,localItem.albumCount);
         String songCount=TimberUtils.makeLabel(mContext,R.plurals.Nsongs,localItem.songCount);
         itemHolder.albums.setText(TimberUtils.makeCombinedString(mContext,albumNmber,songCount));
 
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.artistImage,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_launcher)
-                        .resetViewBeforeLoading(true)
-                        .displayer(new FadeInBitmapDisplayer(400))
-                        .build());
+
+        LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(localItem.name),new ArtistInfoListener() {
+            @Override
+            public void artistInfoSucess(LastfmArtist artist) {
+                ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
+                        new DisplayImageOptions.Builder().cacheInMemory(true)
+                                .cacheOnDisk(true)
+                                .showImageOnFail(R.drawable.ic_launcher)
+                                .resetViewBeforeLoading(true)
+                                .displayer(new FadeInBitmapDisplayer(400))
+                                .build());
+            }
+
+            @Override
+            public void artistInfoFailed() {
+
+            }
+        });
 
     }
 

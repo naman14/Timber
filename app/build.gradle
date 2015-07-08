@@ -30,4 +30,9 @@ dependencies {
     compile 'com.android.support:palette-v7:21.0.+'
     compile 'com.android.support:design:22.2.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
+    compile 'com.google.code.gson:gson:2.3'
 }

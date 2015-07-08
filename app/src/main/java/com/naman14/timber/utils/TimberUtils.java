@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
+import com.naman14.timber.R;
+
 /**
  * Created by naman on 14/06/15.
  */
@@ -77,6 +79,17 @@ public class TimberUtils {
 
             throw new IllegalArgumentException("Unrecognized id: " + id);
         }
+    }
+
+    public static final String makeCombinedString(final Context context, final String first,
+                                                  final String second) {
+        final String formatter = context.getResources().getString(R.string.combine_two_strings);
+        return String.format(formatter, first, second);
+    }
+
+    public static final String makeLabel(final Context context, final int pluralInt,
+                                         final int number) {
+        return context.getResources().getQuantityString(pluralInt, number, number);
     }
 
 

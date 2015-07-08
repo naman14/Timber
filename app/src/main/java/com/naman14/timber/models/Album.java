@@ -4,9 +4,9 @@ package com.naman14.timber.models;
  * Created by naman on 07/07/15.
  */
 public class Album {
-    public final int artistId;
+    public final long artistId;
     public final String artistName;
-    public final int id;
+    public final long id;
     public final int songCount;
     public final String title;
     public final int year;
@@ -21,7 +21,7 @@ public class Album {
         this.year = -1;
     }
 
-    public Album(int _id, String _title, String _artistName, int _artistId, int _songCount, int _year)
+    public Album(long _id, String _title, String _artistName, long _artistId, int _songCount, int _year)
     {
         this.id = _id;
         this.title = _title;

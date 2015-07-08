@@ -19,7 +19,7 @@ public class ArtistLoader {
         Artist artist = new Artist();
         if (cursor != null) {
             if (cursor.moveToFirst())
-                artist = new Artist(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
+                artist = new Artist(cursor.getLong(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
         }
         if (cursor != null)
             cursor.close();
@@ -30,8 +30,7 @@ public class ArtistLoader {
         ArrayList arrayList = new ArrayList();
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
-                String str = cursor.getString(1);
-                arrayList.add(new Artist(cursor.getInt(0), str, cursor.getInt(2), cursor.getInt(3)));
+                arrayList.add(new Artist(cursor.getLong(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3)));
             }
             while (cursor.moveToNext());
         if (cursor != null)

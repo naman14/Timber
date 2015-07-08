@@ -1,0 +1,88 @@
+package com.naman14.timber.adapters;
+
+import android.app.Activity;
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.naman14.timber.R;
+import com.naman14.timber.models.Artist;
+import com.naman14.timber.utils.TimberUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import java.util.List;
+
+/**
+ * Created by naman on 08/07/15.
+ */
+public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> {
+
+    private List<Artist> arraylist;
+    private Context mContext;
+
+    public ArtistAdapter(Activity context, List<Artist> arraylist) {
+        this.arraylist = arraylist;
+        this.mContext = context;
+
+    }
+
+    @Override
+    public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, null);
+        ItemHolder ml = new ItemHolder(v);
+        return ml;
+    }
+
+    @Override
+    public void onBindViewHolder(ItemHolder itemHolder, int i) {
+        Artist localItem = arraylist.get(i);
+
+        itemHolder.name.setText(localItem.name);
+        String albumNmber=TimberUtils.makeLabel(mContext,R.plurals.Nalbums,localItem.albumCount);
+        String songCount=TimberUtils.makeLabel(mContext,R.plurals.Nsongs,localItem.songCount);
+        itemHolder.albums.setText(TimberUtils.makeCombinedString(mContext,albumNmber,songCount));
+
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.artistImage,
+                new DisplayImageOptions.Builder().cacheInMemory(true)
+                        .showImageOnFail(R.drawable.ic_launcher)
+                        .resetViewBeforeLoading(true)
+                        .displayer(new FadeInBitmapDisplayer(400))
+                        .build());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return (null != arraylist ? arraylist.size() : 0);
+    }
+
+
+    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected TextView name,albums;
+        protected ImageView artistImage;
+
+        public ItemHolder(View view) {
+            super(view);
+            this.name = (TextView) view.findViewById(R.id.artist_name);
+            this.albums = (TextView) view.findViewById(R.id.album_song_count);
+            this.artistImage=(ImageView) view.findViewById(R.id.artistImage);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+
+    }
+}
+
+
+
+

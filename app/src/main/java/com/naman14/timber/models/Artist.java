@@ -6,7 +6,7 @@ package com.naman14.timber.models;
 public class Artist {
 
     public final int albumCount;
-    public final int id;
+    public final long id;
     public final String name;
     public final int songCount;
 
@@ -18,12 +18,12 @@ public class Artist {
         this.albumCount = -1;
     }
 
-    public Artist(int int1, String paramString, int int2, int int3)
+    public Artist(long _id, String _name, int _albumCount, int _songCount)
     {
-        this.id = int1;
-        this.name = paramString;
-        this.songCount = int3;
-        this.albumCount = int2;
+        this.id = _id;
+        this.name = _name;
+        this.songCount = _songCount;
+        this.albumCount = _albumCount;
     }
 
 }

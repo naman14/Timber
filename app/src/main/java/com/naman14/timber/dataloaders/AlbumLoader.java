@@ -19,7 +19,7 @@ public class AlbumLoader {
         Album album = new Album();
         if (cursor != null) {
             if (cursor.moveToFirst())
-                album = new Album(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+                album = new Album(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4), cursor.getInt(5));
         }
         if (cursor != null)
             cursor.close();
@@ -31,8 +31,7 @@ public class AlbumLoader {
         ArrayList arrayList = new ArrayList();
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
-                String str = cursor.getString(1);
-                arrayList.add(new Album(cursor.getInt(0), str, cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5)));
+                arrayList.add(new Album(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4), cursor.getInt(5)));
             }
             while (cursor.moveToNext());
         if (cursor != null)

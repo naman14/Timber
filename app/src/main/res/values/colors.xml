@@ -4,5 +4,9 @@
     <color name="window_background">#FFF5F5F5</color>
     <color name="bt_accent">#00B8D4</color>
 
+    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimaryDark">#512DA8</color>
+    <color name="colorAccent">#FF4081</color>
+
 
 </resources>

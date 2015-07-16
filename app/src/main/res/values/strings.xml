@@ -17,6 +17,9 @@
     <string name="accessibility_queue">Open queue</string>
     <string name="accessibility_browse">Browse music</string>
 
+    <string name="error_playing_track">Error Playing track</string>
+
     <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
+
 
 </resources>

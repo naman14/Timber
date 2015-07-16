@@ -49,6 +49,7 @@ public class PlaybackControlsFragment extends Fragment {
         mProgress.measure(0,0);
         layoutParams.setMargins(0,-(mProgress.getMeasuredHeight()/2),0,0);
         mProgress.setLayoutParams(layoutParams);
+        mProgress.setScaleY(0.5f);
 
         mTitle = (TextView) rootView.findViewById(R.id.title);
         mSubtitle = (TextView) rootView.findViewById(R.id.artist);

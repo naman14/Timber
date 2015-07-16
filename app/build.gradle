@@ -26,8 +26,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:recyclerview-v7:22.0.0'
-    compile 'com.android.support:cardview-v7:21+'
-    compile 'com.android.support:palette-v7:21.0.+'
+    compile 'com.android.support:cardview-v7:22+'
+    compile 'com.android.support:palette-v7:22.0.+'
     compile 'com.android.support:design:22.2.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
 

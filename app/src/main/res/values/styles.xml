@@ -6,8 +6,6 @@
         <item name="colorAccent">#FF4081</item>
         <item name="android:windowBackground">@color/window_background</item>
 
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
 
     </style>
 
@@ -15,5 +13,6 @@
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
     </style>
+
 
 </resources>

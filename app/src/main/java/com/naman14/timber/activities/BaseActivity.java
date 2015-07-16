@@ -1,10 +1,13 @@
-package com.naman14.timber;
+package com.naman14.timber.activities;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+
+import com.naman14.timber.ITimberService;
+import com.naman14.timber.MusicPlayer;
 
 import static com.naman14.timber.MusicPlayer.mService;
 

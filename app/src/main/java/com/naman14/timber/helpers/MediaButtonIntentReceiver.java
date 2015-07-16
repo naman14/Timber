@@ -11,7 +11,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.naman14.timber.MainActivity;
+import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.MusicService;
 
 /**

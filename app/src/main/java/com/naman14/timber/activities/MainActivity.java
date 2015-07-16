@@ -1,4 +1,4 @@
-package com.naman14.timber;
+package com.naman14.timber.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,14 +10,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.fragments.ArtistFragment;
 import com.naman14.timber.fragments.PlaybackControlsFragment;
 import com.naman14.timber.fragments.SongsFragment;
+import com.naman14.timber.nowplaying.NowPlayingFragment;
+import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,9 @@ public class MainActivity extends BaseActivity {
 
     private DrawerLayout mDrawerLayout;
     PlaybackControlsFragment mControlsFragment;
+    NowPlayingFragment mNowPlayingFragment;
+    CardView nowPlayingCard;
+    SlidingUpPanelLayout panelLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,10 @@ public class MainActivity extends BaseActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        panelLayout=(SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        nowPlayingCard=(CardView) findViewById(R.id.controls_container);
+
+        setPanelSlideListeners();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -58,12 +70,16 @@ public class MainActivity extends BaseActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-         mControlsFragment = (PlaybackControlsFragment) getFragmentManager()
+         mControlsFragment = (PlaybackControlsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_playback_controls);
         if (mControlsFragment == null) {
             throw new IllegalStateException("Mising fragment with id 'controls'. Cannot continue.");
         }
-      //  hidePlaybackControls();
+        mNowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_now_playing);
+        if (mNowPlayingFragment == null) {
+            throw new IllegalStateException("Mising fragment with id 'nowplaying'. Cannot continue.");
+        }
     }
 
 
@@ -133,10 +149,10 @@ public class MainActivity extends BaseActivity {
 
     public void showPlaybackControls() {
 
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.animator.slide_in_from_bottom, R.animator.slide_out_to_bottom,
-                        R.animator.slide_in_from_bottom, R.animator.slide_out_to_bottom)
+                        R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom,
+                        R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom)
                 .show(mControlsFragment)
                 .commit();
 
@@ -144,9 +160,38 @@ public class MainActivity extends BaseActivity {
 
     public void hidePlaybackControls() {
 
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .hide(mControlsFragment)
                 .commit();
+    }
+
+    private void setPanelSlideListeners(){
+        panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                nowPlayingCard.setAlpha(1-slideOffset);
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+            nowPlayingCard.setAlpha(1);
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                nowPlayingCard.setAlpha(0);
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
     }
 
 

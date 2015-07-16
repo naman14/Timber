@@ -3,24 +3,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="20dp"
-    android:padding="8dp">
-    <ImageView
+    android:layout_height="match_parent">
+
+    <com.naman14.timber.widgets.SquareImageView
         android:id="@+id/album_art"
-        tools:src="@drawable/ic_launcher"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="60dp"
+        android:layout_height="fill_parent"
         android:scaleType="centerCrop"
-        android:layout_alignParentStart="true"/>
+        android:src="@drawable/ic_empty_music2"
+        android:layout_alignParentLeft="true"/>
     <LinearLayout
         android:id="@+id/content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:layout_toEndOf="@id/album_art"
-        android:layout_toStartOf="@+id/play_pause"
-        android:layout_centerVertical="true">
+        android:layout_toRightOf="@id/album_art">
+
+        <ProgressBar
+            android:id="@+id/song_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:minHeight="25dp"
+            android:maxHeight="25dp"
+            android:progress="30"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
         <TextView
             android:id="@+id/title"
             android:text="Demons"
@@ -48,9 +58,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:background="?android:selectableItemBackgroundBorderless"
         android:src="@drawable/ic_play_arrow_black_36dp"
         android:tintMode="src_in"
         android:tint="@color/bt_accent"/>
 </RelativeLayout>
+
+
+
+

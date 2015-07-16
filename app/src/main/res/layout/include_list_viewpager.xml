@@ -9,7 +9,6 @@
     android:gravity="bottom"
     sothree:panelHeight="65dp"
     sothree:shadowHeight="0dp"
-    sothree:dragViewClickable="true"
     sothree:fadeColor="@android:color/transparent">
 
 
@@ -50,21 +49,33 @@
 
 </android.support.design.widget.CoordinatorLayout>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/controls_container"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="bottom"
-        android:layout_gravity="bottom"
-        app:cardElevation="8dp">
+        android:layout_height="match_parent">
 
-        <fragment android:name="com.naman14.timber.fragments.PlaybackControlsFragment"
-            android:id="@+id/fragment_playback_controls"
+
+
+        <fragment android:name="com.naman14.timber.nowplaying.NowPlayingFragment"
+            android:id="@+id/fragment_now_playing"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"/>
+            android:layout_height="match_parent" />
 
-    </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/controls_container"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_alignParentTop="true"
+            android:gravity="top"
+            android:layout_gravity="top"
+            app:cardElevation="8dp">
+
+            <fragment android:name="com.naman14.timber.fragments.PlaybackControlsFragment"
+                android:id="@+id/fragment_playback_controls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
 
     </com.naman14.timber.slidinguppanel.SlidingUpPanelLayout>

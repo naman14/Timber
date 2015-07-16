@@ -1,12 +1,14 @@
 package com.naman14.timber.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
@@ -24,6 +26,7 @@ public class PlaybackControlsFragment extends Fragment {
     private TextView mExtraInfo;
     private ImageView mAlbumArt;
     private String mArtUrl;
+    private ProgressBar mProgress;
 
 
     @Override
@@ -34,6 +37,18 @@ public class PlaybackControlsFragment extends Fragment {
         mPlayPause = (ImageButton) rootView.findViewById(R.id.play_pause);
         mPlayPause.setEnabled(true);
         mPlayPause.setOnClickListener(mButtonListener);
+        mProgress=(ProgressBar) rootView.findViewById(R.id.song_progress);
+
+
+//        int color = 0xFF00FF00;
+//        mProgress.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+//        mProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
+
+        LinearLayout.LayoutParams layoutParams=(LinearLayout.LayoutParams)mProgress.getLayoutParams();
+        mProgress.measure(0,0);
+        layoutParams.setMargins(0,-(mProgress.getMeasuredHeight()/2),0,0);
+        mProgress.setLayoutParams(layoutParams);
 
         mTitle = (TextView) rootView.findViewById(R.id.title);
         mSubtitle = (TextView) rootView.findViewById(R.id.artist);

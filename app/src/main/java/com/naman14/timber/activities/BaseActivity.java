@@ -9,13 +9,12 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
-import com.naman14.timber.listeners.MusicChangeListener;
+import com.naman14.timber.R;
 import com.naman14.timber.listeners.MusicStateListener;
 
 import java.lang.ref.WeakReference;

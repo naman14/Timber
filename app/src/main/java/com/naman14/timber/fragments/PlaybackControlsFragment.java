@@ -11,7 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.utils.TimberUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 
 /**
@@ -21,13 +26,13 @@ public class PlaybackControlsFragment extends Fragment {
 
 
     private ImageButton mPlayPause;
-    private TextView mTitle;
-    private TextView mSubtitle;
+    private static TextView mTitle;
+    private static TextView mArtist;
     private TextView mExtraInfo;
-    private ImageView mAlbumArt;
+    private static ImageView mAlbumArt;
     private String mArtUrl;
-    private ProgressBar mProgress;
-
+    private static ProgressBar mProgress;
+    private static Runnable mUpdateProgress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +43,9 @@ public class PlaybackControlsFragment extends Fragment {
         mPlayPause.setEnabled(true);
         mPlayPause.setOnClickListener(mButtonListener);
         mProgress=(ProgressBar) rootView.findViewById(R.id.song_progress);
+        mTitle=(TextView) rootView.findViewById(R.id.title);
+        mArtist=(TextView) rootView.findViewById(R.id.artist);
+        mAlbumArt = (ImageView) rootView.findViewById(R.id.album_art);
 
 
 //        int color = 0xFF00FF00;
@@ -51,9 +59,6 @@ public class PlaybackControlsFragment extends Fragment {
         mProgress.setLayoutParams(layoutParams);
         mProgress.setScaleY(0.5f);
 
-        mTitle = (TextView) rootView.findViewById(R.id.title);
-        mSubtitle = (TextView) rootView.findViewById(R.id.artist);
-        mAlbumArt = (ImageView) rootView.findViewById(R.id.album_art);
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +67,19 @@ public class PlaybackControlsFragment extends Fragment {
         });
         return rootView;
     }
+
+    public static void updateControlsFragment() {
+        mTitle.setText(MusicPlayer.getTrackName());
+        mArtist.setText(MusicPlayer.getArtistName());
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), mAlbumArt,
+                new DisplayImageOptions.Builder().cacheInMemory(true)
+                        .showImageOnFail(R.drawable.ic_empty_music2)
+                        .resetViewBeforeLoading(true)
+                        .displayer(new FadeInBitmapDisplayer(400))
+                        .build());
+
+    }
+
 
     @Override
     public void onStart() {
@@ -79,9 +97,17 @@ public class PlaybackControlsFragment extends Fragment {
     private final View.OnClickListener mButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            MusicPlayer.playOrPause();
+            updateState();
         }
     };
 
+    public void updateState() {
+        if (MusicPlayer.isPlaying()) {
+            mPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.btn_playback_pause));
+        } else {
+            mPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.btn_playback_play));
+        }
+    }
 
 }

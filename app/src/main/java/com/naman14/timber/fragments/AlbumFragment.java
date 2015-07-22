@@ -22,7 +22,7 @@ public class AlbumFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.fragment_main, container, false);
+                R.layout.fragment_recyclerview, container, false);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 

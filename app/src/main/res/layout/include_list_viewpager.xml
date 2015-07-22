@@ -1,62 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <com.naman14.timber.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
+    sothree:fadeColor="@android:color/transparent"
     sothree:panelHeight="65dp"
-    sothree:shadowHeight="0dp"
-    sothree:fadeColor="@android:color/transparent">
+    sothree:shadowHeight="0dp">
 
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways" />
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-
-</android.support.design.widget.CoordinatorLayout>
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-
-        <fragment android:name="com.naman14.timber.nowplaying.NowPlayingFragment"
+        <fragment
             android:id="@+id/fragment_now_playing"
+            android:name="com.naman14.timber.nowplaying.NowPlayingFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -65,12 +33,13 @@
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:layout_alignParentTop="true"
-            android:gravity="top"
             android:layout_gravity="top"
+            android:gravity="top"
             app:cardElevation="8dp">
 
-            <fragment android:name="com.naman14.timber.fragments.PlaybackControlsFragment"
+            <fragment
                 android:id="@+id/fragment_playback_controls"
+                android:name="com.naman14.timber.fragments.PlaybackControlsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -78,4 +47,4 @@
 
     </FrameLayout>
 
-    </com.naman14.timber.slidinguppanel.SlidingUpPanelLayout>
+</com.naman14.timber.slidinguppanel.SlidingUpPanelLayout>

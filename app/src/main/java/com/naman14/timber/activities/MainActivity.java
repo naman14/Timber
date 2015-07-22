@@ -2,13 +2,16 @@ package com.naman14.timber.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +19,6 @@ import android.view.View;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.fragments.ArtistFragment;
-import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaybackControlsFragment;
 import com.naman14.timber.fragments.SongsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
@@ -41,13 +43,12 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
 
-        Fragment fragment=new MainFragment();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment).commit();
-
-
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout=(SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -60,7 +61,14 @@ public class MainActivity extends BaseActivity {
             setupDrawerContent(navigationView);
         }
 
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        if (viewPager != null) {
+            setupViewPager(viewPager);
+            viewPager.setOffscreenPageLimit(0);
+        }
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
          mControlsFragment = (PlaybackControlsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_playback_controls);
@@ -104,9 +112,6 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
-//                        FragmentManager fragmentManager = getSupportFragmentManager();
-//                        fragmentManager.beginTransaction()
-//                                .replace(R.id.fragment_container, fragment).commit();
                         mDrawerLayout.closeDrawers();
                         return true;
                     }

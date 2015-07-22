@@ -21,4 +21,25 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="CircularImageView">
+
+        <attr name="civ_border" format="boolean"/>
+        <attr name="civ_borderColor" format="color"/>
+        <attr name="civ_borderWidth" format="dimension"/>
+        <attr name="civ_selector" format="boolean"/>
+        <attr name="civ_selectorColor" format="color"/>
+        <attr name="civ_selectorStrokeColor" format="color"/>
+        <attr name="civ_selectorStrokeWidth" format="dimension"/>
+        <attr name="civ_shadow" format="boolean"/>
+        <attr name="civ_shadowRadius" format="float"/>
+        <attr name="civ_shadowDx" format="float"/>
+        <attr name="civ_shadowDy" format="float"/>
+        <attr name="civ_shadowColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircularImageViewStyle">
+        <attr name="circularImageViewDefault" format="reference"/>
+    </declare-styleable>
+
+
 </resources>

@@ -9,11 +9,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.naman14.timber.R;
+import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.fragments.ArtistFragment;
 import com.naman14.timber.fragments.MainFragment;
@@ -21,6 +23,7 @@ import com.naman14.timber.fragments.PlaybackControlsFragment;
 import com.naman14.timber.fragments.SongsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
+import com.naman14.timber.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +44,20 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
 
-        Fragment fragment=new MainFragment();
+       if (getIntent().getAction().equals(Constants.NAVIGATE_ALBUM)){
+           Log.d("lol","here");
+           Fragment fragment = new AlbumDetailFragment();
+           FragmentManager fragmentManager = getSupportFragmentManager();
+           fragmentManager.beginTransaction()
+                   .replace(R.id.fragment_container, fragment).commit();
+       } else {
+           Log.d("lol","here2");
+           Fragment fragment = new MainFragment();
+           FragmentManager fragmentManager = getSupportFragmentManager();
+           fragmentManager.beginTransaction()
+                   .replace(R.id.fragment_container, fragment).commit();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment).commit();
-
-
+       }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout=(SlidingUpPanelLayout) findViewById(R.id.sliding_layout);

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
+import com.naman14.timber.adapters.AlbumSongsAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
+import com.naman14.timber.dataloaders.AlbumSongLoader;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
@@ -33,6 +37,9 @@ public class AlbumDetailFragment extends Fragment {
 
     ImageView albumArt,artistArt;
     TextView albumTitle,albumDetails;
+
+    RecyclerView recyclerView;
+    AlbumSongsAdapter mAdapter;
 
     Toolbar toolbar;
 
@@ -66,8 +73,11 @@ public class AlbumDetailFragment extends Fragment {
 
         toolbar=(Toolbar) rootView.findViewById(R.id.toolbar);
 
+        recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
+
         setupToolbar();
         setAlbumDetails();
+        setUpAlbumSongs();
 
         return rootView;
     }
@@ -114,6 +124,15 @@ public class AlbumDetailFragment extends Fragment {
 
         albumTitle.setText(album.title);
         albumDetails.setText(album.artistName+" - " + songCount + year);
+
+    }
+
+    private void setUpAlbumSongs(){
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+
+        mAdapter = new AlbumSongsAdapter(getActivity(), AlbumSongLoader.getSongsForAlbum(getActivity(),albumID));
+        recyclerView.setAdapter(mAdapter);
 
     }
 

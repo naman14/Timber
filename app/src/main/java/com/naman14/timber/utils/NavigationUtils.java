@@ -1,6 +1,6 @@
 package com.naman14.timber.utils;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 
 import com.naman14.timber.activities.MainActivity;
@@ -10,8 +10,9 @@ import com.naman14.timber.activities.MainActivity;
  */
 public class NavigationUtils {
 
-    public static void navigateToAlbum(Context context){
-        Intent intent=new Intent(context, MainActivity.class);
+    public static void navigateToAlbum(Activity context){
+        final Intent intent=new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.NAVIGATE_ALBUM);
         context.startActivity(intent);
     }

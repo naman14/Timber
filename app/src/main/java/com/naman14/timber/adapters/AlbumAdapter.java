@@ -1,7 +1,6 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,7 @@ import java.util.List;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> {
 
     private List<Album> arraylist;
-    private Context mContext;
+    private Activity mContext;
 
     public AlbumAdapter(Activity context, List<Album> arraylist) {
         this.arraylist = arraylist;

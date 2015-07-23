@@ -9,7 +9,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,13 +44,11 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
        if (getIntent().getAction().equals(Constants.NAVIGATE_ALBUM)){
-           Log.d("lol","here");
            Fragment fragment = new AlbumDetailFragment();
            FragmentManager fragmentManager = getSupportFragmentManager();
            fragmentManager.beginTransaction()
-                   .replace(R.id.fragment_container, fragment).commit();
+                   .add(R.id.fragment_container, fragment).commit();
        } else {
-           Log.d("lol","here2");
            Fragment fragment = new MainFragment();
            FragmentManager fragmentManager = getSupportFragmentManager();
            fragmentManager.beginTransaction()

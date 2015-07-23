@@ -16,7 +16,6 @@ import com.naman14.timber.R;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 
 /**
@@ -75,7 +74,7 @@ public class PlaybackControlsFragment extends Fragment {
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
-                        .displayer(new FadeInBitmapDisplayer(400))
+//                        .displayer(new FadeInBitmapDisplayer(400))
                         .build());
 
     }

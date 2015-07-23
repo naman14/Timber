@@ -10,10 +10,11 @@ import com.naman14.timber.activities.MainActivity;
  */
 public class NavigationUtils {
 
-    public static void navigateToAlbum(Activity context){
+    public static void navigateToAlbum(Activity context,long albumID){
         final Intent intent=new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.NAVIGATE_ALBUM);
+        intent.putExtra(Constants.ALBUM_ID,albumID);
         context.startActivity(intent);
     }
 }

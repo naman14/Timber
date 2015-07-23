@@ -76,7 +76,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
         @Override
         public void onClick(View v) {
 
-            NavigationUtils.navigateToAlbum(mContext);
+            NavigationUtils.navigateToAlbum(mContext,arraylist.get(getAdapterPosition()).id);
         }
 
     }

@@ -44,7 +44,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
        if (getIntent().getAction().equals(Constants.NAVIGATE_ALBUM)){
-           Fragment fragment = new AlbumDetailFragment();
+           long albumID=getIntent().getExtras().getLong(Constants.ALBUM_ID);
+           Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
            FragmentManager fragmentManager = getSupportFragmentManager();
            fragmentManager.beginTransaction()
                    .add(R.id.fragment_container, fragment).commit();

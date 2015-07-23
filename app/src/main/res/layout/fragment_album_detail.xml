@@ -21,6 +21,7 @@
 
             <com.naman14.timber.widgets.CircularImageView
                 android:layout_width="45dp"
+                android:id="@+id/artist_art"
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"

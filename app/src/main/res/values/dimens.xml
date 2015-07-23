@@ -3,6 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="toolbarElevation">4dp</dimen>
+    <dimen name="appBarTopMargin">0dp</dimen>
+    <dimen name="statusBarHeight">0dp</dimen>
+
+
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>

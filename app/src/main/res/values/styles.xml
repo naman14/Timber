@@ -14,5 +14,8 @@
         <item name="color">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    </style>
+
 
 </resources>

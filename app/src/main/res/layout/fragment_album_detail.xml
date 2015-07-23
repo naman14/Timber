@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="370dp">
 
         <com.naman14.timber.widgets.SquareImageView
             android:layout_height="match_parent"
@@ -17,12 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
 
             <com.naman14.timber.widgets.CircularImageView
-                android:layout_width="45dp"
+                android:layout_width="50dp"
                 android:id="@+id/artist_art"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"/>
@@ -30,18 +31,22 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:id="@+id/album_title"/>
+                    android:textStyle="bold"
+                    android:id="@+id/album_title"
+                    android:textColor="#ffffff"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/album_details"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -50,8 +55,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="@dimen/appBarTopMargin"
             android:background="@android:color/transparent"
             android:layout_gravity="top"
+            app:theme="@style/Theme.AppCompat"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     </FrameLayout>

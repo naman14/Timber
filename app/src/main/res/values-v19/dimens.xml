@@ -1,0 +1,4 @@
+<resources>
+        <dimen name="statusBarHeight">24dp</dimen>
+        <dimen name="appBarTopMargin">24dp</dimen>
+</resources>

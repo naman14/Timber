@@ -2,7 +2,9 @@ package com.naman14.timber.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ public class AlbumDetailFragment extends Fragment {
     ImageView albumArt,artistArt;
     TextView albumTitle,albumDetails;
 
+    Toolbar toolbar;
+
     public static AlbumDetailFragment newInstance(long id) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
         Bundle args = new Bundle();
@@ -60,9 +64,21 @@ public class AlbumDetailFragment extends Fragment {
         albumTitle=(TextView) rootView.findViewById(R.id.album_title);
         albumDetails=(TextView) rootView.findViewById(R.id.album_details);
 
+        toolbar=(Toolbar) rootView.findViewById(R.id.toolbar);
+
+        setupToolbar();
         setAlbumDetails();
 
         return rootView;
+    }
+
+    private void setupToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ab.setDisplayShowTitleEnabled(false);
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void setAlbumDetails(){
@@ -78,7 +94,6 @@ public class AlbumDetailFragment extends Fragment {
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(album.artistName),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                Log.d("lol","here");
                 ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, artistArt,
                         new DisplayImageOptions.Builder().cacheInMemory(true)
                                 .cacheOnDisk(true)
@@ -93,8 +108,12 @@ public class AlbumDetailFragment extends Fragment {
 
             }
         });
+        String songCount= TimberUtils.makeLabel(getActivity(),R.plurals.Nsongs,album.songCount);
+
+        String year= (album.year!=0) ? (" - " + String.valueOf(album.year)) : "";
+
         albumTitle.setText(album.title);
-        albumDetails.setText(album.artistName+" - "+album.songCount+" -" +album.year);
+        albumDetails.setText(album.artistName+" - " + songCount + year);
 
     }
 

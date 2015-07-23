@@ -39,11 +39,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        String action=getIntent().getAction();
 
+        if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)){
+            setTheme(R.style.AppTheme_FullScreen);
+        }
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       if (getIntent().getAction().equals(Constants.NAVIGATE_ALBUM)){
+       if (action.equals(Constants.NAVIGATE_ALBUM)){
            long albumID=getIntent().getExtras().getLong(Constants.ALBUM_ID);
            Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
            FragmentManager fragmentManager = getSupportFragmentManager();

@@ -16,6 +16,7 @@ import android.view.View;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.AlbumFragment;
+import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.ArtistFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaybackControlsFragment;
@@ -51,6 +52,12 @@ public class MainActivity extends BaseActivity {
        if (action.equals(Constants.NAVIGATE_ALBUM)){
            long albumID=getIntent().getExtras().getLong(Constants.ALBUM_ID);
            Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
+           FragmentManager fragmentManager = getSupportFragmentManager();
+           fragmentManager.beginTransaction()
+                   .add(R.id.fragment_container, fragment).commit();
+       } else if (action.equals(Constants.NAVIGATE_ARTIST)){
+           long artistID=getIntent().getExtras().getLong(Constants.ARTIST_ID);
+           Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
            FragmentManager fragmentManager = getSupportFragmentManager();
            fragmentManager.beginTransaction()
                    .add(R.id.fragment_container, fragment).commit();

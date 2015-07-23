@@ -42,8 +42,8 @@ public class ArtistLoader {
         return getArtistsForCursor(makeArtistCursor(context, null, null));
     }
 
-    public static Artist getArtist(Context context, int paramInt) {
-        return getArtist(makeArtistCursor(context, "_id=?", new String[]{String.valueOf(paramInt)}));
+    public static Artist getArtist(Context context, long id) {
+        return getArtist(makeArtistCursor(context, "_id=?", new String[]{String.valueOf(id)}));
     }
 
     public static List<Artist> getArtists(Context context, String paramString) {

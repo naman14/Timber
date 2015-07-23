@@ -17,4 +17,12 @@ public class NavigationUtils {
         intent.putExtra(Constants.ALBUM_ID,albumID);
         context.startActivity(intent);
     }
+
+    public static void navigateToArtist(Activity context,long artistID){
+        final Intent intent=new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.setAction(Constants.NAVIGATE_ARTIST);
+        intent.putExtra(Constants.ARTIST_ID,artistID);
+        context.startActivity(intent);
+    }
 }

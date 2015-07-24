@@ -4,7 +4,8 @@
     android:layout_width="104dp"
     android:layout_height="150dp"
     android:foreground="?selectableItemBackgroundBorderless"
-    android:elevation="7dp"
+    android:paddingLeft="25dp"
+    app:cardUseCompatPadding="true"
     android:id="@+id/root_view">
 
     <RelativeLayout

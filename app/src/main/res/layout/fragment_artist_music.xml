@@ -3,20 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_album"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="top"
-        android:layout_marginTop="10dp"
-        />
-
-    <android.support.v7.widget.RecyclerView
+    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recycler_view_songs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="20dp"
-        android:paddingLeft="15dp"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:22+'
     compile 'com.android.support:palette-v7:22.0.+'
     compile 'com.android.support:design:22.2.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
 
     compile 'com.squareup.retrofit:retrofit:1.9.0'

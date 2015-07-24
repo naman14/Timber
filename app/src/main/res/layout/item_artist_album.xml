@@ -1,0 +1,52 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="104dp"
+    android:layout_height="150dp"
+    android:foreground="?selectableItemBackgroundBorderless"
+    android:elevation="7dp"
+    android:id="@+id/root_view">
+
+    <RelativeLayout
+        android:layout_width="104dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/album_art"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_below="@id/album_art"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp" >
+
+            <TextView
+                android:id="@+id/album_title"
+                android:layout_width="104dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="13sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/album_details"
+                android:layout_width="104dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

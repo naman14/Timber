@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -129,7 +129,7 @@ public class AlbumDetailFragment extends Fragment {
 
     private void setUpAlbumSongs(){
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mAdapter = new AlbumSongsAdapter(getActivity(), AlbumSongLoader.getSongsForAlbum(getActivity(),albumID));
         recyclerView.setAdapter(mAdapter);

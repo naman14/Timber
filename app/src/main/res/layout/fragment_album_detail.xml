@@ -9,9 +9,10 @@
         android:layout_height="370dp"
         android:elevation="5dp">
 
-        <com.naman14.timber.widgets.SquareImageView
+        <ImageView
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:scaleType="centerCrop"
             android:id="@+id/album_art"/>
 
         <LinearLayout

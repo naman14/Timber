@@ -16,25 +16,38 @@
             android:scaleType="centerCrop"
             android:id="@+id/artist_art"/>
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="@dimen/appBarTopMargin"
-            android:background="@android:color/transparent"
-            android:layout_gravity="top"
-            app:theme="@style/Theme.AppCompat"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="25dp"
-            app:tabIndicatorColor="@color/colorAccent"
-            android:layout_marginBottom="20dp"
-            />
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/artist"
+                android:layout_marginLeft="65dp"
+                android:layout_marginBottom="20dp"
+                android:maxLines="1"
+                android:maxLength="17"
+                android:ellipsize="end"
+                android:textColor="#ffffff"
+                android:textSize="25sp"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="25dp"
+                app:tabIndicatorColor="@color/colorAccent"
+                android:layout_marginBottom="20dp"
+                />
+        </LinearLayout>
+
+
+
 
     </FrameLayout>
 
@@ -42,6 +55,17 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/appBarTopMargin"
+        android:background="@android:color/transparent"
+        android:layout_gravity="top"
+        android:elevation="7dp"
+        app:theme="@style/Theme.AppCompat"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
 </FrameLayout>

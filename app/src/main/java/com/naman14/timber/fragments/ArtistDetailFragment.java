@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.ArtistLoader;
@@ -39,6 +40,7 @@ public class ArtistDetailFragment extends Fragment  {
     long artistID = -1;
 
     ImageView artistArt;
+    TextView artistName;
 
     public static View mHeader;
     Toolbar toolbar;
@@ -76,6 +78,7 @@ public class ArtistDetailFragment extends Fragment  {
 
         mHeader=rootView.findViewById(R.id.header);
         artistArt=(ImageView) rootView.findViewById(R.id.artist_art);
+        artistName=(TextView) rootView.findViewById(R.id.artist);
 
         mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
@@ -114,6 +117,8 @@ public class ArtistDetailFragment extends Fragment  {
     private void setUpArtistDetails(){
 
         Artist artist= ArtistLoader.getArtist(getActivity(),artistID);
+
+        artistName.setText(artist.name);
 
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
             @Override

@@ -39,6 +39,10 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if (viewType==0) {
+            View v0 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_dummy_header_artist, null);
+            ItemHolder ml = new ItemHolder(v0);
+            return ml;
+        } else if (viewType==1) {
             View v1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.artist_detail_albums_header, null);
             ItemHolder ml = new ItemHolder(v1);
             return ml;
@@ -53,6 +57,9 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
 
         if (getItemViewType(i)==0){
+            //nothing
+        }
+        else if (getItemViewType(i)==1){
             setUpAlbums(itemHolder.albumsRecyclerView);
 
         } else {
@@ -70,7 +77,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     @Override
     public void onViewRecycled(ItemHolder itemHolder) {
 
-        if (itemHolder.getItemViewType()==0)
+        if (itemHolder.getItemViewType()==1)
             clearExtraSpacingBetweenCards(itemHolder.albumsRecyclerView);
 
     }
@@ -160,9 +167,9 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         int viewType;
         if (position == 0) {
             viewType = 0;
-        } else {
+        } else if (position==1){
             viewType = 1;
-        }
+        } else viewType=2;
         return viewType;
     }
 }

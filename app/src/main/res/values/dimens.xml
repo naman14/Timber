@@ -20,4 +20,8 @@
     <dimen name="spacing_card">10dp</dimen>
 
     <item name="letter_to_tile_ratio" type="dimen">53%</item>
+
+    <dimen name="header_height">370dp</dimen>
+    <dimen name="min_header_height">270dp</dimen>
+    <dimen name="header_logo_size">100dp</dimen>
 </resources>

@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +34,22 @@ import java.util.List;
 /**
  * Created by naman on 23/07/15.
  */
-public class ArtistDetailFragment extends Fragment {
+public class ArtistDetailFragment extends Fragment  {
 
     long artistID = -1;
 
     ImageView artistArt;
 
+    public static View mHeader;
     Toolbar toolbar;
+    TabLayout tabLayout;
+
+    public static int mActionBarHeight;
+    public static int mMinHeaderHeight;
+    public static int mHeaderHeight;
+    public static int mMinHeaderTranslation;
+
+    private TypedValue mTypedValue = new TypedValue();
 
     public static ArtistDetailFragment newInstance(long id) {
         ArtistDetailFragment fragment = new ArtistDetailFragment();
@@ -64,7 +74,13 @@ public class ArtistDetailFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_artist_detail, container, false);
 
+        mHeader=rootView.findViewById(R.id.header);
         artistArt=(ImageView) rootView.findViewById(R.id.artist_art);
+
+        mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
+        mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
+        mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
+
 
 
         toolbar=(Toolbar) rootView.findViewById(R.id.toolbar);
@@ -77,7 +93,7 @@ public class ArtistDetailFragment extends Fragment {
             viewPager.setOffscreenPageLimit(0);
         }
 
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
+        tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setTabTextColors(Color.parseColor("#ffffff"),getActivity().getResources().getColor(R.color.colorAccent));
         tabLayout.setupWithViewPager(viewPager);
@@ -154,6 +170,27 @@ public class ArtistDetailFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
+    }
+
+
+    public static void adjustHeader(int scrollY){
+        mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+    }
+
+
+    public int getActionBarHeight() {
+        if (mActionBarHeight != 0) {
+            return mActionBarHeight;
+        }
+            getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, mTypedValue, true);
+
+        mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
+
+        return mActionBarHeight;
+    }
+
+    public static float clamp(float value, float max, float min) {
+        return Math.max(Math.min(value, min), max);
     }
 
 

@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_alignParentRight="true"
-        android:background="?android:selectableItemBackgroundBorderless"
+        android:background="?selectableItemBackgroundBorderless"
         android:src="@drawable/ic_play_arrow_black_36dp"
         android:tintMode="src_in"
         android:tint="@color/bt_accent"/>

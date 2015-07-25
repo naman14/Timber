@@ -59,6 +59,7 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
         filter.addAction(MusicService.PLAYLIST_CHANGED);
         // If there is an error playing a track
         filter.addAction(MusicService.TRACK_ERROR);
+
         registerReceiver(mPlaybackStatus, filter);
 
     }
@@ -88,6 +89,11 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
         if (mToken != null) {
             MusicPlayer.unbindFromService(mToken);
             mToken = null;
+        }
+
+        try {
+            unregisterReceiver(mPlaybackStatus);
+        } catch (final Throwable e) {
         }
 
     }

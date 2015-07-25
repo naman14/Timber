@@ -4,6 +4,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="370dp"
@@ -51,10 +56,7 @@
 
     </FrameLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -65,7 +67,18 @@
         android:layout_gravity="top"
         android:elevation="7dp"
         app:theme="@style/Theme.AppCompat"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="right|center_vertical"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_shuffle"/>
+
+    </android.support.v7.widget.Toolbar>
 
 
 </FrameLayout>

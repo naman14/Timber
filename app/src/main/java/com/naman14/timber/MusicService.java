@@ -25,6 +25,7 @@ import android.media.audiofx.AudioEffect;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -263,7 +264,7 @@ public class MusicService extends Service {
                 MediaButtonIntentReceiver.class.getName());
         mAudioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
 
-
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
         setUpMediaSession();
 
         mPreferences = getSharedPreferences("Service", 0);
@@ -376,6 +377,7 @@ public class MusicService extends Service {
         mPlayer = null;
 
         mAudioManager.abandonAudioFocus(mAudioFocusListener);
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
         mSession.release();
 
         getContentResolver().unregisterContentObserver(mMediaStoreObserver);
@@ -427,6 +429,7 @@ public class MusicService extends Service {
         if (D) Log.d(TAG, "Nothing is playing anymore, releasing notification");
         cancelNotification();
         mAudioManager.abandonAudioFocus(mAudioFocusListener);
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
         mSession.setActive(false);
 
         if (!mServiceInUse) {
@@ -972,6 +975,7 @@ public class MusicService extends Service {
         if (D) Log.d(TAG, "notifyChange: what = " + what);
 
         // Update the lockscreen controls
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
         updateMediaSession(what);
 
         if (what.equals(POSITION_CHANGED)) {
@@ -1020,8 +1024,11 @@ public class MusicService extends Service {
                 : PlaybackState.STATE_PAUSED;
 
         if (what.equals(PLAYSTATE_CHANGED) || what.equals(POSITION_CHANGED)) {
-            mSession.setPlaybackState(new PlaybackState.Builder()
-                    .setState(playState, position(), 1.0f).build());
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
+            {
+                mSession.setPlaybackState(new PlaybackState.Builder()
+                        .setState(playState, position(), 1.0f).build());
+            }
         } else if (what.equals(META_CHANGED) || what.equals(QUEUE_CHANGED)) {
             Bitmap albumArt = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
             if (albumArt != null) {
@@ -1032,7 +1039,7 @@ public class MusicService extends Service {
                 }
                 albumArt = albumArt.copy(config, false);
             }
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             mSession.setMetadata(new MediaMetadata.Builder()
                     .putString(MediaMetadata.METADATA_KEY_ARTIST, getArtistName())
                     .putString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST, getAlbumArtistName())
@@ -1049,6 +1056,7 @@ public class MusicService extends Service {
             mSession.setPlaybackState(new PlaybackState.Builder()
                     .setState(playState, position(), 1.0f).build());
         }
+        }
     }
 
     private Notification buildNotification() {
@@ -1063,9 +1071,8 @@ public class MusicService extends Service {
         int playButtonTitleResId = isPlaying
                 ? R.string.accessibility_pause : R.string.accessibility_play;
 
-        Notification.MediaStyle style = new Notification.MediaStyle()
-                .setMediaSession(mSession.getSessionToken())
-                .setShowActionsInCompactView(0, 1, 2);
+
+
 
         Intent nowPlayingIntent = new Intent("com.naman14.timber.AUDIO_PLAYER")
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1084,8 +1091,7 @@ public class MusicService extends Service {
                 .setContentText(text)
                 .setWhen(mNotificationPostTime)
                 .setShowWhen(false)
-                .setStyle(style)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
+
                 .addAction(R.drawable.btn_playback_previous,
                         getString(R.string.accessibility_prev),
                         retrievePlaybackAction(PREVIOUS_ACTION))
@@ -1095,6 +1101,13 @@ public class MusicService extends Service {
                         getString(R.string.accessibility_next),
                         retrievePlaybackAction(NEXT_ACTION));
 
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+            Notification.MediaStyle style = new Notification.MediaStyle()
+                    .setMediaSession(mSession.getSessionToken())
+                    .setShowActionsInCompactView(0, 1, 2);
+            builder.setStyle(style);
+        }
 
         return builder.build();
     }
@@ -1726,6 +1739,7 @@ public class MusicService extends Service {
 
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(getPackageName(),
                 MediaButtonIntentReceiver.class.getName()));
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
         mSession.setActive(true);
 
         if (createNewNextTrack) {

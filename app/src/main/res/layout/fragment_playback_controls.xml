@@ -7,8 +7,8 @@
 
     <com.naman14.timber.widgets.SquareImageView
         android:id="@+id/album_art"
-        android:layout_width="65dp"
-        android:layout_height="fill_parent"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_empty_music2"
         android:layout_alignParentLeft="true"/>
@@ -35,8 +35,10 @@
             android:text="Demons"
             android:ellipsize="end"
             android:maxLines="1"
+            android:maxLength="25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
             android:layout_marginLeft="12dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000"/>
@@ -45,11 +47,14 @@
             android:text="John Doe and Band"
             android:ellipsize="end"
             android:maxLines="1"
+            android:maxLength="20"
             android:layout_marginLeft="12dp"
+            android:textSize="13sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#000000"/>
+            android:textColor="#66000000"
+            />
 
     </LinearLayout>
     <ImageButton

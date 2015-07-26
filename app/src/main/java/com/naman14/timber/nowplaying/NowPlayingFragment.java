@@ -1,7 +1,6 @@
 package com.naman14.timber.nowplaying;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import com.naman14.timber.R;
 /**
  * Created by naman on 16/07/15.
  */
-public class NowPlayingFragment extends Fragment {
+public class NowPlayingFragment extends BaseNowplayingFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

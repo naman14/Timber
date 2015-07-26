@@ -13,7 +13,10 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ArtistSongAdapter;
 import com.naman14.timber.dataloaders.ArtistSongLoader;
+import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
+
+import java.util.ArrayList;
 
 /**
  * Created by naman on 23/07/15.
@@ -61,7 +64,16 @@ public class ArtistMusicFragment extends Fragment implements ObservableScrollVie
 
     private void setUpSongs() {
         songsRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mSongAdapter = new ArtistSongAdapter(getActivity(), ArtistSongLoader.getSongsForArtist(getActivity(), artistID), artistID);
+
+        ArrayList<Song> songList;
+        songList=ArtistSongLoader.getSongsForArtist(getActivity(), artistID);
+
+        //adding two dummy songs to top of arraylist
+        //there will be  dummy header and albums header respectively in theses two positions in recyclerview
+        songList.add(0,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
+        songList.add(1,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
+
+        mSongAdapter = new ArtistSongAdapter(getActivity(), songList, artistID);
         songsRecyclerview.setAdapter(mSongAdapter);
     }
 

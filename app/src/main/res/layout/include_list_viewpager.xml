@@ -34,8 +34,7 @@
             android:layout_height="65dp"
             android:layout_alignParentTop="true"
             android:layout_gravity="top"
-            android:gravity="top"
-            app:cardElevation="8dp">
+            android:gravity="top">
 
             <fragment
                 android:id="@+id/fragment_playback_controls"

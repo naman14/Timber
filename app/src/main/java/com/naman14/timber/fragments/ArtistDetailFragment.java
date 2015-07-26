@@ -123,7 +123,7 @@ public class ArtistDetailFragment extends Fragment  {
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                ImageLoader.getInstance().displayImage(artist.mArtwork.get(3).mUrl, artistArt,
+                ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl, artistArt,
                         new DisplayImageOptions.Builder().cacheInMemory(true)
                                 .cacheOnDisk(true)
                                 .showImageOnFail(R.drawable.ic_empty_music2)

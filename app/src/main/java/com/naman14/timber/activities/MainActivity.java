@@ -44,54 +44,59 @@ public class MainActivity extends BaseActivity {
     CardView nowPlayingCard;
     SlidingUpPanelLayout panelLayout;
 
+    TextView songtitle, songartist;
+    ImageView albumart;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        String action=getIntent().getAction();
+        String action = getIntent().getAction();
 
-        if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)){
+        if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)) {
             setTheme(R.style.AppTheme_FullScreen);
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       if (action.equals(Constants.NAVIGATE_ALBUM)){
-           long albumID=getIntent().getExtras().getLong(Constants.ALBUM_ID);
-           Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
-           FragmentManager fragmentManager = getSupportFragmentManager();
-           fragmentManager.beginTransaction()
-                   .add(R.id.fragment_container, fragment).commit();
-       } else if (action.equals(Constants.NAVIGATE_ARTIST)){
-           long artistID=getIntent().getExtras().getLong(Constants.ARTIST_ID);
-           Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
-           FragmentManager fragmentManager = getSupportFragmentManager();
-           fragmentManager.beginTransaction()
-                   .add(R.id.fragment_container, fragment).commit();
-       } else {
-           Fragment fragment = new MainFragment();
-           FragmentManager fragmentManager = getSupportFragmentManager();
-           fragmentManager.beginTransaction()
-                   .replace(R.id.fragment_container, fragment).commit();
+        if (action.equals(Constants.NAVIGATE_ALBUM)) {
+            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
+            Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, fragment).commit();
+        } else if (action.equals(Constants.NAVIGATE_ARTIST)) {
+            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
+            Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, fragment).commit();
+        } else {
+            Fragment fragment = new MainFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
 
-       }
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        panelLayout=(SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        nowPlayingCard=(CardView) findViewById(R.id.controls_container);
+        panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        nowPlayingCard = (CardView) findViewById(R.id.controls_container);
 
 
         setPanelSlideListeners();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-            View header = navigationView.inflateHeaderView(R.layout.nav_header);
-            setDetailsToHeader(header);
-        }
+
+        setupDrawerContent(navigationView);
+        View header = navigationView.inflateHeaderView(R.layout.nav_header);
+
+        albumart = (ImageView) header.findViewById(R.id.album_art);
+        songtitle = (TextView) header.findViewById(R.id.song_title);
+        songartist = (TextView) header.findViewById(R.id.song_artist);
+        setDetailsToHeader();
 
 
-
-         mControlsFragment = (QuickControlsFragment) getSupportFragmentManager()
+        mControlsFragment = (QuickControlsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_playback_controls);
         if (mControlsFragment == null) {
             throw new IllegalStateException("Mising fragment with id 'controls'. Cannot continue.");
@@ -119,6 +124,7 @@ public class MainActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new SongsFragment(), "Category 1");
@@ -141,11 +147,8 @@ public class MainActivity extends BaseActivity {
                     }
                 });
     }
-    private void setDetailsToHeader(View header){
 
-        ImageView albumart=(ImageView) header.findViewById(R.id.album_art);
-        TextView songtitle=(TextView) header.findViewById(R.id.song_title);
-        TextView songartist=(TextView) header.findViewById(R.id.song_artist);
+    public void setDetailsToHeader() {
 
         songtitle.setText(MusicPlayer.getTrackName());
         songartist.setText(MusicPlayer.getArtistName());
@@ -154,6 +157,11 @@ public class MainActivity extends BaseActivity {
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
                         .build());
+    }
+    @Override
+    public void onMetaChanged() {
+        super.onMetaChanged();
+        setDetailsToHeader();
     }
 
     static class Adapter extends FragmentPagerAdapter {
@@ -203,16 +211,16 @@ public class MainActivity extends BaseActivity {
                 .commit();
     }
 
-    private void setPanelSlideListeners(){
+    private void setPanelSlideListeners() {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                nowPlayingCard.setAlpha(1-slideOffset);
+                nowPlayingCard.setAlpha(1 - slideOffset);
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
-            nowPlayingCard.setAlpha(1);
+                nowPlayingCard.setAlpha(1);
             }
 
             @Override

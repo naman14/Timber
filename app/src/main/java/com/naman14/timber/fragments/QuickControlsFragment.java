@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.activities.BaseActivity;
+import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -21,14 +23,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  * Created by naman on 13/06/15.
  */
-public class QuickControlsFragment extends Fragment {
+public class QuickControlsFragment extends Fragment implements MusicStateListener {
 
 
     private ImageButton mPlayPause;
-    private static TextView mTitle;
-    private static TextView mArtist;
+    private TextView mTitle;
+    private TextView mArtist;
     private TextView mExtraInfo;
-    private static ImageView mAlbumArt;
+    private ImageView mAlbumArt;
     private String mArtUrl;
     private static ProgressBar mProgress;
     private static Runnable mUpdateProgress;
@@ -64,17 +66,19 @@ public class QuickControlsFragment extends Fragment {
 
             }
         });
+
+        ((BaseActivity)getActivity()).setMusicStateListenerListener(this);
+
         return rootView;
     }
 
-    public static void updateControlsFragment() {
+    public void updateControlsFragment() {
         mTitle.setText(MusicPlayer.getTrackName());
         mArtist.setText(MusicPlayer.getArtistName());
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), mAlbumArt,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
-//                        .displayer(new FadeInBitmapDisplayer(400))
                         .build());
 
     }
@@ -108,5 +112,19 @@ public class QuickControlsFragment extends Fragment {
             mPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.btn_playback_play));
         }
     }
+
+    public void restartLoader(){
+
+    }
+
+    public void onPlaylistChanged(){
+
+    }
+
+    public void onMetaChanged(){
+        updateControlsFragment();
+        updateState();
+    }
+
 
 }

@@ -15,7 +15,6 @@ import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
-import com.naman14.timber.fragments.QuickControlsFragment;
 import com.naman14.timber.listeners.MusicStateListener;
 
 import java.lang.ref.WeakReference;
@@ -70,10 +69,17 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
 
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onMetaChanged();
+    }
 
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         mService = ITimberService.Stub.asInterface(service);
+
+        onMetaChanged();
     }
 
 
@@ -95,13 +101,12 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
             unregisterReceiver(mPlaybackStatus);
         } catch (final Throwable e) {
         }
+        mMusicStateListener.clear();
 
     }
 
     @Override
     public void onMetaChanged() {
-
-        QuickControlsFragment.updateControlsFragment();
 
         // Let the listener know to the meta chnaged
         for (final MusicStateListener listener : mMusicStateListener) {
@@ -128,6 +133,22 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
             if (listener != null) {
                 listener.onPlaylistChanged();
             }
+        }
+    }
+
+    public void setMusicStateListenerListener(final MusicStateListener status) {
+        if (status == this) {
+            throw new UnsupportedOperationException("Override the method, don't add a listener");
+        }
+
+        if (status != null) {
+            mMusicStateListener.add(status);
+        }
+    }
+
+    public void removeMusicStateListenerListener(final MusicStateListener status) {
+        if (status != null) {
+            mMusicStateListener.remove(status);
         }
     }
 

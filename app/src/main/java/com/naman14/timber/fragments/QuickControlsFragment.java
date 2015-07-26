@@ -33,7 +33,6 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     private ImageView mAlbumArt;
     private String mArtUrl;
     private static ProgressBar mProgress;
-    private static Runnable mUpdateProgress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +79,8 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
                         .build());
+        mProgress.setMax((int)MusicPlayer.duration());
+        mProgress.postDelayed(mUpdateProgress, 1000);
 
     }
 
@@ -125,6 +126,22 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         updateControlsFragment();
         updateState();
     }
+
+    public Runnable mUpdateProgress=new Runnable() {
+
+        @Override
+        public void run() {
+
+            if(mProgress != null) {
+                mProgress.setProgress((int)MusicPlayer.position());
+            }
+
+            if(MusicPlayer.isPlaying()) {
+                mProgress.postDelayed(mUpdateProgress, 50);
+            }
+
+        }
+    };
 
 
 }

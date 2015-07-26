@@ -12,18 +12,24 @@ import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.ArtistFragment;
 import com.naman14.timber.fragments.MainFragment;
-import com.naman14.timber.fragments.PlaybackControlsFragment;
+import com.naman14.timber.fragments.QuickControlsFragment;
 import com.naman14.timber.fragments.SongsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.TimberUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +39,7 @@ public class MainActivity extends BaseActivity {
 
 
     private DrawerLayout mDrawerLayout;
-    PlaybackControlsFragment mControlsFragment;
+    QuickControlsFragment mControlsFragment;
     NowPlayingFragment mNowPlayingFragment;
     CardView nowPlayingCard;
     SlidingUpPanelLayout panelLayout;
@@ -73,16 +79,19 @@ public class MainActivity extends BaseActivity {
         panelLayout=(SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         nowPlayingCard=(CardView) findViewById(R.id.controls_container);
 
+
         setPanelSlideListeners();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
+            View header = navigationView.inflateHeaderView(R.layout.nav_header);
+            setDetailsToHeader(header);
         }
 
 
 
-         mControlsFragment = (PlaybackControlsFragment) getSupportFragmentManager()
+         mControlsFragment = (QuickControlsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_playback_controls);
         if (mControlsFragment == null) {
             throw new IllegalStateException("Mising fragment with id 'controls'. Cannot continue.");
@@ -131,6 +140,20 @@ public class MainActivity extends BaseActivity {
                         return true;
                     }
                 });
+    }
+    private void setDetailsToHeader(View header){
+
+        ImageView albumart=(ImageView) header.findViewById(R.id.album_art);
+        TextView songtitle=(TextView) header.findViewById(R.id.song_title);
+        TextView songartist=(TextView) header.findViewById(R.id.song_artist);
+
+        songtitle.setText(MusicPlayer.getTrackName());
+        songartist.setText(MusicPlayer.getArtistName());
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
+                new DisplayImageOptions.Builder().cacheInMemory(true)
+                        .showImageOnFail(R.drawable.ic_empty_music2)
+                        .resetViewBeforeLoading(true)
+                        .build());
     }
 
     static class Adapter extends FragmentPagerAdapter {

@@ -21,7 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  * Created by naman on 13/06/15.
  */
-public class PlaybackControlsFragment extends Fragment {
+public class QuickControlsFragment extends Fragment {
 
 
     private ImageButton mPlayPause;

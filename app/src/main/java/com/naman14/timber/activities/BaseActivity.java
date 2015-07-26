@@ -15,7 +15,7 @@ import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
-import com.naman14.timber.fragments.PlaybackControlsFragment;
+import com.naman14.timber.fragments.QuickControlsFragment;
 import com.naman14.timber.listeners.MusicStateListener;
 
 import java.lang.ref.WeakReference;
@@ -101,7 +101,7 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
     @Override
     public void onMetaChanged() {
 
-        PlaybackControlsFragment.updateControlsFragment();
+        QuickControlsFragment.updateControlsFragment();
 
         // Let the listener know to the meta chnaged
         for (final MusicStateListener listener : mMusicStateListener) {

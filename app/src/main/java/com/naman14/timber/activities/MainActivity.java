@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
@@ -18,21 +16,15 @@ import android.widget.TextView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
-import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
-import com.naman14.timber.fragments.ArtistFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.QuickControlsFragment;
-import com.naman14.timber.fragments.SongsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends BaseActivity {
@@ -47,9 +39,11 @@ public class MainActivity extends BaseActivity {
     TextView songtitle, songartist;
     ImageView albumart;
 
+    String action;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        String action = getIntent().getAction();
+        action = getIntent().getAction();
 
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)) {
             setTheme(R.style.AppTheme_FullScreen);
@@ -119,19 +113,14 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (!(action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)))
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                else super.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new SongsFragment(), "Category 1");
-        adapter.addFragment(new AlbumFragment(), "Category 2");
-        adapter.addFragment(new ArtistFragment(), "Category 3");
-        viewPager.setAdapter(adapter);
-    }
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -139,9 +128,6 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
-//                        FragmentManager fragmentManager = getSupportFragmentManager();
-//                        fragmentManager.beginTransaction()
-//                                .replace(R.id.fragment_container, fragment).commit();
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
@@ -164,52 +150,6 @@ public class MainActivity extends BaseActivity {
         setDetailsToHeader();
     }
 
-    static class Adapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragments = new ArrayList<>();
-        private final List<String> mFragmentTitles = new ArrayList<>();
-
-        public Adapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragments.add(fragment);
-            mFragmentTitles.add(title);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
-        }
-    }
-
-    public void showPlaybackControls() {
-
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(
-                        R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom,
-                        R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom)
-                .show(mControlsFragment)
-                .commit();
-
-    }
-
-    public void hidePlaybackControls() {
-
-        getSupportFragmentManager().beginTransaction()
-                .hide(mControlsFragment)
-                .commit();
-    }
 
     private void setPanelSlideListeners() {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {

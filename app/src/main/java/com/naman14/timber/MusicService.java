@@ -1781,6 +1781,7 @@ public class MusicService extends Service {
                 sendBroadcast(intent);
 
                 mPlayer.pause();
+                notifyChange(META_CHANGED);
                 setIsSupposedToBePlaying(false, true);
             }
         }

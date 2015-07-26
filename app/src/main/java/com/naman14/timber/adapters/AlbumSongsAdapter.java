@@ -1,7 +1,6 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -24,7 +24,7 @@ import java.util.List;
 public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.ItemHolder> {
 
     private List<Song> arraylist;
-    private Context mContext;
+    private Activity mContext;
 
     public AlbumSongsAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
@@ -70,6 +70,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
         @Override
         public void onClick(View v) {
+            NavigationUtils.navigateToNowplaying(mContext, true);
             MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
         }
 

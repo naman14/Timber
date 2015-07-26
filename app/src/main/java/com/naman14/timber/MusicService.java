@@ -1763,6 +1763,7 @@ public class MusicService extends Service {
 
             cancelShutdown();
             updateNotification();
+            notifyChange(META_CHANGED);
         } else if (mPlaylist.size() <= 0) {
             setShuffleMode(SHUFFLE_AUTO);
         }

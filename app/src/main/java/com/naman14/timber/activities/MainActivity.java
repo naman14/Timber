@@ -22,6 +22,7 @@ import com.naman14.timber.fragments.QuickControlsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         action = getIntent().getAction();
 
-        if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)) {
+        if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
             setTheme(R.style.AppTheme_FullScreen);
         }
 
@@ -53,18 +54,33 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         if (action.equals(Constants.NAVIGATE_ALBUM)) {
+
             long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
             Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
+
         } else if (action.equals(Constants.NAVIGATE_ARTIST)) {
+
             long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
             Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
+
+        } else if (action.equals(Constants.NAVIGATE_NOWPLAYING)) {
+
+            String fragmentID = getIntent().getExtras().getString(Constants.NOWPLAYING_FRAGMENT_ID);
+            boolean withAnimations =getIntent().getExtras().getBoolean(Constants.WITH_ANIMATIONS);
+
+            Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, fragment).commit();
+
         } else {
+
             Fragment fragment = new MainFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()

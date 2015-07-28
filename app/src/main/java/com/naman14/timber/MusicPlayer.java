@@ -504,6 +504,8 @@ public class MusicPlayer {
             mService.open(list, forceShuffle ? -1 : position, sourceId, sourceType.mId);
             mService.play();
         } catch (final RemoteException ignored) {
+        } catch (IllegalStateException e){
+            e.printStackTrace();
         }
     }
 

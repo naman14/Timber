@@ -19,14 +19,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 /**
- * Created by naman on 13/06/15.
+ * Created by naman on 27/07/15.
  */
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> {
+public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.ItemHolder> {
 
     private List<Song> arraylist;
     private Activity mContext;
 
-    public SongsListAdapter(Activity context, List<Song> arraylist) {
+    public BaseQueueAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
 
@@ -70,9 +70,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
         @Override
         public void onClick(View v) {
-
+            NavigationUtils.navigateToNowplaying(mContext, true);
             MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
-            NavigationUtils.navigateToNowplaying(mContext,true);
 
         }
 
@@ -87,5 +86,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         return ret;
     }
 }
+
 
 

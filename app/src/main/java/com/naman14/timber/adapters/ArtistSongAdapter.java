@@ -109,8 +109,9 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
         @Override
         public void onClick(View v) {
-            NavigationUtils.navigateToNowplaying(mContext, true);
+
             MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+            NavigationUtils.navigateToNowplaying(mContext, true);
         }
 
     }

@@ -31,6 +31,7 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    compile 'net.steamcrafted:materialiconlib:1.0.3'
 
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'

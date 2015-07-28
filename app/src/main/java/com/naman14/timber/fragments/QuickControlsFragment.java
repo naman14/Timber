@@ -80,7 +80,14 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
                         .resetViewBeforeLoading(true)
                         .build());
         mProgress.setMax((int)MusicPlayer.duration());
-        mProgress.postDelayed(mUpdateProgress, 1000);
+//        ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", (int)MusicPlayer.position());
+//        animation.setDuration(500);
+//        animation.setInterpolator(new LinearInterpolator());
+//        animation.start();
+        if (mUpdateProgress!=null){
+            mProgress.removeCallbacks(mUpdateProgress);
+        }
+        mProgress.postDelayed(mUpdateProgress, 10);
 
     }
 

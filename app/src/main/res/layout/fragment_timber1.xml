@@ -10,7 +10,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/album_art"/>
+            android:id="@+id/album_art"
+            android:scaleType="centerCrop"/>
 
         <SeekBar
             android:id="@+id/song_progress"

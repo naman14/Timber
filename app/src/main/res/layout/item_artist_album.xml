@@ -17,7 +17,8 @@
             android:layout_width="104dp"
             android:layout_height="104dp"
             android:layout_alignParentTop="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:transitionName="transition_album_art"/>
 
 
         <LinearLayout

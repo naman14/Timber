@@ -27,9 +27,10 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-
 public class MainActivity extends BaseActivity {
 
+
+    private static MainActivity sMainActivity;
 
     private DrawerLayout mDrawerLayout;
     QuickControlsFragment mControlsFragment;
@@ -42,8 +43,15 @@ public class MainActivity extends BaseActivity {
 
     String action;
 
+    public static MainActivity getInstance() {
+        return sMainActivity;
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        sMainActivity=this;
         action = getIntent().getAction();
 
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
@@ -116,6 +124,8 @@ public class MainActivity extends BaseActivity {
         if (mNowPlayingFragment == null) {
             throw new IllegalStateException("Mising fragment with id 'nowplaying'. Cannot continue.");
         }
+
+
     }
 
 

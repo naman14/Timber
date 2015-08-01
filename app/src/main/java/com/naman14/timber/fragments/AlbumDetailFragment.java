@@ -1,6 +1,12 @@
 package com.naman14.timber.fragments;
 
+import android.app.SharedElementCallback;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +33,8 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import java.util.List;
 
 /**
  * Created by naman on 22/07/15.
@@ -63,7 +71,7 @@ public class AlbumDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(
+        final View rootView = inflater.inflate(
                 R.layout.fragment_album_detail, container, false);
 
         albumArt=(ImageView) rootView.findViewById(R.id.album_art);
@@ -78,6 +86,55 @@ public class AlbumDetailFragment extends Fragment {
         setupToolbar();
         setAlbumDetails();
         setUpAlbumSongs();
+
+        getActivity().setEnterSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public View onCreateSnapshotView(Context context, Parcelable snapshot) {
+                View view = new View(context);
+                view.setBackground(new BitmapDrawable((Bitmap) snapshot));
+                return view;
+            }
+
+            @Override
+            public void onSharedElementStart(List<String> sharedElementNames,
+                                             List<View> sharedElements,
+                                             List<View> sharedElementSnapshots) {
+                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
+                for (int i = 0; i < sharedElements.size(); i++) {
+                    if (sharedElements.get(i) == sharedElement) {
+                        View snapshot = sharedElementSnapshots.get(i);
+                        Drawable snapshotDrawable = snapshot.getBackground();
+                        sharedElement.setBackground(snapshotDrawable);
+                        sharedElement.setImageAlpha(0);
+                        forceSharedElementLayout();
+                        break;
+                    }
+                }
+            }
+
+            private void forceSharedElementLayout() {
+                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
+                int widthSpec = View.MeasureSpec.makeMeasureSpec(sharedElement.getWidth(),
+                        View.MeasureSpec.EXACTLY);
+                int heightSpec = View.MeasureSpec.makeMeasureSpec(sharedElement.getHeight(),
+                        View.MeasureSpec.EXACTLY);
+                int left = sharedElement.getLeft();
+                int top = sharedElement.getTop();
+                int right = sharedElement.getRight();
+                int bottom = sharedElement.getBottom();
+                sharedElement.measure(widthSpec, heightSpec);
+                sharedElement.layout(left, top, right, bottom);
+            }
+
+            @Override
+            public void onSharedElementEnd(List<String> sharedElementNames,
+                                           List<View> sharedElements,
+                                           List<View> sharedElementSnapshots) {
+                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
+                sharedElement.setBackground(null);
+                sharedElement.setImageAlpha(255);
+            }
+        });
 
         return rootView;
     }

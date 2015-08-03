@@ -1,52 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="300dp">
 
         <ImageView
+            android:id="@+id/album_art"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/album_art"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
-        <SeekBar
-            android:id="@+id/song_progress"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:maxHeight="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:progress="30"
-            android:progressDrawable="@drawable/progress_drawable"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:id="@+id/song_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#ffffff"/>
+
+            <SeekBar
+                android:id="@+id/song_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:maxHeight="5dp"
+                android:progress="30"
+                android:progressDrawable="@drawable/progress_drawable" />
+
+
+            <TextView
+                android:id="@+id/song_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:id="@+id/song_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/song_elapsed_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="#ffffff"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/previous"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="40dp"
+                    android:scaleType="center"
+                    app:materialIcon="skip_previous"
+                    app:materialIconColor="#fff"
+                    app:materialIconSize="30dp" />
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/playpause"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:scaleType="center"
+                    app:materialIcon="play"
+                    app:materialIconColor="#fff"
+                    app:materialIconSize="30dp" />
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/next"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0"
+                    android:background="@android:color/transparent"
+                    android:paddingRight="40dp"
+                    android:scaleType="center"
+                    app:materialIcon="skip_next"
+                    app:materialIconColor="#fff"
+                    app:materialIconSize="30dp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/song_artist"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/song_album"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/song_title"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/song_duration"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/song_elapsed_time"/>
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/queue_recyclerview"

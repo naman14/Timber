@@ -16,12 +16,16 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialIconView;
+
 /**
  * Created by naman on 26/07/15.
  */
 public class BaseNowplayingFragment extends Fragment {
 
     ImageView albumart;
+     MaterialIconView previous,next,playpause;
     TextView songtitle,songalbum,songartist,songduration,elapsedtime;
     SeekBar mProgress;
 
@@ -31,6 +35,9 @@ public class BaseNowplayingFragment extends Fragment {
     public void setSongDetails(View view){
 
         albumart=(ImageView) view.findViewById(R.id.album_art);
+        next=(MaterialIconView) view.findViewById(R.id.next);
+        previous=(MaterialIconView) view.findViewById(R.id.previous);
+        playpause=(MaterialIconView) view.findViewById(R.id.playpause);
 
         songtitle=(TextView) view.findViewById(R.id.song_title);
         songalbum=(TextView) view.findViewById(R.id.song_album);
@@ -42,17 +49,29 @@ public class BaseNowplayingFragment extends Fragment {
 
         recyclerView=(RecyclerView) view.findViewById(R.id.queue_recyclerview);
 
+        setSongDetails();
 
+    }
+
+    private void setSongDetails(){
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
                         .build());
 
+        updatePlayPauseButton();
+
         songtitle.setText(MusicPlayer.getTrackName());
-        songalbum.setText(MusicPlayer.getAlbumName());
-        songartist.setText(MusicPlayer.getArtistName());
-        songduration.setText(String.valueOf(MusicPlayer.duration()/1000));
+
+        if (songalbum!=null)
+            songalbum.setText(MusicPlayer.getAlbumName());
+
+        if (songartist!=null)
+            songartist.setText(MusicPlayer.getArtistName());
+
+        if (songduration!=null)
+            songduration.setText(String.valueOf(MusicPlayer.duration()/1000));
 
         mProgress.setMax((int)MusicPlayer.duration());
         if (mUpdateProgress!=null){
@@ -78,6 +97,28 @@ public class BaseNowplayingFragment extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MusicPlayer.next();
+                setSongDetails();
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MusicPlayer.previous(getActivity(),false);
+                setSongDetails();
+            }
+        });
+        playpause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MusicPlayer.playOrPause();
+                updatePlayPauseButton();
+            }
+        });
     }
 
     public void setQueueSongs(RecyclerView recyclerView) {
@@ -88,6 +129,12 @@ public class BaseNowplayingFragment extends Fragment {
 
     }
 
+    public void updatePlayPauseButton(){
+        if (MusicPlayer.isPlaying())
+            playpause.setIcon(MaterialDrawableBuilder.IconValue.PAUSE);
+        else playpause.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+    }
+
     public Runnable mUpdateProgress=new Runnable() {
 
         @Override
@@ -96,6 +143,7 @@ public class BaseNowplayingFragment extends Fragment {
             if(mProgress != null) {
                 long position=MusicPlayer.position();
                 mProgress.setProgress((int)position);
+                if (elapsedtime!=null)
                 elapsedtime.setText(String.valueOf(position/1000));
             }
 

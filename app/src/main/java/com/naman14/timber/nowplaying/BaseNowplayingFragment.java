@@ -61,6 +61,23 @@ public class BaseNowplayingFragment extends Fragment {
         mProgress.postDelayed(mUpdateProgress, 10);
 
         setQueueSongs(recyclerView);
+
+        mProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (b){
+                    MusicPlayer.seek((long)i);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
     public void setQueueSongs(RecyclerView recyclerView) {

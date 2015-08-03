@@ -19,11 +19,11 @@ public class NavigationUtils {
 
     public static void navigateToAlbum(Activity context,long albumID , ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.NAVIGATE_ALBUM);
         intent.putExtra(Constants.ALBUM_ID,albumID);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
-        context.startActivity(intent,options.toBundle());
+        context.startActivity(intent);
     }
 
     public static void navigateToArtist(Activity context,long artistID){

@@ -1,6 +1,10 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -16,6 +20,7 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +47,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ItemHolder itemHolder, int i) {
+    public void onBindViewHolder(final ItemHolder itemHolder, int i) {
         Album localItem = arraylist.get(i);
 
         itemHolder.title.setText(localItem.title);
@@ -53,7 +58,22 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                 .showImageOnFail(R.drawable.ic_empty_music2)
                 .resetViewBeforeLoading(true)
                 .displayer(new FadeInBitmapDisplayer(400))
-                .build());
+                .build(),new SimpleImageLoadingListener(){
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                       Palette palette=Palette.generate(loadedImage);
+                        int color=palette.getVibrantColor(Color.parseColor("#66000000"));
+                        itemHolder.footer.setBackgroundColor(color);
+                        Palette.Swatch swatch=palette.getVibrantSwatch();
+                        int textColor;
+                        if (swatch!=null){
+                            textColor=getOpaqueColor(swatch.getTitleTextColor());
+                        } else textColor=Color.parseColor("#ffffff");
+
+                        itemHolder.title.setTextColor(textColor);
+                        itemHolder.artist.setTextColor(textColor);
+                    }
+                });
 
     }
 
@@ -66,12 +86,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title,artist;
         protected ImageView albumArt;
+        protected View footer;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.album_title);
             this.artist = (TextView) view.findViewById(R.id.album_artist);
             this.albumArt=(ImageView) view.findViewById(R.id.album_art);
+            this.footer=view.findViewById(R.id.footer);
             view.setOnClickListener(this);
         }
 
@@ -83,6 +105,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
         }
 
     }
+
+    public static int getOpaqueColor(@ColorInt int paramInt)
+    {
+        return 0xFF000000 | paramInt;
+    }
+
+
 }
 
 

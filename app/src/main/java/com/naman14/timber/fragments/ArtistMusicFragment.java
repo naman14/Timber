@@ -59,9 +59,9 @@ public class ArtistMusicFragment extends Fragment implements ObservableScrollVie
         songsRecyclerview=(ObservableRecyclerView) rootView.findViewById(R.id.recycler_view_songs);
         mHeaderheight=getResources().getDimensionPixelSize(R.dimen.header_height);
 
+        setUpSongs();
         songsRecyclerview.setScrollViewCallbacks(this);
 
-        setUpSongs();
 
         getActivity().setExitSharedElementCallback(new SharedElementCallback() {
             @Override

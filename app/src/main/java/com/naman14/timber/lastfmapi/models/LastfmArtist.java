@@ -12,6 +12,7 @@ public class LastfmArtist {
     private static final String NAME = "name";
     private static final String IMAGE  = "image";
     private static final String SIMILAR = "similar";
+    private static final String TAGS= "tags";
     private static final String BIO = "bio";
 
     @SerializedName(NAME)
@@ -22,6 +23,9 @@ public class LastfmArtist {
 
     @SerializedName(SIMILAR)
     public List<LastfmArtist> mSimilarArtist ;
+
+    @SerializedName(TAGS)
+    public List<ArtistTag> mArtistTags ;
 
     @SerializedName(BIO)
     public ArtistBio mArtistBio ;

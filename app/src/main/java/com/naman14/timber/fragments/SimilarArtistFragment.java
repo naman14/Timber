@@ -23,8 +23,8 @@ public class SimilarArtistFragment extends Fragment {
 
     long artistID=-1;
 
-    public static ArtistMusicFragment newInstance(long id) {
-        ArtistMusicFragment fragment = new ArtistMusicFragment();
+    public static SimilarArtistFragment newInstance(long id) {
+        SimilarArtistFragment fragment = new SimilarArtistFragment();
         Bundle args = new Bundle();
         args.putLong(Constants.ARTIST_ID, id);
         fragment.setArguments(args);
@@ -41,7 +41,7 @@ public class SimilarArtistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
-                R.layout.fragment_artist_music, container, false);
+                R.layout.fragment_similar_artists, container, false);
 
         Artist artist= ArtistLoader.getArtist(getActivity(), artistID);
 
@@ -53,7 +53,7 @@ public class SimilarArtistFragment extends Fragment {
 
             @Override
             public void artistInfoFailed() {
-
+                Log.d("lol10","failed");
             }
         });
 

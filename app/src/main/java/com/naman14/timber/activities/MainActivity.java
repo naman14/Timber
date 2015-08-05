@@ -61,6 +61,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        nowPlayingCard = (CardView) findViewById(R.id.controls_container);
+
         if (action.equals(Constants.NAVIGATE_ALBUM)) {
 
             long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
@@ -86,6 +90,7 @@ public class MainActivity extends BaseActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
+            panelLayout.setPanelHeight(0);
 
         } else {
 
@@ -96,9 +101,6 @@ public class MainActivity extends BaseActivity {
 
         }
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        nowPlayingCard = (CardView) findViewById(R.id.controls_container);
 
 
         setPanelSlideListeners();

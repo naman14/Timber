@@ -25,7 +25,8 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 public class BaseNowplayingFragment extends Fragment {
 
     ImageView albumart;
-     MaterialIconView previous,next,playpause;
+    ImageView shuffle;
+    MaterialIconView previous,next,playpause;
     TextView songtitle,songalbum,songartist,songduration,elapsedtime;
     SeekBar mProgress;
 
@@ -35,6 +36,7 @@ public class BaseNowplayingFragment extends Fragment {
     public void setSongDetails(View view){
 
         albumart=(ImageView) view.findViewById(R.id.album_art);
+        shuffle=(ImageView) view.findViewById(R.id.shuffle);
         next=(MaterialIconView) view.findViewById(R.id.next);
         previous=(MaterialIconView) view.findViewById(R.id.previous);
         playpause=(MaterialIconView) view.findViewById(R.id.playpause);
@@ -117,6 +119,13 @@ public class BaseNowplayingFragment extends Fragment {
             public void onClick(View view) {
                 MusicPlayer.playOrPause();
                 updatePlayPauseButton();
+            }
+        });
+
+        shuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            MusicPlayer.cycleShuffle();
             }
         });
     }

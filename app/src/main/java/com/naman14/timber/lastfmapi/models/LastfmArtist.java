@@ -22,13 +22,31 @@ public class LastfmArtist {
     public List<Artwork> mArtwork ;
 
     @SerializedName(SIMILAR)
-    public List<LastfmArtist> mSimilarArtist ;
+    public SimilarArtist mSimilarArtist ;
 
     @SerializedName(TAGS)
-    public List<ArtistTag> mArtistTags ;
+    public ArtistTag mArtistTags ;
 
     @SerializedName(BIO)
     public ArtistBio mArtistBio ;
+
+
+    public class SimilarArtist {
+
+        public static final String ARTIST = "artist";
+
+        @SerializedName(ARTIST)
+        public List<LastfmArtist> mSimilarArtist ;
+    }
+
+    public class ArtistTag {
+
+        public static final String TAG = "tag";
+
+        @SerializedName(TAG)
+        public List<com.naman14.timber.lastfmapi.models.ArtistTag> mTags ;
+    }
+
 
 
 

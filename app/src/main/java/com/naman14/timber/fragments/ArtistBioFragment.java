@@ -2,7 +2,6 @@ package com.naman14.timber.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,12 +47,11 @@ public class ArtistBioFragment extends Fragment {
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                Log.d("lol100", artist.mArtistBio.mSummary + "   " + artist.mArtistTags.get(0).mName+"  "+artist.mArtistTags.size());
+
             }
 
             @Override
             public void artistInfoFailed() {
-                Log.d("lol100","failed");
             }
         });
 

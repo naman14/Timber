@@ -188,7 +188,7 @@ public class AlbumDetailFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new AlbumSongsAdapter(getActivity(), AlbumSongLoader.getSongsForAlbum(getActivity(),albumID));
+        mAdapter = new AlbumSongsAdapter(getActivity(), AlbumSongLoader.getSongsForAlbum(getActivity(),albumID),albumID);
         recyclerView.setAdapter(mAdapter);
 
     }

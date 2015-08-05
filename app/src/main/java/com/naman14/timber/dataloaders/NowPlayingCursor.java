@@ -7,6 +7,7 @@ import android.os.RemoteException;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.AudioColumns;
+import android.util.Log;
 
 import com.naman14.timber.MusicPlayer;
 
@@ -177,6 +178,7 @@ public class NowPlayingCursor extends AbstractCursor {
     private void makeNowPlayingCursor() {
         mQueueCursor = null;
         mNowPlaying = MusicPlayer.getQueue();
+        Log.d("lol1",mNowPlaying.toString() + "   "+mNowPlaying.length);
         mSize = mNowPlaying.length;
         if (mSize == 0) {
             return;

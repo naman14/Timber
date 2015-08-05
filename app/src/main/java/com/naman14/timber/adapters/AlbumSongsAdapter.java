@@ -25,12 +25,14 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
     private List<Song> arraylist;
     private Activity mContext;
+    private long albumID;
     private long[] songIDs;
 
-    public AlbumSongsAdapter(Activity context, List<Song> arraylist) {
+    public AlbumSongsAdapter(Activity context, List<Song> arraylist,long albumID) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.songIDs=getSongIds();
+        this.albumID=albumID;
     }
 
     @Override
@@ -71,8 +73,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
         @Override
         public void onClick(View v) {
-
-            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(),albumID , TimberUtils.IdType.Album, false);
             NavigationUtils.navigateToNowplaying(mContext, true);
         }
 

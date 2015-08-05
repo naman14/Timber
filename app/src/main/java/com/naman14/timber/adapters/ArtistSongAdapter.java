@@ -66,7 +66,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             setUpAlbums(itemHolder.albumsRecyclerView);
 
         } else {
-            Song localItem = arraylist.get(i);
+            Song localItem = arraylist.get(i-2);
 
             itemHolder.title.setText(localItem.title);
             itemHolder.artist.setText(localItem.artistName);
@@ -112,7 +112,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         @Override
         public void onClick(View v) {
 
-            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition()-2, artistID, TimberUtils.IdType.Artist, false);
             NavigationUtils.navigateToNowplaying(mContext, true);
         }
 

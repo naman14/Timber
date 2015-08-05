@@ -95,8 +95,8 @@ public class ArtistMusicFragment extends Fragment implements ObservableScrollVie
 
         //adding two dummy songs to top of arraylist
         //there will be  dummy header and albums header respectively in theses two positions in recyclerview
-        songList.add(0,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
-        songList.add(1,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
+//        songList.add(0,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
+//        songList.add(1,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
 
         mSongAdapter = new ArtistSongAdapter(getActivity(), songList, artistID);
         songsRecyclerview.setAdapter(mSongAdapter);

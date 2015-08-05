@@ -21,6 +21,11 @@
             android:scaleType="centerCrop"
             android:id="@+id/artist_art"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#33000000"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +81,8 @@
         android:gravity="right|center_vertical"
         android:layout_gravity="right|center_vertical"
         android:layout_marginRight="20dp"
-        android:src="@drawable/ic_shuffle"/>
+        android:src="@drawable/ic_shuffle"
+        android:visibility="gone"/>
 
     </android.support.v7.widget.Toolbar>
 

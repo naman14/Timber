@@ -144,7 +144,7 @@ public class ArtistDetailFragment extends Fragment  {
         Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(new ArtistMusicFragment().newInstance(artistID), "Music");
         adapter.addFragment(new ArtistBioFragment(), "Artist");
-        adapter.addFragment(new ArtistBioFragment(), "Related Music");
+        adapter.addFragment(new SimilarArtistFragment().newInstance(artistID), "Related Music");
         viewPager.setAdapter(adapter);
     }
 

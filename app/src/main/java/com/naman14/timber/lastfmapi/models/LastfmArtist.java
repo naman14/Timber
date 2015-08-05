@@ -9,9 +9,23 @@ import java.util.List;
  */
 public class LastfmArtist {
 
+    private static final String NAME = "name";
     private static final String IMAGE  = "image";
+    private static final String SIMILAR = "similar";
+    private static final String BIO = "bio";
+
+    @SerializedName(NAME)
+    public String mName ;
 
     @SerializedName(IMAGE)
     public List<Artwork> mArtwork ;
+
+    @SerializedName(SIMILAR)
+    public List<LastfmArtist> mSimilarArtist ;
+
+    @SerializedName(BIO)
+    public ArtistBio mArtistBio ;
+
+
 
 }

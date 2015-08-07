@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        android:id="@+id/albumArt"
+        android:padding="3dp"
+        />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp">
+
+
+        <TextView
+            android:id="@+id/song_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/song_artist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+
+
+
+    </LinearLayout>
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/playSong"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:paddingRight="20dp"
+            android:scaleType="center"
+            app:materialIcon="play"
+            app:materialIconColor="#fff"
+            app:materialIconSize="35dp" />
+
+    </LinearLayout>
+
+    <View
+        android:paddingTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#22ffffff"/>
+
+</LinearLayout>

@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#292935">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,7 +15,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="330dp"
         android:id="@+id/headerView">
 
         <ImageView
@@ -22,6 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +47,8 @@
                 android:id="@+id/song_artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="14sp"
+                android:paddingTop="3dp"
                 android:textColor="#ffffff"/>
 
             <SeekBar
@@ -50,11 +57,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:maxHeight="5dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:paddingTop="15dp"
+                android:maxHeight="2dp"
                 android:progress="30"
-                android:progressDrawable="@drawable/progress_drawable" />
+                android:progressDrawable="@drawable/progress_drawable_withbackground" />
 
 
             <TextView
@@ -83,19 +91,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/previous"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_weight="0"
+                    android:layout_weight="0.7"
                     android:background="@android:color/transparent"
-                    android:paddingLeft="40dp"
+                    android:paddingLeft="50dp"
                     android:scaleType="center"
                     app:materialIcon="skip_previous"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="30dp" />
+                    app:materialIconSize="35dp" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/playpause"
@@ -106,19 +115,19 @@
                     android:scaleType="center"
                     app:materialIcon="play"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="30dp" />
+                    app:materialIconSize="35dp" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/next"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_weight="0"
+                    android:layout_weight="0.7"
                     android:background="@android:color/transparent"
-                    android:paddingRight="40dp"
+                    android:paddingRight="50dp"
                     android:scaleType="center"
                     app:materialIcon="skip_next"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="30dp" />
+                    app:materialIconSize="35dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -138,6 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_shuffle"
         app:layout_anchor="@id/headerView"
         app:layout_anchorGravity="bottom|right|end"/>

@@ -1,5 +1,6 @@
 package com.naman14.timber.nowplaying;
 
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,6 +81,7 @@ public class BaseNowplayingFragment extends Fragment {
             mProgress.removeCallbacks(mUpdateProgress);
         }
         mProgress.postDelayed(mUpdateProgress, 10);
+        mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
 
         setQueueSongs(recyclerView);
 

@@ -17,16 +17,7 @@ public class Timber1 extends BaseNowplayingFragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_timber1, container, false);
 
-//        ArrayList<Song> arrayList= QueueLoader.getQueueSongsList(getActivity());
-//
-//        for (int i=0;i<arrayList.size();i++){
-//            Song song=arrayList.get(i);
-//            Log.d("lol", song.title);
-//        }
-
         setSongDetails(rootView);
-
-
 
         return rootView;
     }

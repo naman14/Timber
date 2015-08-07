@@ -27,7 +27,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#66000000"/>
+            android:background="#77000000"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -137,7 +137,9 @@
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/queue_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingTop="15dp"
+        android:clipToPadding="false"/>
 
 </LinearLayout>
 
@@ -148,7 +150,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_shuffle"
+        android:src="@drawable/ic_shuffle_white_36dp"
         app:layout_anchor="@id/headerView"
         app:layout_anchorGravity="bottom|right|end"/>
 

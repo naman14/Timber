@@ -7,7 +7,7 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -17,14 +17,16 @@
         android:layout_height="70dp"
         android:id="@+id/albumArt"
         android:padding="3dp"
+        android:layout_alignParentLeft="true"
         />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:layout_toRightOf="@+id/albumArt">
 
 
         <TextView
@@ -32,7 +34,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:ellipsize="end"
+            android:singleLine="true"/>
 
         <TextView
             android:id="@+id/song_artist"
@@ -40,7 +44,9 @@
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
             android:textColor="#ffffff"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:ellipsize="end"
+            android:singleLine="true"/>
 
 
 
@@ -51,13 +57,13 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@android:color/transparent"
-            android:paddingRight="20dp"
+            android:layout_marginRight="20dp"
             android:scaleType="center"
-            app:materialIcon="play"
             app:materialIconColor="#fff"
-            app:materialIconSize="35dp" />
+            app:materialIconSize="35dp"
+            android:layout_alignParentRight="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:paddingTop="5dp"

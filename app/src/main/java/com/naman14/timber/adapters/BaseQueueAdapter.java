@@ -15,6 +15,9 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialIconView;
+
 import java.util.List;
 
 /**
@@ -24,11 +27,12 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
 
     private List<Song> arraylist;
     private Activity mContext;
+    private int currentlyPlayingPosition;
 
     public BaseQueueAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
-
+        this.currentlyPlayingPosition=MusicPlayer.getQueuePosition();
     }
 
     @Override
@@ -45,6 +49,13 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
+        if (i==currentlyPlayingPosition){
+            itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
+            itemHolder.playSong.setColorResource(R.color.colorAccent);
+        }else {
+            itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+            itemHolder.playSong.setColorResource(android.R.color.white);
+        }
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 
     }
@@ -58,17 +69,23 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title,artist;
         protected ImageView albumArt;
+        protected MaterialIconView playSong;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
             this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
-            view.setOnClickListener(this);
+            this.playSong=(MaterialIconView) view.findViewById(R.id.playSong);
+            playSong.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            notifyItemChanged(currentlyPlayingPosition);
+            currentlyPlayingPosition=getAdapterPosition();
+            playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
+            playSong.setColorResource(R.color.colorAccent);
             MusicPlayer.setQueuePosition(getAdapterPosition());
 
         }
@@ -83,6 +100,7 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
 
         return ret;
     }
+
 }
 
 

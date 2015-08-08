@@ -2,6 +2,7 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,9 +112,15 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
         @Override
         public void onClick(View v) {
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition()-2, artistID, TimberUtils.IdType.Artist, false);
+                    NavigationUtils.navigateToNowplaying(mContext, true);
+                }
+            },100);
 
-            MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition()-2, artistID, TimberUtils.IdType.Artist, false);
-            NavigationUtils.navigateToNowplaying(mContext, true);
         }
 
     }
@@ -158,7 +166,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     }
 
     public long[] getSongIds() {
-        List<Song> actualArraylist=this.arraylist;
+        List<Song> actualArraylist=new ArrayList<Song>(arraylist);
         actualArraylist.remove(0);
         actualArraylist.remove(0);
         long[] ret = new long[actualArraylist.size()];

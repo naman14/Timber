@@ -1,5 +1,6 @@
 package com.naman14.timber.fragments;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,6 +28,11 @@ public class AlbumFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
+
+        //to add spacing between cards
+        int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+
         recyclerView.setAdapter(mAdapter);
 
 //        getActivity().setExitSharedElementCallback(new SharedElementCallback() {
@@ -49,6 +55,26 @@ public class AlbumFragment extends Fragment {
 //        });
 
         return recyclerView;
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+
+            outRect.left = space;
+            outRect.top=space;
+            outRect.right=space;
+            outRect.bottom=space;
+
+        }
     }
 
 }

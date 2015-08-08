@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="400dp"
         android:elevation="5dp">
 
         <ImageView
@@ -15,6 +15,11 @@
             android:scaleType="centerCrop"
             android:id="@+id/album_art"
             android:transitionName="transition_album_art"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#22000000"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,13 +42,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="15dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginLeft="18dp"
+                android:layout_marginBottom="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="23sp"
                     android:textStyle="bold"
                     android:id="@+id/album_title"
                     android:textColor="#ffffff"/>
@@ -52,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/album_details"
                     android:textSize="16sp"
+                    android:paddingTop="3dp"
                     android:textColor="#ffffff"/>
             </LinearLayout>
 

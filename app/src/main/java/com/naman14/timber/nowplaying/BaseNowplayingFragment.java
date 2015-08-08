@@ -41,6 +41,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     RecyclerView recyclerView;
     BaseQueueAdapter mAdapter;
 
+    private boolean duetoplaypause=false;
+
     public void setSongDetails(View view){
 
         albumart=(ImageView) view.findViewById(R.id.album_art);
@@ -112,9 +114,10 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         playpause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                duetoplaypause=true;
                 MusicPlayer.playOrPause();
-                updatePlayPauseButton();
-                recyclerView.getAdapter().notifyItemChanged(BaseQueueAdapter.currentlyPlayingPosition);
+//                updatePlayPauseButton();
+                recyclerView.getAdapter().notifyDataSetChanged();
             }
         });
 
@@ -127,13 +130,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     }
 
     public void updateSongDetails(){
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
-                        .resetViewBeforeLoading(true)
-                        .displayer(new FadeInBitmapDisplayer(400))
-                        .build());
-
+        //do not reload image if it was a play/pause change
+        if (!duetoplaypause) {
+            ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
+                    new DisplayImageOptions.Builder().cacheInMemory(true)
+                            .showImageOnFail(R.drawable.ic_empty_music2)
+                            .resetViewBeforeLoading(true)
+                            .displayer(new FadeInBitmapDisplayer(400))
+                            .build());
+        }
+        duetoplaypause=false;
         updatePlayPauseButton();
 
         songtitle.setText(MusicPlayer.getTrackName());
@@ -160,7 +166,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongsList(getActivity()));
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_white));
-        recyclerView.scrollToPosition(MusicPlayer.getQueuePosition()-1);
+        recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
 
     }
 
@@ -190,10 +196,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     };
 
     public void notifyPlayingDrawableChange(){
-        recyclerView.getAdapter().notifyItemChanged(BaseQueueAdapter.currentlyPlayingPosition);
         int position =MusicPlayer.getQueuePosition();
         BaseQueueAdapter.currentlyPlayingPosition=position;
-        recyclerView.getAdapter().notifyItemChanged(position);
     }
 
     public void restartLoader(){

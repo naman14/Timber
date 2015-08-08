@@ -13,11 +13,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <TextView
+            android:paddingLeft="15dp"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/albumArt"
-            android:padding="1dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/trackNumber"
+            android:padding="2dp"
+            android:textSize="20sp"
             android:layout_alignParentLeft="true"
             />
 
@@ -25,9 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
+            android:paddingLeft="18dp"
             android:paddingTop="5dp"
-            android:layout_toRightOf="@+id/albumArt"
+            android:layout_toRightOf="@+id/trackNumber"
             android:layout_toLeftOf="@+id/currentlyPlayingIndicator"
             android:layout_marginRight="10dp">
 

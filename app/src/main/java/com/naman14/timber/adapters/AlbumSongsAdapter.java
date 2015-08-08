@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
@@ -14,8 +13,6 @@ import com.naman14.timber.R;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -49,8 +46,13 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
         itemHolder.title.setText(localItem.title);
         itemHolder.duration.setText(TimberUtils.makeShortTimeString(mContext,(localItem.duration)/1000));
-
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+        int tracknumber=localItem.trackNumber;
+        if (tracknumber==0){
+            itemHolder.trackNumber.setText("-");
+        } else if (tracknumber>9){
+            String number=String.valueOf(tracknumber);
+            itemHolder.trackNumber.setText(number.substring(number.length()-1,number.length()));
+        } else  itemHolder.trackNumber.setText(String.valueOf(tracknumber));
 
     }
 
@@ -61,14 +63,13 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,duration;
-        protected ImageView albumArt;
+        protected TextView title,duration,trackNumber;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.duration = (TextView) view.findViewById(R.id.song_duration);
-            this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
+            this.trackNumber=(TextView) view.findViewById(R.id.trackNumber);
             view.setOnClickListener(this);
         }
 

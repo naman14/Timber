@@ -2,7 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="160dp"
-    android:layout_margin="2.0dip">
+    android:layout_margin="2.0dip"
+    android:elevation="3dp"
+    android:background="?attr/selectableItemBackground">
 
     <FrameLayout
         android:id="@+id/content"
@@ -21,7 +23,7 @@
                 android:layout_height="fill_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher"
-                android:transitionName="transition_album_art"/>
+                android:transitionName="transition_album_art" />
 
             <LinearLayout
                 android:id="@+id/footer"
@@ -52,5 +54,10 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"/>
 
 </FrameLayout>

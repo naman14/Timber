@@ -1,6 +1,7 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialIconView;
+
 import java.util.List;
 
 /**
@@ -26,6 +30,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private List<Song> arraylist;
     private Activity mContext;
     private long[] songIDs;
+    public int currentlyPlayingPosition;
 
     public SongsListAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
@@ -49,6 +54,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         itemHolder.artist.setText(localItem.artistName);
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+        if (MusicPlayer.getCurrentAudioId()==localItem.id){
+            currentlyPlayingPosition=i;
+            if (MusicPlayer.isPlaying()){
+                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
+                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
+                itemHolder.playingIndicator.setColorResource(R.color.colorAccent);
+            } else {
+                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
+                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+                itemHolder.playingIndicator.setColorResource(R.color.colorAccent);
+            }
+        } else itemHolder.playingIndicator.setVisibility(View.GONE);
 
     }
 
@@ -61,20 +78,42 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title,artist;
         protected ImageView albumArt;
+        private MaterialIconView playingIndicator;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
             this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
+            this.playingIndicator=(MaterialIconView) view.findViewById(R.id.currentlyPlayingIndicator);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            final Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+                   Handler handler1=new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyItemChanged(currentlyPlayingPosition);
+                            notifyItemChanged(getAdapterPosition());
+                            Handler handler2=new Handler();
+                            handler2.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    NavigationUtils.navigateToNowplaying(mContext, true);
+                                }
+                            },50);
+                        }
+                    },50);
+                }
+            },100);
 
-            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
-            NavigationUtils.navigateToNowplaying(mContext,true);
 
         }
 

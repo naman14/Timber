@@ -9,14 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.R;
+import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.SongLoader;
+import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.widgets.DividerItemDecoration;
 
 /**
  * Created by naman on 12/06/15.
  */
-public class SongsFragment extends Fragment {
+public class SongsFragment extends Fragment implements MusicStateListener {
 
     private SongsListAdapter mAdapter;
 
@@ -31,7 +33,22 @@ public class SongsFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
 
+        ((BaseActivity)getActivity()).setMusicStateListenerListener(this);
+
         return recyclerView;
+    }
+
+    public void restartLoader(){
+
+    }
+
+    public void onPlaylistChanged(){
+
+    }
+
+    public void onMetaChanged(){
+//        mAdapter.notifyItemChanged(SongsListAdapter.currentlyPlayingPosition);
+        mAdapter.notifyDataSetChanged();
     }
 
 }

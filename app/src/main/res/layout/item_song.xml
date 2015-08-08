@@ -54,6 +54,19 @@
 
         </LinearLayout>
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/currentlyPlayingIndicator"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginRight="20dp"
+            android:scaleType="center"
+            app:materialIconColor="#fff"
+            app:materialIconSize="35dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"/>
+
+
 
     </RelativeLayout>
 

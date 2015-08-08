@@ -27,7 +27,7 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
 
     private List<Song> arraylist;
     private Activity mContext;
-    private int currentlyPlayingPosition;
+    public static int currentlyPlayingPosition;
 
     public BaseQueueAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
@@ -50,8 +50,13 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
         itemHolder.artist.setText(localItem.artistName);
 
         if (i==currentlyPlayingPosition){
-            itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
-            itemHolder.playSong.setColorResource(R.color.colorAccent);
+            if (MusicPlayer.isPlaying()){
+                itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
+                itemHolder.playSong.setColorResource(R.color.colorAccent);
+            } else {
+                itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+                itemHolder.playSong.setColorResource(R.color.colorAccent);
+            }
         }else {
             itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
             itemHolder.playSong.setColorResource(android.R.color.white);
@@ -86,7 +91,13 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
             currentlyPlayingPosition=getAdapterPosition();
             playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
             playSong.setColorResource(R.color.colorAccent);
-            MusicPlayer.setQueuePosition(getAdapterPosition());
+            try {
+                MusicPlayer.setQueuePosition(getAdapterPosition());
+            } catch (IllegalStateException e){
+                e.printStackTrace();
+            }
+
+//            BaseNowplayingFragment.updateSongDetails();
 
         }
 

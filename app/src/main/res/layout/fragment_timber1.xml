@@ -15,7 +15,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_height="380dp"
         android:id="@+id/headerView">
 
         <ImageView
@@ -34,6 +34,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
+            android:paddingTop="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -59,7 +60,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
-                android:paddingTop="15dp"
+                android:paddingTop="18dp"
                 android:maxHeight="2dp"
                 android:progress="30"
                 android:progressDrawable="@drawable/progress_drawable_withbackground" />
@@ -90,16 +91,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="20dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/previous"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_weight="0.7"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:paddingLeft="50dp"
                     android:scaleType="center"
                     app:materialIcon="skip_previous"
@@ -111,18 +112,18 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="center"
                     app:materialIcon="play"
                     app:materialIconColor="#fff"
-                    app:materialIconSize="35dp" />
+                    app:materialIconSize="40dp" />
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/next"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_weight="0.7"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:paddingRight="50dp"
                     android:scaleType="center"
                     app:materialIcon="skip_next"
@@ -131,6 +132,17 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="@dimen/appBarTopMargin"
+            android:layout_gravity="top"
+            android:background="@android:color/transparent"
+            app:theme="@style/Theme.AppCompat"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     </FrameLayout>
 
 
@@ -138,7 +150,7 @@
         android:id="@+id/queue_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp"
+        android:paddingTop="18dp"
         android:clipToPadding="false"/>
 
 </LinearLayout>
@@ -150,8 +162,9 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:scaleType="centerInside"
+        app:backgroundTint="@color/colorAccent"
         android:src="@drawable/ic_shuffle_white_36dp"
         app:layout_anchor="@id/headerView"
-        app:layout_anchorGravity="bottom|right|end"/>
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

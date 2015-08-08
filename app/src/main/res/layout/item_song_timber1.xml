@@ -56,7 +56,7 @@
             android:id="@+id/playSong"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@android:color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginRight="20dp"
             android:scaleType="center"
             app:materialIconColor="#fff"

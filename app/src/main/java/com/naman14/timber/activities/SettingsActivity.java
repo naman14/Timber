@@ -1,6 +1,7 @@
 package com.naman14.timber.activities;
 
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -32,8 +33,8 @@ public class SettingsActivity extends AppCompatActivity {
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
         } else {
-            Fragment fragment = new SettingsFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
+            PreferenceFragment fragment = new SettingsFragment();
+            android.app.FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commit();
         }

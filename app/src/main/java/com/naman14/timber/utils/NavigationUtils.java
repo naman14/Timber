@@ -1,13 +1,17 @@
 package com.naman14.timber.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
 
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.SettingsActivity;
 import com.naman14.timber.nowplaying.Timber1;
+import com.naman14.timber.nowplaying.Timber2;
+import com.naman14.timber.nowplaying.Timber3;
 
 import java.util.ArrayList;
 
@@ -34,7 +38,9 @@ public class NavigationUtils {
     }
 
     public static void navigateToNowplaying(Activity context,boolean withAnimations){
-        String fragmentID=Constants.TIMBER1;
+        SharedPreferences prefs = context.getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
+        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER1);
+
         final Intent intent=new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.NAVIGATE_NOWPLAYING);
@@ -46,19 +52,26 @@ public class NavigationUtils {
     public static void navigateToSettings(Activity context){
         final Intent intent=new Intent(context, SettingsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.setAction(Constants.NAVIGATE_SETTINGS);
         context.startActivity(intent);
     }
 
-    public static void navigateToStyleSelector(Activity context,String what){
+    public static Intent getNavigateToStyleSelectorIntent(Activity context,String what){
         final Intent intent=new Intent(context, SettingsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.SETTINGS_STYLE_SELECTOR);
         intent.putExtra(Constants.SETTINGS_STYLE_SELECTOR_WHAT,what);
-        context.startActivity(intent);
+        return intent;
     }
 
     public static Fragment  getFragmentForNowplayingID(String fragmentID){
-        //TODO implement shared prefernces here to get fragmentid
-        return new Timber1();
+        switch (fragmentID){
+            case Constants.TIMBER1:return new Timber1();
+            case Constants.TIMBER2:return new Timber2();
+            case Constants.TIMBER3:return new Timber3();
+            default:return new Timber1();
+        }
+
     }
+
 }

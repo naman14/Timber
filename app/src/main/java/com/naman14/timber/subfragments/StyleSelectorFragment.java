@@ -3,12 +3,14 @@ package com.naman14.timber.subfragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.widgets.MultiViewPager;
 
 /**
  * Created by naman on 08/08/15.
@@ -42,6 +44,22 @@ public class StyleSelectorFragment extends Fragment {
         if (ACTION.equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)){
 
         }
+        final MultiViewPager pager = (MultiViewPager) rootView.findViewById(R.id.pager);
+
+        final FragmentStatePagerAdapter adapter = new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
+
+            @Override
+            public int getCount() {
+                return 5;
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                return SubStyleSelectorFragment.newInstance(position,ACTION);
+            }
+
+        };
+        pager.setAdapter(adapter);
 
         return rootView;
     }

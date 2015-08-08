@@ -28,6 +28,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.SettingsActivity"/>
+
         <!-- Music service -->
         <service
             android:name=".MusicService"

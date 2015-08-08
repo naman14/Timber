@@ -11,6 +11,8 @@ public class Constants {
 
     public static final String ALBUM_ID="album_id";
     public static final String ARTIST_ID="artist_id";
+
+    public static final String FRAGMENT_ID="fragment_id";
     public static final String NOWPLAYING_FRAGMENT_ID="nowplaying_fragment_id";
 
     public static final String WITH_ANIMATIONS="with_animations";
@@ -18,6 +20,8 @@ public class Constants {
     public static final String TIMBER1="timber1";
     public static final String TIMBER2="timber2";
     public static final String TIMBER3="timber3";
+
+    public static final String NAVIGATE_SETTINGS="navigate_settings";
 
     public static final String SETTINGS_STYLE_SELECTOR_NOWPLAYING="style_selector_nowplaying";
     public static final String SETTINGS_STYLE_SELECTOR_ARTIST="style_selector_artist";

@@ -112,7 +112,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                         }
                     },50);
                 }
-            },50);
+            },100);
 
 
         }

@@ -145,6 +145,9 @@ public class MainActivity extends BaseActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 else super.onBackPressed();
                 return true;
+            case R.id.action_settings:
+                NavigationUtils.navigateToSettings(this);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         this.arraylist = arraylist;
         this.mContext = context;
         this.artistID=artistID;
-        this.songIDs=getSongIds();
-
+//        this.songIDs=getSongIds();
     }
 
     @Override
@@ -58,6 +58,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
     @Override
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
+        Log.d("lol",String.valueOf(i));
 
         if (getItemViewType(i)==0){
             //nothing
@@ -66,7 +67,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             setUpAlbums(itemHolder.albumsRecyclerView);
 
         } else {
-            Song localItem = arraylist.get(i-2);
+            Song localItem = arraylist.get(i);
 
             itemHolder.title.setText(localItem.title);
             itemHolder.artist.setText(localItem.artistName);
@@ -112,7 +113,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         @Override
         public void onClick(View v) {
 
-            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition()-2, artistID, TimberUtils.IdType.Artist, false);
+            MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition()-2, artistID, TimberUtils.IdType.Artist, false);
             NavigationUtils.navigateToNowplaying(mContext, true);
         }
 
@@ -159,11 +160,13 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     }
 
     public long[] getSongIds() {
-        long[] ret = new long[getItemCount()];
-        for (int i = 0; i < getItemCount(); i++) {
-            ret[i] = arraylist.get(i).id;
+        List<Song> actualArraylist=this.arraylist;
+        actualArraylist.remove(0);
+        actualArraylist.remove(0);
+        long[] ret = new long[actualArraylist.size()];
+        for (int i = 0; i < actualArraylist.size(); i++) {
+            ret[i] = actualArraylist.get(i).id;
         }
-
         return ret;
     }
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ArtistAdapter;
 import com.naman14.timber.dataloaders.ArtistLoader;
+import com.naman14.timber.widgets.DividerItemDecoration;
 
 /**
  * Created by naman on 08/07/15.
@@ -27,6 +28,7 @@ public class ArtistFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
         recyclerView.setAdapter(mAdapter);
 
         return recyclerView;

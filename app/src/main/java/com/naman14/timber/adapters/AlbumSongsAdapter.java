@@ -1,6 +1,7 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
         Song localItem = arraylist.get(i);
 
         itemHolder.title.setText(localItem.title);
-        itemHolder.artist.setText(localItem.artistName);
+        itemHolder.duration.setText(TimberUtils.makeShortTimeString(mContext,(localItem.duration)/1000));
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 
@@ -60,21 +61,28 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,artist;
+        protected TextView title,duration;
         protected ImageView albumArt;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
-            this.artist = (TextView) view.findViewById(R.id.song_artist);
+            this.duration = (TextView) view.findViewById(R.id.song_duration);
             this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(),albumID , TimberUtils.IdType.Album, false);
-            NavigationUtils.navigateToNowplaying(mContext, true);
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(),albumID , TimberUtils.IdType.Album, false);
+                    NavigationUtils.navigateToNowplaying(mContext, true);
+                }
+            },100);
+
         }
 
     }

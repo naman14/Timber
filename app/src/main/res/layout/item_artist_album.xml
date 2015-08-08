@@ -28,7 +28,8 @@
             android:gravity="center_vertical"
             android:layout_below="@id/album_art"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="8dp" >
+            android:layout_marginLeft="8dp"
+            >
 
             <TextView
                 android:id="@+id/album_title"
@@ -37,15 +38,17 @@
                 android:layout_gravity="top"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textSize="13sp"
-                android:textStyle="bold"/>
+                android:textSize="14sp"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/album_details"
                 android:layout_width="104dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:layout_height="wrap_content" />
+                android:textColor="#77000000"
+                android:layout_height="wrap_content"
+                />
 
         </LinearLayout>
 

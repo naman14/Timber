@@ -1,12 +1,6 @@
 package com.naman14.timber.fragments;
 
-import android.app.SharedElementCallback;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -21,6 +15,7 @@ import com.naman14.timber.adapters.ArtistSongAdapter;
 import com.naman14.timber.dataloaders.ArtistSongLoader;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -63,24 +58,24 @@ public class ArtistMusicFragment extends Fragment implements ObservableScrollVie
         songsRecyclerview.setScrollViewCallbacks(this);
 
 
-        getActivity().setExitSharedElementCallback(new SharedElementCallback() {
-            @Override
-            public Parcelable onCaptureSharedElementSnapshot(View sharedElement, Matrix viewToGlobalMatrix, RectF screenBounds) {
-                int bitmapWidth = Math.round(screenBounds.width());
-                int bitmapHeight = Math.round(screenBounds.height());
-                Bitmap bitmap = null;
-                if (bitmapWidth > 0 && bitmapHeight > 0) {
-                    Matrix matrix = new Matrix();
-                    matrix.set(viewToGlobalMatrix);
-                    matrix.postTranslate(-screenBounds.left, -screenBounds.top);
-                    bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(bitmap);
-                    canvas.concat(matrix);
-                    sharedElement.draw(canvas);
-                }
-                return bitmap;
-            }
-        });
+//        getActivity().setExitSharedElementCallback(new SharedElementCallback() {
+//            @Override
+//            public Parcelable onCaptureSharedElementSnapshot(View sharedElement, Matrix viewToGlobalMatrix, RectF screenBounds) {
+//                int bitmapWidth = Math.round(screenBounds.width());
+//                int bitmapHeight = Math.round(screenBounds.height());
+//                Bitmap bitmap = null;
+//                if (bitmapWidth > 0 && bitmapHeight > 0) {
+//                    Matrix matrix = new Matrix();
+//                    matrix.set(viewToGlobalMatrix);
+//                    matrix.postTranslate(-screenBounds.left, -screenBounds.top);
+//                    bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
+//                    Canvas canvas = new Canvas(bitmap);
+//                    canvas.concat(matrix);
+//                    sharedElement.draw(canvas);
+//                }
+//                return bitmap;
+//            }
+//        });
 
         return rootView;
     }
@@ -99,6 +94,7 @@ public class ArtistMusicFragment extends Fragment implements ObservableScrollVie
         songList.add(0,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
 
         mSongAdapter = new ArtistSongAdapter(getActivity(), songList, artistID);
+        songsRecyclerview.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
         songsRecyclerview.setAdapter(mSongAdapter);
     }
 

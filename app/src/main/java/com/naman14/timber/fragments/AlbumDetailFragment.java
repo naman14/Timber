@@ -1,12 +1,6 @@
 package com.naman14.timber.fragments;
 
-import android.app.SharedElementCallback;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,11 +24,10 @@ import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.TimberUtils;
+import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-
-import java.util.List;
 
 /**
  * Created by naman on 22/07/15.
@@ -189,6 +182,7 @@ public class AlbumDetailFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mAdapter = new AlbumSongsAdapter(getActivity(), AlbumSongLoader.getSongsForAlbum(getActivity(),albumID),albumID);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
         recyclerView.setAdapter(mAdapter);
 
     }

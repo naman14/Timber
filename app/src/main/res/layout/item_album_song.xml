@@ -1,42 +1,76 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="?attr/selectableItemBackground">
 
-    <ImageView
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:id="@+id/albumArt"
-        />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp" >
+        android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/albumArt"
+            android:padding="1dp"
+            android:layout_alignParentLeft="true"
+            />
 
-        <TextView
-            android:id="@+id/song_title"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:layout_toRightOf="@+id/albumArt"
+            android:layout_toLeftOf="@+id/currentlyPlayingIndicator"
+            android:layout_marginRight="10dp">
 
-        <TextView
-            android:id="@+id/song_artist"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="12sp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/song_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/song_duration"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="3dp"
+                android:textColor="#88000000"
+                android:textSize="12sp"
+                android:ellipsize="end"
+                android:singleLine="true"/>
+
+
+
+        </LinearLayout>
+
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/currentlyPlayingIndicator"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginRight="20dp"
+            android:scaleType="center"
+            app:materialIconColor="#fff"
+            app:materialIconSize="35dp"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"/>
+
+
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

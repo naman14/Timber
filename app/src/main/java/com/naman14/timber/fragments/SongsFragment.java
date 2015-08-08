@@ -31,7 +31,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
 
         mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()));
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
 
         ((BaseActivity)getActivity()).setMusicStateListenerListener(this);
 

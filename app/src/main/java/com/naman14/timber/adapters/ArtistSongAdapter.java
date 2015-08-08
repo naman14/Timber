@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,6 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
     @Override
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
-        Log.d("lol",String.valueOf(i));
 
         if (getItemViewType(i)==0){
             //nothing
@@ -70,7 +68,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             Song localItem = arraylist.get(i);
 
             itemHolder.title.setText(localItem.title);
-            itemHolder.artist.setText(localItem.artistName);
+            itemHolder.album.setText(localItem.albumName);
 
             ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 
@@ -93,7 +91,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,artist;
+        protected TextView title,album;
         protected ImageView albumArt;
         protected RecyclerView albumsRecyclerView;
 
@@ -103,7 +101,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
                     this.albumsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_album);
 
                     this.title = (TextView) view.findViewById(R.id.song_title);
-                    this.artist = (TextView) view.findViewById(R.id.song_artist);
+                    this.album = (TextView) view.findViewById(R.id.song_album);
                     this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
 
 

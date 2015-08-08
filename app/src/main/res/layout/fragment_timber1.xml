@@ -32,8 +32,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:gravity="center_horizontal|center_vertical"
             android:paddingTop="20dp"
             android:orientation="vertical">
 
@@ -42,7 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:maxLines="2"
+                android:ellipsize="end"/>
 
             <TextView
                 android:id="@+id/song_artist"
@@ -50,7 +54,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:paddingTop="3dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
             <SeekBar
                 android:id="@+id/song_progress"

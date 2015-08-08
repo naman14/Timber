@@ -65,7 +65,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                 itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
                 itemHolder.playingIndicator.setColorResource(R.color.colorAccent);
             }
-        } else itemHolder.playingIndicator.setVisibility(View.GONE);
+        } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
 
     }
 
@@ -112,7 +112,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                         }
                     },50);
                 }
-            },100);
+            },50);
 
 
         }

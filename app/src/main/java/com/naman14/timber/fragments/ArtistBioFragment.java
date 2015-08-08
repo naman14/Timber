@@ -14,6 +14,7 @@ import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
 import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
+import com.naman14.timber.subfragments.ArtistTagFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.widgets.MultiViewPager;
 

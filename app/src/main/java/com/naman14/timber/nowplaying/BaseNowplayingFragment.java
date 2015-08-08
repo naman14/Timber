@@ -206,5 +206,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     public void onMetaChanged(){
         updateSongDetails();
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 }

@@ -60,7 +60,7 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
                 itemHolder.playSong.setColorResource(R.color.colorAccent);
             }
         }else {
-            itemHolder.playSong.setVisibility(View.GONE);
+            itemHolder.playSong.setVisibility(View.INVISIBLE);
         }
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 

@@ -27,7 +27,9 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
-        android:layout_toRightOf="@+id/albumArt">
+        android:layout_toRightOf="@+id/albumArt"
+        android:layout_toLeftOf="@+id/playSong"
+        android:layout_marginRight="10dp">
 
 
         <TextView
@@ -62,7 +64,7 @@
             android:scaleType="center"
             app:materialIconColor="#fff"
             app:materialIconSize="35dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>

@@ -18,7 +18,7 @@ import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
-import com.naman14.timber.fragments.QuickControlsFragment;
+import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.utils.Constants;

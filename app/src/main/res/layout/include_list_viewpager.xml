@@ -38,7 +38,7 @@
 
             <fragment
                 android:id="@+id/fragment_playback_controls"
-                android:name="com.naman14.timber.fragments.QuickControlsFragment"
+                android:name="com.naman14.timber.subfragments.QuickControlsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

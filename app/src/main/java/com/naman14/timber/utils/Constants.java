@@ -18,4 +18,11 @@ public class Constants {
     public static final String TIMBER1="timber1";
     public static final String TIMBER2="timber2";
     public static final String TIMBER3="timber3";
+
+    public static final String SETTINGS_STYLE_SELECTOR_NOWPLAYING="style_selector_nowplaying";
+    public static final String SETTINGS_STYLE_SELECTOR_ARTIST="style_selector_artist";
+    public static final String SETTINGS_STYLE_SELECTOR_ALBUM="style_selector_album";
+    public static final String SETTINGS_STYLE_SELECTOR_WHAT="style_selector_what";
+
+    public static final String SETTINGS_STYLE_SELECTOR="settings_style_selector";
 }

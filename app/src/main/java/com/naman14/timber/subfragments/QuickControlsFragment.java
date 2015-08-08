@@ -1,4 +1,4 @@
-package com.naman14.timber.fragments;
+package com.naman14.timber.subfragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

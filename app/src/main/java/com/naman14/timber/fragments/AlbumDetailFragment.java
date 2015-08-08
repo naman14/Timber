@@ -87,54 +87,54 @@ public class AlbumDetailFragment extends Fragment {
         setAlbumDetails();
         setUpAlbumSongs();
 
-        getActivity().setEnterSharedElementCallback(new SharedElementCallback() {
-            @Override
-            public View onCreateSnapshotView(Context context, Parcelable snapshot) {
-                View view = new View(context);
-                view.setBackground(new BitmapDrawable((Bitmap) snapshot));
-                return view;
-            }
-
-            @Override
-            public void onSharedElementStart(List<String> sharedElementNames,
-                                             List<View> sharedElements,
-                                             List<View> sharedElementSnapshots) {
-                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
-                for (int i = 0; i < sharedElements.size(); i++) {
-                    if (sharedElements.get(i) == sharedElement) {
-                        View snapshot = sharedElementSnapshots.get(i);
-                        Drawable snapshotDrawable = snapshot.getBackground();
-                        sharedElement.setBackground(snapshotDrawable);
-                        sharedElement.setImageAlpha(0);
-                        forceSharedElementLayout();
-                        break;
-                    }
-                }
-            }
-
-            private void forceSharedElementLayout() {
-                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
-                int widthSpec = View.MeasureSpec.makeMeasureSpec(sharedElement.getWidth(),
-                        View.MeasureSpec.EXACTLY);
-                int heightSpec = View.MeasureSpec.makeMeasureSpec(sharedElement.getHeight(),
-                        View.MeasureSpec.EXACTLY);
-                int left = sharedElement.getLeft();
-                int top = sharedElement.getTop();
-                int right = sharedElement.getRight();
-                int bottom = sharedElement.getBottom();
-                sharedElement.measure(widthSpec, heightSpec);
-                sharedElement.layout(left, top, right, bottom);
-            }
-
-            @Override
-            public void onSharedElementEnd(List<String> sharedElementNames,
-                                           List<View> sharedElements,
-                                           List<View> sharedElementSnapshots) {
-                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
-                sharedElement.setBackground(null);
-                sharedElement.setImageAlpha(255);
-            }
-        });
+//        getActivity().setEnterSharedElementCallback(new SharedElementCallback() {
+//            @Override
+//            public View onCreateSnapshotView(Context context, Parcelable snapshot) {
+//                View view = new View(context);
+//                view.setBackground(new BitmapDrawable((Bitmap) snapshot));
+//                return view;
+//            }
+//
+//            @Override
+//            public void onSharedElementStart(List<String> sharedElementNames,
+//                                             List<View> sharedElements,
+//                                             List<View> sharedElementSnapshots) {
+//                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
+//                for (int i = 0; i < sharedElements.size(); i++) {
+//                    if (sharedElements.get(i) == sharedElement) {
+//                        View snapshot = sharedElementSnapshots.get(i);
+//                        Drawable snapshotDrawable = snapshot.getBackground();
+//                        sharedElement.setBackground(snapshotDrawable);
+//                        sharedElement.setImageAlpha(0);
+//                        forceSharedElementLayout();
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            private void forceSharedElementLayout() {
+//                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
+//                int widthSpec = View.MeasureSpec.makeMeasureSpec(sharedElement.getWidth(),
+//                        View.MeasureSpec.EXACTLY);
+//                int heightSpec = View.MeasureSpec.makeMeasureSpec(sharedElement.getHeight(),
+//                        View.MeasureSpec.EXACTLY);
+//                int left = sharedElement.getLeft();
+//                int top = sharedElement.getTop();
+//                int right = sharedElement.getRight();
+//                int bottom = sharedElement.getBottom();
+//                sharedElement.measure(widthSpec, heightSpec);
+//                sharedElement.layout(left, top, right, bottom);
+//            }
+//
+//            @Override
+//            public void onSharedElementEnd(List<String> sharedElementNames,
+//                                           List<View> sharedElements,
+//                                           List<View> sharedElementSnapshots) {
+//                ImageView sharedElement = (ImageView) rootView.findViewById(R.id.album_art);
+//                sharedElement.setBackground(null);
+//                sharedElement.setImageAlpha(255);
+//            }
+//        });
 
         return rootView;
     }

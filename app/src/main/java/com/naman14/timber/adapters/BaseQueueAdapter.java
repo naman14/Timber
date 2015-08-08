@@ -51,15 +51,16 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
 
         if (i==currentlyPlayingPosition){
             if (MusicPlayer.isPlaying()){
+                itemHolder.playSong.setVisibility(View.VISIBLE);
                 itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
                 itemHolder.playSong.setColorResource(R.color.colorAccent);
             } else {
+                itemHolder.playSong.setVisibility(View.VISIBLE);
                 itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
                 itemHolder.playSong.setColorResource(R.color.colorAccent);
             }
         }else {
-            itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
-            itemHolder.playSong.setColorResource(android.R.color.white);
+            itemHolder.playSong.setVisibility(View.GONE);
         }
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 
@@ -82,13 +83,14 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
             this.artist = (TextView) view.findViewById(R.id.song_artist);
             this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
             this.playSong=(MaterialIconView) view.findViewById(R.id.playSong);
-            playSong.setOnClickListener(this);
+            view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             notifyItemChanged(currentlyPlayingPosition);
             currentlyPlayingPosition=getAdapterPosition();
+            playSong.setVisibility(View.VISIBLE);
             playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
             playSong.setColorResource(R.color.colorAccent);
             try {

@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    android:background="?attr/selectableItemBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
         />
 
     <LinearLayout
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="10dp"
@@ -61,14 +62,10 @@
             android:scaleType="center"
             app:materialIconColor="#fff"
             app:materialIconSize="35dp"
+            android:visibility="gone"
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
-    <View
-        android:paddingTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#22ffffff"/>
 
 </LinearLayout>

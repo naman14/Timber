@@ -19,6 +19,7 @@ import com.naman14.timber.adapters.BaseQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.utils.TimberUtils;
+import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -158,7 +159,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongsList(getActivity()));
         recyclerView.setAdapter(mAdapter);
-        recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_white));
+        recyclerView.scrollToPosition(MusicPlayer.getQueuePosition()-1);
 
     }
 

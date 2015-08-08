@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.SongLoader;
+import com.naman14.timber.widgets.DividerItemDecoration;
 
 /**
  * Created by naman on 12/06/15.
@@ -28,6 +29,7 @@ public class SongsFragment extends Fragment {
 
         mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()));
         recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
 
         return recyclerView;
     }

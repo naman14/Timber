@@ -198,6 +198,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void notifyPlayingDrawableChange(){
         int position =MusicPlayer.getQueuePosition();
         BaseQueueAdapter.currentlyPlayingPosition=position;
+//        recyclerView.smoothScrollToPosition(MusicPlayer.getQueuePosition());
     }
 
     public void restartLoader(){

@@ -131,8 +131,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
     @Override
     public String getTextToShowInBubble(final int pos)
-    {
-        return Character.toString(arraylist.get(pos).title.charAt(0));
+    {   Character ch=arraylist.get(pos).title.charAt(0);
+        if (Character.isDigit(ch)){
+            return "#";
+        } else
+        return Character.toString(ch);
     }
 }
 

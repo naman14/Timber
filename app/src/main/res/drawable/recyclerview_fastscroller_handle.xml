@@ -9,8 +9,8 @@
             <solid android:color="#FF0288D1"/>
 
             <size
-                android:height="32dp"
-                android:width="4dp"/>
+                android:height="34dp"
+                android:width="5dp"/>
         </shape>
     </item>
     <item >
@@ -22,8 +22,8 @@
             <solid android:color="#FF737373"/>
 
             <size
-                android:height="32dp"
-                android:width="4dp"/>
+                android:height="34dp"
+                android:width="5dp"/>
         </shape>
     </item>
 

@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.naman14.timber.lastfmapi.models.ArtistQuery;
 import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -46,12 +46,10 @@ public class ArtistDetailFragment extends Fragment  {
     Toolbar toolbar;
     TabLayout tabLayout;
 
-    public static int mActionBarHeight;
     public static int mMinHeaderHeight;
     public static int mHeaderHeight;
     public static int mMinHeaderTranslation;
 
-    private TypedValue mTypedValue = new TypedValue();
 
     public static ArtistDetailFragment newInstance(long id) {
         ArtistDetailFragment fragment = new ArtistDetailFragment();
@@ -82,7 +80,7 @@ public class ArtistDetailFragment extends Fragment  {
 
         mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
-        mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
+        mMinHeaderTranslation = -mMinHeaderHeight + TimberUtils.getActionBarHeight(getActivity());
 
 
 
@@ -182,17 +180,6 @@ public class ArtistDetailFragment extends Fragment  {
         mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
     }
 
-
-    public int getActionBarHeight() {
-        if (mActionBarHeight != 0) {
-            return mActionBarHeight;
-        }
-            getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, mTypedValue, true);
-
-        mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
-
-        return mActionBarHeight;
-    }
 
     public static float clamp(float value, float max, float min) {
         return Math.max(Math.min(value, min), max);

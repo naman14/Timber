@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.util.TypedValue;
 
 import com.naman14.timber.R;
 
@@ -103,6 +104,17 @@ public class TimberUtils {
         final String durationFormat = context.getResources().getString(
                 hours == 0 ? R.string.durationformatshort : R.string.durationformatlong);
         return String.format(durationFormat, hours, mins, secs);
+    }
+
+    public static int getActionBarHeight(Context context) {
+        int mActionBarHeight;
+        TypedValue mTypedValue = new TypedValue();
+
+        context.getTheme().resolveAttribute(R.attr.actionBarSize, mTypedValue, true);
+
+        mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, context.getResources().getDisplayMetrics());
+
+        return mActionBarHeight;
     }
 
 

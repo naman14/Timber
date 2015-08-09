@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:elevation="5dp">
+        android:layout_gravity="top"
+        android:gravity="top"
+        android:id="@+id/header">
 
         <ImageView
             android:layout_height="match_parent"
@@ -20,6 +27,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#22000000"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/paletteView" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,21 +51,23 @@
                 android:visibility="gone"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginLeft="18dp"
                 android:layout_marginBottom="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="23sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     android:id="@+id/album_title"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textColor="#ffffff"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/album_details"
                     android:textSize="16sp"
@@ -63,22 +77,21 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="@dimen/appBarTopMargin"
-            android:background="@android:color/transparent"
-            android:layout_gravity="top"
-            app:theme="@style/Theme.AppCompat"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
 
 
     </FrameLayout>
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/recyclerview"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/appBarTopMargin"
+        android:background="@android:color/transparent"
+        android:layout_gravity="top"
+        app:theme="@style/Theme.AppCompat"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-</LinearLayout>
+
+
+</FrameLayout>

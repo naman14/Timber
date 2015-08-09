@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
+import com.naman14.timber.widgets.FastScroller;
 
 /**
  * Created by naman on 07/07/15.
@@ -22,10 +23,15 @@ public class AlbumFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+        View rootView =  inflater.inflate(
                 R.layout.fragment_recyclerview, container, false);
 
+        RecyclerView recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
+
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        FastScroller fastScroller=(FastScroller) rootView.findViewById(R.id.fastscroller);
+        fastScroller.setVisibility(View.GONE);
 
         mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
 
@@ -54,7 +60,7 @@ public class AlbumFragment extends Fragment {
 //            }
 //        });
 
-        return recyclerView;
+        return rootView;
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {

@@ -38,13 +38,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/artist"
-                android:layout_marginLeft="65dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="33dp"
+                android:layout_marginBottom="15dp"
                 android:maxLines="1"
                 android:maxLength="17"
                 android:ellipsize="end"
                 android:textColor="#ffffff"
-                android:textSize="25sp"/>
+                android:textSize="26sp"/>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"

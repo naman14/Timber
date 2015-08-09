@@ -16,6 +16,7 @@ import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
+import com.naman14.timber.widgets.BubbleTextGetter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * Created by naman on 08/07/15.
  */
-public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> {
+public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> implements BubbleTextGetter {
 
     private List<Artist> arraylist;
     private Activity mContext;
@@ -96,6 +97,13 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
             NavigationUtils.navigateToArtist(mContext,arraylist.get(getAdapterPosition()).id);
         }
 
+    }
+
+
+    @Override
+    public String getTextToShowInBubble(final int pos)
+    {
+        return Character.toString(arraylist.get(pos).name.charAt(0));
     }
 }
 

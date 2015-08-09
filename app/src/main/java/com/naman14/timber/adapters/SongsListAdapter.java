@@ -14,6 +14,7 @@ import com.naman14.timber.R;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
+import com.naman14.timber.widgets.BubbleTextGetter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * Created by naman on 13/06/15.
  */
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> {
+public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
     private List<Song> arraylist;
     private Activity mContext;
@@ -126,6 +127,12 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         }
 
         return ret;
+    }
+
+    @Override
+    public String getTextToShowInBubble(final int pos)
+    {
+        return Character.toString(arraylist.get(pos).title.charAt(0));
     }
 }
 

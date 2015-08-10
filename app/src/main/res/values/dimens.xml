@@ -26,9 +26,4 @@
     <dimen name="min_header_height">270dp</dimen>
     <dimen name="header_logo_size">100dp</dimen>
 
-    <dimen name="header_height_album">400dp</dimen>
-    <dimen name="min_header_height_album">300dp</dimen>
-    <dimen name="header_logo_size_album">100dp</dimen>
-
-    <dimen name="title_translation_x">40dp</dimen>
 </resources>

@@ -1,44 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/recyclerview"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <FrameLayout
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_gravity="top"
-        android:gravity="top"
-        android:id="@+id/header">
+        android:background="@android:color/white"
+        app:contentScrim="#00bcd4"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:theme="@style/Theme.AppCompat"
+        app:expandedTitleTextAppearance="@style/TextApperance.Album.Title">
+
+
 
         <ImageView
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:scaleType="centerCrop"
             android:id="@+id/album_art"
-            android:transitionName="transition_album_art"/>
+            android:fitsSystemWindows="true"
+            android:transitionName="transition_album_art"
+            app:layout_collapseMode="parallax"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#22000000"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/paletteView" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
-            android:background="@drawable/bg_gradient">
+            android:background="@drawable/bg_gradient"
+            android:visibility="gone">
 
             <com.naman14.timber.widgets.CircularImageView
                 android:layout_width="50dp"
@@ -78,20 +83,31 @@
         </LinearLayout>
 
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="5dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_collapseMode="pin"
+           />
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
 
-    </FrameLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/recyclerview"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/appBarTopMargin"
-        android:background="@android:color/transparent"
-        android:layout_gravity="top"
-        app:theme="@style/Theme.AppCompat"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|right|end"
+        style="@style/FabStyle"/>
 
-
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

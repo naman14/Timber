@@ -14,7 +14,6 @@ import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,24 +35,17 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        if (viewType == 0) {
-            View v0 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_dummy_header_album, null);
-            ItemHolder ml = new ItemHolder(v0);
-            return ml;
-        } else{
+
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_song, null);
         ItemHolder ml = new ItemHolder(v);
             return ml;
-    }
+
 
     }
 
     @Override
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
-        if (getItemViewType(i)==0){
-            //nothing
-        }
-        else {
+
             Song localItem = arraylist.get(i);
 
             itemHolder.title.setText(localItem.title);
@@ -66,7 +58,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
                 itemHolder.trackNumber.setText(number.substring(number.length() - 1, number.length()));
             } else itemHolder.trackNumber.setText(String.valueOf(tracknumber));
 
-        }
+
     }
 
     @Override
@@ -92,7 +84,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition()-1,albumID , TimberUtils.IdType.Album, false);
+                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(),albumID , TimberUtils.IdType.Album, false);
                     NavigationUtils.navigateToNowplaying(mContext, true);
                 }
             },100);
@@ -102,24 +94,14 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
     }
 
     public long[] getSongIds() {
-        List<Song> actualArraylist=new ArrayList<Song>(arraylist);
-        actualArraylist.remove(0);
-        long[] ret = new long[actualArraylist.size()];
-        for (int i = 0; i < actualArraylist.size(); i++) {
-            ret[i] = actualArraylist.get(i).id;
+        long[] ret = new long[getItemCount()];
+        for (int i = 0; i < getItemCount(); i++) {
+            ret[i] = arraylist.get(i).id;
         }
 
         return ret;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        int viewType;
-        if (position == 0) {
-            viewType = 0;
-        } else viewType=1;
-        return viewType;
-    }
 }
 
 

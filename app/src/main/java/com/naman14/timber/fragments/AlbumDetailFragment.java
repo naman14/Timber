@@ -1,11 +1,14 @@
 package com.naman14.timber.fragments;
 
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +41,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
 import java.util.List;
 
 /**
@@ -60,6 +65,7 @@ public class AlbumDetailFragment extends Fragment  {
 
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayout;
+    FloatingActionButton fab;
 
     public static AlbumDetailFragment newInstance(long id) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
@@ -92,6 +98,7 @@ public class AlbumDetailFragment extends Fragment  {
 
         toolbar=(Toolbar) rootView.findViewById(R.id.toolbar);
 
+        fab=(FloatingActionButton) rootView.findViewById(R.id.fab);
 
         recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
         collapsingToolbarLayout=(CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
@@ -100,6 +107,12 @@ public class AlbumDetailFragment extends Fragment  {
         setupToolbar();
         setAlbumDetails();
         setUpAlbumSongs();
+
+        Drawable drawable = MaterialDrawableBuilder.with(getActivity())
+                .setIcon(MaterialDrawableBuilder.IconValue.PLAY)
+                .setColor(Color.WHITE)
+                .build();
+        fab.setImageDrawable(drawable);
 
         return rootView;
     }
@@ -128,6 +141,17 @@ public class AlbumDetailFragment extends Fragment  {
                 Palette palette=Palette.generate(loadedImage);
                 collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(Color.parseColor("#66000000")));
                 collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(Color.parseColor("#66000000")));
+
+                ColorStateList fabColorStateList = new ColorStateList(
+                        new int[][]{
+                                new int[]{}
+                        },
+                        new int[] {
+                                palette.getMutedColor(Color.parseColor("#66000000")),
+                        }
+                );
+
+                fab.setBackgroundTintList(fabColorStateList);
             }
         });
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(album.artistName), new ArtistInfoListener() {
@@ -168,6 +192,8 @@ public class AlbumDetailFragment extends Fragment  {
         recyclerView.setAdapter(mAdapter);
 
     }
+
+
 
 
 

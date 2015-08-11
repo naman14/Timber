@@ -127,6 +127,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         //to add spacing between cards
         int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.spacing_card);
         albumsRecyclerview.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        albumsRecyclerview.setNestedScrollingEnabled(false);
 
 
         ArtistAlbumAdapter mAlbumAdapter=new ArtistAlbumAdapter(mContext, ArtistAlbumLoader.getAlbumsForArtist(mContext, artistID));
@@ -137,6 +138,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         //to clear any extra spacing between cards
         int spacingInPixelstoClear = -(mContext.getResources().getDimensionPixelSize(R.dimen.spacing_card));
         albumsRecyclerview.addItemDecoration(new SpacesItemDecoration(spacingInPixelstoClear));
+
     }
 
 

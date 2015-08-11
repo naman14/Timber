@@ -24,6 +24,10 @@
         <item name="android:textSize">29sp</item>
     </style>
 
+    <style name="TextApperance.Artist.Title" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textSize">29sp</item>
+    </style>
+
     <style name="TransparentText" parent="@android:style/TextAppearance">
         <item name="android:textColor">#00666666</item>
     </style>

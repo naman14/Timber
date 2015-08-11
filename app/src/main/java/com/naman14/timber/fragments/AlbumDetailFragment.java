@@ -4,22 +4,24 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,7 +56,6 @@ public class AlbumDetailFragment extends Fragment  {
 
     ImageView albumArt,artistArt;
     TextView albumTitle,albumDetails;
-    FrameLayout header;
 
     RecyclerView recyclerView;
     AlbumSongsAdapter mAdapter;
@@ -62,6 +63,7 @@ public class AlbumDetailFragment extends Fragment  {
     Toolbar toolbar;
     CoordinatorLayout coordinatorLayout;
 
+    Album album;
 
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayout;
@@ -90,7 +92,6 @@ public class AlbumDetailFragment extends Fragment  {
         final View rootView = inflater.inflate(
                 R.layout.fragment_album_detail, container, false);
 
-        header=(FrameLayout) rootView.findViewById(R.id.header);
         albumArt=(ImageView) rootView.findViewById(R.id.album_art);
         artistArt=(ImageView) rootView.findViewById(R.id.artist_art);
         albumTitle=(TextView) rootView.findViewById(R.id.album_title);
@@ -104,6 +105,8 @@ public class AlbumDetailFragment extends Fragment  {
         collapsingToolbarLayout=(CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
         appBarLayout=(AppBarLayout) rootView.findViewById(R.id.app_bar);
 
+        album=AlbumLoader.getAlbum(getActivity(),albumID);
+
         setupToolbar();
         setAlbumDetails();
         setUpAlbumSongs();
@@ -114,27 +117,26 @@ public class AlbumDetailFragment extends Fragment  {
                 .build();
         fab.setImageDrawable(drawable);
 
+        initActivityTransitions();
+
         return rootView;
     }
 
     private void setupToolbar(){
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        collapsingToolbarLayout.setTitle(album.title);
 
     }
 
     private void setAlbumDetails(){
 
-        Album album=AlbumLoader.getAlbum(getActivity(),albumID);
-
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(albumID).toString(), albumArt,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
-                        .displayer(new FadeInBitmapDisplayer(100))
                         .build(), new SimpleImageLoadingListener(){
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -177,7 +179,7 @@ public class AlbumDetailFragment extends Fragment  {
 
         albumTitle.setText(album.title);
         albumDetails.setText(album.artistName+" - " + songCount + year);
-        collapsingToolbarLayout.setTitle(album.title);
+
 
 
     }
@@ -191,6 +193,17 @@ public class AlbumDetailFragment extends Fragment  {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
         recyclerView.setAdapter(mAdapter);
 
+    }
+
+    private void initActivityTransitions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Slide transition = new Slide();
+            transition.excludeTarget(android.R.id.statusBarBackground, true);
+            transition.excludeTarget(R.id.album_art, true);
+            transition.setInterpolator(new LinearOutSlowInInterpolator());
+            transition.setDuration(300);
+            getActivity().getWindow().setEnterTransition(transition);
+        }
     }
 
 

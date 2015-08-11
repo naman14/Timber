@@ -1,91 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#eeeeee">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="370dp"
-        android:elevation="5dp"
-        android:id="@+id/header">
-
-        <ImageView
-            android:layout_height="match_parent"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:scaleType="centerCrop"
-            android:id="@+id/artist_art"/>
+            android:layout_height="270dp"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@android:color/transparent"
+            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleMarginStart="30dp"
+            app:expandedTitleTextAppearance="@style/TextApperance.Artist.Title"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="@android:color/transparent"
+            app:theme="@style/Theme.AppCompat">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#33000000"/>
 
-        <LinearLayout
+            <!--<ImageView-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:id="@+id/artist_art"-->
+            <!--android:fitsSystemWindows="true" />-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#33000000" />
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:elevation="5dp"
+                android:gravity="top"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            </android.support.v7.widget.Toolbar>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_gravity="bottom">
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/artist"
-                android:layout_marginLeft="33dp"
-                android:layout_marginBottom="15dp"
-                android:maxLines="1"
-                android:maxLength="17"
-                android:ellipsize="end"
-                android:textColor="#ffffff"
-                android:textSize="26sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="#33000000" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="25dp"
-                app:tabIndicatorColor="@color/colorAccent"
-                android:layout_marginBottom="20dp"
-                />
-        </LinearLayout>
+                android:layout_marginBottom="15dp"
+                app:tabContentStart="25dp"
+                app:tabIndicatorColor="@color/colorAccent" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
-
-
-
-    </FrameLayout>
-
-
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/appBarTopMargin"
-        android:background="@android:color/transparent"
-        android:layout_gravity="top"
-        android:elevation="7dp"
-        app:theme="@style/Theme.AppCompat"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
-
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="15dp"
-        android:gravity="right|center_vertical"
-        android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="20dp"
-        android:src="@drawable/ic_shuffle"
-        android:visibility="gone"/>
-
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-</FrameLayout>
+    <!--<android.support.design.widget.FloatingActionButton-->
+    <!--android:id="@+id/fab"-->
+    <!--app:layout_anchor="@id/app_bar"-->
+    <!--app:layout_anchorGravity="bottom|right|end"-->
+    <!--style="@style/FabStyle"/>-->
+
+</android.support.design.widget.CoordinatorLayout>

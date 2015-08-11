@@ -8,14 +8,16 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+>
 
     <android.support.design.widget.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:background="@android:color/white"
-        app:contentScrim="#00bcd4"
+        app:contentScrim="@color/colorPrimary"
+        app:statusBarScrim="@color/colorPrimaryDark"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         app:theme="@style/Theme.AppCompat"
         app:expandedTitleTextAppearance="@style/TextApperance.Album.Title">
@@ -28,8 +30,8 @@
             android:scaleType="centerCrop"
             android:id="@+id/album_art"
             android:fitsSystemWindows="true"
-            android:transitionName="transition_album_art"
-            app:layout_collapseMode="parallax"/>
+            app:layout_collapseMode="parallax"
+            android:transitionName="transition_album_art"/>
 
         <View
             android:layout_width="match_parent"

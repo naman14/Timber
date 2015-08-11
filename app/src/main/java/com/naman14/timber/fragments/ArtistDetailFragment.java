@@ -1,7 +1,13 @@
 package com.naman14.timber.fragments;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.ArtistLoader;
@@ -24,10 +29,10 @@ import com.naman14.timber.lastfmapi.models.ArtistQuery;
 import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.Constants;
-import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +45,12 @@ public class ArtistDetailFragment extends Fragment  {
     long artistID = -1;
 
     ImageView artistArt;
-    TextView artistName;
 
-    public static View mHeader;
     Toolbar toolbar;
     TabLayout tabLayout;
-
-    public static int mMinHeaderHeight;
-    public static int mHeaderHeight;
-    public static int mMinHeaderTranslation;
-
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    AppBarLayout appBarLayout;
+    FloatingActionButton fab;
 
     public static ArtistDetailFragment newInstance(long id) {
         ArtistDetailFragment fragment = new ArtistDetailFragment();
@@ -74,13 +75,10 @@ public class ArtistDetailFragment extends Fragment  {
         View rootView = inflater.inflate(
                 R.layout.fragment_artist_detail, container, false);
 
-        mHeader=rootView.findViewById(R.id.header);
         artistArt=(ImageView) rootView.findViewById(R.id.artist_art);
-        artistName=(TextView) rootView.findViewById(R.id.artist);
 
-        mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
-        mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
-        mMinHeaderTranslation = -mMinHeaderHeight + TimberUtils.getActionBarHeight(getActivity());
+        collapsingToolbarLayout=(CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
+        appBarLayout=(AppBarLayout) rootView.findViewById(R.id.app_bar);
 
 
 
@@ -116,18 +114,24 @@ public class ArtistDetailFragment extends Fragment  {
 
         Artist artist= ArtistLoader.getArtist(getActivity(),artistID);
 
-        artistName.setText(artist.name);
+        collapsingToolbarLayout.setTitle(artist.name);
 
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl, artistArt,
+                ImageLoader.getInstance().loadImage(artist.mArtwork.get(4).mUrl,
                         new DisplayImageOptions.Builder().cacheInMemory(true)
                                 .cacheOnDisk(true)
                                 .showImageOnFail(R.drawable.ic_empty_music2)
                                 .resetViewBeforeLoading(true)
                                 .displayer(new FadeInBitmapDisplayer(400))
-                                .build());
+                                .build(),new SimpleImageLoadingListener(){
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                Drawable d = new BitmapDrawable(getActivity().getResources(), loadedImage);
+                            appBarLayout.setBackground(d);
+                            }
+                        });
             }
 
             @Override
@@ -176,14 +180,6 @@ public class ArtistDetailFragment extends Fragment  {
     }
 
 
-    public static void adjustHeader(int scrollY){
-        mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
-    }
-
-
-    public static float clamp(float value, float max, float min) {
-        return Math.max(Math.min(value, min), max);
-    }
 
 
 

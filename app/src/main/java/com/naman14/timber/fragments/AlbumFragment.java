@@ -41,24 +41,6 @@ public class AlbumFragment extends Fragment {
 
         recyclerView.setAdapter(mAdapter);
 
-//        getActivity().setExitSharedElementCallback(new SharedElementCallback() {
-//            @Override
-//            public Parcelable onCaptureSharedElementSnapshot(View sharedElement, Matrix viewToGlobalMatrix, RectF screenBounds) {
-//                int bitmapWidth = Math.round(screenBounds.width());
-//                int bitmapHeight = Math.round(screenBounds.height());
-//                Bitmap bitmap = null;
-//                if (bitmapWidth > 0 && bitmapHeight > 0) {
-//                    Matrix matrix = new Matrix();
-//                    matrix.set(viewToGlobalMatrix);
-//                    matrix.postTranslate(-screenBounds.left, -screenBounds.top);
-//                    bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
-//                    Canvas canvas = new Canvas(bitmap);
-//                    canvas.concat(matrix);
-//                    sharedElement.draw(canvas);
-//                }
-//                return bitmap;
-//            }
-//        });
 
         return rootView;
     }

@@ -1,6 +1,7 @@
 package com.naman14.timber.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +20,9 @@ import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaylistFragment;
-import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
+import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
@@ -57,17 +58,19 @@ public class MainActivity extends BaseActivity {
 
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
             setTheme(R.style.AppTheme_FullScreen);
-        }
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main_fullscreen);
+        } else {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         nowPlayingCard = (CardView) findViewById(R.id.controls_container);
 
         if (action.equals(Constants.NAVIGATE_ALBUM)) {
-
             long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
             Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -94,7 +97,6 @@ public class MainActivity extends BaseActivity {
             panelLayout.setPanelHeight(0);
 
         } else {
-
             Fragment fragment = new MainFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -158,37 +160,49 @@ public class MainActivity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        Fragment fragment = null;
+                    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        Handler handler=new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                updatePosition(menuItem);
+                            }
+                        },300);
 
-
-                        switch (menuItem.getItemId()){
-                            case R.id.nav_library:
-                                fragment=new MainFragment();
-                                break;
-                            case R.id.nav_playlists:
-                               fragment=new PlaylistFragment();
-                                break;
-                            case R.id.nav_nowplaying:
-                                NavigationUtils.navigateToNowplaying(MainActivity.this,false);
-                                break;
-                            case R.id.nav_album:
-                                break;
-                            case R.id.nav_artist:
-                                break;
-                        }
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.fragment_container, fragment).commit();
-
-                            menuItem.setChecked(true);
-                            mDrawerLayout.closeDrawers();
-                        }
                         return true;
 
                     }
                 });
+    }
+
+    private void updatePosition(MenuItem menuItem){
+        Fragment fragment = null;
+
+
+        switch (menuItem.getItemId()){
+            case R.id.nav_library:
+                fragment=new MainFragment();
+                break;
+            case R.id.nav_playlists:
+                fragment=new PlaylistFragment();
+                break;
+            case R.id.nav_nowplaying:
+                NavigationUtils.navigateToNowplaying(MainActivity.this,false);
+                break;
+            case R.id.nav_album:
+                break;
+            case R.id.nav_artist:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out)
+                    .replace(R.id.fragment_container, fragment).commit();
+
+        }
     }
 
     public void setDetailsToHeader() {
@@ -235,6 +249,12 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        sMainActivity=this;
     }
 
 

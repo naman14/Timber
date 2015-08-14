@@ -117,7 +117,7 @@ public class AlbumDetailFragment extends Fragment  {
                 .build();
         fab.setImageDrawable(drawable);
 
-        initActivityTransitions();
+//        initActivityTransitions();
 
         return rootView;
     }

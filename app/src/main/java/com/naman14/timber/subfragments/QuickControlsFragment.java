@@ -79,6 +79,10 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
                         .build());
+       updateProgressbar();
+
+    }
+    public static void updateProgressbar(){
         mProgress.setMax((int)MusicPlayer.duration());
 //        ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", (int)MusicPlayer.position());
 //        animation.setDuration(500);
@@ -88,7 +92,6 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
             mProgress.removeCallbacks(mUpdateProgress);
         }
         mProgress.postDelayed(mUpdateProgress, 10);
-
     }
 
 
@@ -134,7 +137,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         updateState();
     }
 
-    public Runnable mUpdateProgress=new Runnable() {
+    public static Runnable mUpdateProgress=new Runnable() {
 
         @Override
         public void run() {

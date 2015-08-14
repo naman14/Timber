@@ -128,8 +128,10 @@ public class ArtistDetailFragment extends Fragment  {
                                 .build(),new SimpleImageLoadingListener(){
                             @Override
                             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                Drawable d = new BitmapDrawable(getActivity().getResources(), loadedImage);
-                            appBarLayout.setBackground(d);
+                                if (getActivity()!=null) {
+                                    Drawable d = new BitmapDrawable(getActivity().getResources(), loadedImage);
+                                    appBarLayout.setBackground(d);
+                                }
                             }
                         });
             }

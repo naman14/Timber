@@ -2,11 +2,12 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/group1">
         <item
             android:id="@+id/nav_library"
 
-            android:title="library" />
+            android:title="Library" />
         <item
             android:id="@+id/nav_playlists"
 
@@ -25,15 +26,16 @@
             android:title="Go to Album" />
     </group>
 
-    <item android:title="Sub items">
-        <menu>
+    <group android:checkableBehavior="none"
+        android:id="@+id/group2">
             <item
 
-                android:title="Sub item 1" />
+                android:title="Settings"
+                android:id="@+id/nav_settings"/>
             <item
 
-                android:title="Sub item 2" />
-        </menu>
-    </item>
+                android:title="Help"
+                android:id="@+id/nav_help"/>
+    </group>
 
 </menu>

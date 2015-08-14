@@ -1,5 +1,6 @@
 package com.naman14.timber.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,8 @@ import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class MainActivity extends BaseActivity {
 
@@ -111,6 +114,7 @@ public class MainActivity extends BaseActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         setupDrawerContent(navigationView);
+        setupNavigationIcons(navigationView);
         View header = navigationView.inflateHeaderView(R.layout.nav_header);
 
         albumart = (ImageView) header.findViewById(R.id.album_art);
@@ -175,6 +179,18 @@ public class MainActivity extends BaseActivity {
 
                     }
                 });
+    }
+    private void setupNavigationIcons(NavigationView navigationView){
+        MaterialDrawableBuilder drawable = MaterialDrawableBuilder.with(this)
+                .setColor(Color.BLACK);
+
+        navigationView.getMenu().findItem(R.id.nav_library).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.LIBRARY_MUSIC).build());
+        navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.PLAYLIST_PLUS).build());
+        navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_CIRCLE).build());
+        navigationView.getMenu().findItem(R.id.nav_artist).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.NAVIGATION).build());
+        navigationView.getMenu().findItem(R.id.nav_album).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.NAVIGATION).build());
+        navigationView.getMenu().findItem(R.id.nav_settings).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.SETTINGS).build());
+        navigationView.getMenu().findItem(R.id.nav_help).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.HELP).build());
     }
 
     private void updatePosition(MenuItem menuItem){

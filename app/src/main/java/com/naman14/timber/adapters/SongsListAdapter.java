@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.models.Song;
-import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.BubbleTextGetter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -107,7 +106,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                             handler2.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    NavigationUtils.navigateToNowplaying(mContext, true);
+//                                    NavigationUtils.navigateToNowplaying(mContext, true);
                                 }
                             },50);
                         }

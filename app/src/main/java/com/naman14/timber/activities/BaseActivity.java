@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
 
     }
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         onMetaChanged();
     }

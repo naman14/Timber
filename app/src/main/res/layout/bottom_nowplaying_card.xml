@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="55dp"
+    android:layout_gravity="top"
+    android:id="@+id/topContainer"
+    android:background="@android:color/white">
+
+    <com.naman14.timber.widgets.SquareImageView
+        android:id="@+id/album_art"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_empty_music2"
+        android:layout_alignParentLeft="true"/>
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/album_art">
+
+        <ProgressBar
+            android:id="@+id/song_progress_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:maxHeight="5dp"
+            android:progress="30"
+            android:progressDrawable="@drawable/progress_drawable"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
+        <TextView
+            android:id="@+id/title"
+            android:text="Demons"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxLength="25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginLeft="12dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"/>
+        <TextView
+            android:id="@+id/artist"
+            android:text="John Doe and Band"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxLength="20"
+            android:layout_marginLeft="12dp"
+            android:textSize="13sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#66000000"
+            />
+
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/play_pause"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_alignParentRight="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_play_arrow_black_36dp"
+        android:tintMode="src_in"
+        android:tint="@color/bt_accent"/>
+</RelativeLayout>

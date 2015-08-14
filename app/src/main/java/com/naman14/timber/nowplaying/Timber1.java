@@ -17,6 +17,7 @@ public class Timber1 extends BaseNowplayingFragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_timber1, container, false);
 
+        setMusicStateListener();
         setSongDetails(rootView);
 
         return rootView;

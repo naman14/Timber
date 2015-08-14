@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +39,6 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     QuickControlsFragment mControlsFragment;
     NowPlayingFragment mNowPlayingFragment;
-    CardView nowPlayingCard;
     SlidingUpPanelLayout panelLayout;
 
     TextView songtitle, songartist;
@@ -71,7 +69,6 @@ public class MainActivity extends BaseActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        nowPlayingCard = (CardView) findViewById(R.id.controls_container);
 
         if (action.equals(Constants.NAVIGATE_ALBUM)) {
             long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
@@ -127,11 +124,6 @@ public class MainActivity extends BaseActivity {
                 .findFragmentById(R.id.fragment_playback_controls);
         if (mControlsFragment == null) {
             throw new IllegalStateException("Mising fragment with id 'controls'. Cannot continue.");
-        }
-        mNowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_now_playing);
-        if (mNowPlayingFragment == null) {
-            throw new IllegalStateException("Mising fragment with id 'nowplaying'. Cannot continue.");
         }
 
 
@@ -240,6 +232,7 @@ public class MainActivity extends BaseActivity {
 
     private void setPanelSlideListeners() {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            View nowPlayingCard =QuickControlsFragment.topContainer;
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 nowPlayingCard.setAlpha(1 - slideOffset);

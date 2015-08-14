@@ -9,7 +9,7 @@
     android:gravity="bottom"
     sothree:fadeColor="@android:color/transparent"
     sothree:panelHeight="55dp"
-    sothree:shadowHeight="0dp">
+    sothree:shadowHeight="5dp">
 
 
     <FrameLayout
@@ -19,30 +19,16 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="250dp"
+        android:id="@+id/quickcontrols_container">
 
 
         <fragment
-            android:id="@+id/fragment_now_playing"
-            android:name="com.naman14.timber.nowplaying.NowPlayingFragment"
+            android:id="@+id/fragment_playback_controls"
+            android:name="com.naman14.timber.subfragments.QuickControlsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/controls_container"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="top"
-            android:gravity="top">
-
-            <fragment
-                android:id="@+id/fragment_playback_controls"
-                android:name="com.naman14.timber.subfragments.QuickControlsFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </android.support.v7.widget.CardView>
 
     </FrameLayout>
 

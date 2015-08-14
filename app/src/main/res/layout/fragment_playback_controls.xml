@@ -1,75 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.naman14.timber.widgets.SquareImageView
-        android:id="@+id/album_art"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_empty_music2"
-        android:layout_alignParentLeft="true"/>
-    <LinearLayout
-        android:id="@+id/content"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical"
-        android:layout_toRightOf="@id/album_art">
+        android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/song_progress"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:maxHeight="5dp"
-            android:progress="30"
-            android:progressDrawable="@drawable/progress_drawable"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+            android:layout_height="match_parent"
+            android:id="@+id/blurredAlbumart"
+            android:scaleType="centerCrop"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#44000000"/>
 
-        <TextView
-            android:id="@+id/title"
-            android:text="Demons"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:maxLength="25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_marginLeft="12dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000"/>
-        <TextView
-            android:id="@+id/artist"
-            android:text="John Doe and Band"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:maxLength="20"
-            android:layout_marginLeft="12dp"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#66000000"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingTop="20dp"
+            android:orientation="vertical">
 
-    </LinearLayout>
-    <ImageButton
-        android:id="@+id/play_pause"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_alignParentRight="true"
-        android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_play_arrow_black_36dp"
-        android:tintMode="src_in"
-        android:tint="@color/bt_accent"/>
-</RelativeLayout>
+            <TextView
+                android:id="@+id/song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/song_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:paddingTop="3dp"
+                android:textColor="#ffffff"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <SeekBar
+                android:id="@+id/song_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:paddingTop="18dp"
+                android:maxHeight="2dp"
+                android:progress="30"
+                android:progressDrawable="@drawable/progress_drawable_withbackground" />
 
 
+            <TextView
+                android:id="@+id/song_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:id="@+id/song_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/song_elapsed_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="#ffffff"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/previous"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0.7"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingLeft="50dp"
+                    android:scaleType="center"
+                    app:materialIcon="skip_previous"
+                    app:materialIconColor="#fff"
+                    app:materialIconSize="35dp" />
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/playpause"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="center"
+                    app:materialIcon="play"
+                    app:materialIconColor="#fff"
+                    app:materialIconSize="40dp" />
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/next"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0.7"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingRight="50dp"
+                    android:scaleType="center"
+                    app:materialIcon="skip_next"
+                    app:materialIconColor="#fff"
+                    app:materialIconSize="35dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+<include layout="@layout/bottom_nowplaying_card"/>
+
+
+</FrameLayout>
 
 

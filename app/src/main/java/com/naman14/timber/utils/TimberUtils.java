@@ -2,9 +2,12 @@ package com.naman14.timber.utils;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.provider.BaseColumns;
+import android.provider.MediaStore;
 import android.util.TypedValue;
 
 import com.naman14.timber.R;
@@ -14,6 +17,8 @@ import com.naman14.timber.R;
  */
 public class TimberUtils {
 
+    public static final String MUSIC_ONLY_SELECTION = MediaStore.Audio.AudioColumns.IS_MUSIC + "=1"
+            + " AND " + MediaStore.Audio.AudioColumns.TITLE + " != ''";
 
     public static final boolean isOnline(final Context context) {
 
@@ -81,6 +86,29 @@ public class TimberUtils {
             throw new IllegalArgumentException("Unrecognized id: " + id);
         }
     }
+    public static enum PlaylistType {
+        LastAdded(-1, R.string.playlist_last_added),
+        RecentlyPlayed(-2, R.string.playlist_recently_played),
+        TopTracks(-3, R.string.playlist_top_tracks);
+
+        public long mId;
+        public int mTitleId;
+
+        PlaylistType(long id, int titleId) {
+            mId = id;
+            mTitleId = titleId;
+        }
+
+        public static PlaylistType getTypeById(long id) {
+            for (PlaylistType type : PlaylistType.values()) {
+                if (type.mId == id) {
+                    return type;
+                }
+            }
+
+            return null;
+        }
+    }
 
     public static final String makeCombinedString(final Context context, final String first,
                                                   final String second) {
@@ -115,6 +143,24 @@ public class TimberUtils {
         mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, context.getResources().getDisplayMetrics());
 
         return mActionBarHeight;
+    }
+
+    public static final int getSongCountForPlaylist(final Context context, final long playlistId) {
+        Cursor c = context.getContentResolver().query(
+                MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId),
+                new String[]{BaseColumns._ID}, MUSIC_ONLY_SELECTION, null, null);
+
+        if (c != null) {
+            int count = 0;
+            if (c.moveToFirst()) {
+                count = c.getCount();
+            }
+            c.close();
+            c = null;
+            return count;
+        }
+
+        return 0;
     }
 
 

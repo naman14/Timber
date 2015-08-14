@@ -18,6 +18,7 @@ import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
+import com.naman14.timber.fragments.PlaylistFragment;
 import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
@@ -71,7 +72,7 @@ public class MainActivity extends BaseActivity {
             Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment).commit();
+                    .replace(R.id.fragment_container, fragment).commit();
 
         } else if (action.equals(Constants.NAVIGATE_ARTIST)) {
 
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity {
             Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment).commit();
+                    .replace(R.id.fragment_container, fragment).commit();
 
         } else if (action.equals(Constants.NAVIGATE_NOWPLAYING)) {
 
@@ -89,7 +90,7 @@ public class MainActivity extends BaseActivity {
             Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment).commit();
+                    .replace(R.id.fragment_container, fragment).commit();
             panelLayout.setPanelHeight(0);
 
         } else {
@@ -158,9 +159,34 @@ public class MainActivity extends BaseActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
+                        Fragment fragment = null;
+
+
+                        switch (menuItem.getItemId()){
+                            case R.id.nav_library:
+                                fragment=new MainFragment();
+                                break;
+                            case R.id.nav_playlists:
+                               fragment=new PlaylistFragment();
+                                break;
+                            case R.id.nav_nowplaying:
+                                NavigationUtils.navigateToNowplaying(MainActivity.this,false);
+                                break;
+                            case R.id.nav_album:
+                                break;
+                            case R.id.nav_artist:
+                                break;
+                        }
+                        if (fragment != null) {
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_container, fragment).commit();
+
+                            menuItem.setChecked(true);
+                            mDrawerLayout.closeDrawers();
+                        }
                         return true;
+
                     }
                 });
     }

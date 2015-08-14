@@ -4,21 +4,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_library"
 
-            android:title="Home" />
+            android:title="library" />
         <item
-            android:id="@+id/nav_songs"
+            android:id="@+id/nav_playlists"
 
-            android:title="Songs" />
+            android:title="Playlists" />
         <item
-            android:id="@+id/nav_albums"
+            android:id="@+id/nav_nowplaying"
 
-            android:title="Albums" />
+            android:title="Now Playing" />
         <item
-            android:id="@+id/nav_artists"
+            android:id="@+id/nav_artist"
 
-            android:title="Artists" />
+            android:title="Go to Artist" />
+        <item
+            android:id="@+id/nav_album"
+
+            android:title="Go to Album" />
     </group>
 
     <item android:title="Sub items">

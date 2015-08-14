@@ -50,7 +50,7 @@ public class MainFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
+        Adapter adapter = new Adapter(getChildFragmentManager());
         adapter.addFragment(new SongsFragment(), "Songs");
         adapter.addFragment(new AlbumFragment(), "Albums");
         adapter.addFragment(new ArtistFragment(), "Artists");

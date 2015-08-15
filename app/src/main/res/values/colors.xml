@@ -9,4 +9,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorSelectableItemWhite">#77ffffff</color>
 
+    <color name="pink_transparent">#aa700d39</color>
+    <color name="green_transparent">#aa375a1f</color>
+    <color name="blue_transparent">#aa293576</color>
+    <color name="red_transparent">#aa7f3907</color>
+    <color name="purple_transparent">#aa432677</color>
+
 </resources>

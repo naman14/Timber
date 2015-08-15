@@ -134,7 +134,7 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
                     MusicPlayer.playOrPause();
                     updateState();
                 }
-            },50);
+            },70);
 
         }
     };

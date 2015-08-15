@@ -5,22 +5,55 @@
 
     <FrameLayout
         android:id="@+id/vg_cover"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true" >
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="60dp">
 
         <ImageView
+            android:id="@+id/playlist_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:background="@drawable/ic_empty_music2"
-            android:scaleType="centerInside" />
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/foreground"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
         <TextView
+            android:layout_gravity="bottom|left"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="30dp"
+            android:textSize="30sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name"/>
+
+        <TextView
+            android:layout_gravity="top|right"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="40dp"
+            android:textSize="35sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/number"/>
+
+
     </FrameLayout>
 
 </RelativeLayout>

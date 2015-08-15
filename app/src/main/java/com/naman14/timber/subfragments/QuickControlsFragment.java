@@ -126,15 +126,22 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
     private final View.OnClickListener mButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Handler handler=new Handler();
+            duetoplaypause=true;;
+            if (!mPlayPause.isPlayed()) {
+                mPlayPause.setPlayed(true);
+                mPlayPause.startAnimation();
+            }
+            else {
+                mPlayPause.setPlayed(false);
+                mPlayPause.startAnimation();
+            }
+            Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    duetoplaypause=true;
                     MusicPlayer.playOrPause();
-                    updateState();
                 }
-            },70);
+            },150);
 
         }
     };
@@ -165,10 +172,10 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
 
     public void onMetaChanged(){
         //only update nowplayingcard,quick controls will be updated by basenowplayingfragment's onMetaChanged
-        updateNowplayingCard();
-        updateState();
-        //TODO
-        updateControlsFragment();
+            updateNowplayingCard();
+            updateState();
+            //TODO
+            updateControlsFragment();
     }
 
 

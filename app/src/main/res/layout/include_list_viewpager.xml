@@ -23,11 +23,6 @@
         android:id="@+id/quickcontrols_container">
 
 
-        <fragment
-            android:id="@+id/fragment_playback_controls"
-            android:name="com.naman14.timber.subfragments.QuickControlsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
 
     </FrameLayout>

@@ -19,9 +19,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,12 +38,14 @@ import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -92,6 +96,8 @@ public class AlbumDetailFragment extends Fragment  {
         final View rootView = inflater.inflate(
                 R.layout.fragment_album_detail, container, false);
 
+        getActivity().postponeEnterTransition();
+
         albumArt=(ImageView) rootView.findViewById(R.id.album_art);
         artistArt=(ImageView) rootView.findViewById(R.id.artist_art);
         albumTitle=(TextView) rootView.findViewById(R.id.album_title);
@@ -105,19 +111,70 @@ public class AlbumDetailFragment extends Fragment  {
         collapsingToolbarLayout=(CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
         appBarLayout=(AppBarLayout) rootView.findViewById(R.id.app_bar);
 
+        getActivity().getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+                FabAnimationUtils.scaleOut(fab, 50, null);
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+//                initActivityTransitions();
+                setupToolbar();
+                setAlbumDetails();
+                setUpAlbumSongs();
+                FabAnimationUtils.scaleIn(fab);
+                Drawable drawable = MaterialDrawableBuilder.with(getActivity())
+                        .setIcon(MaterialDrawableBuilder.IconValue.PLAY)
+                        .setColor(Color.WHITE)
+                        .build();
+                fab.setImageDrawable(drawable);
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        });
+        getActivity().getWindow().getReturnTransition().addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+                FabAnimationUtils.scaleOut(fab, 50, null);
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        });
+
         album=AlbumLoader.getAlbum(getActivity(),albumID);
-
-        setupToolbar();
-        setAlbumDetails();
-        setUpAlbumSongs();
-
-        Drawable drawable = MaterialDrawableBuilder.with(getActivity())
-                .setIcon(MaterialDrawableBuilder.IconValue.PLAY)
-                .setColor(Color.WHITE)
-                .build();
-        fab.setImageDrawable(drawable);
-
-//        initActivityTransitions();
+        setAlbumart();
 
         return rootView;
     }
@@ -131,31 +188,53 @@ public class AlbumDetailFragment extends Fragment  {
 
     }
 
-    private void setAlbumDetails(){
-
+    private void setAlbumart(){
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(albumID).toString(), albumArt,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
-                        .build(), new SimpleImageLoadingListener(){
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                Palette palette=Palette.generate(loadedImage);
-                collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(Color.parseColor("#66000000")));
-                collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(Color.parseColor("#66000000")));
+                        .build(), new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
 
-                ColorStateList fabColorStateList = new ColorStateList(
-                        new int[][]{
-                                new int[]{}
-                        },
-                        new int[] {
-                                palette.getMutedColor(Color.parseColor("#66000000")),
-                        }
-                );
+                    }
 
-                fab.setBackgroundTintList(fabColorStateList);
-            }
-        });
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        scheduleStartPostponedTransition(albumArt);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        Palette palette=Palette.generate(loadedImage);
+                        collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(Color.parseColor("#66000000")));
+                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(Color.parseColor("#66000000")));
+
+                        ColorStateList fabColorStateList = new ColorStateList(
+                                new int[][]{
+                                        new int[]{}
+                                },
+                                new int[] {
+                                        palette.getMutedColor(Color.parseColor("#66000000")),
+                                }
+                        );
+
+                        fab.setBackgroundTintList(fabColorStateList);
+                        scheduleStartPostponedTransition(albumArt);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+
+
+    });
+    }
+
+    private void setAlbumDetails(){
+
+
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(album.artistName), new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
@@ -178,7 +257,7 @@ public class AlbumDetailFragment extends Fragment  {
         String year= (album.year!=0) ? (" - " + String.valueOf(album.year)) : "";
 
         albumTitle.setText(album.title);
-        albumDetails.setText(album.artistName+" - " + songCount + year);
+        albumDetails.setText(album.artistName + " - " + songCount + year);
 
 
 
@@ -207,7 +286,17 @@ public class AlbumDetailFragment extends Fragment  {
     }
 
 
-
+    private void scheduleStartPostponedTransition(final View sharedElement) {
+        sharedElement.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
+                        getActivity().startPostponedEnterTransition();
+                        return true;
+                    }
+                });
+    }
 
 
 }

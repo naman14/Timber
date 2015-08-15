@@ -61,17 +61,22 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                 .build(),new SimpleImageLoadingListener(){
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                       Palette palette=Palette.generate(loadedImage);
-                        int color=palette.getVibrantColor(Color.parseColor("#66000000"));
-                        itemHolder.footer.setBackgroundColor(color);
-                        Palette.Swatch swatch=palette.getVibrantSwatch();
-                        int textColor;
-                        if (swatch!=null){
-                            textColor=getOpaqueColor(swatch.getTitleTextColor());
-                        } else textColor=Color.parseColor("#ffffff");
+                       Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                           @Override
+                           public void onGenerated(Palette palette) {
+                               int color=palette.getVibrantColor(Color.parseColor("#66000000"));
+                               itemHolder.footer.setBackgroundColor(color);
+                               Palette.Swatch swatch=palette.getVibrantSwatch();
+                               int textColor;
+                               if (swatch!=null){
+                                   textColor=getOpaqueColor(swatch.getTitleTextColor());
+                               } else textColor=Color.parseColor("#ffffff");
 
-                        itemHolder.title.setTextColor(textColor);
-                        itemHolder.artist.setTextColor(textColor);
+                               itemHolder.title.setTextColor(textColor);
+                               itemHolder.artist.setTextColor(textColor);
+                           }
+                       });
+
                     }
                 });
 

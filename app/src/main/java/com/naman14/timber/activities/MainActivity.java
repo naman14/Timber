@@ -107,6 +107,11 @@ public class MainActivity extends BaseActivity {
             }
         }, 500);
 
+            QuickControlsFragment fragment1 = new QuickControlsFragment();
+            FragmentManager fragmentManager1 = getSupportFragmentManager();
+            fragmentManager1.beginTransaction()
+                    .replace(R.id.quickcontrols_container, fragment1).commit();
+
 
     }
 
@@ -295,6 +300,7 @@ public class MainActivity extends BaseActivity {
 
         }
     };
+
 
 }
 

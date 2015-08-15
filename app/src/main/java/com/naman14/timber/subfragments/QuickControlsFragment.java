@@ -34,35 +34,36 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
     private TextView mTitle;
     private TextView mArtist;
     private TextView mExtraInfo;
-    private ImageView mAlbumArt, mBlurredArt;
+    private ImageView mAlbumArt,mBlurredArt;
     private String mArtUrl;
     private static ProgressBar mProgress;
     public static View topContainer;
     private View rootView;
     private View playPauseWrapper;
 
-    private boolean duetoplaypause = false;
+    private boolean duetoplaypause=false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_playback_controls, container, false);
-        this.rootView = rootView;
+        this.rootView=rootView;
 
         mPlayPause = (PlayPauseButton) rootView.findViewById(R.id.play_pause);
-        playPauseWrapper = rootView.findViewById(R.id.play_pause_wrapper);
+        playPauseWrapper=rootView.findViewById(R.id.play_pause_wrapper);
         mPlayPause.setEnabled(true);
         playPauseWrapper.setOnClickListener(mButtonListener);
-        mProgress = (ProgressBar) rootView.findViewById(R.id.song_progress_normal);
-        mTitle = (TextView) rootView.findViewById(R.id.title);
-        mArtist = (TextView) rootView.findViewById(R.id.artist);
+        mProgress=(ProgressBar) rootView.findViewById(R.id.song_progress_normal);
+        mTitle=(TextView) rootView.findViewById(R.id.title);
+        mArtist=(TextView) rootView.findViewById(R.id.artist);
         mAlbumArt = (ImageView) rootView.findViewById(R.id.album_art_nowplayingcard);
-        mBlurredArt = (ImageView) rootView.findViewById(R.id.blurredAlbumart);
-        topContainer = rootView.findViewById(R.id.topContainer);
+        mBlurredArt=(ImageView) rootView.findViewById(R.id.blurredAlbumart);
+        topContainer=rootView.findViewById(R.id.topContainer);
 
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mProgress.getLayoutParams();
-        mProgress.measure(0, 0);
-        layoutParams.setMargins(0, -(mProgress.getMeasuredHeight() / 2), 0, 0);
+        LinearLayout.LayoutParams layoutParams=(LinearLayout.LayoutParams)mProgress.getLayoutParams();
+        mProgress.measure(0,0);
+        layoutParams.setMargins(0,-(mProgress.getMeasuredHeight()/2),0,0);
         mProgress.setLayoutParams(layoutParams);
         mProgress.setScaleY(0.5f);
 
@@ -75,7 +76,7 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
             }
         });
 
-        ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
+        ((BaseActivity)getActivity()).setMusicStateListenerListener(this);
 
 
         return rootView;
@@ -88,7 +89,7 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
     }
 
     //to update the permanent now playing card at the bottom
-    public void updateNowplayingCard() {
+    public void updateNowplayingCard(){
         mTitle.setText(MusicPlayer.getTrackName());
         mArtist.setText(MusicPlayer.getArtistName());
         if (!duetoplaypause) {
@@ -105,8 +106,9 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
                         }
                     });
         }
-        duetoplaypause = false;
+        duetoplaypause=false;
     }
+
 
 
     @Override
@@ -121,16 +123,23 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        topContainer=rootView.findViewById(R.id.topContainer);
+
+    }
+
 
     private final View.OnClickListener mButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            duetoplaypause = true;
-            ;
+            duetoplaypause=true;;
             if (!mPlayPause.isPlayed()) {
                 mPlayPause.setPlayed(true);
                 mPlayPause.startAnimation();
-            } else {
+            }
+            else {
                 mPlayPause.setPlayed(false);
                 mPlayPause.startAnimation();
             }
@@ -140,7 +149,7 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
                 public void run() {
                     MusicPlayer.playOrPause();
                 }
-            }, 150);
+            },150);
 
         }
     };
@@ -161,20 +170,20 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
         }
     }
 
-    public void restartLoader() {
+    public void restartLoader(){
 
     }
 
-    public void onPlaylistChanged() {
+    public void onPlaylistChanged(){
 
     }
 
-    public void onMetaChanged() {
+    public void onMetaChanged(){
         //only update nowplayingcard,quick controls will be updated by basenowplayingfragment's onMetaChanged
-        updateNowplayingCard();
-        updateState();
-        //TODO
-        updateControlsFragment();
+            updateNowplayingCard();
+            updateState();
+            //TODO
+            updateControlsFragment();
     }
 
 

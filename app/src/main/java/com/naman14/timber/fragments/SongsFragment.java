@@ -1,5 +1,6 @@
 package com.naman14.timber.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,22 +23,19 @@ import com.naman14.timber.widgets.FastScroller;
 public class SongsFragment extends Fragment implements MusicStateListener {
 
     private SongsListAdapter mAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView =  inflater.inflate(
                 R.layout.fragment_recyclerview, container, false);
 
-        RecyclerView recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
+        recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         FastScroller fastScroller=(FastScroller) rootView.findViewById(R.id.fastscroller);
         fastScroller.setRecyclerView(recyclerView);
 
-        mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()));
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
-
+        new loadSongs().execute("");
         ((BaseActivity)getActivity()).setMusicStateListenerListener(this);
 
         return rootView;
@@ -52,8 +50,26 @@ public class SongsFragment extends Fragment implements MusicStateListener {
     }
 
     public void onMetaChanged(){
-//        mAdapter.notifyItemChanged(SongsListAdapter.currentlyPlayingPosition);
         mAdapter.notifyDataSetChanged();
+    }
+
+    private class loadSongs extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            recyclerView.setAdapter(mAdapter);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
+
+        }
+
+        @Override
+        protected void onPreExecute() {}
     }
 
 }

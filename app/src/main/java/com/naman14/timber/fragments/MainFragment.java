@@ -39,7 +39,7 @@ public class MainFragment extends Fragment {
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         if (viewPager != null) {
             setupViewPager(viewPager);
-            viewPager.setOffscreenPageLimit(0);
+            viewPager.setOffscreenPageLimit(2);
         }
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);

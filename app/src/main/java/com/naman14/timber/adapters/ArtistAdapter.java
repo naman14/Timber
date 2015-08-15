@@ -49,7 +49,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
     @Override
     public void onBindViewHolder(final ItemHolder itemHolder, int i) {
         final Artist localItem = arraylist.get(i);
-
+        
         itemHolder.name.setText(localItem.name);
         String albumNmber=TimberUtils.makeLabel(mContext,R.plurals.Nalbums,localItem.albumCount);
         String songCount=TimberUtils.makeLabel(mContext,R.plurals.Nsongs,localItem.songCount);

@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
     QuickControlsFragment mControlsFragment;
     NowPlayingFragment mNowPlayingFragment;
     SlidingUpPanelLayout panelLayout;
+    NavigationView navigationView;
 
     TextView songtitle, songartist;
     ImageView albumart;
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity {
     String action;
 
     Map<String,Runnable> navigationMap = new HashMap<String,Runnable>();
+    Handler navDrawerRunnable=new Handler();
 
     public static MainActivity getInstance() {
         return sMainActivity;
@@ -80,6 +82,13 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.inflateHeaderView(R.layout.nav_header);
+
+        albumart = (ImageView) header.findViewById(R.id.album_art);
+        songtitle = (TextView) header.findViewById(R.id.song_title);
+        songartist = (TextView) header.findViewById(R.id.song_artist);
+
         Runnable navigation = navigationMap.get(action);
         if (navigation!= null) {
             navigation.run();
@@ -87,19 +96,16 @@ public class MainActivity extends BaseActivity {
             navigateLibrary.run();
         }
 
-
         setPanelSlideListeners();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        setupDrawerContent(navigationView);
-        setupNavigationIcons(navigationView);
-        View header = navigationView.inflateHeaderView(R.layout.nav_header);
-
-        albumart = (ImageView) header.findViewById(R.id.album_art);
-        songtitle = (TextView) header.findViewById(R.id.song_title);
-        songartist = (TextView) header.findViewById(R.id.song_artist);
-        setDetailsToHeader();
+        navDrawerRunnable.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setupDrawerContent(navigationView);
+                setupNavigationIcons(navigationView);
+            }
+        },500);
 
 
         mControlsFragment = (QuickControlsFragment) getSupportFragmentManager()
@@ -159,8 +165,6 @@ public class MainActivity extends BaseActivity {
                 .setColor(Color.BLACK);
 
         navigationView.getMenu().findItem(R.id.nav_library).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.LIBRARY_MUSIC).build());
-        navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
-
         navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.PLAYLIST_PLUS).build());
         navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_CIRCLE).build());
         navigationView.getMenu().findItem(R.id.nav_artist).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.NAVIGATION).build());
@@ -282,6 +286,7 @@ public class MainActivity extends BaseActivity {
 
     Runnable navigateLibrary =new Runnable() {
         public void run() {
+            navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
             Fragment fragment = new MainFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()

@@ -7,7 +7,7 @@
     android:background="@android:color/white">
 
     <com.naman14.timber.widgets.SquareImageView
-        android:id="@+id/album_art"
+        android:id="@+id/album_art_nowplayingcard"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:scaleType="centerCrop"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/album_art">
+        android:layout_toRightOf="@id/album_art_nowplayingcard">
 
         <ProgressBar
             android:id="@+id/song_progress_normal"
@@ -58,15 +58,23 @@
             />
 
     </LinearLayout>
-    <ImageButton
-        android:id="@+id/play_pause"
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_alignParentRight="true"
-        android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_play_arrow_black_36dp"
-        android:tintMode="src_in"
-        android:tint="@color/bt_accent"/>
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true">
+    <com.naman14.timber.widgets.PlayPauseButton
+        android:id="@+id/play_pause"
+        android:layout_gravity="center"
+        android:layout_width="23dp"
+        android:layout_height="23dp" />
+
+        <View
+            android:id="@+id/play_pause_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+    </FrameLayout>
 </RelativeLayout>

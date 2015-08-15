@@ -11,7 +11,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 public class PlayPauseButton extends View {
@@ -217,22 +216,22 @@ public class PlayPauseButton extends View {
     mListener = listener;
   }
 
-  /**
-   * ACTION_DOWNされたらアニメーションのスタートとか
-   * {@inheritDoc}
-   */
-  @Override public boolean onTouchEvent(@NonNull MotionEvent event) {
-    switch (event.getAction()) {
-      case MotionEvent.ACTION_DOWN:
-        setPlayed(!mPlayed);
-        startAnimation();
-        if (mListener != null) {
-          mListener.onStatusChange(this, mPlayed);
-        }
-        break;
-    }
-    return false;
-  }
+//  /**
+//   * ACTION_DOWNされたらアニメーションのスタートとか
+//   * {@inheritDoc}
+//   */
+//  @Override public boolean onTouchEvent(@NonNull MotionEvent event) {
+//    switch (event.getAction()) {
+//      case MotionEvent.ACTION_DOWN:
+//        setPlayed(!mPlayed);
+//        startAnimation();
+//        if (mListener != null) {
+//          mListener.onStatusChange(this, mPlayed);
+//        }
+//        break;
+//    }
+//    return false;
+//  }
 
   /**
    * 回転状況を {@link PlayPauseButton.SavedState} に保存する

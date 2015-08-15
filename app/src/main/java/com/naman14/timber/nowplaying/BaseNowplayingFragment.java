@@ -138,12 +138,14 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void updateSongDetails(){
         //do not reload image if it was a play/pause change
         if (!duetoplaypause) {
-            ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
-                    new DisplayImageOptions.Builder().cacheInMemory(true)
-                            .showImageOnFail(R.drawable.ic_empty_music2)
-                            .resetViewBeforeLoading(true)
-                            .displayer(new FadeInBitmapDisplayer(400))
-                            .build());
+            if (albumart!=null) {
+                ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
+                        new DisplayImageOptions.Builder().cacheInMemory(true)
+                                .showImageOnFail(R.drawable.ic_empty_music2)
+                                .resetViewBeforeLoading(true)
+                                .displayer(new FadeInBitmapDisplayer(400))
+                                .build());
+            }
         }
         duetoplaypause=false;
         updatePlayPauseButton();

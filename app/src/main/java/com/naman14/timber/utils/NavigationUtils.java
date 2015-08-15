@@ -1,5 +1,6 @@
 package com.naman14.timber.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -21,13 +22,19 @@ import java.util.ArrayList;
  */
 public class NavigationUtils {
 
+    @TargetApi(21)
     public static void navigateToAlbum(Activity context,long albumID , ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.NAVIGATE_ALBUM);
         intent.putExtra(Constants.ALBUM_ID,albumID);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
-        context.startActivity(intent,options.toBundle());
+
+        if (TimberUtils.isLollipop()) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
+            context.startActivity(intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
+
     }
 
     public static void navigateToArtist(Activity context,long artistID,ArrayList<Pair> transitionViews){

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.util.TypedValue;
@@ -58,6 +59,10 @@ public class TimberUtils {
         }
 
         return state;
+    }
+
+    public static boolean isLollipop(){
+        return Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static Uri getAlbumArtUri(long paramInt) {

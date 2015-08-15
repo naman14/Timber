@@ -19,6 +19,7 @@
             android:id="@+id/artistImage"
             android:padding="1dp"
             android:layout_alignParentLeft="true"
+            android:transitionName="transition_artist_image"
             />
 
         <LinearLayout

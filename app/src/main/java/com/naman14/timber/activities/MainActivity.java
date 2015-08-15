@@ -31,6 +31,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends BaseActivity {
 
 
@@ -45,6 +48,8 @@ public class MainActivity extends BaseActivity {
     ImageView albumart;
 
     String action;
+
+    Map<String,Runnable> navigationMap = new HashMap<String,Runnable>();
 
     public static MainActivity getInstance() {
         return sMainActivity;
@@ -67,43 +72,20 @@ public class MainActivity extends BaseActivity {
             setContentView(R.layout.activity_main);
         }
 
+        navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
+        navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
+        navigationMap.put(Constants.NAVIGATE_ARTIST, navigateArtist);
+        navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
-        if (action.equals(Constants.NAVIGATE_ALBUM)) {
-            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
-            Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-
-        } else if (action.equals(Constants.NAVIGATE_ARTIST)) {
-
-            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
-            Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-
-        } else if (action.equals(Constants.NAVIGATE_NOWPLAYING)) {
-
-            String fragmentID = getIntent().getExtras().getString(Constants.NOWPLAYING_FRAGMENT_ID);
-            boolean withAnimations =getIntent().getExtras().getBoolean(Constants.WITH_ANIMATIONS);
-
-            Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-            panelLayout.setPanelHeight(0);
-
+        Runnable navigation = navigationMap.get(action);
+        if (navigation!= null) {
+            navigation.run();
         } else {
-            Fragment fragment = new MainFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-
+            navigateLibrary.run();
         }
-
 
 
         setPanelSlideListeners();
@@ -177,6 +159,8 @@ public class MainActivity extends BaseActivity {
                 .setColor(Color.BLACK);
 
         navigationView.getMenu().findItem(R.id.nav_library).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.LIBRARY_MUSIC).build());
+        navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
+
         navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.PLAYLIST_PLUS).build());
         navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_CIRCLE).build());
         navigationView.getMenu().findItem(R.id.nav_artist).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.NAVIGATION).build());
@@ -188,7 +172,6 @@ public class MainActivity extends BaseActivity {
     private void updatePosition(MenuItem menuItem){
         Fragment fragment = null;
 
-
         switch (menuItem.getItemId()){
             case R.id.nav_library:
                 fragment=new MainFragment();
@@ -198,6 +181,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this,false);
+                menuItem.setChecked(false);
                 break;
             case R.id.nav_album:
                 break;
@@ -265,6 +249,45 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         sMainActivity=this;
     }
+
+    Runnable navigateAlbum = new Runnable() {
+        public void run() {
+            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
+            Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();}
+    };
+
+    Runnable navigateArtist =new Runnable() {
+        public void run() {
+            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
+            Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();}
+    };
+
+    Runnable navigateNowplaying =new Runnable() {
+        public void run() {
+            String fragmentID = getIntent().getExtras().getString(Constants.NOWPLAYING_FRAGMENT_ID);
+            boolean withAnimations =getIntent().getExtras().getBoolean(Constants.WITH_ANIMATIONS);
+
+            Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+            panelLayout.setPanelHeight(0);}
+    };
+
+    Runnable navigateLibrary =new Runnable() {
+        public void run() {
+            Fragment fragment = new MainFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();}
+    };
+
 
 
 }

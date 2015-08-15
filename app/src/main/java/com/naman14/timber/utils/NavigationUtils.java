@@ -30,12 +30,13 @@ public class NavigationUtils {
         context.startActivity(intent,options.toBundle());
     }
 
-    public static void navigateToArtist(Activity context,long artistID){
+    public static void navigateToArtist(Activity context,long artistID,ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.NAVIGATE_ARTIST);
         intent.putExtra(Constants.ARTIST_ID,artistID);
-        context.startActivity(intent);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
+        context.startActivity(intent,options.toBundle());
     }
 
     public static void navigateToNowplaying(Activity context,boolean withAnimations){

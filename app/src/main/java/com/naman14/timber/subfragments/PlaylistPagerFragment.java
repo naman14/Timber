@@ -62,6 +62,7 @@ public class PlaylistPagerFragment extends Fragment {
         int rndInt = random.nextInt(foregroundColors.length);
         foreground.setBackgroundColor(foregroundColors[rndInt]);
 
+
         return rootView;
     }
 

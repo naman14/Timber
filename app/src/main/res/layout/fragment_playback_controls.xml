@@ -104,16 +104,27 @@
                     app:materialIconColor="#fff"
                     app:materialIconSize="35dp" />
 
-                <net.steamcrafted.materialiconlib.MaterialIconView
-                    android:id="@+id/playpause"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="center"
-                    app:materialIcon="play"
-                    app:materialIconColor="#fff"
-                    app:materialIconSize="40dp" />
+                <FrameLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1">
+
+                    <com.naman14.timber.widgets.PlayPauseButton
+                        android:id="@+id/playpause"
+                        android:layout_gravity="center"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp" />
+
+                    <View
+                        android:id="@+id/playpausewrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+                </FrameLayout>
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/next"

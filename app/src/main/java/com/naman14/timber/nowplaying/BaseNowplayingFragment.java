@@ -2,6 +2,7 @@ package com.naman14.timber.nowplaying;
 
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +23,11 @@ import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
+import com.naman14.timber.widgets.PlayPauseButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
 /**
@@ -36,7 +37,10 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     ImageView albumart;
     ImageView shuffle;
-    MaterialIconView previous,next,playpause;
+    MaterialIconView previous,next;
+    PlayPauseButton mPlayPause;
+    View playPauseWrapper;
+
     TextView songtitle,songalbum,songartist,songduration,elapsedtime;
     SeekBar mProgress;
     ProgressBar mProgressNormal;
@@ -52,7 +56,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         shuffle=(ImageView) view.findViewById(R.id.shuffle);
         next=(MaterialIconView) view.findViewById(R.id.next);
         previous=(MaterialIconView) view.findViewById(R.id.previous);
-        playpause=(MaterialIconView) view.findViewById(R.id.playpause);
+        mPlayPause=(PlayPauseButton) view.findViewById(R.id.playpause);
+        playPauseWrapper=view.findViewById(R.id.playpausewrapper);
 
         songtitle=(TextView) view.findViewById(R.id.song_title);
         songalbum=(TextView) view.findViewById(R.id.song_album);
@@ -72,6 +77,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle("");
         }
+        mPlayPause.setColor(getActivity().getResources().getColor(android.R.color.white));
         setSongDetails();
 
     }
@@ -116,16 +122,9 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                 notifyPlayingDrawableChange();
             }
         });
-        playpause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                duetoplaypause=true;
-                MusicPlayer.playOrPause();
-//                updatePlayPauseButton();
-                if (recyclerView!=null && recyclerView.getAdapter()!=null)
-                recyclerView.getAdapter().notifyDataSetChanged();
-            }
-        });
+
+        playPauseWrapper.setOnClickListener(mButtonListener);
+
         if (shuffle!=null) {
             shuffle.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -186,10 +185,44 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     }
 
+    private final View.OnClickListener mButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            duetoplaypause=true;;
+            if (!mPlayPause.isPlayed()) {
+                mPlayPause.setPlayed(true);
+                mPlayPause.startAnimation();
+            }
+            else {
+                mPlayPause.setPlayed(false);
+                mPlayPause.startAnimation();
+            }
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playOrPause();
+                    if (recyclerView!=null && recyclerView.getAdapter()!=null)
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                }
+            },150);
+
+
+        }
+    };
+
     public void updatePlayPauseButton(){
-        if (MusicPlayer.isPlaying())
-            playpause.setIcon(MaterialDrawableBuilder.IconValue.PAUSE);
-        else playpause.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+        if (MusicPlayer.isPlaying()) {
+            if (!mPlayPause.isPlayed()) {
+                mPlayPause.setPlayed(true);
+                mPlayPause.startAnimation();
+            }
+        } else {
+            if (mPlayPause.isPlayed()) {
+                mPlayPause.setPlayed(false);
+                mPlayPause.startAnimation();
+            }
+        }
     }
 
     //seekbar

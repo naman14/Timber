@@ -134,6 +134,15 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed(){
+
+        if (panelLayout.isPanelExpanded())
+            panelLayout.collapsePanel();
+        else
+        super.onBackPressed();
+    }
+
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -276,6 +285,7 @@ public class MainActivity extends BaseActivity {
 
     Runnable navigateNowplaying = new Runnable() {
         public void run() {
+            navigationView.getMenu().findItem(R.id.nav_nowplaying).setCheckable(false);
             String fragmentID = getIntent().getExtras().getString(Constants.NOWPLAYING_FRAGMENT_ID);
             boolean withAnimations = getIntent().getExtras().getBoolean(Constants.WITH_ANIMATIONS);
 

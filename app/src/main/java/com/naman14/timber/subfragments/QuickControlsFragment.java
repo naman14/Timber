@@ -162,13 +162,11 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
                 mPlayPause.setPlayed(true);
                 mPlayPause.startAnimation();
             }
-//            mPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.btn_playback_pause));
         } else {
             if (mPlayPause.isPlayed()) {
                 mPlayPause.setPlayed(false);
                 mPlayPause.startAnimation();
             }
-//            mPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.btn_playback_play));
         }
     }
 
@@ -192,23 +190,31 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
 
         @Override
         protected Drawable doInBackground(Bitmap... loadedImage) {
-               Drawable drawable=ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
+                Drawable drawable=null;
+            try {
+                drawable=ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
             return drawable;
         }
 
         @Override
         protected void onPostExecute(Drawable result) {
-            if (mBlurredArt!=null && mBlurredArt.getDrawable()!=null) {
-                final TransitionDrawable td =
-                        new TransitionDrawable(new Drawable[]{
-                                mBlurredArt.getDrawable(),
-                                result
-                        });
-                mBlurredArt.setImageDrawable(td);
-                td.startTransition(400);
+            if (result!=null) {
+                if (mBlurredArt.getDrawable() != null) {
+                    final TransitionDrawable td =
+                            new TransitionDrawable(new Drawable[]{
+                                    mBlurredArt.getDrawable(),
+                                    result
+                            });
+                    mBlurredArt.setImageDrawable(td);
+                    td.startTransition(400);
 
-            } else
-            mBlurredArt.setImageDrawable(result);
+                } else {
+                    mBlurredArt.setImageDrawable(result);
+                }
+            }
         }
 
         @Override

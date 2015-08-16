@@ -24,8 +24,14 @@ import java.util.Random;
 public class PlaylistPagerFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
+    private int pageNumber;
 
-    int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent,R.color.blue_transparent,R.color.red_transparent,R.color.purple_transparent};
+    private Playlist playlist;
+    private TextView playlistame, playlistnumber;
+    private ImageView playlistImage;
+    private View foreground;
+
+    int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent, R.color.blue_transparent, R.color.red_transparent, R.color.purple_transparent};
 
     public static PlaylistPagerFragment newInstance(int pageNumber) {
         PlaylistPagerFragment fragment = new PlaylistPagerFragment();
@@ -40,30 +46,37 @@ public class PlaylistPagerFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_playlist_pager, container, false);
 
-        final List<Playlist> playlists= PlaylistLoader.getPlaylists(getActivity());
-        Playlist playlist=playlists.get(getArguments().getInt(ARG_PAGE_NUMBER));
+        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity());
 
-        TextView playlistame=(TextView) rootView.findViewById(R.id.name);
-        TextView playlistnumber=(TextView) rootView.findViewById(R.id.number);
-        ImageView playlistImage =(ImageView) rootView.findViewById(R.id.playlist_image);
+        pageNumber=getArguments().getInt(ARG_PAGE_NUMBER);
+        playlist = playlists.get(pageNumber);
+
+        playlistame = (TextView) rootView.findViewById(R.id.name);
+        playlistnumber = (TextView) rootView.findViewById(R.id.number);
+        playlistImage = (ImageView) rootView.findViewById(R.id.playlist_image);
+        foreground = rootView.findViewById(R.id.foreground);
 
         playlistImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigationUtils.navigateToPlaylistDetail(getActivity(), Constants.NAVIGATE_PLAYLIST_TOPTRACKS,-1);
+                NavigationUtils.navigateToPlaylistDetail(getActivity(), getPlaylistType(), playlist.id);
             }
         });
-        View foreground =rootView.findViewById(R.id.foreground);
 
+        setUpPlaylistDetails();
+        return rootView;
+    }
+
+    private void setUpPlaylistDetails() {
         playlistame.setText(playlist.name);
 
-        int number=getArguments().getInt(ARG_PAGE_NUMBER)+1;
+        int number = getArguments().getInt(ARG_PAGE_NUMBER) + 1;
         String playlistnumberstring;
 
-        if (number>9){
-            playlistnumberstring=String.valueOf(number);
+        if (number > 9) {
+            playlistnumberstring = String.valueOf(number);
         } else {
-            playlistnumberstring="0"+String.valueOf(number);
+            playlistnumberstring = "0" + String.valueOf(number);
         }
         playlistnumber.setText(playlistnumberstring);
 
@@ -71,8 +84,19 @@ public class PlaylistPagerFragment extends Fragment {
         int rndInt = random.nextInt(foregroundColors.length);
         foreground.setBackgroundColor(foregroundColors[rndInt]);
 
+    }
 
-        return rootView;
+    private String getPlaylistType(){
+        switch (pageNumber){
+            case 0:
+                return Constants.NAVIGATE_PLAYLIST_LASTADDED;
+            case 1:
+                return Constants.NAVIGATE_PLAYLIST_RECENT;
+            case 2:
+                return Constants.NAVIGATE_PLAYLIST_TOPTRACKS;
+            default:
+                return Constants.NAVIGATE_PLAYLIST_USERCREATED;
+        }
     }
 
 }

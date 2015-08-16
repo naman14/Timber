@@ -84,6 +84,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     private void setSongDetails(){
         updateSongDetails();
+
         mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
 
         if (recyclerView!=null)
@@ -205,7 +206,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                     if (recyclerView!=null && recyclerView.getAdapter()!=null)
                         recyclerView.getAdapter().notifyDataSetChanged();
                 }
-            },150);
+            },200);
 
 
         }

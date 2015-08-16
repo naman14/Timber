@@ -151,7 +151,7 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
                 public void run() {
                     MusicPlayer.playOrPause();
                 }
-            },150);
+            },200);
 
         }
     };

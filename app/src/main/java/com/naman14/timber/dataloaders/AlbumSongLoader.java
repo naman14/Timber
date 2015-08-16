@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.naman14.timber.models.Song;
 
@@ -43,12 +42,10 @@ public class AlbumSongLoader {
 
     public static Cursor makeAlbumSongCursor(Context context, long albumID)
     {
-        Log.d("lol","here10");
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String string = "is_music=1 AND title != '' AND album_id=" + albumID;
         Cursor cursor=contentResolver.query(uri, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id"}, string, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-        Log.d("lol","here11");
         return cursor;
     }
 }

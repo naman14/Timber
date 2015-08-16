@@ -65,6 +65,11 @@ public class TimberUtils {
         return Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP;
     }
 
+
+    public static boolean isJellyBeanMR2(){
+        return Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2;
+    }
+
     public static Uri getAlbumArtUri(long paramInt) {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), paramInt);
     }

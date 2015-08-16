@@ -1,6 +1,7 @@
 package com.naman14.timber.activities;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -102,13 +103,10 @@ public class MainActivity extends BaseActivity {
                 setupDrawerContent(navigationView);
                 setupNavigationIcons(navigationView);
             }
-        }, 500);
+        }, 700);
 
-            QuickControlsFragment fragment1 = new QuickControlsFragment();
-            FragmentManager fragmentManager1 = getSupportFragmentManager();
-            fragmentManager1.beginTransaction()
-                    .replace(R.id.quickcontrols_container, fragment1).commit();
 
+        new initQuickControls().execute("");
 
     }
 
@@ -157,7 +155,7 @@ public class MainActivity extends BaseActivity {
                             public void run() {
                                 updatePosition(menuItem);
                             }
-                        }, 300);
+                        }, 350);
 
                         return true;
 
@@ -200,7 +198,7 @@ public class MainActivity extends BaseActivity {
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commit();
 
         }
@@ -308,6 +306,25 @@ public class MainActivity extends BaseActivity {
         }
     };
 
+    private class initQuickControls extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            QuickControlsFragment fragment1 = new QuickControlsFragment();
+            FragmentManager fragmentManager1 = getSupportFragmentManager();
+            fragmentManager1.beginTransaction()
+                    .replace(R.id.quickcontrols_container, fragment1).commit();
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {}
+    }
 
 }
 

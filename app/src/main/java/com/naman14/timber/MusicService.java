@@ -378,7 +378,9 @@ public class MusicService extends Service {
 
         mPlayerHandler.removeCallbacksAndMessages(null);
 
+        if (TimberUtils.isJellyBeanMR2())
         mHandlerThread.quitSafely();
+        else mHandlerThread.quit();
 
         mPlayer.release();
         mPlayer = null;
@@ -720,7 +722,7 @@ public class MusicService extends Service {
     private Cursor openCursorAndGoToFirst(Uri uri, String[] projection,
                                           String selection, String[] selectionArgs) {
         Cursor c = getContentResolver().query(uri, projection,
-                selection, selectionArgs, null, null);
+                selection, selectionArgs, null);
         if (c == null) {
             return null;
         }

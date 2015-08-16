@@ -91,7 +91,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
         @Override
         public void run() {
             playlistID=getIntent().getExtras().getLong(Constants.PLAYLIST_ID);
-            mAdapter = new SongsListAdapter(mContext, PlaylistSongLoader.loadInBackground(mContext,playlistID));
+            mAdapter = new SongsListAdapter(mContext, PlaylistSongLoader.getSongsInPlaylist(mContext,playlistID));
             recyclerView.setAdapter(mAdapter);
             recyclerView.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
         }

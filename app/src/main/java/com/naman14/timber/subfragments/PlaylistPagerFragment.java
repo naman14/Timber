@@ -1,5 +1,7 @@
 package com.naman14.timber.subfragments;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,10 +12,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
+import com.naman14.timber.dataloaders.LastAddedLoader;
 import com.naman14.timber.dataloaders.PlaylistLoader;
+import com.naman14.timber.dataloaders.PlaylistSongLoader;
+import com.naman14.timber.dataloaders.SongLoader;
+import com.naman14.timber.dataloaders.TopTracksLoader;
 import com.naman14.timber.models.Playlist;
+import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.TimberUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.List;
 import java.util.Random;
@@ -24,10 +35,10 @@ import java.util.Random;
 public class PlaylistPagerFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
-    private int pageNumber;
+    private int pageNumber,songCountInt;
 
     private Playlist playlist;
-    private TextView playlistame, playlistnumber;
+    private TextView playlistame,songcount, playlistnumber,playlisttype;
     private ImageView playlistImage;
     private View foreground;
 
@@ -53,6 +64,8 @@ public class PlaylistPagerFragment extends Fragment {
 
         playlistame = (TextView) rootView.findViewById(R.id.name);
         playlistnumber = (TextView) rootView.findViewById(R.id.number);
+        songcount=(TextView) rootView.findViewById(R.id.songcount);
+        playlisttype = (TextView) rootView.findViewById(R.id.playlisttype);
         playlistImage = (ImageView) rootView.findViewById(R.id.playlist_image);
         foreground = rootView.findViewById(R.id.foreground);
 
@@ -65,6 +78,12 @@ public class PlaylistPagerFragment extends Fragment {
 
         setUpPlaylistDetails();
         return rootView;
+    }
+
+
+    @Override
+    public void onViewCreated(View view,Bundle savedinstancestate){
+        new loadPlaylistImage().execute("");
     }
 
     private void setUpPlaylistDetails() {
@@ -84,6 +103,10 @@ public class PlaylistPagerFragment extends Fragment {
         int rndInt = random.nextInt(foregroundColors.length);
         foreground.setBackgroundColor(foregroundColors[rndInt]);
 
+        if (pageNumber>2){
+            playlisttype.setVisibility(View.GONE);
+        }
+
     }
 
     private String getPlaylistType(){
@@ -98,6 +121,64 @@ public class PlaylistPagerFragment extends Fragment {
                 return Constants.NAVIGATE_PLAYLIST_USERCREATED;
         }
     }
+
+
+    private class loadPlaylistImage extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (getActivity()!=null) {
+                switch (pageNumber) {
+                    case 0:
+                        List<Song> lastAddedSongs = LastAddedLoader.getLastAddedSongs(getActivity());
+                        songCountInt=lastAddedSongs.size();
+                        if (songCountInt != 0)
+                            return TimberUtils.getAlbumArtUri(lastAddedSongs.get(0).albumId).toString();
+                        else return "nosongs";
+                    case 1:
+                        TopTracksLoader recentloader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.RecentSongs);
+                        List<Song> recentsongs = SongLoader.getSongsForCursor(recentloader.getCursor());
+                        songCountInt=recentsongs.size();
+                        if (songCountInt != 0)
+                            return TimberUtils.getAlbumArtUri(recentsongs.get(0).albumId).toString();
+                        else return "nosongs";
+                    case 2:
+                        TopTracksLoader topTracksLoader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.TopTracks);
+                        List<Song> topsongs = SongLoader.getSongsForCursor(topTracksLoader.getCursor());
+                        songCountInt=topsongs.size();
+                        if (songCountInt != 0)
+                            return TimberUtils.getAlbumArtUri(topsongs.get(0).albumId).toString();
+                        else return "nosongs";
+                    default:
+                        List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(getActivity(), playlist.id);
+                        songCountInt=playlistsongs.size();
+                        if (songCountInt != 0)
+                            return TimberUtils.getAlbumArtUri(playlistsongs.get(0).albumId).toString();
+                        else return "nosongs";
+
+                }
+            } else return "context is null";
+
+        }
+
+        @Override
+        protected void onPostExecute(String uri) {
+            ImageLoader.getInstance().displayImage(uri,playlistImage,
+                    new DisplayImageOptions.Builder().cacheInMemory(true)
+                            .showImageOnFail(R.drawable.ic_empty_music2)
+                            .resetViewBeforeLoading(true)
+                            .build(), new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        }
+                    });
+            songcount.setText(" "+String.valueOf(songCountInt)+" Songs");
+        }
+
+        @Override
+        protected void onPreExecute() {}
+    }
+
 
 }
 

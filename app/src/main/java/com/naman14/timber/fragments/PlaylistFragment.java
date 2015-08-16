@@ -57,7 +57,7 @@ public class PlaylistFragment extends Fragment {
 
         };
         pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(10);
+        pager.setOffscreenPageLimit(3);
 
         return rootView;
 

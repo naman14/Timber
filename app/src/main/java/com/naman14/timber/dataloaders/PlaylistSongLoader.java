@@ -17,8 +17,6 @@ import java.util.List;
 
 public class PlaylistSongLoader  {
 
-    private static ArrayList<Song> mSongList = new ArrayList<>();
-
     private static Cursor mCursor;
 
     private static long mPlaylistID;
@@ -26,7 +24,9 @@ public class PlaylistSongLoader  {
 
 
 
-    public static List<Song> loadInBackground(Context mContext,long playlistID) {
+    public static List<Song> getSongsInPlaylist(Context mContext,long playlistID) {
+        ArrayList<Song> mSongList = new ArrayList<>();
+
         context=mContext;
         mPlaylistID=playlistID;
 

@@ -15,12 +15,12 @@ import java.util.List;
 
 public class PlaylistLoader {
 
-
-    private static final ArrayList<Playlist> mPlaylistList = new ArrayList<>();
-
+   static ArrayList<Playlist> mPlaylistList;
     private static Cursor mCursor;
 
     public static List<Playlist> getPlaylists(Context context) {
+
+        mPlaylistList = new ArrayList<>();
 
         makeDefaultPlaylists(context);
 

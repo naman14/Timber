@@ -20,7 +20,6 @@ import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaylistFragment;
-import com.naman14.timber.nowplaying.NowPlayingFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
@@ -40,8 +39,6 @@ public class MainActivity extends BaseActivity {
     private static MainActivity sMainActivity;
 
     private DrawerLayout mDrawerLayout;
-    QuickControlsFragment mControlsFragment;
-    NowPlayingFragment mNowPlayingFragment;
     SlidingUpPanelLayout panelLayout;
     NavigationView navigationView;
 

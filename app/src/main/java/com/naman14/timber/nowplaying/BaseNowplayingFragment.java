@@ -1,6 +1,7 @@
 package com.naman14.timber.nowplaying;
 
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -80,7 +81,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
 
         if (recyclerView!=null)
-        setQueueSongs(recyclerView);
+        setQueueSongs();
 
         mProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -121,7 +122,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                 duetoplaypause=true;
                 MusicPlayer.playOrPause();
 //                updatePlayPauseButton();
-                if (recyclerView!=null)
+                if (recyclerView!=null && recyclerView.getAdapter()!=null)
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
         });
@@ -178,13 +179,10 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    public void setQueueSongs(RecyclerView recyclerView) {
+    public void setQueueSongs() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongsList(getActivity()));
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_white));
-        recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
+        //load queue songs in asynctask
+        new loadQueueSongs().execute("");
 
     }
 
@@ -194,6 +192,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         else playpause.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
     }
 
+    //seekbar
     public Runnable mUpdateProgress=new Runnable() {
 
         @Override
@@ -212,6 +211,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
+    //normal progressbar
     public Runnable mUpdateProgressNormal=new Runnable() {
 
         @Override
@@ -232,8 +232,28 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void notifyPlayingDrawableChange(){
         int position =MusicPlayer.getQueuePosition();
         BaseQueueAdapter.currentlyPlayingPosition=position;
-//        recyclerView.smoothScrollToPosition(MusicPlayer.getQueuePosition());
     }
+
+    private class loadQueueSongs extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongsList(getActivity()));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            recyclerView.setAdapter(mAdapter);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_white));
+            recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
+
+        }
+
+        @Override
+        protected void onPreExecute() {}
+    }
+
 
     public void restartLoader(){
 
@@ -245,6 +265,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     public void onMetaChanged(){
         updateSongDetails();
+
+        if (recyclerView!=null && recyclerView.getAdapter()!=null)
         recyclerView.getAdapter().notifyDataSetChanged();
     }
 

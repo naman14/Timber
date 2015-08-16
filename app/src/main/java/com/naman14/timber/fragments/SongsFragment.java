@@ -50,6 +50,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
     }
 
     public void onMetaChanged(){
+        if (mAdapter!=null)
         mAdapter.notifyDataSetChanged();
     }
 

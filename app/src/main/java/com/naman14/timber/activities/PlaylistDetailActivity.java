@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,13 +69,20 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        setAlbumart();
+
         if (TimberUtils.isLollipop()) {
             getWindow().getEnterTransition().addListener(new EnterTransitionListener());
         } else {
-            setUpSongs();
-        }
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setUpSongs();
+                }
+            },300);
 
-        setAlbumart();
+        }
 
     }
 
@@ -139,8 +147,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+            setRecyclerViewAapter();
         }
 
         @Override
@@ -160,8 +167,8 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+            setRecyclerViewAapter();
+
         }
 
         @Override
@@ -181,8 +188,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+            setRecyclerViewAapter();
         }
 
         @Override
@@ -202,13 +208,23 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+           setRecyclerViewAapter();
         }
 
         @Override
         protected void onPreExecute() {
         }
+    }
+
+    private void setRecyclerViewAapter(){
+        recyclerView.setAdapter(mAdapter);
+        Handler handler=new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+            }
+        },250);
     }
 
 

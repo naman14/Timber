@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +34,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private long[] songIDs;
     private boolean isPlaylist;
     public int currentlyPlayingPosition;
+
+    private int lastPosition = -1;
 
     public SongsListAdapter(Activity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
@@ -74,6 +78,10 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                 itemHolder.playingIndicator.setColorResource(R.color.colorAccent);
             }
         } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
+
+        if (isPlaylist){
+            setAnimation(itemHolder.itemView, i);
+        }
 
     }
 
@@ -143,6 +151,17 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             return "#";
         } else
         return Character.toString(ch);
+    }
+
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.abc_slide_in_bottom);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 }
 

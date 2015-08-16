@@ -58,7 +58,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()));
+            mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()),false);
             return "Executed";
         }
 

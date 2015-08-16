@@ -21,8 +21,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
+            android:layout_marginRight="16dp" />
 
         <View
             android:layout_width="match_parent"
@@ -39,13 +38,14 @@
             android:layout_marginLeft="30dp"
             android:layout_gravity="bottom|left">
         <TextView
-            android:textSize="25sp"
+            android:textSize="28sp"
             android:maxLines="2"
             android:ellipsize="end"
             android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/name"/>
+            android:id="@+id/name"
+            android:transitionName="transition_playlist_name"/>
             <TextView
                 android:textSize="15sp"
                 android:maxLines="1"
@@ -54,7 +54,8 @@
                 android:textColor="#ffffff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/songcount"/>
+                android:id="@+id/songcount"
+               />
 
         </LinearLayout>
 

@@ -66,11 +66,19 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
-    public static void navigateToPlaylistDetail(Activity context,String action,long playlistID){
+    public static void navigateToPlaylistDetail(Activity context,String action,long firstAlbumID,String playlistName,int foregroundcolor,long playlistID,ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, PlaylistDetailActivity.class);
         intent.setAction(action);
         intent.putExtra(Constants.PLAYLIST_ID,playlistID);
-        context.startActivity(intent);
+        intent.putExtra(Constants.PLAYLIST_FOREGROUND_COLOR,foregroundcolor);
+        intent.putExtra(Constants.ALBUM_ID,firstAlbumID);
+        intent.putExtra(Constants.PLAYLIST_NAME,playlistName);
+        if (TimberUtils.isLollipop()) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
+            context.startActivity(intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
 

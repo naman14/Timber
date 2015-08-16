@@ -30,20 +30,28 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private List<Song> arraylist;
     private Activity mContext;
     private long[] songIDs;
+    private boolean isPlaylist;
     public int currentlyPlayingPosition;
 
-    public SongsListAdapter(Activity context, List<Song> arraylist) {
+    public SongsListAdapter(Activity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
         this.mContext = context;
+        this.isPlaylist=isPlaylistSong;
         this.songIDs=getSongIds();
 
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
-        ItemHolder ml = new ItemHolder(v);
-        return ml;
+        if (isPlaylist) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song_playlist, null);
+            ItemHolder ml = new ItemHolder(v);
+            return ml;
+        } else {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
+            ItemHolder ml = new ItemHolder(v);
+            return ml;
+        }
     }
 
     @Override

@@ -12,12 +12,11 @@ import java.util.List;
 
 public class LastAddedLoader  {
 
-    private static final ArrayList<Song> mSongList = new ArrayList<>();
-
     private static Cursor mCursor;
 
     public static List<Song> getLastAddedSongs(Context context) {
 
+        ArrayList<Song> mSongList = new ArrayList<>();
         mCursor = makeLastAddedCursor(context);
 
         if (mCursor != null && mCursor.moveToFirst()) {

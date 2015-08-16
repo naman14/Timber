@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,6 +38,8 @@ public class PlaylistPagerFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
     private int pageNumber,songCountInt;
+    private int foregroundColor;
+    private long firstAlbumID;
 
     private Playlist playlist;
     private TextView playlistame,songcount, playlistnumber,playlisttype;
@@ -72,7 +76,9 @@ public class PlaylistPagerFragment extends Fragment {
         playlistImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigationUtils.navigateToPlaylistDetail(getActivity(), getPlaylistType(), playlist.id);
+                ArrayList<Pair> tranitionViews=new ArrayList<>();
+                tranitionViews.add(0, Pair.create((View)playlistame,"transition_playlist_name"));
+                NavigationUtils.navigateToPlaylistDetail(getActivity(), getPlaylistType(),firstAlbumID,String.valueOf(playlistame.getText()),foregroundColor, playlist.id,tranitionViews);
             }
         });
 
@@ -101,7 +107,9 @@ public class PlaylistPagerFragment extends Fragment {
 
         Random random = new Random();
         int rndInt = random.nextInt(foregroundColors.length);
-        foreground.setBackgroundColor(foregroundColors[rndInt]);
+
+        foregroundColor=foregroundColors[rndInt];
+        foreground.setBackgroundColor(foregroundColor);
 
         if (pageNumber>2){
             playlisttype.setVisibility(View.GONE);
@@ -132,28 +140,32 @@ public class PlaylistPagerFragment extends Fragment {
                     case 0:
                         List<Song> lastAddedSongs = LastAddedLoader.getLastAddedSongs(getActivity());
                         songCountInt=lastAddedSongs.size();
+                        firstAlbumID=lastAddedSongs.get(0).albumId;
                         if (songCountInt != 0)
-                            return TimberUtils.getAlbumArtUri(lastAddedSongs.get(0).albumId).toString();
+                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
                         else return "nosongs";
                     case 1:
                         TopTracksLoader recentloader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.RecentSongs);
                         List<Song> recentsongs = SongLoader.getSongsForCursor(recentloader.getCursor());
                         songCountInt=recentsongs.size();
+                        firstAlbumID=recentsongs.get(0).albumId;
                         if (songCountInt != 0)
-                            return TimberUtils.getAlbumArtUri(recentsongs.get(0).albumId).toString();
+                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
                         else return "nosongs";
                     case 2:
                         TopTracksLoader topTracksLoader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.TopTracks);
                         List<Song> topsongs = SongLoader.getSongsForCursor(topTracksLoader.getCursor());
                         songCountInt=topsongs.size();
+                        firstAlbumID=topsongs.get(0).albumId;
                         if (songCountInt != 0)
-                            return TimberUtils.getAlbumArtUri(topsongs.get(0).albumId).toString();
+                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
                         else return "nosongs";
                     default:
                         List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(getActivity(), playlist.id);
                         songCountInt=playlistsongs.size();
+                        firstAlbumID=playlistsongs.get(0).albumId;
                         if (songCountInt != 0)
-                            return TimberUtils.getAlbumArtUri(playlistsongs.get(0).albumId).toString();
+                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
                         else return "nosongs";
 
                 }

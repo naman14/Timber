@@ -19,9 +19,9 @@
 
     <string name="error_playing_track">Error Playing track</string>
 
-    <string name="playlist_last_added">Last added</string>
-    <string name="playlist_recently_played">Recently played</string>
-    <string name="playlist_top_tracks">My top tracks</string>
+    <string name="playlist_last_added">Last Added</string>
+    <string name="playlist_recently_played">Recently Played</string>
+    <string name="playlist_top_tracks">My Top Tracks</string>
 
     <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
 

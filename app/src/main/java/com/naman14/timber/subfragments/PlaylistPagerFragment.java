@@ -50,7 +50,7 @@ public class PlaylistPagerFragment extends Fragment {
         playlistImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigationUtils.navigateToPlaylistDetail(getActivity(), Constants.NAVIGATE_PLAYLIST_TOPTRACKS);
+                NavigationUtils.navigateToPlaylistDetail(getActivity(), Constants.NAVIGATE_PLAYLIST_TOPTRACKS,-1);
             }
         });
         View foreground =rootView.findViewById(R.id.foreground);

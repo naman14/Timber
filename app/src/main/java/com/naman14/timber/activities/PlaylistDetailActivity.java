@@ -2,15 +2,9 @@ package com.naman14.timber.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.naman14.timber.R;
-import com.naman14.timber.dataloaders.SongLoader;
-import com.naman14.timber.dataloaders.TopTracksLoader;
-import com.naman14.timber.models.Song;
-import com.naman14.timber.utils.TimberUtils;
-
-import java.util.List;
+import com.naman14.timber.utils.Constants;
 
 /**
  * Created by naman on 16/08/15.
@@ -18,10 +12,7 @@ import java.util.List;
 public class PlaylistDetailActivity extends AppCompatActivity {
 
     String action;
-
-    protected TimberUtils.PlaylistType getSmartPlaylistType() {
-        return TimberUtils.PlaylistType.TopTracks;
-    }
+    long playlistID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,11 +22,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         action=getIntent().getAction();
 
-        TopTracksLoader loader=new TopTracksLoader(this, TopTracksLoader.QueryType.TopTracks);
-        List<Song> songList= SongLoader.getSongsForCursor(loader.getCursor());
-        for (int i=0;i<songList.size();i++){
-            Log.d("playlist",songList.get(i).title);
-        }
+        playlistID=getIntent().getExtras().getLong(Constants.PLAYLIST_ID);
 
     }
 }

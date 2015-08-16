@@ -66,9 +66,10 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
-    public static void navigateToPlaylistDetail(Activity context,String action){
+    public static void navigateToPlaylistDetail(Activity context,String action,long playlistID){
         final Intent intent=new Intent(context, PlaylistDetailActivity.class);
         intent.setAction(action);
+        intent.putExtra(Constants.PLAYLIST_ID,playlistID);
         context.startActivity(intent);
     }
 

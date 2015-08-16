@@ -13,10 +13,11 @@ public class Constants {
     public static final String NAVIGATE_PLAYLIST_RECENT="navigate_playlist_recent";
     public static final String NAVIGATE_PLAYLIST_LASTADDED="navigate_playlist_lastadded";
     public static final String NAVIGATE_PLAYLIST_TOPTRACKS="navigate_playlist_toptracks";
-    public static final String NAVIGATE_PLAYLIST="navigate_playlist";
+    public static final String NAVIGATE_PLAYLIST_USERCREATED="navigate_playlist";
 
     public static final String ALBUM_ID="album_id";
     public static final String ARTIST_ID="artist_id";
+    public static final String PLAYLIST_ID="playlist_id";
 
     public static final String FRAGMENT_ID="fragment_id";
     public static final String NOWPLAYING_FRAGMENT_ID="nowplaying_fragment_id";

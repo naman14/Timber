@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.PlaylistLoader;
 import com.naman14.timber.models.Playlist;
+import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.NavigationUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -44,6 +46,13 @@ public class PlaylistPagerFragment extends Fragment {
         TextView playlistame=(TextView) rootView.findViewById(R.id.name);
         TextView playlistnumber=(TextView) rootView.findViewById(R.id.number);
         ImageView playlistImage =(ImageView) rootView.findViewById(R.id.playlist_image);
+
+        playlistImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationUtils.navigateToPlaylistDetail(getActivity(), Constants.NAVIGATE_PLAYLIST_TOPTRACKS);
+            }
+        });
         View foreground =rootView.findViewById(R.id.foreground);
 
         playlistame.setText(playlist.name);

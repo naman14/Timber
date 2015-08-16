@@ -224,7 +224,7 @@ public class AlbumDetailFragment extends Fragment {
         setUpAlbumSongs();
         FabAnimationUtils.scaleIn(fab);
         Drawable drawable = MaterialDrawableBuilder.with(getActivity())
-                .setIcon(MaterialDrawableBuilder.IconValue.PLAY)
+                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                 .setColor(Color.WHITE)
                 .build();
         fab.setImageDrawable(drawable);

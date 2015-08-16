@@ -12,21 +12,21 @@ import java.util.ArrayList;
 public class TopTracksLoader extends SongLoader {
 
     public static final int NUMBER_OF_SONGS = 99;
-    private Context mContext;
+    private static Context mContext;
 
     public enum QueryType {
         TopTracks,
         RecentSongs,
     }
 
-    protected QueryType mQueryType;
+    protected static QueryType mQueryType;
 
     public TopTracksLoader(final Context context, QueryType type) {
         this.mContext=context;
         mQueryType = type;
     }
 
-    protected Cursor getCursor() {
+    public static Cursor getCursor() {
         SortedCursor retCursor = null;
         if (mQueryType == QueryType.TopTracks) {
             retCursor = makeTopTracksCursor(mContext);

@@ -44,6 +44,8 @@ import android.util.Log;
 import com.naman14.timber.helpers.MediaButtonIntentReceiver;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.provider.MusicPlaybackState;
+import com.naman14.timber.provider.RecentStore;
+import com.naman14.timber.provider.SongPlayCount;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.utils.TimberUtils.IdType;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -205,6 +207,9 @@ public class MusicService extends Service {
 
     private boolean mShowAlbumArtOnLockscreen;
 
+    private SongPlayCount mSongPlayCount;
+    private RecentStore mRecentStore;
+
 
     @Override
     public IBinder onBind(final Intent intent) {
@@ -249,6 +254,8 @@ public class MusicService extends Service {
 
         // gets a pointer to the playback state store
         mPlaybackStateStore = MusicPlaybackState.getInstance(this);
+        mSongPlayCount = SongPlayCount.getInstance(this);
+        mRecentStore = RecentStore.getInstance(this);
 
 
         mHandlerThread = new HandlerThread("MusicPlayerHandler",
@@ -996,6 +1003,9 @@ public class MusicService extends Service {
         sendStickyBroadcast(musicIntent);
 
         if (what.equals(META_CHANGED)) {
+
+            mRecentStore.addSongId(getAudioId());
+            mSongPlayCount.bumpSongCount(getAudioId());
 
         } else if (what.equals(QUEUE_CHANGED)) {
             saveQueue(true);

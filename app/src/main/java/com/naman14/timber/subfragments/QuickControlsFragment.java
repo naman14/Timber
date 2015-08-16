@@ -1,6 +1,9 @@
 package com.naman14.timber.subfragments;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -100,9 +103,8 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
                             .build(), new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            if (getActivity() != null) {
-                                mBlurredArt.setImageDrawable(ImageUtils.createBlurredImageFromBitmap(loadedImage, getActivity(), 6));
-                            }
+                        if (getActivity()!=null)
+                            new setBlurredAlbumArt().execute(loadedImage);
                         }
                     });
         }
@@ -184,6 +186,33 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
             updateState();
             //TODO
             updateControlsFragment();
+    }
+
+    private class setBlurredAlbumArt extends AsyncTask<Bitmap, Void, Drawable> {
+
+        @Override
+        protected Drawable doInBackground(Bitmap... loadedImage) {
+               Drawable drawable=ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
+            return drawable;
+        }
+
+        @Override
+        protected void onPostExecute(Drawable result) {
+            if (mBlurredArt!=null && mBlurredArt.getDrawable()!=null) {
+                final TransitionDrawable td =
+                        new TransitionDrawable(new Drawable[]{
+                                mBlurredArt.getDrawable(),
+                                result
+                        });
+                mBlurredArt.setImageDrawable(td);
+                td.startTransition(400);
+
+            } else
+            mBlurredArt.setImageDrawable(result);
+        }
+
+        @Override
+        protected void onPreExecute() {}
     }
 
 

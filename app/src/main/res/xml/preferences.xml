@@ -10,6 +10,18 @@
             android:key="now_paying_selector">
         </Preference>
 
+        <SwitchPreference
+            android:title="Animations"
+            android:key="toggle_animations"
+            android:defaultValue="true">
+        </SwitchPreference>
+
+        <SwitchPreference
+            android:title="System animations"
+            android:key="toggle_system_animations"
+            android:defaultValue="true">
+        </SwitchPreference>
+
     </PreferenceCategory>
 
 

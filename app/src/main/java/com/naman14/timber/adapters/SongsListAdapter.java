@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.BubbleTextGetter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -79,7 +80,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             }
         } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
 
-        if (isPlaylist){
+        if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()){
             setAnimation(itemHolder.itemView, i);
         }
 

@@ -26,10 +26,13 @@ public class NavigationUtils {
     @TargetApi(21)
     public static void navigateToAlbum(Activity context,long albumID , ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, MainActivity.class);
+        if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
         intent.setAction(Constants.NAVIGATE_ALBUM);
         intent.putExtra(Constants.ALBUM_ID,albumID);
 
-        if (TimberUtils.isLollipop()) {
+        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
             context.startActivity(intent, options.toBundle());
         } else {
@@ -38,13 +41,21 @@ public class NavigationUtils {
 
     }
 
+    @TargetApi(21)
     public static void navigateToArtist(Activity context,long artistID,ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
         intent.setAction(Constants.NAVIGATE_ARTIST);
         intent.putExtra(Constants.ARTIST_ID,artistID);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
-        context.startActivity(intent,options.toBundle());
+
+        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
+            context.startActivity(intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     public static void navigateToNowplaying(Activity context,boolean withAnimations){
@@ -52,7 +63,9 @@ public class NavigationUtils {
         String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER1);
 
         final Intent intent=new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
         intent.setAction(Constants.NAVIGATE_NOWPLAYING);
         intent.putExtra(Constants.NOWPLAYING_FRAGMENT_ID,fragmentID);
         intent.putExtra(Constants.WITH_ANIMATIONS,withAnimations);
@@ -61,19 +74,26 @@ public class NavigationUtils {
 
     public static void navigateToSettings(Activity context){
         final Intent intent=new Intent(context, SettingsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
         intent.setAction(Constants.NAVIGATE_SETTINGS);
         context.startActivity(intent);
     }
 
+    @TargetApi(21)
     public static void navigateToPlaylistDetail(Activity context,String action,long firstAlbumID,String playlistName,int foregroundcolor,long playlistID,ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, PlaylistDetailActivity.class);
+        if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
         intent.setAction(action);
         intent.putExtra(Constants.PLAYLIST_ID,playlistID);
         intent.putExtra(Constants.PLAYLIST_FOREGROUND_COLOR,foregroundcolor);
         intent.putExtra(Constants.ALBUM_ID,firstAlbumID);
         intent.putExtra(Constants.PLAYLIST_NAME,playlistName);
-        if (TimberUtils.isLollipop()) {
+
+        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0),transitionViews.get(1),transitionViews.get(2));
             context.startActivity(intent, options.toBundle());
         } else {
@@ -84,7 +104,9 @@ public class NavigationUtils {
 
     public static Intent getNavigateToStyleSelectorIntent(Activity context,String what){
         final Intent intent=new Intent(context, SettingsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
         intent.setAction(Constants.SETTINGS_STYLE_SELECTOR);
         intent.putExtra(Constants.SETTINGS_STYLE_SELECTOR_WHAT,what);
         return intent;

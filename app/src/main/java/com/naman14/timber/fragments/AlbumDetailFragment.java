@@ -41,6 +41,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -114,15 +115,15 @@ public class AlbumDetailFragment extends Fragment {
 
         album = AlbumLoader.getAlbum(getActivity(), albumID);
 
-        if (TimberUtils.isLollipop()) {
+        setAlbumart();
+
+        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations()) {
             getActivity().postponeEnterTransition();
             getActivity().getWindow().getEnterTransition().addListener(new EnterTransitionListener());
             getActivity().getWindow().getReturnTransition().addListener(new ReturnTransitionListener());
         } else {
             setUpEverything();
         }
-
-        setAlbumart();
 
         return rootView;
     }
@@ -148,7 +149,7 @@ public class AlbumDetailFragment extends Fragment {
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        if (TimberUtils.isLollipop())
+                        if (TimberUtils.isLollipop()&& PreferencesUtility.getInstance(getActivity()).getAnimations() )
                             scheduleStartPostponedTransition(albumArt);
                     }
 
@@ -168,7 +169,7 @@ public class AlbumDetailFragment extends Fragment {
                         );
 
                         fab.setBackgroundTintList(fabColorStateList);
-                        if (TimberUtils.isLollipop())
+                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
                             scheduleStartPostponedTransition(albumArt);
                     }
 

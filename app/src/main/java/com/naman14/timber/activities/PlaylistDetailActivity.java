@@ -23,6 +23,7 @@ import com.naman14.timber.dataloaders.TopTracksLoader;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -71,17 +72,10 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         setAlbumart();
 
-        if (TimberUtils.isLollipop()) {
+        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(this).getAnimations()) {
             getWindow().getEnterTransition().addListener(new EnterTransitionListener());
         } else {
-            Handler handler=new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setUpSongs();
-                }
-            },300);
-
+            setUpSongs();
         }
 
     }
@@ -208,7 +202,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-           setRecyclerViewAapter();
+            setRecyclerViewAapter();
         }
 
         @Override
@@ -216,15 +210,18 @@ public class PlaylistDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setRecyclerViewAapter(){
+    private void setRecyclerViewAapter() {
         recyclerView.setAdapter(mAdapter);
-        Handler handler=new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
-            }
-        },250);
+        if (PreferencesUtility.getInstance(mContext).getAnimations()) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+                }
+            }, 250);
+        } else
+            recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
     }
 
 

@@ -74,7 +74,7 @@ public class NavigationUtils {
         intent.putExtra(Constants.ALBUM_ID,firstAlbumID);
         intent.putExtra(Constants.PLAYLIST_NAME,playlistName);
         if (TimberUtils.isLollipop()) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0),transitionViews.get(1),transitionViews.get(2));
             context.startActivity(intent, options.toBundle());
         } else {
             context.startActivity(intent);

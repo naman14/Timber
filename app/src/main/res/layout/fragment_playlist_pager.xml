@@ -21,14 +21,16 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="16dp"
+            android:transitionName="transition_album_art"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/foreground"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp"
+            android:transitionName="transition_foreground"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

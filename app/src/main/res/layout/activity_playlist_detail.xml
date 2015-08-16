@@ -9,12 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:id="@+id/blurFrame" />
+        android:id="@+id/blurFrame"
+        android:transitionName="transition_album_art"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/foreground" />
+        android:id="@+id/foreground"
+        android:transitionName="transition_foreground"/>
 
     <LinearLayout
         android:layout_width="match_parent"

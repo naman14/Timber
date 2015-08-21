@@ -11,6 +11,7 @@ import android.util.Pair;
 
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
+import com.naman14.timber.activities.SearchActivity;
 import com.naman14.timber.activities.SettingsActivity;
 import com.naman14.timber.nowplaying.Timber1;
 import com.naman14.timber.nowplaying.Timber2;
@@ -78,6 +79,15 @@ public class NavigationUtils {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
         intent.setAction(Constants.NAVIGATE_SETTINGS);
+        context.startActivity(intent);
+    }
+
+    public static void navigateToSearch(Activity context){
+        final Intent intent=new Intent(context, SearchActivity.class);
+        if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
+        intent.setAction(Constants.NAVIGATE_SEARCH);
         context.startActivity(intent);
     }
 

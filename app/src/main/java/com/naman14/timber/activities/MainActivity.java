@@ -128,6 +128,9 @@ public class MainActivity extends BaseActivity {
             case R.id.action_settings:
                 NavigationUtils.navigateToSettings(this);
                 return true;
+            case R.id.action_search:
+                NavigationUtils.navigateToSearch(this);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -147,16 +150,7 @@ public class MainActivity extends BaseActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(final MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                updatePosition(menuItem);
-                            }
-                        }, 350);
-
+                       updatePosition(menuItem);
                         return true;
 
                     }
@@ -176,7 +170,7 @@ public class MainActivity extends BaseActivity {
         navigationView.getMenu().findItem(R.id.nav_help).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.HELP).build());
     }
 
-    private void updatePosition(MenuItem menuItem) {
+    private void updatePosition(final MenuItem menuItem) {
         Fragment fragment = null;
 
         switch (menuItem.getItemId()) {
@@ -188,7 +182,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this, false);
-                menuItem.setChecked(false);
                 break;
             case R.id.nav_album:
                 break;
@@ -197,10 +190,18 @@ public class MainActivity extends BaseActivity {
         }
 
         if (fragment != null) {
+            menuItem.setChecked(true);
+            mDrawerLayout.closeDrawers();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-
+            final android.support.v4.app.FragmentTransaction transaction =fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, fragment);
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    transaction.commit();
+                }
+            },350);
         }
     }
 

@@ -88,6 +88,10 @@ public class SongLoader {
         return getSongForCursor(makeSongCursor(context, "_id="+String.valueOf(id)));
     }
 
+    public static ArrayList<Song> searchSongs(Context context,String searchString){
+        return  getSongsForCursor(makeSongCursor(context, "title LIKE ?"+searchString));
+    }
+
 
     public static Cursor makeSongCursor(Context context, String selection) {
         String selectionStatement = "is_music=1 AND title != ''";

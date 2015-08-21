@@ -31,6 +31,7 @@ public class Constants {
     public static final String TIMBER3="timber3";
 
     public static final String NAVIGATE_SETTINGS="navigate_settings";
+    public static final String NAVIGATE_SEARCH="navigate_search";
 
     public static final String SETTINGS_STYLE_SELECTOR_NOWPLAYING="style_selector_nowplaying";
     public static final String SETTINGS_STYLE_SELECTOR_ARTIST="style_selector_artist";

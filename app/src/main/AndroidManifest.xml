@@ -28,9 +28,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.SettingsActivity"/>
+        <activity android:name=".activities.SettingsActivity"
+            android:theme="@style/AppThemeNormal"/>
+
         <activity android:name=".activities.PlaylistDetailActivity"
             android:theme="@style/AppTheme.FullScreen"/>
+
+        <activity android:name=".activities.SearchActivity"
+            android:theme="@style/AppThemeNormal"/>
 
         <!-- Music service -->
         <service

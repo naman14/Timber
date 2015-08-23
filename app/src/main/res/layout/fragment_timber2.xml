@@ -61,7 +61,7 @@
 
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp">
@@ -86,8 +86,8 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:scaleType="centerCrop"
-                        app:layout_heightPercent="75%"
-                        app:layout_widthPercent="75%" />
+                        app:layout_heightPercent="80%"
+                        app:layout_widthPercent="80%" />
 
                     <com.naman14.timber.widgets.CircularSeekBar
                         android:id="@+id/song_progress_circular"
@@ -98,8 +98,8 @@
                         android:maxHeight="1dp"
                         android:progress="30"
                         app:circle_progress_color="@color/colorAccent"
-                        app:layout_heightPercent="90%"
-                        app:layout_widthPercent="90%"
+                        app:layout_heightPercent="95%"
+                        app:layout_widthPercent="95%"
                         app:pointer_color="@color/colorAccent"
                         app:pointer_halo_color="@color/colorAccent"
                         app:pointer_halo_border_width="1.5"

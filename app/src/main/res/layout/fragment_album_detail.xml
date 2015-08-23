@@ -47,7 +47,7 @@
             android:background="@drawable/bg_gradient"
             android:visibility="gone">
 
-            <com.naman14.timber.widgets.CircularImageView
+            <com.naman14.timber.widgets.CircleImageView
                 android:layout_width="50dp"
                 android:id="@+id/artist_art"
                 android:layout_height="50dp"

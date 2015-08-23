@@ -21,21 +21,6 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="CircularImageView">
-
-        <attr name="civ_border" format="boolean"/>
-        <attr name="civ_borderColor" format="color"/>
-        <attr name="civ_borderWidth" format="dimension"/>
-        <attr name="civ_selector" format="boolean"/>
-        <attr name="civ_selectorColor" format="color"/>
-        <attr name="civ_selectorStrokeColor" format="color"/>
-        <attr name="civ_selectorStrokeWidth" format="dimension"/>
-        <attr name="civ_shadow" format="boolean"/>
-        <attr name="civ_shadowRadius" format="float"/>
-        <attr name="civ_shadowDx" format="float"/>
-        <attr name="civ_shadowDy" format="float"/>
-        <attr name="civ_shadowColor" format="color"/>
-    </declare-styleable>
 
     <declare-styleable name="CircularImageViewStyle">
         <attr name="circularImageViewDefault" format="reference"/>
@@ -52,6 +37,12 @@
         <attr name="android:maxWidth" />
         <!-- Maximum size. -->
         <attr name="android:maxHeight" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="border_overlay" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="CircularSeekBar">

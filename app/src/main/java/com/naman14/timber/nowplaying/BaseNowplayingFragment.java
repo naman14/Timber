@@ -1,5 +1,6 @@
 package com.naman14.timber.nowplaying;
 
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -29,7 +30,9 @@ import com.naman14.timber.widgets.PlayPauseButton;
 import com.naman14.timber.widgets.PlayPauseDrawable;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
@@ -195,7 +198,18 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                                 .showImageOnFail(R.drawable.ic_empty_music2)
                                 .resetViewBeforeLoading(true)
                                 .displayer(new FadeInBitmapDisplayer(400))
-                                .build());
+                                .build(), new SimpleImageLoadingListener() {
+
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                doAlbumArtStuff(loadedImage);
+                            }
+                            @Override
+                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                            }
+
+                        });
             }
         }
         duetoplaypause=false;
@@ -310,9 +324,9 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     }
     public void updatePlayPauseFloatingButton(){
         if (MusicPlayer.isPlaying()) {
-                playPauseDrawable.transformToPause(true);
+                playPauseDrawable.transformToPause(false);
         } else {
-                playPauseDrawable.transformToPlay(true);
+                playPauseDrawable.transformToPlay(false);
         }
     }
 
@@ -415,5 +429,10 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     public void setMusicStateListener(){
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
+    }
+
+
+    public void doAlbumArtStuff(Bitmap loadedImage){
+
     }
 }

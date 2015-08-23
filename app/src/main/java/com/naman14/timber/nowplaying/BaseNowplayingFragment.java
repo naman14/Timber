@@ -3,6 +3,7 @@ package com.naman14.timber.nowplaying;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +23,10 @@ import com.naman14.timber.adapters.BaseQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.utils.TimberUtils;
+import com.naman14.timber.widgets.CircularSeekBar;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.PlayPauseButton;
+import com.naman14.timber.widgets.PlayPauseDrawable;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -39,10 +42,13 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     ImageView shuffle;
     MaterialIconView previous,next;
     PlayPauseButton mPlayPause;
+    PlayPauseDrawable playPauseDrawable=new PlayPauseDrawable();
+    FloatingActionButton playPauseFloating;
     View playPauseWrapper;
 
     TextView songtitle,songalbum,songartist,songduration,elapsedtime;
     SeekBar mProgress;
+    CircularSeekBar mCircularProgress;
     ProgressBar mProgressNormal;
 
     RecyclerView recyclerView;
@@ -57,6 +63,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         next=(MaterialIconView) view.findViewById(R.id.next);
         previous=(MaterialIconView) view.findViewById(R.id.previous);
         mPlayPause=(PlayPauseButton) view.findViewById(R.id.playpause);
+        playPauseFloating=(FloatingActionButton) view.findViewById(R.id.playpausefloating);
         playPauseWrapper=view.findViewById(R.id.playpausewrapper);
 
         songtitle=(TextView) view.findViewById(R.id.song_title);
@@ -66,6 +73,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         elapsedtime=(TextView) view.findViewById(R.id.song_elapsed_time);
 
         mProgress=(SeekBar) view.findViewById(R.id.song_progress);
+        mCircularProgress=(CircularSeekBar) view.findViewById(R.id.song_progress_circular);
         mProgressNormal=(ProgressBar) view.findViewById(R.id.song_progress_normal);
 
         recyclerView=(RecyclerView) view.findViewById(R.id.queue_recyclerview);
@@ -77,7 +85,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle("");
         }
-        mPlayPause.setColor(getActivity().getResources().getColor(android.R.color.white));
+        if (mPlayPause!=null)
+            mPlayPause.setColor(getActivity().getResources().getColor(android.R.color.white));
+
+        if (playPauseFloating!=null) {
+            playPauseFloating.setImageDrawable(playPauseDrawable);
+            if (MusicPlayer.isPlaying())
+                playPauseDrawable.transformToPause(false);
+            else playPauseDrawable.transformToPlay(false);
+        }
+
         setSongDetails();
 
     }
@@ -85,46 +102,40 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     private void setSongDetails(){
         updateSongDetails();
 
+        if (mProgress!=null)
         mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
 
         if (recyclerView!=null)
         setQueueSongs();
 
-        mProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b){
-                    MusicPlayer.seek((long)i);
+        setSeekBarListener();
+
+        if (next!=null) {
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicPlayer.next();
+//                updateSongDetails();
+                    notifyPlayingDrawableChange();
                 }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MusicPlayer.next();
+            });
+        }
+        if (previous!=null) {
+            previous.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicPlayer.previous(getActivity(), false);
 //                updateSongDetails();
-                notifyPlayingDrawableChange();
-            }
-        });
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MusicPlayer.previous(getActivity(),false);
-//                updateSongDetails();
-                notifyPlayingDrawableChange();
-            }
-        });
+                    notifyPlayingDrawableChange();
+                }
+            });
+        }
 
-        playPauseWrapper.setOnClickListener(mButtonListener);
+        if (playPauseWrapper!=null)
+            playPauseWrapper.setOnClickListener(mButtonListener);
+
+        if (playPauseFloating!=null)
+            playPauseFloating.setOnClickListener(mFLoatingButtonListener);
 
         if (shuffle!=null) {
             shuffle.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +147,45 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
+    private void setSeekBarListener(){
+        if (mProgress!=null)
+            mProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                    if (b){
+                        MusicPlayer.seek((long)i);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+            });
+        if (mCircularProgress!=null){
+            mCircularProgress.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(CircularSeekBar circularSeekBar, int progress, boolean fromUser) {
+                    if (fromUser){
+                        MusicPlayer.seek((long)progress);
+                    }
+                }
+
+                @Override
+                public void onStopTrackingTouch(CircularSeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(CircularSeekBar seekBar) {
+
+                }
+            });
+        }
+    }
     public void updateSongDetails(){
         //do not reload image if it was a play/pause change
         if (!duetoplaypause) {
@@ -149,8 +199,15 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             }
         }
         duetoplaypause=false;
-        updatePlayPauseButton();
 
+        if (mPlayPause!=null)
+            updatePlayPauseButton();
+
+        if (playPauseFloating!=null)
+            updatePlayPauseFloatingButton();
+
+
+        if (songtitle!=null)
         songtitle.setText(MusicPlayer.getTrackName());
 
         if (songalbum!=null)
@@ -168,6 +225,13 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                 mProgress.removeCallbacks(mUpdateProgress);
             }
             mProgress.postDelayed(mUpdateProgress, 10);
+        }
+        if (mCircularProgress!=null) {
+            mCircularProgress.setMax((int) MusicPlayer.duration());
+            if (mUpdateCircularProgress != null) {
+                mCircularProgress.removeCallbacks(mUpdateCircularProgress);
+            }
+            mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
         }
 
         if (mProgressNormal!=null) {
@@ -211,6 +275,25 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
+    private final View.OnClickListener mFLoatingButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            duetoplaypause=true;
+            playPauseDrawable.transformToPlay(true);
+            playPauseDrawable.transformToPause(true);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playOrPause();
+                    if (recyclerView!=null && recyclerView.getAdapter()!=null)
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                }
+            },250);
+
+
+        }
+    };
 
     public void updatePlayPauseButton(){
         if (MusicPlayer.isPlaying()) {
@@ -223,6 +306,13 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                 mPlayPause.setPlayed(false);
                 mPlayPause.startAnimation();
             }
+        }
+    }
+    public void updatePlayPauseFloatingButton(){
+        if (MusicPlayer.isPlaying()) {
+                playPauseDrawable.transformToPause(true);
+        } else {
+                playPauseDrawable.transformToPlay(true);
         }
     }
 
@@ -241,6 +331,25 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
             if(MusicPlayer.isPlaying()) {
                 mProgress.postDelayed(mUpdateProgress, 50);
+            }
+
+        }
+    };
+    //circular seekbar
+    public Runnable mUpdateCircularProgress=new Runnable() {
+
+        @Override
+        public void run() {
+
+            if(mCircularProgress != null) {
+                long position=MusicPlayer.position();
+                mCircularProgress.setProgress((int)position);
+                if (elapsedtime!=null)
+                    elapsedtime.setText(String.valueOf(position/1000));
+            }
+
+            if(MusicPlayer.isPlaying()) {
+                mCircularProgress.postDelayed(mUpdateCircularProgress, 50);
             }
 
         }

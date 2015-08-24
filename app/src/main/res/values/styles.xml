@@ -2,6 +2,8 @@
 
     <attr format="reference" name="cardStyle"/>
     <attr format="reference|color" name="accentColor"/>
+    <attr format="reference|color" name="iconColor"/>
+    <attr format="reference|color" name="progressBackgroundColor"/>
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -10,6 +12,8 @@
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
         <item name="accentColor">@color/colorAccent</item>
+        <item name="iconColor">@android:color/black</item>
+        <item name="progressBackgroundColor">#33000000</item>
 
     </style>
 
@@ -20,6 +24,8 @@
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
         <item name="accentColor">@color/colorAccent</item>
+        <item name="iconColor">@android:color/black</item>
+        <item name="progressBackgroundColor">#33000000</item>
 
     </style>
 
@@ -30,6 +36,8 @@
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
         <item name="accentColor">@color/colorAccent</item>
+        <item name="iconColor">@android:color/black</item>
+        <item name="progressBackgroundColor">#33000000</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
@@ -39,6 +47,8 @@
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
         <item name="accentColor">@color/colorAccentDarkTheme</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="progressBackgroundColor">#33ffffff</item>
 
     </style>
 
@@ -49,6 +59,8 @@
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
         <item name="accentColor">@color/colorAccentDarkTheme</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="progressBackgroundColor">#33ffffff</item>
 
     </style>
 
@@ -59,6 +71,8 @@
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
         <item name="accentColor">@color/colorAccentDarkTheme</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="progressBackgroundColor">#33ffffff</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

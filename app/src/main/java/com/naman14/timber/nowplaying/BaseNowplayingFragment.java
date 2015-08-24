@@ -122,9 +122,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MusicPlayer.next();
+                    Handler handler=new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            MusicPlayer.next();
 //                updateSongDetails();
-                    notifyPlayingDrawableChange();
+                            notifyPlayingDrawableChange();
+                        }
+                    },200);
+
                 }
             });
         }
@@ -132,9 +139,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             previous.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MusicPlayer.previous(getActivity(), false);
+                    Handler handler=new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            MusicPlayer.previous(getActivity(), false);
 //                updateSongDetails();
-                    notifyPlayingDrawableChange();
+                            notifyPlayingDrawableChange();
+                        }
+                    },200);
+
                 }
             });
         }

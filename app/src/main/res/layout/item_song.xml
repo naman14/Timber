@@ -62,7 +62,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginRight="20dp"
             android:scaleType="center"
-            app:materialIconColor="@color/colorAccent"
+            app:materialIconColor="?attr/accentColor"
             app:materialIconSize="35dp"
             android:visibility="invisible"
             android:layout_alignParentRight="true"/>

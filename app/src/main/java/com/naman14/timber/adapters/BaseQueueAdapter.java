@@ -53,11 +53,9 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
             if (MusicPlayer.isPlaying()){
                 itemHolder.playSong.setVisibility(View.VISIBLE);
                 itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
-                itemHolder.playSong.setColorResource(R.color.colorAccent);
             } else {
                 itemHolder.playSong.setVisibility(View.VISIBLE);
                 itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
-                itemHolder.playSong.setColorResource(R.color.colorAccent);
             }
         }else {
             itemHolder.playSong.setVisibility(View.INVISIBLE);

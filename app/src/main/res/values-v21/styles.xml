@@ -9,6 +9,8 @@
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
         <item name="accentColor">@color/colorAccent</item>
+        <item name="iconColor">@android:color/black</item>
+        <item name="progressBackgroundColor">#33000000</item>
 
     </style>
 
@@ -23,6 +25,8 @@
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
         <item name="accentColor">@color/colorAccent</item>
+        <item name="iconColor">@android:color/black</item>
+        <item name="progressBackgroundColor">#33000000</item>
     </style>
 
     <style name="AppTheme.FullScreen.Dark" parent="@style/Theme.AppCompat.NoActionBar">
@@ -33,6 +37,8 @@
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
         <item name="accentColor">@color/colorAccentDarkTheme</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="progressBackgroundColor">#33ffffff</item>
 
     </style>
 
@@ -47,6 +53,8 @@
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
         <item name="accentColor">@color/colorAccentDarkTheme</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="progressBackgroundColor">#33ffffff</item>
     </style>
 
 

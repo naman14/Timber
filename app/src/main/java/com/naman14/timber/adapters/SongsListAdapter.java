@@ -37,15 +37,12 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     public int currentlyPlayingPosition;
 
     private int lastPosition = -1;
-    private boolean isLightTheme;
 
     public SongsListAdapter(Activity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.isPlaylist=isPlaylistSong;
         this.songIDs=getSongIds();
-        this.isLightTheme=PreferencesUtility.getInstance(context).getTheme().equals("light");
-
     }
 
     @Override
@@ -74,13 +71,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             if (MusicPlayer.isPlaying()){
                 itemHolder.playingIndicator.setVisibility(View.VISIBLE);
                 itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
-                if (!isLightTheme)
-                itemHolder.playingIndicator.setColorResource(R.color.colorAccentDarkTheme);
             } else {
                 itemHolder.playingIndicator.setVisibility(View.VISIBLE);
                 itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
-                if (!isLightTheme)
-                itemHolder.playingIndicator.setColorResource(R.color.colorAccentDarkTheme);
             }
         } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
 

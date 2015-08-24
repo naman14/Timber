@@ -46,7 +46,8 @@
                     android:singleLine="true"
                     android:textColor="#ffffff"
                     android:textSize="21sp"
-                    android:maxLength="18"/>
+                    android:maxLength="18"
+                    android:layout_marginRight="10dp"/>
 
                 <TextView
                     android:id="@+id/song_artist"
@@ -57,7 +58,8 @@
                     android:paddingTop="3dp"
                     android:textColor="#ffffff"
                     android:textSize="13sp"
-                    android:maxLength="30"/>
+                    android:maxLength="30"
+                    android:layout_marginRight="10dp"/>
 
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
@@ -104,7 +106,8 @@
                         app:pointer_halo_color="@color/colorAccent"
                         app:pointer_halo_border_width="1.5"
                         app:pointer_halo_width="0.5"
-                        app:circle_stroke_width="2" />
+                        app:circle_stroke_width="2"
+                        app:circle_color="#33000000"/>
 
 
                     <net.steamcrafted.materialiconlib.MaterialIconView

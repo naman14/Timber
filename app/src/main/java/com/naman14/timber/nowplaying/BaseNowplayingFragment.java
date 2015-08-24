@@ -59,7 +59,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     private boolean duetoplaypause=false;
 
-    public void setSongDetails(View view){
+    public void setSongDetails(View view) {
 
         albumart=(ImageView) view.findViewById(R.id.album_art);
         shuffle=(ImageView) view.findViewById(R.id.shuffle);
@@ -88,7 +88,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle("");
         }
-        if (mPlayPause!=null)
+        if (mPlayPause!=null && getActivity()!=null)
             mPlayPause.setColor(getActivity().getResources().getColor(android.R.color.white));
 
         if (playPauseFloating!=null) {
@@ -105,7 +105,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     private void setSongDetails(){
         updateSongDetails();
 
-        if (mProgress!=null)
+        if (mProgress!=null && getActivity()!=null)
         mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
 
         if (recyclerView!=null)

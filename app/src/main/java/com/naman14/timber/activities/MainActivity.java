@@ -25,6 +25,7 @@ import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -51,6 +52,8 @@ public class MainActivity extends BaseActivity {
     Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
     Handler navDrawerRunnable = new Handler();
 
+    private boolean isLightTheme;
+
     public static MainActivity getInstance() {
         return sMainActivity;
 
@@ -62,15 +65,22 @@ public class MainActivity extends BaseActivity {
         sMainActivity = this;
         action = getIntent().getAction();
 
+        isLightTheme=PreferencesUtility.getInstance(this).getTheme().equals("light");
+
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
-            setTheme(R.style.AppTheme_FullScreen);
+           if (isLightTheme)
+            setTheme(R.style.AppTheme_FullScreen_Light);
+            else setTheme(R.style.AppTheme_FullScreen_Dark);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main_fullscreen);
         } else {
-
+            if (isLightTheme)
+                setTheme(R.style.AppThemeLight);
+            else setTheme(R.style.AppThemeDark);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
         }
+
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
         navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
@@ -158,8 +168,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupNavigationIcons(NavigationView navigationView) {
-        MaterialDrawableBuilder drawable = MaterialDrawableBuilder.with(this)
-                .setColor(Color.BLACK);
+        MaterialDrawableBuilder drawable = MaterialDrawableBuilder.with(this);
+            if (isLightTheme)
+                drawable.setColor(Color.BLACK);
+            else drawable.setColor(Color.WHITE);
 
         navigationView.getMenu().findItem(R.id.nav_library).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.LIBRARY_MUSIC).build());
         navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.PLAYLIST_PLUS).build());

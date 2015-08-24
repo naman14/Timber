@@ -18,7 +18,7 @@
     <dimen name="grid_bottom_height">44dip</dimen>
 
     <dimen name="spacing_card">10dp</dimen>
-    <dimen name="spacing_card_album_grid">2dp</dimen>
+    <dimen name="spacing_card_album_grid">3dp</dimen>
 
     <item name="letter_to_tile_ratio" type="dimen">53%</item>
 

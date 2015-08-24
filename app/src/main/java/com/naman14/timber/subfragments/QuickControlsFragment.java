@@ -70,7 +70,13 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
         mProgress.setLayoutParams(layoutParams);
         mProgress.setScaleY(0.5f);
 
-        mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorPrimary));
+        if (isThemeIsLight()) {
+            mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccent));
+        }
+        else {
+            mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccentDarkTheme));
+            mProgress.setProgressDrawable(getResources().getDrawable(R.drawable.progress_drawable_dark));
+        }
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override

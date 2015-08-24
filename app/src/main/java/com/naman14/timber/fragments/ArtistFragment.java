@@ -51,7 +51,7 @@ public class ArtistFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
         }
 
         @Override

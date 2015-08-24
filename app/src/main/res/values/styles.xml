@@ -1,19 +1,57 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <attr format="reference" name="cardStyle"/>
+
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
+        <item name="cardStyle">@style/CardView.Light</item>
 
     </style>
 
-    <style name="AppThemeNormal" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeNormalLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
+        <item name="cardStyle">@style/CardView.Light</item>
 
+    </style>
+
+    <style name="AppTheme.FullScreen.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="cardStyle">@style/CardView.Light</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="cardStyle">@style/CardView.Dark</item>
+
+    </style>
+
+    <style name="AppThemeNormalDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="cardStyle">@style/CardView.Dark</item>
+
+    </style>
+
+    <style name="AppTheme.FullScreen.Dark" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="cardStyle">@style/CardView.Dark</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -21,11 +59,7 @@
         <item name="color">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+
 
     <style name="TextApperance.Album.Title" parent="@style/TextAppearance.AppCompat.Large">
         <item name="android:textSize">29sp</item>
@@ -48,6 +82,14 @@
         <item name="elevation">6dp</item>
         <item name="pressedTranslationZ">12dp</item>
         <item name="rippleColor">@android:color/white</item>
+    </style>
+
+    <style name="CardViewStyle.Light" parent="CardView">
+        <item name="cardBackgroundColor">@color/window_background</item>
+    </style>
+
+    <style name="CardViewStyle.Dark" parent="CardView">
+        <item name="cardBackgroundColor">@color/window_background_dark</item>
     </style>
 
 

@@ -10,6 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.naman14.timber.R;
+import com.naman14.timber.utils.PreferencesUtility;
+
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{
@@ -26,7 +29,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     public DividerItemDecoration(Context context, int orientation) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        mDivider = a.getDrawable(0);
+        if (PreferencesUtility.getInstance(context).getTheme().equals("light"))
+            mDivider=ContextCompat.getDrawable(context, R.drawable.item_divider_black);
+        else mDivider=ContextCompat.getDrawable(context,R.drawable.item_divider_white);
+//        mDivider = a.getDrawable(0);
         a.recycle();
         setOrientation(orientation);
     }

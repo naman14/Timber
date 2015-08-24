@@ -22,6 +22,7 @@
             android:padding="2dp"
             android:textSize="20sp"
             android:layout_alignParentLeft="true"
+            style="@style/TextAppearance.AppCompat.Large"
             />
 
         <LinearLayout
@@ -39,20 +40,20 @@
                 android:id="@+id/song_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
                 android:textSize="16sp"
                 android:ellipsize="end"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                style="@style/TextAppearance.AppCompat.Body1"/>
 
             <TextView
                 android:id="@+id/song_duration"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
-                android:textColor="#88000000"
                 android:textSize="12sp"
                 android:ellipsize="end"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"/>
 
 
 

@@ -65,7 +65,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
         @Override
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
 
         }
 

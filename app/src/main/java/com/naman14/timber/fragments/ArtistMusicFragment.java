@@ -69,7 +69,7 @@ public class ArtistMusicFragment extends Fragment {
         songList.add(0,new Song(-1,-1,-1,"dummy","dummy","dummy",-1,-1));
 
         mSongAdapter = new ArtistSongAdapter(getActivity(), songList, artistID);
-        songsRecyclerview.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_black));
+        songsRecyclerview.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
         songsRecyclerview.setAdapter(mSongAdapter);
     }
 

@@ -214,7 +214,7 @@ public class AlbumDetailFragment extends Fragment {
 
         List<Song> songList = AlbumSongLoader.getSongsForAlbum(getActivity(), albumID);
         mAdapter = new AlbumSongsAdapter(getActivity(), songList, albumID);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_black));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(mAdapter);
 
     }

@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.FullScreen.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!--<item name="android:windowTranslucentStatus">true</item>-->
         <!--<item name="android:windowTranslucentNavigation">false</item>-->
+        <item name="cardStyle">@style/CardView.Light</item>
+        <item name="android:windowBackground">@color/window_background</item>
 
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
 
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="cardStyle">@style/CardView.Light</item>
+        <item name="android:windowBackground">@color/window_background</item>
+
+    </style>
+
+    <style name="AppTheme.FullScreen.Dark" parent="@style/Theme.AppCompat.NoActionBar">
+
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowTranslucentNavigation">false</item>-->
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="cardStyle">@style/CardView.Dark</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+
+
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="cardStyle">@style/CardView.Dark</item>
 
     </style>
 

@@ -2,6 +2,7 @@ package com.naman14.timber.nowplaying;
 
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,7 @@ import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.adapters.BaseQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.CircularSeekBar;
 import com.naman14.timber.widgets.DividerItemDecoration;
@@ -105,9 +107,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     private void setSongDetails(){
         updateSongDetails();
 
-        if (mProgress!=null && getActivity()!=null)
-        mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
-
+        if (mProgress!=null && getActivity()!=null) {
+            if (isThemeIsLight()) {
+                mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+            } else {
+                mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccentDarkTheme), PorterDuff.Mode.SRC_IN);
+                Rect bounds = mProgress.getProgressDrawable().getBounds();
+                mProgress.setProgressDrawable(getResources().getDrawable(R.drawable.progress_drawable_withbackground_dark));
+                mProgress.getProgressDrawable().setBounds(bounds);
+            }
+        }
         if (recyclerView!=null)
         setQueueSongs();
 
@@ -434,5 +443,11 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     public void doAlbumArtStuff(Bitmap loadedImage){
 
+    }
+
+    public boolean isThemeIsLight(){
+        if (getActivity()!=null)
+        return PreferencesUtility.getInstance(getActivity()).getTheme().equals("light");
+        else return true;
     }
 }

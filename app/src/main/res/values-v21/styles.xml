@@ -8,6 +8,7 @@
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
+        <item name="accentColor">@color/colorAccent</item>
 
     </style>
 
@@ -21,6 +22,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
+        <item name="accentColor">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.FullScreen.Dark" parent="@style/Theme.AppCompat.NoActionBar">
@@ -30,6 +32,7 @@
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
+        <item name="accentColor">@color/colorAccentDarkTheme</item>
 
     </style>
 
@@ -43,6 +46,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
+        <item name="accentColor">@color/colorAccentDarkTheme</item>
     </style>
 
 

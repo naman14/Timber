@@ -2,7 +2,6 @@ package com.naman14.timber.nowplaying;
 
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -112,9 +111,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                 mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
             } else {
                 mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccentDarkTheme), PorterDuff.Mode.SRC_IN);
-                Rect bounds = mProgress.getProgressDrawable().getBounds();
-                mProgress.setProgressDrawable(getResources().getDrawable(R.drawable.progress_drawable_withbackground_dark));
-                mProgress.getProgressDrawable().setBounds(bounds);
             }
         }
         if (recyclerView!=null)
@@ -411,6 +407,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         @Override
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
+            if (getActivity()!=null)
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_white));
             recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
 

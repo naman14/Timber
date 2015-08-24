@@ -1,6 +1,7 @@
 <resources>
 
     <attr format="reference" name="cardStyle"/>
+    <attr format="reference|color" name="accentColor"/>
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -8,6 +9,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
+        <item name="accentColor">@color/colorAccent</item>
 
     </style>
 
@@ -17,6 +19,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
+        <item name="accentColor">@color/colorAccent</item>
 
     </style>
 
@@ -26,6 +29,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
         <item name="cardStyle">@style/CardView.Light</item>
+        <item name="accentColor">@color/colorAccent</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
@@ -34,6 +38,7 @@
         <item name="colorAccent">@color/colorAccentDarkTheme</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
+        <item name="accentColor">@color/colorAccentDarkTheme</item>
 
     </style>
 
@@ -43,6 +48,7 @@
         <item name="colorAccent">@color/colorAccentDarkTheme</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
+        <item name="accentColor">@color/colorAccentDarkTheme</item>
 
     </style>
 
@@ -52,6 +58,7 @@
         <item name="colorAccent">@color/colorAccentDarkTheme</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="cardStyle">@style/CardView.Dark</item>
+        <item name="accentColor">@color/colorAccentDarkTheme</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -91,6 +98,8 @@
     <style name="CardViewStyle.Dark" parent="CardView">
         <item name="cardBackgroundColor">@color/window_background_dark</item>
     </style>
+
+
 
 
 </resources>

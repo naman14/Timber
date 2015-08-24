@@ -10,6 +10,7 @@ import com.naman14.timber.R;
 import com.naman14.timber.fragments.SettingsFragment;
 import com.naman14.timber.subfragments.StyleSelectorFragment;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.PreferencesUtility;
 
 /**
  * Created by naman on 07/08/15.
@@ -21,6 +22,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        if (!PreferencesUtility.getInstance(this).getTheme().equals("light"))
+            setTheme(R.style.AppThemeNormalDark);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 

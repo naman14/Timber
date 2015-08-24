@@ -199,6 +199,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_artist:
                 break;
+            case R.id.nav_settings:
+                NavigationUtils.navigateToSettings(MainActivity.this);
+                break;
         }
 
         if (fragment != null) {

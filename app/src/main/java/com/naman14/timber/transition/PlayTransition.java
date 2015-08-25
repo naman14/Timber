@@ -21,7 +21,6 @@ import android.transition.Transition;
 import android.transition.TransitionValues;
 import android.util.ArrayMap;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -240,7 +239,7 @@ public class PlayTransition extends Transition {
     static float calculateMaxRadius(View view) {
         float widthSquared = view.getWidth() * view.getWidth();
         float heightSquared = view.getHeight() * view.getHeight();
-        float radius = FloatMath.sqrt(widthSquared + heightSquared) / 2;
+        float radius = (float)Math.sqrt(widthSquared + heightSquared) / 2;
         return radius;
     }
 

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -35,6 +36,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
 /**
@@ -159,11 +161,32 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (playPauseFloating!=null)
             playPauseFloating.setOnClickListener(mFLoatingButtonListener);
 
-        if (shuffle!=null) {
+        updateShuffleState();
+
+    }
+
+    private void updateShuffleState(){
+        if (shuffle!=null && getActivity()!=null) {
+            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
+            TypedValue typeValue = new TypedValue();
+
+            getActivity().getTheme().resolveAttribute(R.attr.iconColor, typeValue, true);
+            int color= typeValue.data;
+
+            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
+            int color2=typeValue.data;
+
+            if (MusicPlayer.getShuffleMode()==0){
+                builder.setColor(color);
+            } else builder.setColor(color2);
+
+            shuffle.setImageDrawable(builder.build());
             shuffle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     MusicPlayer.cycleShuffle();
+                    updateShuffleState();
                 }
             });
         }

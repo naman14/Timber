@@ -181,7 +181,6 @@
         android:clickable="true"
         android:scaleType="centerInside"
         app:backgroundTint="?attr/accentColor"
-        android:src="@drawable/ic_shuffle_white_36dp"
         app:layout_anchor="@id/headerView"
         app:layout_anchorGravity="bottom|right|end" />
 

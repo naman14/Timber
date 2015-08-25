@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -28,6 +29,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumSongsAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
@@ -41,6 +43,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
@@ -124,6 +127,21 @@ public class AlbumDetailFragment extends Fragment {
         } else {
             setUpEverything();
         }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        AlbumSongsAdapter adapter=(AlbumSongsAdapter)recyclerView.getAdapter();
+                        MusicPlayer.playAll(getActivity(), adapter.getSongIds(), 0,albumID , TimberUtils.IdType.Album, true);
+                        NavigationUtils.navigateToNowplaying(getActivity(),false);
+                    }
+                },150);
+            }
+        });
 
         return rootView;
     }

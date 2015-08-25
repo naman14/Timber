@@ -10,7 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        renderscriptTargetApi 22
+        renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }
     buildTypes {
@@ -19,7 +19,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    configurations.all {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
+
 repositories {
     jcenter()
 }

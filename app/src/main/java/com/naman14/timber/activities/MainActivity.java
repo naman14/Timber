@@ -21,6 +21,7 @@ import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaylistFragment;
+import com.naman14.timber.fragments.QueueFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
@@ -194,6 +195,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this, false);
+                break;
+            case R.id.nav_queue:
+                fragment = new QueueFragment();
                 break;
             case R.id.nav_album:
                 break;

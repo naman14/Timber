@@ -465,6 +465,16 @@ public class MusicPlayer {
         return false;
     }
 
+    public static void moveQueueItem(final int from, final int to) {
+        try {
+            if (mService != null) {
+                mService.moveQueueItem(from, to);
+            } else {
+            }
+        } catch (final RemoteException ignored) {
+        }
+    }
+
 
     public static void playArtist(final Context context, final long artistId, int position, boolean shuffle) {
         final long[] artistList = getSongListForArtist(context, artistId);

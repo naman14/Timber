@@ -17,6 +17,10 @@
 
             android:title="Now Playing" />
         <item
+            android:id="@+id/nav_queue"
+
+            android:title="Playing Queue" />
+        <item
             android:id="@+id/nav_artist"
 
             android:title="Go to Artist" />

@@ -46,6 +46,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     ImageView albumart;
     ImageView shuffle;
+    ImageView repeat;
     MaterialIconView previous,next;
     PlayPauseButton mPlayPause;
     PlayPauseDrawable playPauseDrawable=new PlayPauseDrawable();
@@ -66,6 +67,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         albumart=(ImageView) view.findViewById(R.id.album_art);
         shuffle=(ImageView) view.findViewById(R.id.shuffle);
+        repeat=(ImageView) view.findViewById(R.id.repeat);
         next=(MaterialIconView) view.findViewById(R.id.next);
         previous=(MaterialIconView) view.findViewById(R.id.previous);
         mPlayPause=(PlayPauseButton) view.findViewById(R.id.playpause);
@@ -162,13 +164,15 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             playPauseFloating.setOnClickListener(mFLoatingButtonListener);
 
         updateShuffleState();
+        updateRepeatState();
 
     }
 
     private void updateShuffleState(){
         if (shuffle!=null && getActivity()!=null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
+                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                    .setSizeDp(30);
             TypedValue typeValue = new TypedValue();
 
             getActivity().getTheme().resolveAttribute(R.attr.iconColor, typeValue, true);
@@ -186,6 +190,35 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                 @Override
                 public void onClick(View view) {
                     MusicPlayer.cycleShuffle();
+                    updateShuffleState();
+                    updateRepeatState();
+                }
+            });
+        }
+    }
+    private void updateRepeatState(){
+        if (repeat!=null && getActivity()!=null) {
+            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                    .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
+                    .setSizeDp(30);
+            TypedValue typeValue = new TypedValue();
+
+            getActivity().getTheme().resolveAttribute(R.attr.iconColor, typeValue, true);
+            int color= typeValue.data;
+
+            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
+            int color2=typeValue.data;
+
+            if (MusicPlayer.getRepeatMode()==0){
+                builder.setColor(color);
+            } else builder.setColor(color2);
+
+            repeat.setImageDrawable(builder.build());
+            repeat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicPlayer.cycleRepeat();
+                    updateRepeatState();
                     updateShuffleState();
                 }
             });

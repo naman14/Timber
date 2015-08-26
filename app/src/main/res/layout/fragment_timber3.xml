@@ -91,26 +91,20 @@
                     android:orientation="horizontal"
                     android:layout_alignParentRight="true">
 
-                    <net.steamcrafted.materialiconlib.MaterialIconView
+                    <ImageView
                         android:id="@+id/shuffle"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:scaleType="center"
-                        app:materialIcon="shuffle"
-                        app:materialIconColor="?attr/iconColor"
-                        app:materialIconSize="30dp" />
+                        android:scaleType="center" />
 
-                    <net.steamcrafted.materialiconlib.MaterialIconView
+                    <ImageView
                         android:id="@+id/repeat"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:paddingLeft="5dp"
-                        android:scaleType="center"
-                        app:materialIcon="repeat"
-                        app:materialIconColor="?attr/iconColor"
-                        app:materialIconSize="30dp" />
+                        android:scaleType="center" />
                 </LinearLayout>
             </RelativeLayout>
 

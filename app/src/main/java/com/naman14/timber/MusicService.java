@@ -2008,8 +2008,6 @@ public class MusicService extends Service {
 
     private void cycleRepeat() {
         if (mRepeatMode == REPEAT_NONE) {
-            setRepeatMode(REPEAT_ALL);
-        } else if (mRepeatMode == REPEAT_ALL) {
             setRepeatMode(REPEAT_CURRENT);
             if (mShuffleMode != SHUFFLE_NONE) {
                 setShuffleMode(SHUFFLE_NONE);
@@ -2023,9 +2021,9 @@ public class MusicService extends Service {
     private void cycleShuffle() {
         if (mShuffleMode == SHUFFLE_NONE) {
             setShuffleMode(SHUFFLE_NORMAL);
-            if (mRepeatMode == REPEAT_CURRENT) {
-                setRepeatMode(REPEAT_ALL);
-            }
+//            if (mRepeatMode == REPEAT_CURRENT) {
+//                setRepeatMode(REPEAT_ALL);
+//            }
         } else if (mShuffleMode == SHUFFLE_NORMAL || mShuffleMode == SHUFFLE_AUTO) {
             setShuffleMode(SHUFFLE_NONE);
         }

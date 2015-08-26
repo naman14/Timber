@@ -2,16 +2,15 @@ package com.naman14.timber.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SearchView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.provider.SearchHistory;
@@ -41,36 +40,34 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
-        mSearchView = (SearchView)searchItem.getActionView();
+        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setQueryHint("Search Library");
 
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setIconified(false);
-        int searchButtonId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
-        ImageView searchIcon = (ImageView)mSearchView.findViewById(searchButtonId);
-        searchIcon.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
 
-        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return true;
-            }
+        MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.menu_search), new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return true;
+                    }
 
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                finish();
-                return false;
-            }
-        });
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        finish();
+                        return false;
+                    }
+                });
 
-        menu.findItem(R.id.menu_search).expandActionView();
+                menu.findItem(R.id.menu_search).expandActionView();
 
         return super.onCreateOptionsMenu(menu);
     }

@@ -96,6 +96,8 @@ public class QueueFragment extends Fragment implements MusicStateListener {
             recyclerView.addOnItemTouchListener(dragSortRecycler);
             recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
 
+            recyclerView.getLayoutManager().scrollToPosition(mAdapter.currentlyPlayingPosition);
+
         }
 
         @Override

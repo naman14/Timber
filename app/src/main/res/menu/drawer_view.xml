@@ -13,13 +13,14 @@
 
             android:title="Playlists" />
         <item
-            android:id="@+id/nav_nowplaying"
-
-            android:title="Now Playing" />
-        <item
             android:id="@+id/nav_queue"
 
             android:title="Playing Queue" />
+        <item
+            android:id="@+id/nav_nowplaying"
+
+            android:title="Now Playing" />
+
         <item
             android:id="@+id/nav_artist"
 

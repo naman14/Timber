@@ -50,7 +50,6 @@ import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -209,7 +208,6 @@ public class AlbumDetailFragment extends Fragment {
                                 .cacheOnDisk(true)
                                 .showImageOnFail(R.drawable.ic_empty_music2)
                                 .resetViewBeforeLoading(true)
-                                .displayer(new FadeInBitmapDisplayer(400))
                                 .build());
             }
 

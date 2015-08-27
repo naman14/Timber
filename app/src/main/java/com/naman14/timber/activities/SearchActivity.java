@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.naman14.timber.R;
+import com.naman14.timber.adapters.SearchAdapter;
 import com.naman14.timber.provider.SearchHistory;
 import com.naman14.timber.utils.PreferencesUtility;
 
@@ -24,6 +27,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     private SearchView mSearchView;
     private InputMethodManager mImm;
     private String queryString;
+
+    private SearchAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        recyclerView=(RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 

@@ -1,6 +1,7 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,17 +50,16 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
-        if (i==currentlyPlayingPosition){
+        if (MusicPlayer.getCurrentAudioId()==localItem.id){
+            currentlyPlayingPosition=i;
             if (MusicPlayer.isPlaying()){
-                itemHolder.playSong.setVisibility(View.VISIBLE);
-                itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
+                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
+                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
             } else {
-                itemHolder.playSong.setVisibility(View.VISIBLE);
-                itemHolder.playSong.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
+                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
             }
-        }else {
-            itemHolder.playSong.setVisibility(View.INVISIBLE);
-        }
+        } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 
     }
@@ -73,31 +73,41 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title,artist;
         protected ImageView albumArt;
-        protected MaterialIconView playSong;
+        protected MaterialIconView playingIndicator;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
             this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
-            this.playSong=(MaterialIconView) view.findViewById(R.id.playSong);
+            this.playingIndicator=(MaterialIconView) view.findViewById(R.id.playSong);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            notifyItemChanged(currentlyPlayingPosition);
-            currentlyPlayingPosition=getAdapterPosition();
-            playSong.setVisibility(View.VISIBLE);
-            playSong.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
-            playSong.setColorResource(R.color.colorAccent);
-            try {
-                MusicPlayer.setQueuePosition(getAdapterPosition());
-            } catch (IllegalStateException e){
-                e.printStackTrace();
-            }
-
-//            BaseNowplayingFragment.updateSongDetails();
+            final Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.setQueuePosition(getAdapterPosition());
+                    Handler handler1=new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyItemChanged(currentlyPlayingPosition);
+                            notifyItemChanged(getAdapterPosition());
+                            Handler handler2=new Handler();
+                            handler2.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+//                                    NavigationUtils.navigateToNowplaying(mContext, true);
+                                }
+                            },50);
+                        }
+                    },50);
+                }
+            },100);
 
         }
 

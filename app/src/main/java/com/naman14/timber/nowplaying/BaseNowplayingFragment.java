@@ -33,7 +33,6 @@ import com.naman14.timber.widgets.PlayPauseDrawable;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -168,7 +167,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     }
 
-    private void updateShuffleState(){
+    public void updateShuffleState(){
         if (shuffle!=null && getActivity()!=null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
@@ -271,8 +270,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                 ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
                         new DisplayImageOptions.Builder().cacheInMemory(true)
                                 .showImageOnFail(R.drawable.ic_empty_music2)
-                                .resetViewBeforeLoading(true)
-                                .displayer(new FadeInBitmapDisplayer(400))
                                 .build(), new SimpleImageLoadingListener() {
 
                             @Override
@@ -478,7 +475,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
             if (getActivity()!=null)
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST,R.drawable.item_divider_white));
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
             recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
 
         }

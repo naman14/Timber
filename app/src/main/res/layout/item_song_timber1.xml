@@ -36,20 +36,20 @@
             android:id="@+id/song_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
             android:textSize="16sp"
             android:ellipsize="end"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            style="@style/TextAppearance.AppCompat.Body1"/>
 
         <TextView
             android:id="@+id/song_artist"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
-            android:textColor="#ffffff"
             android:textSize="13sp"
             android:ellipsize="end"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            style="@style/TextAppearance.AppCompat.Body1"/>
 
 
 

@@ -14,7 +14,7 @@
         <FrameLayout
             android:id="@+id/headerView"
             android:layout_width="match_parent"
-            app:layout_heightPercent="60%">
+            app:layout_heightPercent="65%">
 
             <ImageView
                 android:id="@+id/album_art"
@@ -148,45 +148,44 @@
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/previous"
+                    android:layout_marginLeft="30dp"
+                    android:layout_gravity="center"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.6"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:paddingLeft="50dp"
                     android:scaleType="center"
                     app:materialIcon="skip_previous"
                     app:materialIconColor="?attr/iconColor"
                     app:materialIconSize="35dp" />
 
                 <FrameLayout
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
                     android:layout_weight="1">
 
-                    <com.naman14.timber.widgets.PlayPauseButton
-                        android:id="@+id/playpause"
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_gravity="center" />
 
-                    <View
-                        android:id="@+id/playpausewrapper"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackgroundBorderless" />
-
-                </FrameLayout>
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/playpausefloating"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:clickable="true"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        app:backgroundTint="?attr/accentColor" />
+</FrameLayout>
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/next"
+                    android:layout_marginRight="30dp"
+                    android:layout_gravity="center"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.6"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:paddingRight="50dp"
                     android:scaleType="center"
                     app:materialIcon="skip_next"
                     app:materialIconColor="?attr/iconColor"
@@ -194,15 +193,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
-        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/queue_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/detailView"
-            android:clipToPadding="false"
-            android:paddingTop="18dp" />
 
     </android.support.percent.PercentRelativeLayout>
 

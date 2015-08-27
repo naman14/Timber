@@ -3,8 +3,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#292935">
+    android:layout_height="match_parent">
 
     <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -99,11 +98,11 @@
                         android:background="@android:color/transparent"
                         android:maxHeight="1dp"
                         android:progress="30"
-                        app:circle_progress_color="@color/colorAccent"
+                        app:circle_progress_color="?attr/accentColor"
                         app:layout_heightPercent="95%"
                         app:layout_widthPercent="95%"
-                        app:pointer_color="@color/colorAccent"
-                        app:pointer_halo_color="@color/colorAccent"
+                        app:pointer_color="?attr/accentColor"
+                        app:pointer_halo_color="?attr/accentColor"
                         app:pointer_halo_border_width="1.5"
                         app:pointer_halo_width="0.5"
                         app:circle_stroke_width="2"
@@ -156,7 +155,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:scaleType="centerInside"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="?attr/accentColor"
         app:layout_anchor="@id/headerView"
         app:layout_anchorGravity="bottom|right|end" />
 

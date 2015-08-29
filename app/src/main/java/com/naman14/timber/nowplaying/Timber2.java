@@ -1,10 +1,12 @@
 package com.naman14.timber.nowplaying;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,8 @@ import android.widget.ImageView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.ImageUtils;
-import com.naman14.timber.utils.TimberUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 /**
  * Created by naman on 21/08/15.
@@ -37,22 +37,59 @@ public class Timber2 extends BaseNowplayingFragment  {
         return rootView;
     }
 
+    @Override
+    public void updateShuffleState(){
+        if (shuffle!=null && getActivity()!=null) {
+            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                    .setSizeDp(30);
 
-    private void setBlurredArt(){
+            TypedValue typeValue = new TypedValue();
 
-        ImageLoader.getInstance().loadImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(),
-                new SimpleImageLoadingListener() {
+            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
+            int color2 = typeValue.data;
 
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        new setBlurredAlbumArt().execute(loadedImage);
-                    }
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+            if (MusicPlayer.getShuffleMode() == 0) {
+                builder.setColor(Color.WHITE);
+            } else builder.setColor(color2);
 
-                    }
+            shuffle.setImageDrawable(builder.build());
+            shuffle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicPlayer.cycleShuffle();
+                    updateShuffleState();
+                    updateRepeatState();
+                }
+            });
+        }
+    }
+    @Override
+    public void updateRepeatState() {
+        if (repeat != null && getActivity() != null) {
+            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                    .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
+                    .setSizeDp(30);
 
-                });
+            TypedValue typeValue = new TypedValue();
+
+            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
+            int color2 = typeValue.data;
+
+            if (MusicPlayer.getRepeatMode() == 0) {
+                builder.setColor(Color.WHITE);
+            } else builder.setColor(color2);
+
+            repeat.setImageDrawable(builder.build());
+            repeat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicPlayer.cycleRepeat();
+                    updateRepeatState();
+                    updateShuffleState();
+                }
+            });
+        }
     }
 
     private class setBlurredAlbumArt extends AsyncTask<Bitmap, Void, Drawable> {

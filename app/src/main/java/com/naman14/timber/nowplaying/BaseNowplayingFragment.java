@@ -224,7 +224,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    private void updateRepeatState() {
+    public void updateRepeatState() {
         if (repeat != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)

@@ -21,4 +21,6 @@
     <color name="red_transparent">#447f3907</color>
     <color name="purple_transparent">#44432677</color>
 
+    <color name="black_translucent">#66000000</color>
+
 </resources>

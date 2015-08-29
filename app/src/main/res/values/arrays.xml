@@ -3,11 +3,13 @@
     <string-array name="pref_theme_entries">
         <item>Light</item>
         <item>Dark</item>
+        <item>Black</item>
     </string-array>
 
     <string-array name="pref_theme_values">
         <item>light</item>
         <item>dark</item>
+        <item>black</item>
     </string-array>
 
 </resources>

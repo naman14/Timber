@@ -54,6 +54,7 @@ public class MainActivity extends BaseActivity {
     Handler navDrawerRunnable = new Handler();
 
     private boolean isLightTheme;
+    private boolean isDarkTheme;
 
     public static MainActivity getInstance() {
         return sMainActivity;
@@ -67,17 +68,20 @@ public class MainActivity extends BaseActivity {
         action = getIntent().getAction();
 
         isLightTheme=PreferencesUtility.getInstance(this).getTheme().equals("light");
+        isDarkTheme=PreferencesUtility.getInstance(this).getTheme().equals("dark");
 
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
            if (isLightTheme)
             setTheme(R.style.AppTheme_FullScreen_Light);
-            else setTheme(R.style.AppTheme_FullScreen_Dark);
+            else if (isDarkTheme)setTheme(R.style.AppTheme_FullScreen_Dark);
+            else setTheme(R.style.AppTheme_FullScreen_Black);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main_fullscreen);
         } else {
             if (isLightTheme)
                 setTheme(R.style.AppThemeLight);
-            else setTheme(R.style.AppThemeDark);
+            else if (isDarkTheme)setTheme(R.style.AppThemeDark);
+            else setTheme(R.style.AppThemeBlack);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
         }

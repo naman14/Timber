@@ -39,5 +39,25 @@
     </style>
 
 
+    <style name="AppTheme.FullScreen.Black" parent="ThemeBaseBlack">
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+
+    </style>
+
+    <style name="AppThemeBlack" parent="ThemeBaseBlack">
+
+
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+    </style>
+
+
 
 </resources>

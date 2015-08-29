@@ -10,7 +10,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
-        <item name="cardStyle">@style/CardView.Light</item>
+        <item name="cardStyle">@style/CardViewStyle.Light</item>
         <item name="accentColor">@color/colorAccent</item>
         <item name="iconColor">@android:color/black</item>
         <item name="progressBackgroundColor">#33000000</item>
@@ -21,8 +21,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
         <item name="colorAccent">@color/colorAccentDarkTheme</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
-        <item name="cardStyle">@style/CardView.Dark</item>
+        <item name="cardStyle">@style/CardViewStyle.Dark</item>
         <item name="accentColor">@color/colorAccentDarkTheme</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="progressBackgroundColor">#33ffffff</item>
+
+    </style>
+    <style name="ThemeBaseBlack" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
+        <item name="android:windowBackground">@color/window_background_black</item>
+        <item name="cardStyle">@style/CardViewStyle.Black</item>
+        <item name="accentColor">@color/colorAccentBlack</item>
         <item name="iconColor">@android:color/white</item>
         <item name="progressBackgroundColor">#33ffffff</item>
 
@@ -47,6 +58,18 @@
     </style>
 
     <style name="AppTheme.FullScreen.Dark" parent="ThemeBaseDark">
+
+    </style>
+    <style name="AppThemeBlack" parent="ThemeBaseBlack">
+
+
+    </style>
+
+    <style name="AppThemeNormalBlack" parent="ThemeBaseBlack">
+
+    </style>
+
+    <style name="AppTheme.FullScreen.Black" parent="ThemeBaseBlack">
 
     </style>
 
@@ -86,6 +109,10 @@
 
     <style name="CardViewStyle.Dark" parent="CardView">
         <item name="cardBackgroundColor">@color/window_background_dark</item>
+    </style>
+
+    <style name="CardViewStyle.Black" parent="CardView">
+        <item name="cardBackgroundColor">@color/window_background_black</item>
     </style>
 
 

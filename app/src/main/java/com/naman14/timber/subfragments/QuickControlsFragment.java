@@ -73,9 +73,9 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
         if (isThemeIsLight()) {
             mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccent));
         }
-        else {
+        else if (isThemeIsDark()){
             mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccentDarkTheme));
-        }
+        } else mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccentBlack));
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override

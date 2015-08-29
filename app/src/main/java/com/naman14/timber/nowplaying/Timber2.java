@@ -21,7 +21,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 /**
  * Created by naman on 21/08/15.
  */
-public class Timber2 extends BaseNowplayingFragment  {
+public class Timber2 extends BaseNowplayingFragment {
 
     ImageView mBlurredArt;
 
@@ -32,22 +32,26 @@ public class Timber2 extends BaseNowplayingFragment  {
 
         setMusicStateListener();
         setSongDetails(rootView);
-        mBlurredArt=(ImageView) rootView.findViewById(R.id.album_art_blurred);
+        mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
 
         return rootView;
     }
 
     @Override
-    public void updateShuffleState(){
-        if (shuffle!=null && getActivity()!=null) {
+    public void updateShuffleState() {
+        if (shuffle != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                     .setSizeDp(30);
 
-            TypedValue typeValue = new TypedValue();
-
-            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-            int color2 = typeValue.data;
+            int color2;
+            if (isThemeIsBlack()) {
+                color2 = Color.parseColor("#FF4081");
+            } else {
+                TypedValue typeValue = new TypedValue();
+                getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
+                color2 = typeValue.data;
+            }
 
             if (MusicPlayer.getShuffleMode() == 0) {
                 builder.setColor(Color.WHITE);
@@ -64,6 +68,7 @@ public class Timber2 extends BaseNowplayingFragment  {
             });
         }
     }
+
     @Override
     public void updateRepeatState() {
         if (repeat != null && getActivity() != null) {
@@ -71,10 +76,14 @@ public class Timber2 extends BaseNowplayingFragment  {
                     .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
 
-            TypedValue typeValue = new TypedValue();
-
-            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-            int color2 = typeValue.data;
+            int color2;
+            if (isThemeIsBlack()) {
+                color2 = Color.parseColor("#FF4081");
+            } else {
+                TypedValue typeValue = new TypedValue();
+                getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
+                color2 = typeValue.data;
+            }
 
             if (MusicPlayer.getRepeatMode() == 0) {
                 builder.setColor(Color.WHITE);
@@ -96,10 +105,10 @@ public class Timber2 extends BaseNowplayingFragment  {
 
         @Override
         protected Drawable doInBackground(Bitmap... loadedImage) {
-            Drawable drawable=null;
+            Drawable drawable = null;
             try {
-                drawable= ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
-            } catch (NullPointerException e){
+                drawable = ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
             return drawable;
@@ -107,7 +116,7 @@ public class Timber2 extends BaseNowplayingFragment  {
 
         @Override
         protected void onPostExecute(Drawable result) {
-            if (result!=null) {
+            if (result != null) {
                 if (mBlurredArt.getDrawable() != null) {
                     final TransitionDrawable td =
                             new TransitionDrawable(new Drawable[]{
@@ -124,12 +133,13 @@ public class Timber2 extends BaseNowplayingFragment  {
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
     }
 
     @Override
-    public void doAlbumArtStuff(Bitmap loadedImage){
-        setBlurredAlbumArt blurredAlbumArt=new setBlurredAlbumArt();
+    public void doAlbumArtStuff(Bitmap loadedImage) {
+        setBlurredAlbumArt blurredAlbumArt = new setBlurredAlbumArt();
         blurredAlbumArt.execute(loadedImage);
     }
 }

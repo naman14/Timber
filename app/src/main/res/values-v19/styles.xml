@@ -23,4 +23,20 @@
 
     </style>
 
+
+
+
+    <style name="AppTheme.FullScreen.Black" parent="ThemeBaseBlack">
+
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowTranslucentNavigation">false</item>-->
+    </style>
+
+    <style name="AppThemeBlack" parent="ThemeBaseBlack">
+
+
+    </style>
+
+
+
 </resources>

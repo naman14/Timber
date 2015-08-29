@@ -219,6 +219,8 @@ public class PlayPauseDrawable extends Drawable {
         invalidateSelf();
     }
 
+
+
     @Override
     public int getOpacity() {
         return PixelFormat.TRANSLUCENT;

@@ -2,6 +2,7 @@ package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -105,10 +106,13 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle("");
         }
-        if (mPlayPause != null && getActivity() != null)
+        if (mPlayPause != null && getActivity() != null) {
             mPlayPause.setColor(getActivity().getResources().getColor(android.R.color.white));
+        }
 
         if (playPauseFloating != null) {
+            if (isThemeIsBlack())
+                playPauseDrawable.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
             playPauseFloating.setImageDrawable(playPauseDrawable);
             if (MusicPlayer.isPlaying())
                 playPauseDrawable.transformToPause(false);
@@ -140,9 +144,9 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (mProgress != null && getActivity() != null) {
             if (isThemeIsLight()) {
                 mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
-            } else {
+            } else if (isThemeIsDark()){
                 mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccentDarkTheme), PorterDuff.Mode.SRC_IN);
-            }
+            } else  mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccentBlack), PorterDuff.Mode.SRC_IN);
         }
         if (recyclerView != null)
             setQueueSongs();
@@ -571,6 +575,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public boolean isThemeIsLight() {
         if (getActivity() != null)
             return PreferencesUtility.getInstance(getActivity()).getTheme().equals("light");
+        else return true;
+    }
+    public boolean isThemeIsDark() {
+        if (getActivity() != null)
+            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("dark");
+        else return true;
+    }
+    public boolean isThemeIsBlack() {
+        if (getActivity() != null)
+            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
         else return true;
     }
 

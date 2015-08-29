@@ -73,4 +73,6 @@
         <attr name="text_color" format="color"></attr>
     </declare-styleable>
 
+
+
 </resources>

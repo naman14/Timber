@@ -28,4 +28,7 @@
 
     <color name="black_translucent">#66000000</color>
 
+    <color name="progressBackgroundColorLight">#33000000</color>
+    <color name="progressBackgroundColorDark">#33ffffff</color>
+
 </resources>

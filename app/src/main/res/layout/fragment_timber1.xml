@@ -68,7 +68,7 @@
                 android:paddingTop="18dp"
                 android:maxHeight="2dp"
                 android:progress="30"
-                android:progressDrawable="@drawable/progress_drawable_withbackground" />
+                android:progressDrawable="?attr/progressDrawableWithBackground" />
 
 
             <TextView

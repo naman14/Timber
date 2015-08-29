@@ -37,7 +37,7 @@
             android:layout_gravity="top"
             android:maxHeight="5dp"
             android:progress="30"
-            android:progressDrawable="@drawable/progress_drawable"
+            android:progressDrawable="?attr/progressDrawable"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
         <TextView

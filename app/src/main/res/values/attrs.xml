@@ -69,4 +69,8 @@
         <attr name="circle_fill" format="string"></attr>
     </declare-styleable>
 
+    <declare-styleable name="TimelyView">
+        <attr name="text_color" format="color"></attr>
+    </declare-styleable>
+
 </resources>

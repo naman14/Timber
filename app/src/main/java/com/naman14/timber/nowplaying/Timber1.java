@@ -37,11 +37,11 @@ public class Timber1 extends BaseNowplayingFragment {
                 int color,color2;
                 if (isThemeIsLight()) {
                     color = Color.parseColor("#ffffff");
-                    color2=Color.parseColor("#388E3C");
+                    color2=Color.parseColor("#000000");
                 }
                 else {
                     color=Color.parseColor("#000000");
-                    color2=Color.parseColor("#388E3C");
+                    color2=Color.parseColor("#ffffff");
                 };
 
                 if (MusicPlayer.getShuffleMode()==0){

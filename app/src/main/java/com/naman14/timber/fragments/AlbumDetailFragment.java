@@ -74,6 +74,7 @@ public class AlbumDetailFragment extends Fragment {
     FloatingActionButton fab;
 
     private boolean loadFailed=false;
+    private boolean isDarkTheme;
 
     public static AlbumDetailFragment newInstance(long id) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
@@ -89,6 +90,7 @@ public class AlbumDetailFragment extends Fragment {
         if (getArguments() != null) {
             albumID = getArguments().getLong(Constants.ALBUM_ID);
         }
+        isDarkTheme=PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
     }
 
     @TargetApi(21)
@@ -166,6 +168,15 @@ public class AlbumDetailFragment extends Fragment {
                          loadFailed=true;
                         if (TimberUtils.isLollipop()&& PreferencesUtility.getInstance(getActivity()).getAnimations() )
                             scheduleStartPostponedTransition(albumArt);
+
+                        if (!TimberUtils.isLollipop()) {
+                            if (isDarkTheme){
+                                MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                                        .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                                        .setColor(Color.BLACK);
+                                fab.setImageDrawable(builder.build());
+                            }
+                        }
                     }
 
                     @Override
@@ -223,7 +234,7 @@ public class AlbumDetailFragment extends Fragment {
         FabAnimationUtils.scaleIn(fab);
         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
-        if( (loadFailed && PreferencesUtility.getInstance(getActivity()).getTheme().equals("black")) )
+        if( (loadFailed && isDarkTheme) )
             builder.setColor(Color.BLACK);
         else builder.setColor(Color.WHITE);
         fab.setImageDrawable(builder.build());

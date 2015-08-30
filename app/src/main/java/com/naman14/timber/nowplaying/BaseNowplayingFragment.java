@@ -548,7 +548,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             recyclerView.setAdapter(mAdapter);
             if (getActivity() != null)
                 recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-            recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
+            recyclerView.scrollToPosition(MusicPlayer.getQueuePosition()-2);
 
         }
 

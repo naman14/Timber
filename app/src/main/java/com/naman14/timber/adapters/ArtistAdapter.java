@@ -59,13 +59,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(localItem.name),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
-                        new DisplayImageOptions.Builder().cacheInMemory(true)
-                                .cacheOnDisk(true)
-                                .showImageOnFail(R.drawable.ic_empty_music2)
-                                .resetViewBeforeLoading(true)
-                                .displayer(new FadeInBitmapDisplayer(400))
-                                .build());
+                if (itemHolder.artistImage!=null) {
+                    ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
+                            new DisplayImageOptions.Builder().cacheInMemory(true)
+                                    .cacheOnDisk(true)
+                                    .showImageOnFail(R.drawable.ic_empty_music2)
+                                    .resetViewBeforeLoading(true)
+                                    .displayer(new FadeInBitmapDisplayer(400))
+                                    .build());
+                }
             }
 
             @Override

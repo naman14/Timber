@@ -78,7 +78,12 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
 
         if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()){
+            if (TimberUtils.isLollipop())
             setAnimation(itemHolder.itemView, i);
+            else {
+                if (i>10)
+                    setAnimation(itemHolder.itemView,i);
+            }
         }
 
     }

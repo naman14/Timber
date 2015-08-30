@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,10 +33,6 @@ import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumSongsAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.dataloaders.AlbumSongLoader;
-import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
-import com.naman14.timber.lastfmapi.models.ArtistQuery;
-import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
@@ -77,6 +72,8 @@ public class AlbumDetailFragment extends Fragment {
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayout;
     FloatingActionButton fab;
+
+    private boolean loadFailed=false;
 
     public static AlbumDetailFragment newInstance(long id) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
@@ -166,6 +163,7 @@ public class AlbumDetailFragment extends Fragment {
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                         loadFailed=true;
                         if (TimberUtils.isLollipop()&& PreferencesUtility.getInstance(getActivity()).getAnimations() )
                             scheduleStartPostponedTransition(albumArt);
                     }
@@ -173,8 +171,8 @@ public class AlbumDetailFragment extends Fragment {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         Palette palette = Palette.generate(loadedImage);
-                        collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(Color.parseColor("#66000000")));
-                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(Color.parseColor("#66000000")));
+                        collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(Color.parseColor("#66000000")));
+                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkVibrantColor(Color.parseColor("#66000000")));
 
                         ColorStateList fabColorStateList = new ColorStateList(
                                 new int[][]{
@@ -199,23 +197,6 @@ public class AlbumDetailFragment extends Fragment {
 
     private void setAlbumDetails() {
 
-
-        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(album.artistName), new ArtistInfoListener() {
-            @Override
-            public void artistInfoSucess(LastfmArtist artist) {
-                ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, artistArt,
-                        new DisplayImageOptions.Builder().cacheInMemory(true)
-                                .cacheOnDisk(true)
-                                .showImageOnFail(R.drawable.ic_empty_music2)
-                                .resetViewBeforeLoading(true)
-                                .build());
-            }
-
-            @Override
-            public void artistInfoFailed() {
-
-            }
-        });
         String songCount = TimberUtils.makeLabel(getActivity(), R.plurals.Nsongs, album.songCount);
 
         String year = (album.year != 0) ? (" - " + String.valueOf(album.year)) : "";
@@ -240,11 +221,12 @@ public class AlbumDetailFragment extends Fragment {
         setAlbumDetails();
         setUpAlbumSongs();
         FabAnimationUtils.scaleIn(fab);
-        Drawable drawable = MaterialDrawableBuilder.with(getActivity())
-                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                .setColor(Color.WHITE)
-                .build();
-        fab.setImageDrawable(drawable);
+        MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
+        if( (loadFailed && PreferencesUtility.getInstance(getActivity()).getTheme().equals("black")) )
+            builder.setColor(Color.BLACK);
+        else builder.setColor(Color.WHITE);
+        fab.setImageDrawable(builder.build());
         enableViews();
     }
 

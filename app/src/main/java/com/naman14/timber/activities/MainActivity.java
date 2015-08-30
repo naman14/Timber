@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity {
         }, 700);
 
 
-        new initQuickControls().execute("");
+//        new initQuickControls().execute("");
 
     }
 

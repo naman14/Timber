@@ -11,6 +11,7 @@ public final class PreferencesUtility {
     private static final String NOW_PLAYING_SELECTOR="now_paying_selector";
     private static final String TOGGLE_ANIMATIONS="toggle_animations";
     private static final String TOGGLE_SYSTEM_ANIMATIONS="toggle_system_animations";
+    private static final String TOGGLE_ARTIST_GRID="toggle_artist_grid";
     private static final String THEME_PREFERNCE="theme_preference";
 
     private static PreferencesUtility sInstance;
@@ -38,6 +39,9 @@ public final class PreferencesUtility {
 
     public static boolean getSystemAnimations(){
         return mPreferences.getBoolean(TOGGLE_SYSTEM_ANIMATIONS,true);
+    }
+    public static boolean isArtistsInGrid(){
+        return mPreferences.getBoolean(TOGGLE_ARTIST_GRID,false);
     }
     public static String getTheme(){
         return mPreferences.getString(THEME_PREFERNCE, "light");

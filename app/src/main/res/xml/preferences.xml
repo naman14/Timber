@@ -22,6 +22,12 @@
             android:defaultValue="true">
         </SwitchPreference>
 
+        <SwitchPreference
+            android:title="Artists in grid"
+            android:key="toggle_artist_grid"
+            android:defaultValue="false">
+        </SwitchPreference>
+
         <ListPreference
             android:defaultValue="light"
             android:key="theme_preference"

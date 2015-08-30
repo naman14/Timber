@@ -165,8 +165,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:orientation="horizontal"
-            android:paddingTop="20dp"
-            android:layout_below="@id/headerView">
+            android:layout_below="@id/headerView"
+            android:paddingTop="5dp">
 
             <net.steamcrafted.materialiconlib.MaterialIconView
                 android:id="@+id/previous"

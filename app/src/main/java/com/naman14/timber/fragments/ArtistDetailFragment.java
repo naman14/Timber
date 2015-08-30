@@ -1,9 +1,6 @@
 package com.naman14.timber.fragments;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -91,10 +88,10 @@ public class ArtistDetailFragment extends Fragment  {
             viewPager.setOffscreenPageLimit(0);
         }
 
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.setTabTextColors(Color.parseColor("#ffffff"),getActivity().getResources().getColor(R.color.colorAccent));
-        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
+//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//        tabLayout.setTabTextColors(Color.parseColor("#ffffff"),getActivity().getResources().getColor(R.color.colorAccent));
+//        tabLayout.setupWithViewPager(viewPager);
 
 
         return rootView;
@@ -118,7 +115,7 @@ public class ArtistDetailFragment extends Fragment  {
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                ImageLoader.getInstance().loadImage(artist.mArtwork.get(4).mUrl,
+                ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl,artistArt,
                         new DisplayImageOptions.Builder().cacheInMemory(true)
                                 .cacheOnDisk(true)
                                 .showImageOnFail(R.drawable.ic_empty_music2)
@@ -126,10 +123,10 @@ public class ArtistDetailFragment extends Fragment  {
                                 .build(),new SimpleImageLoadingListener(){
                             @Override
                             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                if (getActivity()!=null) {
-                                    Drawable d = new BitmapDrawable(getActivity().getResources(), loadedImage);
-                                    appBarLayout.setBackground(d);
-                                }
+//                                if (getActivity()!=null) {
+//                                    Drawable d = new BitmapDrawable(getActivity().getResources(), loadedImage);
+//                                    appBarLayout.setBackground(d);
+//                                }
                             }
                         });
             }
@@ -145,8 +142,8 @@ public class ArtistDetailFragment extends Fragment  {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(new ArtistMusicFragment().newInstance(artistID), "Music");
-        adapter.addFragment(new ArtistBioFragment().newInstance(artistID), "Artist");
-        adapter.addFragment(new SimilarArtistFragment().newInstance(artistID), "Related Music");
+//        adapter.addFragment(new ArtistBioFragment().newInstance(artistID), "Artist");
+//        adapter.addFragment(new SimilarArtistFragment().newInstance(artistID), "Related Music");
         viewPager.setAdapter(adapter);
     }
 

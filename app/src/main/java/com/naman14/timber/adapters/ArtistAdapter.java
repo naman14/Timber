@@ -56,9 +56,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         itemHolder.albums.setText(TimberUtils.makeCombinedString(mContext,albumNmber,songCount));
 
 
-        LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(localItem.name),new ArtistInfoListener() {
+        LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(localItem.name), new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
+                if (artist != null && artist.mArtwork != null) {
                     ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
                             new DisplayImageOptions.Builder().cacheInMemory(true)
                                     .cacheOnDisk(true)
@@ -66,6 +67,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                                     .resetViewBeforeLoading(true)
                                     .displayer(new FadeInBitmapDisplayer(400))
                                     .build());
+                }
             }
 
             @Override

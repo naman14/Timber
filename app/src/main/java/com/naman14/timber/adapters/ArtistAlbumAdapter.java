@@ -16,7 +16,6 @@ import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,6 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
-                        .displayer(new FadeInBitmapDisplayer(400))
                         .build());
 
     }

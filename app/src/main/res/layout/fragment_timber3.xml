@@ -48,8 +48,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:orientation="vertical"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp">
+            android:paddingRight="30dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -115,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:maxHeight="2dp"
-                android:paddingTop="18dp"
+                android:paddingTop="10dp"
                 android:progress="30"
                 android:progressDrawable="?attr/progressDrawableWithBackground" />
 
@@ -144,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:paddingTop="20dp">
+                android:paddingTop="5dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/previous"

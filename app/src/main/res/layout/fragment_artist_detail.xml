@@ -8,17 +8,17 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:transitionName="transition_artist_image">
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="330dp"
             android:background="@android:color/transparent"
             android:fitsSystemWindows="true"
             app:contentScrim="@android:color/transparent"
-            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleMarginBottom="25dp"
             app:expandedTitleMarginStart="30dp"
             app:expandedTitleTextAppearance="@style/TextApperance.Artist.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -26,12 +26,13 @@
             app:theme="@style/Theme.AppCompat">
 
 
-            <!--<ImageView-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:id="@+id/artist_art"-->
-            <!--android:fitsSystemWindows="true" />-->
+            <ImageView
+                android:id="@+id/artist_art"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:transitionName="transition_artist_image" />
 
             <View
                 android:layout_width="match_parent"
@@ -54,25 +55,25 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways">
+        <!--<android.support.design.widget.CollapsingToolbarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_scrollFlags="scroll|enterAlways">-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:background="#33000000" />
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="65dp"-->
+        <!--android:background="#33000000" />-->
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="15dp"
-                app:tabContentStart="28dp"
-                app:tabIndicatorColor="@color/colorAccent" />
-        </android.support.design.widget.CollapsingToolbarLayout>
+        <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tabs"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:layout_marginBottom="15dp"-->
+        <!--app:tabContentStart="28dp"-->
+        <!--app:tabIndicatorColor="@color/colorAccent" />-->
+        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

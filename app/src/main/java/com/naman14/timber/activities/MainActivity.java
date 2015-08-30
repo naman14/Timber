@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (!(action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)))
+                if (!(action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)))
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 else super.onBackPressed();
                 return true;
@@ -202,10 +202,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_queue:
                 fragment = new QueueFragment();
-                break;
-            case R.id.nav_album:
-                break;
-            case R.id.nav_artist:
                 break;
             case R.id.nav_settings:
                 NavigationUtils.navigateToSettings(MainActivity.this);

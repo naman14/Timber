@@ -18,17 +18,9 @@
             android:title="Playing Queue" />
         <item
             android:id="@+id/nav_nowplaying"
-
+            android:checkable="false"
             android:title="Now Playing" />
 
-        <item
-            android:id="@+id/nav_artist"
-
-            android:title="Go to Artist" />
-        <item
-            android:id="@+id/nav_album"
-
-            android:title="Go to Album" />
     </group>
 
     <group android:checkableBehavior="none"

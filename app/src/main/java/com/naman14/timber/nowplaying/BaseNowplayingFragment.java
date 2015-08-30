@@ -346,8 +346,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (songartist != null)
             songartist.setText(MusicPlayer.getArtistName());
 
-        if (songduration != null)
-            songduration.setText(String.valueOf(MusicPlayer.duration() / 1000));
+        if (songduration != null && getActivity()!=null)
+            songduration.setText(TimberUtils.makeShortTimeString(getActivity(),MusicPlayer.duration() / 1000));
 
         if (mProgress != null) {
             mProgress.setMax((int) MusicPlayer.duration());

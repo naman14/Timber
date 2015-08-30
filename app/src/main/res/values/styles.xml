@@ -7,6 +7,7 @@
     <attr format="reference" name="progressBackgroundColor"/>
     <attr format="reference" name="progressDrawable"/>
     <attr format="reference" name="progressDrawableWithBackground" />
+    <attr format="reference" name="stateSelector" />
 
     <style name="ThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -17,6 +18,7 @@
         <item name="accentColor">@color/colorAccent</item>
         <item name="iconColor">@android:color/black</item>
         <item name="windowBackground">@color/window_background</item>
+        <item name="stateSelector">@color/state_selector_light</item>
         <item name="progressBackgroundColor">@color/progressBackgroundColorLight</item>
         <item name="progressDrawable">@drawable/progress_drawable</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground</item>
@@ -31,6 +33,7 @@
         <item name="accentColor">@color/colorAccentDarkTheme</item>
         <item name="iconColor">@android:color/white</item>
         <item name="windowBackground">@color/window_background_dark</item>
+        <item name="stateSelector">@color/state_selector_dark</item>
         <item name="progressBackgroundColor">@color/progressBackgroundColorDark</item>
         <item name="progressDrawable">@drawable/progress_drawable_dark</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground_dark</item>
@@ -45,6 +48,7 @@
         <item name="accentColor">@color/colorAccentBlack</item>
         <item name="iconColor">@android:color/white</item>
         <item name="windowBackground">@color/window_background_black</item>
+        <item name="stateSelector">@color/state_selector_black</item>
         <item name="progressBackgroundColor">@color/progressBackgroundColorDark</item>
         <item name="progressDrawable">@drawable/progress_drawable_black</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground_black</item>

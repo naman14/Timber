@@ -34,8 +34,10 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        if (!PreferencesUtility.getInstance(this).getTheme().equals("light"))
+        if (PreferencesUtility.getInstance(this).getTheme().equals("dark"))
             setTheme(R.style.AppThemeNormalDark);
+        else if (PreferencesUtility.getInstance(this).getTheme().equals("black"))
+            setTheme(R.style.AppThemeNormalBlack);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 

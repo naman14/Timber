@@ -210,7 +210,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             int color = typeValue.data;
 
             getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-            int color2 = typeValue.data;
+
+            int color2;
+            if (isThemeIsBlack())
+                color2=Color.parseColor("#ffb701");
+            else
+            color2 = typeValue.data;
 
             if (MusicPlayer.getShuffleMode() == 0) {
                 builder.setColor(color);
@@ -239,7 +244,11 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             int color = typeValue.data;
 
             getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-            int color2 = typeValue.data;
+            int color2;
+            if (isThemeIsBlack())
+                color2=Color.parseColor("#ffb701");
+            else
+                color2 = typeValue.data;
 
             if (MusicPlayer.getRepeatMode() == 0) {
                 builder.setColor(color);
@@ -371,6 +380,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void setQueueSongs() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //load queue songs in asynctask
+        if (getActivity()!=null)
         new loadQueueSongs().execute("");
 
     }
@@ -529,7 +539,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongsList(getActivity()));
+            mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
             return "Executed";
         }
 

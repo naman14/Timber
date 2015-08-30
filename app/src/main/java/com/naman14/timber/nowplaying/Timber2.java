@@ -46,7 +46,7 @@ public class Timber2 extends BaseNowplayingFragment {
 
             int color2;
             if (isThemeIsBlack()) {
-                color2 = Color.parseColor("#FF4081");
+                color2 = Color.parseColor("#ffb701");
             } else {
                 TypedValue typeValue = new TypedValue();
                 getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
@@ -78,7 +78,7 @@ public class Timber2 extends BaseNowplayingFragment {
 
             int color2;
             if (isThemeIsBlack()) {
-                color2 = Color.parseColor("#FF4081");
+                color2 = Color.parseColor("#ffb701");
             } else {
                 TypedValue typeValue = new TypedValue();
                 getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);

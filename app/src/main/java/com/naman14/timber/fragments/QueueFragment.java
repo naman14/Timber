@@ -70,7 +70,7 @@ public class QueueFragment extends Fragment implements MusicStateListener {
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new PlayingQueueAdapter(getActivity(), QueueLoader.getQueueSongsList(getActivity()));
+            mAdapter = new PlayingQueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
             return "Executed";
         }
 

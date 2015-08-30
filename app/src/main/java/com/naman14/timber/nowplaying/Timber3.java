@@ -1,11 +1,8 @@
 package com.naman14.timber.nowplaying;
 
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,19 +40,19 @@ public class Timber3 extends BaseNowplayingFragment {
 
     @Override
     public void doAlbumArtStuff(Bitmap bitmap){
-        if (fab!=null) {
-            Palette palette = Palette.generate(bitmap);
-            ColorStateList fabColorStateList = new ColorStateList(
-                    new int[][]{
-                            new int[]{}
-                    },
-                    new int[]{
-                            palette.getMutedColor(Color.parseColor("#66000000")),
-                    }
-            );
-
-            fab.setBackgroundTintList(fabColorStateList);
-        }
+//        if (fab!=null) {
+//            Palette palette = Palette.generate(bitmap);
+//            ColorStateList fabColorStateList = new ColorStateList(
+//                    new int[][]{
+//                            new int[]{}
+//                    },
+//                    new int[]{
+//                            palette.getMutedColor(Color.parseColor("#66000000")),
+//                    }
+//            );
+//
+//            fab.setBackgroundTintList(fabColorStateList);
+//        }
     }
 
 }

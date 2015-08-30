@@ -74,6 +74,16 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
+    public static Intent getNowPlayingIntent(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
+        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER1);
+
+        final Intent intent=new Intent(context, MainActivity.class);
+        intent.setAction(Constants.NAVIGATE_NOWPLAYING);
+        intent.putExtra(Constants.NOWPLAYING_FRAGMENT_ID,fragmentID);
+        return intent;
+    }
+
     public static void navigateToSettings(Activity context){
         final Intent intent=new Intent(context, SettingsActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()){

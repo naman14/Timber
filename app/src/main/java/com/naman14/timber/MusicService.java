@@ -17,6 +17,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaMetadata;
@@ -38,6 +39,7 @@ import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.AlbumColumns;
 import android.provider.MediaStore.Audio.AudioColumns;
+import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -46,6 +48,7 @@ import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.utils.TimberUtils.IdType;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -1079,14 +1082,12 @@ public class MusicService extends Service {
                 ? artistName : artistName + " - " + albumName;
 
         int playButtonResId = isPlaying
-                ? R.drawable.btn_playback_pause : R.drawable.btn_playback_play;
+                ? R.drawable.ic_pause_white_36dp : R.drawable.ic_play_white_36dp;
         int playButtonTitleResId = isPlaying
                 ? R.string.accessibility_pause : R.string.accessibility_play;
 
 
-
-
-        Intent nowPlayingIntent = new Intent("com.naman14.timber.AUDIO_PLAYER")
+        Intent nowPlayingIntent = NavigationUtils.getNowPlayingIntent(this)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent clickIntent = PendingIntent.getActivity(this, 0, nowPlayingIntent, 0);
         Bitmap artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
@@ -1094,7 +1095,7 @@ public class MusicService extends Service {
         if (mNotificationPostTime == 0) {
             mNotificationPostTime = System.currentTimeMillis();
         }
-
+        
         Notification.Builder builder = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setLargeIcon(artwork)
@@ -1103,13 +1104,12 @@ public class MusicService extends Service {
                 .setContentText(text)
                 .setWhen(mNotificationPostTime)
                 .setShowWhen(false)
-
-                .addAction(R.drawable.btn_playback_previous,
+                .addAction(R.drawable.ic_skip_previous_white_36dp,
                         getString(R.string.accessibility_prev),
                         retrievePlaybackAction(PREVIOUS_ACTION))
                 .addAction(playButtonResId, getString(playButtonTitleResId),
                         retrievePlaybackAction(TOGGLEPAUSE_ACTION))
-                .addAction(R.drawable.btn_playback_next,
+                .addAction(R.drawable.ic_skip_next_white_36dp,
                         getString(R.string.accessibility_next),
                         retrievePlaybackAction(NEXT_ACTION));
 
@@ -1120,6 +1120,7 @@ public class MusicService extends Service {
                     .setShowActionsInCompactView(0, 1, 2);
             builder.setStyle(style);
         }
+        builder.setColor(Palette.from(artwork).generate().getDarkVibrantColor(Color.parseColor("#403f4d")));
 
         return builder.build();
     }

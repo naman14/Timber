@@ -530,7 +530,7 @@ public class MusicPlayer {
     }
 
     public static void shuffleAll(final Context context) {
-        Cursor cursor = SongLoader.makeSongCursor(context, null);
+        Cursor cursor = SongLoader.makeSongCursor(context, null,null);
         final long[] mTrackList = SongLoader.getSongListForCursor(cursor);
         final int position = 0;
         if (mTrackList.length == 0 || mService == null) {

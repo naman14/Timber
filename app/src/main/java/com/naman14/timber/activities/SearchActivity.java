@@ -16,8 +16,16 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SearchAdapter;
+import com.naman14.timber.dataloaders.AlbumLoader;
+import com.naman14.timber.dataloaders.ArtistLoader;
+import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.provider.SearchHistory;
 import com.naman14.timber.utils.PreferencesUtility;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by naman on 17/08/15.
@@ -30,6 +38,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     private SearchAdapter adapter;
     private RecyclerView recyclerView;
+
+    private List searchResults= Collections.emptyList();;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         recyclerView=(RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter=new SearchAdapter(this);
+        recyclerView.setAdapter(adapter);
     }
 
 
@@ -109,8 +121,21 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         if (newText.equals(queryString)) {
             return true;
         }
-
         queryString=newText;
+        if (!queryString.trim().equals("")) {
+            this.searchResults=new ArrayList();
+            searchResults.addAll((Collection) SongLoader.searchSongs(this, queryString));
+            searchResults.addAll((Collection) AlbumLoader.getAlbums(this, queryString));
+            searchResults.addAll((Collection) ArtistLoader.getArtists(this, queryString));
+        } else {
+            searchResults.clear();
+            adapter.updateSearchResults(searchResults);
+            adapter.notifyDataSetChanged();
+        }
+
+        adapter.updateSearchResults(searchResults);
+        adapter.notifyDataSetChanged();
+
         return true;
     }
 

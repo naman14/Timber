@@ -107,7 +107,7 @@ public class TopTracksLoader extends SongLoader {
 
             selection.append(")");
 
-            Cursor songCursor = makeSongCursor(context, selection.toString());
+            Cursor songCursor = makeSongCursor(context, selection.toString(),null);
             if (songCursor != null) {
                 return new SortedCursor(songCursor, order, BaseColumns._ID, null);
             }

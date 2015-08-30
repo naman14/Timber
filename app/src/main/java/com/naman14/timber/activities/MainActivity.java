@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity {
         }, 700);
 
 
-//        new initQuickControls().execute("");
+        new initQuickControls().execute("");
 
     }
 
@@ -142,6 +142,16 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.action_settings:
                 NavigationUtils.navigateToSettings(this);
+                return true;
+            case R.id.action_shuffle:
+                Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MusicPlayer.shuffleAll(MainActivity.this);
+                    }
+                },80);
+
                 return true;
             case R.id.action_search:
                 NavigationUtils.navigateToSearch(this);

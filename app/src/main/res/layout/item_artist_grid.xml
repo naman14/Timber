@@ -22,7 +22,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/ic_empty_music2"
                 android:transitionName="transition_artist_image" />
 
             <LinearLayout

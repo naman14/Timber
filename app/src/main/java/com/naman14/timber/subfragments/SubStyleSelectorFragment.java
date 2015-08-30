@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +57,7 @@ public class SubStyleSelectorFragment extends Fragment {
         if (getArguments().getString(WHAT).equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)){
             editor = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE).edit();
             editor.putString(Constants.NOWPLAYING_FRAGMENT_ID, getStyleForPageNumber());
-            Log.d("lol",getStyleForPageNumber());
             editor.commit();
-            Log.d("lol","here20");
         }
     }
 
@@ -69,6 +66,7 @@ public class SubStyleSelectorFragment extends Fragment {
             case 0: return Constants.TIMBER1;
             case 1: return Constants.TIMBER2;
             case 2: return Constants.TIMBER3;
+            case 3: return Constants.TIMBER4;
             default:return Constants.TIMBER1;
         }
     }

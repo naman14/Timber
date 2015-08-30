@@ -40,16 +40,16 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/detailView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/headerView"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal|center_vertical"
             android:orientation="vertical"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            android:paddingTop="15dp"
-            android:id="@+id/detailView">
+            android:paddingTop="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,37 +59,37 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:layout_gravity="left"
-                    android:orientation="vertical"
-                    android:layout_alignParentLeft="true">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/song_title"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="130dp"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:textSize="25sp"
-                        android:layout_marginRight="130dp"
-                        style="@style/TextAppearance.AppCompat.Body1"/>
+                        android:textSize="25sp" />
 
                     <TextView
                         android:id="@+id/song_artist"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingTop="3dp"
-                        android:textSize="14sp"
 
-                        style="@style/TextAppearance.AppCompat.Body1"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentRight="true">
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/shuffle"
@@ -148,10 +148,10 @@
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/previous"
-                    android:layout_marginLeft="30dp"
-                    android:layout_gravity="center"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
                     android:layout_weight="0.6"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="center"
@@ -162,9 +162,9 @@
                 <FrameLayout
                     android:layout_width="75dp"
                     android:layout_height="75dp"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
-                    android:layout_alignParentRight="true"
                     android:layout_weight="1">
 
 
@@ -172,18 +172,18 @@
                         android:id="@+id/playpausefloating"
                         android:layout_width="55dp"
                         android:layout_height="55dp"
-                        android:clickable="true"
                         android:layout_gravity="center"
+                        android:clickable="true"
                         android:scaleType="fitCenter"
                         app:backgroundTint="?attr/accentColor" />
-</FrameLayout>
+                </FrameLayout>
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/next"
-                    android:layout_marginRight="30dp"
-                    android:layout_gravity="center"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="30dp"
                     android:layout_weight="0.6"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="center"

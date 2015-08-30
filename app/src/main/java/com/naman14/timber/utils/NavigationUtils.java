@@ -16,6 +16,7 @@ import com.naman14.timber.activities.SettingsActivity;
 import com.naman14.timber.nowplaying.Timber1;
 import com.naman14.timber.nowplaying.Timber2;
 import com.naman14.timber.nowplaying.Timber3;
+import com.naman14.timber.nowplaying.Timber4;
 
 import java.util.ArrayList;
 
@@ -125,6 +126,7 @@ public class NavigationUtils {
             case Constants.TIMBER1:return new Timber1();
             case Constants.TIMBER2:return new Timber2();
             case Constants.TIMBER3:return new Timber3();
+            case Constants.TIMBER4:return new Timber4();
             default:return new Timber1();
         }
 

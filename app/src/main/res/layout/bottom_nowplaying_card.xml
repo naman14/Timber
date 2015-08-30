@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="55dp"
-    android:layout_gravity="top"
-    android:id="@+id/topContainer"
-    app:cardCornerRadius="0dp"
-    style="?attr/cardStyle">
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="55dp"
-    android:layout_gravity="top">
+    android:layout_gravity="top"
+    android:id="@+id/topContainer"
+    android:background="?attr/windowBackground">
 
     <com.naman14.timber.widgets.SquareImageView
         android:id="@+id/album_art_nowplayingcard"
@@ -85,4 +77,3 @@
 
     </FrameLayout>
 </RelativeLayout>
-</android.support.v7.widget.CardView>

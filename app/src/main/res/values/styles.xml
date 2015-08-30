@@ -3,6 +3,7 @@
     <attr format="reference" name="cardStyle"/>
     <attr format="reference" name="accentColor"/>
     <attr format="reference" name="iconColor"/>
+    <attr format="reference" name="windowBackground"/>
     <attr format="reference" name="progressBackgroundColor"/>
     <attr format="reference" name="progressDrawable"/>
     <attr format="reference" name="progressDrawableWithBackground" />
@@ -15,6 +16,7 @@
         <item name="cardStyle">@style/CardViewStyle.Light</item>
         <item name="accentColor">@color/colorAccent</item>
         <item name="iconColor">@android:color/black</item>
+        <item name="windowBackground">@color/window_background</item>
         <item name="progressBackgroundColor">@color/progressBackgroundColorLight</item>
         <item name="progressDrawable">@drawable/progress_drawable</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground</item>
@@ -28,6 +30,7 @@
         <item name="cardStyle">@style/CardViewStyle.Dark</item>
         <item name="accentColor">@color/colorAccentDarkTheme</item>
         <item name="iconColor">@android:color/white</item>
+        <item name="windowBackground">@color/window_background_dark</item>
         <item name="progressBackgroundColor">@color/progressBackgroundColorDark</item>
         <item name="progressDrawable">@drawable/progress_drawable_dark</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground_dark</item>
@@ -41,6 +44,7 @@
         <item name="cardStyle">@style/CardViewStyle.Black</item>
         <item name="accentColor">@color/colorAccentBlack</item>
         <item name="iconColor">@android:color/white</item>
+        <item name="windowBackground">@color/window_background_black</item>
         <item name="progressBackgroundColor">@color/progressBackgroundColorDark</item>
         <item name="progressDrawable">@drawable/progress_drawable_black</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground_black</item>

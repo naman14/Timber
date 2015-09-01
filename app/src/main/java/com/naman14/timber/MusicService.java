@@ -1087,9 +1087,8 @@ public class MusicService extends Service {
                 ? R.string.accessibility_pause : R.string.accessibility_play;
 
 
-        Intent nowPlayingIntent = NavigationUtils.getNowPlayingIntent(this)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent clickIntent = PendingIntent.getActivity(this, 0, nowPlayingIntent, 0);
+        Intent nowPlayingIntent = NavigationUtils.getNowPlayingIntent(this);
+        PendingIntent clickIntent = PendingIntent.getActivity(this, 0, nowPlayingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
 
         if (mNotificationPostTime == 0) {

@@ -83,7 +83,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                                         .build(), new SimpleImageLoadingListener() {
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        if (isGrid) {
+                                        if (isGrid && loadedImage!=null) {
                                             Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
                                                 @Override
                                                 public void onGenerated(Palette palette) {

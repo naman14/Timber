@@ -1,28 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+
+    <FrameLayout
         android:id="@+id/style_root"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_centerInParent="true" >
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless">
 
         <ImageView
             android:id="@+id/style_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="@drawable/ic_empty_music2"
-            android:scaleType="centerInside" />
+            android:scaleType="fitXY" />
+
+        <View
+            android:id="@+id/foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/black_translucent"
+            android:visibility="gone"/>
+
 
         <TextView
+            android:id="@+id/style_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/style_name"/>
-    </LinearLayout>
+            android:layout_gravity="top|right"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="15dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#ffffff"
+            android:textSize="35sp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/currentStyle"
+            android:visibility="gone"
+            android:layout_gravity="center">
+
+            <net.steamcrafted.materialiconlib.MaterialIconView
+                android:id="@+id/previous"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                app:materialIcon="check"
+                app:materialIconColor="#fff"
+                app:materialIconSize="55dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Currently Selected"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
@@ -20,6 +21,10 @@ import com.naman14.timber.utils.Constants;
 public class SubStyleSelectorFragment extends Fragment {
 
     SharedPreferences.Editor editor;
+    SharedPreferences preferences;
+
+    LinearLayout currentStyle;
+    View foreground;
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
     private static final String WHAT = "what";
@@ -39,7 +44,7 @@ public class SubStyleSelectorFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_style_selector_pager, container, false);
 
         TextView styleName=(TextView) rootView.findViewById(R.id.style_name);
-        styleName.setText("Style  "+getArguments().getInt(ARG_PAGE_NUMBER));
+        styleName.setText(String.valueOf(getArguments().getInt(ARG_PAGE_NUMBER)+1));
 
         ImageView styleImage=(ImageView) rootView.findViewById(R.id.style_image);
         styleImage.setOnClickListener(new View.OnClickListener() {
@@ -49,15 +54,51 @@ public class SubStyleSelectorFragment extends Fragment {
             }
         });
 
+        switch (getArguments().getInt(ARG_PAGE_NUMBER)) {
+            case 0:
+                styleImage.setImageResource(R.drawable.timber_1_nowplaying);
+                break;
+            case 1:
+                styleImage.setImageResource(R.drawable.timber_2_nowplaying);
+                break;
+            case 2:
+                styleImage.setImageResource(R.drawable.timber_3_nowplaying);
+                break;
+            case 3:
+                styleImage.setImageResource(R.drawable.timber_4_nowplaying);
+                break;
+        }
+
+        currentStyle = (LinearLayout) rootView.findViewById(R.id.currentStyle);
+        foreground = rootView.findViewById(R.id.foreground);
+
+       setCurrentStyle();
+
         return rootView;
     }
 
-    private void setPreferences(){
+    public void setCurrentStyle() {
+        preferences = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
+        String fragmentID= preferences.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER1);
 
-        if (getArguments().getString(WHAT).equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)){
+        if (getArguments().getInt(ARG_PAGE_NUMBER)==getIntForCurrentNowplaying(fragmentID)) {
+            currentStyle.setVisibility(View.VISIBLE);
+            foreground.setVisibility(View.VISIBLE);
+        } else {
+            currentStyle.setVisibility(View.GONE);
+            foreground.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void setPreferences() {
+
+        if (getArguments().getString(WHAT).equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)) {
             editor = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE).edit();
             editor.putString(Constants.NOWPLAYING_FRAGMENT_ID, getStyleForPageNumber());
             editor.commit();
+            setCurrentStyle();
+            ((StyleSelectorFragment)getParentFragment()).updateCurrentStyle();
         }
     }
 
@@ -69,6 +110,22 @@ public class SubStyleSelectorFragment extends Fragment {
             case 3: return Constants.TIMBER4;
             default:return Constants.TIMBER1;
         }
+    }
+
+    private int getIntForCurrentNowplaying(String nowPlaying) {
+        switch (nowPlaying) {
+            case Constants.TIMBER1:
+                return 0;
+            case Constants.TIMBER2:
+                return 1;
+            case Constants.TIMBER3:
+                return 2;
+            case Constants.TIMBER4:
+                return 3;
+            default:
+                return 0;
+        }
+
     }
 
 }

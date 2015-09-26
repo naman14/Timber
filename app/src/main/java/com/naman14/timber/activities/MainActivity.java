@@ -1,6 +1,5 @@
 package com.naman14.timber.activities;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,8 +29,6 @@ import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -183,18 +180,27 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupNavigationIcons(NavigationView navigationView) {
-        MaterialDrawableBuilder drawable = MaterialDrawableBuilder.with(this);
-            if (isLightTheme)
-                drawable.setColor(Color.BLACK);
-            else drawable.setColor(Color.WHITE);
 
-//        navigationView.getMenu().findItem(R.id.nav_library).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.LIBRARY_MUSIC).build());
-//        navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.PLAYLIST_PLUS).build());
-//        navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_CIRCLE).build());
-//        navigationView.getMenu().findItem(R.id.nav_artist).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.NAVIGATION).build());
-//        navigationView.getMenu().findItem(R.id.nav_album).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.NAVIGATION).build());
-//        navigationView.getMenu().findItem(R.id.nav_settings).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.SETTINGS).build());
-//        navigationView.getMenu().findItem(R.id.nav_help).setIcon(drawable.setIcon(MaterialDrawableBuilder.IconValue.HELP).build());
+        //material-icon-lib currently doesn't work with navigationview of design support library 22.2.0+
+        //set icons manually for now
+        //https://github.com/code-mc/material-icon-lib/issues/15
+
+        if (isLightTheme) {
+            navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music);
+            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play);
+            navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note);
+            navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music);
+            navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings);
+            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help);
+        } else {
+            navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music_white);
+            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play_white);
+            navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note_white);
+            navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music_white);
+            navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings_white);
+            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_white);
+        }
+
     }
 
     private void updatePosition(final MenuItem menuItem) {

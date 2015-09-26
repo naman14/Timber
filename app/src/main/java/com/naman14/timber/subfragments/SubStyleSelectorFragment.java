@@ -56,16 +56,16 @@ public class SubStyleSelectorFragment extends Fragment {
 
         switch (getArguments().getInt(ARG_PAGE_NUMBER)) {
             case 0:
-                styleImage.setImageResource(R.drawable.timber_1_nowplaying);
+                styleImage.setImageResource(R.drawable.timber_1_nowplaying_x);
                 break;
             case 1:
-                styleImage.setImageResource(R.drawable.timber_2_nowplaying);
+                styleImage.setImageResource(R.drawable.timber_2_nowplaying_x);
                 break;
             case 2:
-                styleImage.setImageResource(R.drawable.timber_3_nowplaying);
+                styleImage.setImageResource(R.drawable.timber_3_nowplaying_x);
                 break;
             case 3:
-                styleImage.setImageResource(R.drawable.timber_4_nowplaying);
+                styleImage.setImageResource(R.drawable.timber_4_nowplaying_x);
                 break;
         }
 

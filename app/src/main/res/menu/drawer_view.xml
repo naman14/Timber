@@ -31,7 +31,7 @@
                 android:id="@+id/nav_settings"/>
             <item
 
-                android:title="Help"
+                android:title="Help and Feedback"
                 android:id="@+id/nav_help"/>
     </group>
 

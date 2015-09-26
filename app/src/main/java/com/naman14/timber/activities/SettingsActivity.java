@@ -33,18 +33,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Settings");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         action = getIntent().getAction();
 
         if (action.equals(Constants.SETTINGS_STYLE_SELECTOR)){
+            getSupportActionBar().setTitle("Now Playing");
             String what =getIntent().getExtras().getString(Constants.SETTINGS_STYLE_SELECTOR_WHAT);
             Fragment fragment = new StyleSelectorFragment().newInstance(what);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
         } else {
+            getSupportActionBar().setTitle("Settings");
             PreferenceFragment fragment = new SettingsFragment();
             android.app.FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()

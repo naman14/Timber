@@ -64,20 +64,20 @@ public class MainActivity extends BaseActivity {
         sMainActivity = this;
         action = getIntent().getAction();
 
-        isLightTheme=PreferencesUtility.getInstance(this).getTheme().equals("light");
-        isDarkTheme=PreferencesUtility.getInstance(this).getTheme().equals("dark");
+        isLightTheme = PreferencesUtility.getInstance(this).getTheme().equals("light");
+        isDarkTheme = PreferencesUtility.getInstance(this).getTheme().equals("dark");
 
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
-           if (isLightTheme)
-            setTheme(R.style.AppTheme_FullScreen_Light);
-            else if (isDarkTheme)setTheme(R.style.AppTheme_FullScreen_Dark);
+            if (isLightTheme)
+                setTheme(R.style.AppTheme_FullScreen_Light);
+            else if (isDarkTheme) setTheme(R.style.AppTheme_FullScreen_Dark);
             else setTheme(R.style.AppTheme_FullScreen_Black);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main_fullscreen);
         } else {
             if (isLightTheme)
                 setTheme(R.style.AppThemeLight);
-            else if (isDarkTheme)setTheme(R.style.AppThemeDark);
+            else if (isDarkTheme) setTheme(R.style.AppThemeDark);
             else setTheme(R.style.AppThemeBlack);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
@@ -141,13 +141,13 @@ public class MainActivity extends BaseActivity {
                 NavigationUtils.navigateToSettings(this);
                 return true;
             case R.id.action_shuffle:
-                Handler handler=new Handler();
+                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         MusicPlayer.shuffleAll(MainActivity.this);
                     }
-                },80);
+                }, 80);
 
                 return true;
             case R.id.action_search:
@@ -158,12 +158,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 
         if (panelLayout.isPanelExpanded())
             panelLayout.collapsePanel();
         else
-        super.onBackPressed();
+            super.onBackPressed();
     }
 
 
@@ -172,7 +172,7 @@ public class MainActivity extends BaseActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(final MenuItem menuItem) {
-                       updatePosition(menuItem);
+                        updatePosition(menuItem);
                         return true;
 
                     }
@@ -191,14 +191,14 @@ public class MainActivity extends BaseActivity {
             navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note);
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music);
             navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings);
-            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help);
+            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle);
         } else {
             navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music_white);
             navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play_white);
             navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note_white);
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music_white);
             navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings_white);
-            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_white);
+            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle_white);
         }
 
     }
@@ -228,22 +228,26 @@ public class MainActivity extends BaseActivity {
             menuItem.setChecked(true);
             mDrawerLayout.closeDrawers();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            final android.support.v4.app.FragmentTransaction transaction =fragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragment);
-            Handler handler=new Handler();
+            final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment);
+            Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     transaction.commit();
                 }
-            },350);
+            }, 350);
         }
     }
 
     public void setDetailsToHeader() {
+        String name = MusicPlayer.getTrackName();
+        String artist = MusicPlayer.getArtistName();
 
-        songtitle.setText(MusicPlayer.getTrackName());
-        songartist.setText(MusicPlayer.getArtistName());
+        if (name != null && artist != null) {
+            songtitle.setText(name);
+            songartist.setText(artist);
+        }
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
@@ -359,7 +363,8 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
     }
 
 }

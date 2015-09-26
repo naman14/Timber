@@ -19,6 +19,9 @@ import com.naman14.timber.adapters.SearchAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.dataloaders.ArtistLoader;
 import com.naman14.timber.dataloaders.SongLoader;
+import com.naman14.timber.models.Album;
+import com.naman14.timber.models.Artist;
+import com.naman14.timber.models.Song;
 import com.naman14.timber.provider.SearchHistory;
 import com.naman14.timber.utils.PreferencesUtility;
 
@@ -124,9 +127,22 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         queryString=newText;
         if (!queryString.trim().equals("")) {
             this.searchResults=new ArrayList();
-            searchResults.addAll((Collection) SongLoader.searchSongs(this, queryString));
-            searchResults.addAll((Collection) AlbumLoader.getAlbums(this, queryString));
-            searchResults.addAll((Collection) ArtistLoader.getArtists(this, queryString));
+            List<Song> songList = SongLoader.searchSongs(this, queryString);
+            List<Album> albumList = AlbumLoader.getAlbums(this, queryString);
+            List<Artist> artistList = ArtistLoader.getArtists(this, queryString);
+
+            if (!songList.isEmpty()) {
+                searchResults.add("Songs");
+            }
+            searchResults.addAll((Collection) songList);
+            if (!albumList.isEmpty()) {
+                searchResults.add("Albums");
+            }
+            searchResults.addAll((Collection) albumList);
+            if (!artistList.isEmpty()) {
+                searchResults.add("Artists");
+            }
+            searchResults.addAll((Collection) artistList);
         } else {
             searchResults.clear();
             adapter.updateSearchResults(searchResults);

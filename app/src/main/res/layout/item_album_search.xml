@@ -19,7 +19,7 @@
             android:id="@+id/albumArt"
             android:padding="1dp"
             android:layout_alignParentLeft="true"
-            android:transitionName="transition_artist_image"
+            android:transitionName="transition_album_art"
             />
 
         <LinearLayout

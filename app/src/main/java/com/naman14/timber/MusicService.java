@@ -85,7 +85,7 @@ public class MusicService extends Service {
     public static final String STOP_ACTION = "com.naman14.timber.stop";
     public static final String PREVIOUS_ACTION = "com.naman14.timber.previous";
     public static final String PREVIOUS_FORCE_ACTION = "com.naman14.timber.previous.force";
-    public static final String NEXT_ACTION = "com.naman14.timber.next";
+    public static final String NEXT_ACTION = "fcom.naman14.timber.next";
     public static final String REPEAT_ACTION = "com.naman14.timber.repeat";
     public static final String SHUFFLE_ACTION = "com.naman14.timber.shuffle";
     public static final String FROM_MEDIA_BUTTON = "frommediabutton";

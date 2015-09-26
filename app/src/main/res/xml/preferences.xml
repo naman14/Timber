@@ -7,25 +7,34 @@
 
         <Preference
             android:title="Now Playing"
-            android:key="now_paying_selector">
+            android:key="now_paying_selector"
+            android:summary="Choose a now playing screen from 4 different styles.">
         </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Personalisation">
 
         <SwitchPreference
             android:title="Animations"
             android:key="toggle_animations"
-            android:defaultValue="true">
+            android:defaultValue="true"
+            android:summary="Toggle for Transition animation throughout the app.">
         </SwitchPreference>
 
         <SwitchPreference
             android:title="System animations"
             android:key="toggle_system_animations"
-            android:defaultValue="true">
+            android:defaultValue="true"
+            android:summary="Toggle for system animations throughout the app.">
         </SwitchPreference>
 
         <SwitchPreference
-            android:title="Artists in grid"
+            android:title="Artists in Grid"
             android:key="toggle_artist_grid"
-            android:defaultValue="false">
+            android:defaultValue="false"
+            android:summary="Toggle for displaying artists in a 2x2 grid.">
         </SwitchPreference>
 
         <ListPreference
@@ -33,7 +42,8 @@
             android:key="theme_preference"
             android:title="Select Theme"
             android:entries="@array/pref_theme_entries"
-            android:entryValues="@array/pref_theme_values"/>
+            android:entryValues="@array/pref_theme_values"
+            android:summary="Choose a theme to be used throughout the app. Requires restart of app."/>
 
     </PreferenceCategory>
 

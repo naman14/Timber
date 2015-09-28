@@ -225,13 +225,10 @@ public class MainActivity extends BaseActivity {
                 NavigationUtils.navigateToSettings(MainActivity.this);
                 break;
             case R.id.nav_help:
-                Intent email =new
-                        Intent(Intent.ACTION_SENDTO);
-                email.setData(Uri.parse("mailto"));
-                email.putExtra(Intent.EXTRA_EMAIL,new
-                        String[]{"namandwivedi14@gmail.com"});
-                email.setType("message/rfc822");
-                startActivity(email);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri data = Uri.parse("mailto:namandwivedi14@gmail.com");
+                intent.setData(data);
+                startActivity(intent);
         }
 
         if (fragment != null) {

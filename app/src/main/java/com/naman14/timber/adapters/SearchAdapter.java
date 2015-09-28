@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created by naman on 16/08/15.
  */
-public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder> {
 
     private Activity mContext;
     private List searchResults = Collections.emptyList();
@@ -45,7 +45,7 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        switch (viewType){
+        switch (viewType) {
             case 0:
                 View v0 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
                 ItemHolder ml0 = new ItemHolder(v0);
@@ -73,7 +73,7 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
     public void onBindViewHolder(final ItemHolder itemHolder, int i) {
         switch (getItemViewType(i)) {
             case 0:
-                Song song=(Song)searchResults.get(i);
+                Song song = (Song) searchResults.get(i);
                 itemHolder.title.setText(song.title);
                 itemHolder.songartist.setText(song.albumName);
                 ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(song.albumId).toString(), itemHolder.albumArt,
@@ -85,7 +85,7 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
                                 .build());
                 break;
             case 1:
-                Album album=(Album) searchResults.get(i);
+                Album album = (Album) searchResults.get(i);
                 itemHolder.albumtitle.setText(album.title);
                 itemHolder.albumartist.setText(album.artistName);
                 ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(album.id).toString(), itemHolder.albumArt,
@@ -97,15 +97,15 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
                                 .build());
                 break;
             case 2:
-                Artist artist=(Artist) searchResults.get(i);
+                Artist artist = (Artist) searchResults.get(i);
                 itemHolder.artisttitle.setText(artist.name);
-                String albumNmber= TimberUtils.makeLabel(mContext, R.plurals.Nalbums, artist.albumCount);
-                String songCount=TimberUtils.makeLabel(mContext,R.plurals.Nsongs,artist.songCount);
+                String albumNmber = TimberUtils.makeLabel(mContext, R.plurals.Nalbums, artist.albumCount);
+                String songCount = TimberUtils.makeLabel(mContext, R.plurals.Nsongs, artist.songCount);
                 itemHolder.albumsongcount.setText(TimberUtils.makeCombinedString(mContext, albumNmber, songCount));
-                LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
+                LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
                     @Override
                     public void artistInfoSucess(LastfmArtist artist) {
-                        if (itemHolder.artistImage!=null) {
+                        if (itemHolder.artistImage != null) {
                             ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
                                     new DisplayImageOptions.Builder().cacheInMemory(true)
                                             .cacheOnDisk(true)
@@ -123,7 +123,7 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
                 });
                 break;
             case 10:
-                itemHolder.sectionHeader.setText((String)searchResults.get(i));
+                itemHolder.sectionHeader.setText((String) searchResults.get(i));
             case 3:
                 break;
         }
@@ -141,16 +141,16 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,songartist,albumtitle,artisttitle,albumartist,albumsongcount, sectionHeader;
-        protected ImageView albumArt,artistImage;
+        protected TextView title, songartist, albumtitle, artisttitle, albumartist, albumsongcount, sectionHeader;
+        protected ImageView albumArt, artistImage;
 
         public ItemHolder(View view) {
             super(view);
 
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.songartist = (TextView) view.findViewById(R.id.song_artist);
-            this.albumsongcount= (TextView) view.findViewById(R.id.album_song_count);
-            this.artisttitle= (TextView) view.findViewById(R.id.artist_name);
+            this.albumsongcount = (TextView) view.findViewById(R.id.album_song_count);
+            this.artisttitle = (TextView) view.findViewById(R.id.artist_name);
             this.albumtitle = (TextView) view.findViewById(R.id.album_title);
             this.albumartist = (TextView) view.findViewById(R.id.album_artist);
             this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
@@ -166,27 +166,27 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
         public void onClick(View v) {
             switch (getItemViewType()) {
                 case 0:
-
-                    final Handler handler=new Handler();
+                    final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            MusicPlayer.playAll(mContext, new long[] {((Song)searchResults.get(getAdapterPosition())).id }, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+                            long[] ret = new long[1];
+                            ret[0] = ((Song) searchResults.get(getAdapterPosition())).id;
+                            MusicPlayer.playAll(mContext, ret, 0, -1, TimberUtils.IdType.NA, false);
                         }
-                    },100);
+                    }, 100);
 
                     break;
                 case 1:
-                    ArrayList<Pair> tranitionViews0=new ArrayList<>();
-                    tranitionViews0.add(0, Pair.create((View)albumArt,"transition_album_art"));
-                    NavigationUtils.navigateToAlbum(mContext, ((Album)searchResults.get(getAdapterPosition())).id ,tranitionViews0);
+                    ArrayList<Pair> tranitionViews0 = new ArrayList<>();
+                    tranitionViews0.add(0, Pair.create((View) albumArt, "transition_album_art"));
+                    NavigationUtils.navigateToAlbum(mContext, ((Album) searchResults.get(getAdapterPosition())).id, tranitionViews0);
                     break;
                 case 2:
                     ArrayList<Pair> tranitionViews1 = new ArrayList<>();
                     tranitionViews1.add(0, Pair.create((View) artistImage, "transition_artist_image"));
-                    NavigationUtils.navigateToArtist(mContext, ((Artist)searchResults.get(getAdapterPosition())).id, tranitionViews1);
+                    NavigationUtils.navigateToArtist(mContext, ((Artist) searchResults.get(getAdapterPosition())).id, tranitionViews1);
                     break;
-
                 case 3:
                     break;
                 case 10:
@@ -209,8 +209,8 @@ public class SearchAdapter  extends RecyclerView.Adapter<SearchAdapter.ItemHolde
         return 3;
     }
 
-    public void updateSearchResults(List searchResults){
-        this.searchResults=searchResults;
+    public void updateSearchResults(List searchResults) {
+        this.searchResults = searchResults;
     }
 }
 

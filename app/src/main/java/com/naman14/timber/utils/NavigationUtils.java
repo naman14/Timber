@@ -34,8 +34,8 @@ public class NavigationUtils {
         intent.setAction(Constants.NAVIGATE_ALBUM);
         intent.putExtra(Constants.ALBUM_ID,albumID);
 
-        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
+        if (TimberUtils.isLollipop() && transitionViews != null && PreferencesUtility.getInstance(context).getAnimations()) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(context, transitionViews.get(0));
             context.startActivity(intent, options.toBundle());
         } else {
             context.startActivity(intent);
@@ -52,8 +52,8 @@ public class NavigationUtils {
         intent.setAction(Constants.NAVIGATE_ARTIST);
         intent.putExtra(Constants.ARTIST_ID,artistID);
 
-        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0));
+        if (TimberUtils.isLollipop() && transitionViews != null  && PreferencesUtility.getInstance(context).getAnimations()) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(context, transitionViews.get(0));
             context.startActivity(intent, options.toBundle());
         } else {
             context.startActivity(intent);

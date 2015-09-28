@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created by naman on 17/08/15.
  */
-public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,View.OnTouchListener {
+public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
 
     private SearchView mSearchView;
     private InputMethodManager mImm;
@@ -42,7 +42,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     private SearchAdapter adapter;
     private RecyclerView recyclerView;
 
-    private List searchResults= Collections.emptyList();;
+    private List searchResults = Collections.emptyList();
+    ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,13 +57,13 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView=(RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new SearchAdapter(this);
+        adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -81,19 +82,19 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         mSearchView.setIconified(false);
 
         MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.menu_search), new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return true;
-                    }
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
 
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        finish();
-                        return false;
-                    }
-                });
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                finish();
+                return false;
+            }
+        });
 
-                menu.findItem(R.id.menu_search).expandActionView();
+        menu.findItem(R.id.menu_search).expandActionView();
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -124,9 +125,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         if (newText.equals(queryString)) {
             return true;
         }
-        queryString=newText;
+        queryString = newText;
         if (!queryString.trim().equals("")) {
-            this.searchResults=new ArrayList();
+            this.searchResults = new ArrayList();
             List<Song> songList = SongLoader.searchSongs(this, queryString);
             List<Album> albumList = AlbumLoader.getAlbums(this, queryString);
             List<Artist> artistList = ArtistLoader.getArtists(this, queryString);
@@ -134,15 +135,15 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
             if (!songList.isEmpty()) {
                 searchResults.add("Songs");
             }
-            searchResults.addAll((Collection) songList);
+            searchResults.addAll((Collection) (songList.size() < 10 ? songList : songList.subList(0, 10)));
             if (!albumList.isEmpty()) {
                 searchResults.add("Albums");
             }
-            searchResults.addAll((Collection) albumList);
+            searchResults.addAll((Collection) (albumList.size() < 7 ? albumList : albumList.subList(0, 7)));
             if (!artistList.isEmpty()) {
                 searchResults.add("Artists");
             }
-            searchResults.addAll((Collection) artistList);
+            searchResults.addAll((Collection) (artistList.size() < 7 ? artistList : artistList.subList(0, 7)));
         } else {
             searchResults.clear();
             adapter.updateSearchResults(searchResults);
@@ -168,7 +169,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
             }
             mSearchView.clearFocus();
 
-           SearchHistory.getInstance(this).addSearchString(queryString);
+            SearchHistory.getInstance(this).addSearchString(queryString);
         }
     }
 }

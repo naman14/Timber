@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.naman14.timber.MusicPlayer;
@@ -26,10 +28,12 @@ public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapte
     private Activity mContext;
     public static int currentlyPlayingPosition;
 
+    private int lastPosition = -1;
+
     public Timber4QueueAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.currentlyPlayingPosition= MusicPlayer.getQueuePosition();
+        this.currentlyPlayingPosition = MusicPlayer.getQueuePosition();
     }
 
     @Override
@@ -41,18 +45,10 @@ public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapte
 
     @Override
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
+
+//        setAnimation(itemHolder.itemView, i);
         Song localItem = arraylist.get(i);
 
-//        if (MusicPlayer.getCurrentAudioId()==localItem.id){
-//            currentlyPlayingPosition=i;
-//            if (MusicPlayer.isPlaying()){
-//                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
-//                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
-//            } else {
-//                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
-//                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
-//            }
-//        } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 
     }
@@ -68,34 +64,33 @@ public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapte
 
         public ItemHolder(View view) {
             super(view);
-            this.albumArt=(ImageView) view.findViewById(R.id.album_art);
+            this.albumArt = (ImageView) view.findViewById(R.id.album_art);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            final Handler handler=new Handler();
+            final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     MusicPlayer.setQueuePosition(getAdapterPosition());
-                    Handler handler1=new Handler();
+                    Handler handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             notifyItemChanged(currentlyPlayingPosition);
                             notifyItemChanged(getAdapterPosition());
-                            Handler handler2=new Handler();
+                            Handler handler2 = new Handler();
                             handler2.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    NavigationUtils.navigateToNowplaying(mContext, true);
                                 }
-                            },50);
+                            }, 50);
                         }
-                    },50);
+                    }, 50);
                 }
-            },100);
+            }, 100);
 
         }
 
@@ -109,6 +104,16 @@ public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapte
 
         return ret;
     }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.scale);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
+
 
 }
 

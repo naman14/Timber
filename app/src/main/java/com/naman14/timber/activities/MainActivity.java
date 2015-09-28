@@ -1,5 +1,7 @@
 package com.naman14.timber.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -222,6 +224,14 @@ public class MainActivity extends BaseActivity {
             case R.id.nav_settings:
                 NavigationUtils.navigateToSettings(MainActivity.this);
                 break;
+            case R.id.nav_help:
+                Intent email =new
+                        Intent(Intent.ACTION_SENDTO);
+                email.setData(Uri.parse("mailto"));
+                email.putExtra(Intent.EXTRA_EMAIL,new
+                        String[]{"namandwivedi14@gmail.com"});
+                email.setType("message/rfc822");
+                startActivity(email);
         }
 
         if (fragment != null) {

@@ -43,7 +43,7 @@
             android:title="Select Theme"
             android:entries="@array/pref_theme_entries"
             android:entryValues="@array/pref_theme_values"
-            android:summary="Choose a theme to be used throughout the app. Requires restart of app."/>
+            android:summary="Choose a theme to be used throughout the app."/>
 
     </PreferenceCategory>
 

@@ -366,7 +366,12 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
+            QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavigationUtils.navigateToNowplaying(MainActivity.this, false);
+                }
+            });
         }
 
         @Override

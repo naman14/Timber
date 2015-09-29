@@ -20,6 +20,7 @@ public class StyleSelectorFragment extends Fragment {
     public String ACTION="action";
     private SubStyleSelectorFragment selectorFragment;
     FragmentStatePagerAdapter adapter;
+    MultiViewPager pager;
 
     public static StyleSelectorFragment newInstance(String what) {
         StyleSelectorFragment fragment = new StyleSelectorFragment();
@@ -46,7 +47,7 @@ public class StyleSelectorFragment extends Fragment {
         if (ACTION.equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)){
 
         }
-        final MultiViewPager pager = (MultiViewPager) rootView.findViewById(R.id.pager);
+        pager = (MultiViewPager) rootView.findViewById(R.id.pager);
 
        adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
 
@@ -77,5 +78,8 @@ public class StyleSelectorFragment extends Fragment {
 
     }
 
+    public void scrollToCurrentStyle(int page) {
+        pager.setCurrentItem(page);
+    }
 
 }

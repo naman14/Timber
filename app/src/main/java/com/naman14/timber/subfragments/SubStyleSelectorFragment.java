@@ -81,6 +81,8 @@ public class SubStyleSelectorFragment extends Fragment {
         preferences = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
         String fragmentID= preferences.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
+        ((StyleSelectorFragment)getParentFragment()).scrollToCurrentStyle(getIntForCurrentNowplaying(fragmentID));
+
         if (getArguments().getInt(ARG_PAGE_NUMBER)==getIntForCurrentNowplaying(fragmentID)) {
             currentStyle.setVisibility(View.VISIBLE);
             foreground.setVisibility(View.VISIBLE);

@@ -50,6 +50,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
     HashMap<String, Runnable> playlistsMap = new HashMap<>();
 
+    @TargetApi(21)
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -212,7 +213,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
     private void setRecyclerViewAapter() {
         recyclerView.setAdapter(mAdapter);
-        if (PreferencesUtility.getInstance(mContext).getAnimations()) {
+        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(mContext).getAnimations()) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override

@@ -62,7 +62,7 @@ public class NavigationUtils {
 
     public static void navigateToNowplaying(Activity context,boolean withAnimations){
         SharedPreferences prefs = context.getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER1);
+        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
         final Intent intent=new Intent(context, MainActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
@@ -76,7 +76,7 @@ public class NavigationUtils {
 
     public static Intent getNowPlayingIntent(Context context){
         SharedPreferences prefs = context.getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER1);
+        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
         final Intent intent=new Intent(context, MainActivity.class);
         intent.setAction(Constants.NAVIGATE_NOWPLAYING);
@@ -84,7 +84,7 @@ public class NavigationUtils {
         return intent;
     }
 
-    public static void navigateToSettings(Activity context){
+    public static void navigateToSettings(Activity context) {
         final Intent intent=new Intent(context, SettingsActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

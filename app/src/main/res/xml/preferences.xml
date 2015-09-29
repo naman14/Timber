@@ -47,5 +47,26 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="Other">
+
+        <Preference
+            android:title="About"
+            android:key="preference_about">
+        </Preference>
+
+        <Preference
+            android:title="Source Code"
+            android:key="preference_source"
+            android:summary="Timber is open source and code is available on Github.">
+        </Preference>
+
+
+
+
+    </PreferenceCategory>
+
+
+
 
 </PreferenceScreen>

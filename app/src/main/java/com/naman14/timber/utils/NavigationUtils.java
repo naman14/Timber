@@ -93,6 +93,12 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
+    public static void navigateToMainActivityWithFragment(Context context, String navID) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(navID);
+        context.startActivity(intent);
+    }
+
     @TargetApi(21)
     public static void navigateToPlaylistDetail(Activity context,String action,long firstAlbumID,String playlistName,int foregroundcolor,long playlistID,ArrayList<Pair> transitionViews){
         final Intent intent=new Intent(context, PlaylistDetailActivity.class);

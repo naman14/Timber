@@ -57,6 +57,8 @@ public class MainActivity extends BaseActivity {
     private boolean isLightTheme;
     private boolean isDarkTheme;
 
+    private boolean isNavigatingMain = true;
+
     public static MainActivity getInstance() {
         return sMainActivity;
 
@@ -72,6 +74,12 @@ public class MainActivity extends BaseActivity {
         isDarkTheme = PreferencesUtility.getInstance(this).getTheme().equals("dark");
 
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
+            isNavigatingMain = false;
+        } else {
+            isNavigatingMain = true;
+        }
+
+        if (!isNavigatingMain) {
             if (isLightTheme)
                 setTheme(R.style.AppTheme_FullScreen_Light);
             else if (isDarkTheme) setTheme(R.style.AppTheme_FullScreen_Dark);
@@ -89,6 +97,8 @@ public class MainActivity extends BaseActivity {
 
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
+        navigationMap.put(Constants.NAVIGATE_PLAYLIST, navigatePlaylist);
+        navigationMap.put(Constants.NAVIGATE_QUEUE, navigateQueue);
         navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
         navigationMap.put(Constants.NAVIGATE_ARTIST, navigateArtist);
         navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
@@ -212,16 +222,25 @@ public class MainActivity extends BaseActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.nav_library:
-                fragment = new MainFragment();
+                if (isNavigatingMain)
+                    fragment = new MainFragment();
+                else
+                    NavigationUtils.navigateToMainActivityWithFragment(MainActivity.this, Constants.NAVIGATE_LIBRARY);
                 break;
             case R.id.nav_playlists:
-                fragment = new PlaylistFragment();
+                if (isNavigatingMain)
+                    fragment = new PlaylistFragment();
+                else
+                    NavigationUtils.navigateToMainActivityWithFragment(MainActivity.this, Constants.NAVIGATE_PLAYLIST);
                 break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 break;
             case R.id.nav_queue:
-                fragment = new QueueFragment();
+                if (isNavigatingMain)
+                    fragment = new QueueFragment();
+                else
+                    NavigationUtils.navigateToMainActivityWithFragment(MainActivity.this, Constants.NAVIGATE_QUEUE);
                 break;
             case R.id.nav_settings:
                 NavigationUtils.navigateToSettings(MainActivity.this);
@@ -334,7 +353,7 @@ public class MainActivity extends BaseActivity {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setCheckable(false);
             SharedPreferences prefs = getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-            String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
+            String fragmentID = prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
             Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -349,6 +368,27 @@ public class MainActivity extends BaseActivity {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
             Fragment fragment = new MainFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+
+        }
+    };
+
+    Runnable navigatePlaylist = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
+            Fragment fragment = new PlaylistFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+
+        }
+    };
+    Runnable navigateQueue = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_queue).setChecked(true);
+            Fragment fragment = new QueueFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commit();

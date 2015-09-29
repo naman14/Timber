@@ -28,6 +28,7 @@ import com.naman14.timber.fragments.QueueFragment;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
@@ -206,6 +207,7 @@ public class MainActivity extends BaseActivity {
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music);
             navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings);
             navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle);
+            navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information);
         } else {
             navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music_white);
             navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play_white);
@@ -213,6 +215,7 @@ public class MainActivity extends BaseActivity {
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music_white);
             navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings_white);
             navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle_white);
+            navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information_white);
         }
 
     }
@@ -250,6 +253,18 @@ public class MainActivity extends BaseActivity {
                 Uri data = Uri.parse("mailto:namandwivedi14@gmail.com");
                 intent.setData(data);
                 startActivity(intent);
+                break;
+            case R.id.nav_about:
+                mDrawerLayout.closeDrawers();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Helpers.showAbout(MainActivity.this);
+                    }
+                }, 350);
+
+                break;
         }
 
         if (fragment != null) {

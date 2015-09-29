@@ -2,8 +2,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single"
-        android:id="@+id/group1">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_library"
 
@@ -23,16 +24,22 @@
 
     </group>
 
-    <group android:checkableBehavior="none"
-        android:id="@+id/group2">
-            <item
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="none">
+        <item
 
-                android:title="Settings"
-                android:id="@+id/nav_settings"/>
-            <item
+            android:id="@+id/nav_settings"
+            android:title="Settings" />
 
-                android:title="Help and Feedback"
-                android:id="@+id/nav_help"/>
+        <item
+
+            android:id="@+id/nav_about"
+            android:title="About" />
+        <item
+
+            android:id="@+id/nav_help"
+            android:title="Help and Feedback" />
     </group>
 
 </menu>

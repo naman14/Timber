@@ -1,66 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="Now Playing">
+    <PreferenceCategory android:title="Now Playing">
 
         <Preference
-            android:title="Now Playing"
             android:key="now_paying_selector"
-            android:summary="Choose a now playing screen from 4 different styles.">
-        </Preference>
+            android:summary="Choose a now playing screen from 4 different styles."
+            android:title="Now Playing"></Preference>
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Personalisation">
+    <PreferenceCategory android:title="Personalisation">
 
         <SwitchPreference
-            android:title="Animations"
+            android:defaultValue="true"
             android:key="toggle_animations"
-            android:defaultValue="true"
-            android:summary="Toggle for Transition animation throughout the app.">
-        </SwitchPreference>
+            android:summary="Toggle for Transition animation throughout the app."
+            android:title="Animations"></SwitchPreference>
 
         <SwitchPreference
-            android:title="System animations"
+            android:defaultValue="true"
             android:key="toggle_system_animations"
-            android:defaultValue="true"
-            android:summary="Toggle for system animations throughout the app.">
-        </SwitchPreference>
+            android:summary="Toggle for system animations throughout the app."
+            android:title="System animations"></SwitchPreference>
 
         <SwitchPreference
-            android:title="Artists in Grid"
-            android:key="toggle_artist_grid"
             android:defaultValue="false"
-            android:summary="Toggle for displaying artists in a 2x2 grid.">
-        </SwitchPreference>
+            android:key="toggle_artist_grid"
+            android:summary="Toggle for displaying artists in a 2x2 grid."
+            android:title="Artists in Grid"></SwitchPreference>
 
         <ListPreference
             android:defaultValue="light"
-            android:key="theme_preference"
-            android:title="Select Theme"
             android:entries="@array/pref_theme_entries"
             android:entryValues="@array/pref_theme_values"
-            android:summary="Choose a theme to be used throughout the app."/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="Other">
-
-        <Preference
-            android:title="About"
-            android:key="preference_about">
-        </Preference>
-
-        <Preference
-            android:title="Source Code"
-            android:key="preference_source"
-            android:summary="Timber is open source and code is available on Github.">
-        </Preference>
-
+            android:key="theme_preference"
+            android:summary="Choose a theme to be used throughout the app."
+            android:title="Select Theme" />
 
     </PreferenceCategory>
 

@@ -2,7 +2,6 @@ package com.naman14.timber.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -27,7 +26,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String TOGGLE_SYSTEM_ANIMATIONS="toggle_system_animations";
 
     Preference nowPlayingSelector;
-    Preference about, source;
     SwitchPreference toggleAnimations;
     ListPreference themePreference;
 
@@ -38,8 +36,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         addPreferencesFromResource(R.xml.preferences);
 
         nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
-        about = findPreference(KEY_ABOUT);
-        source = findPreference(KEY_SOURCE);
         themePreference = (ListPreference) findPreference(KEY_THEME);
         toggleAnimations=(SwitchPreference)findPreference(TOGGLE_ANIMATIONS);
 
@@ -47,6 +43,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         PreferencesUtility.getInstance(getActivity()).setOnSharedPreferenceChangeListener(this);
         setPrefernceCickListeners();
+
     }
 
     @Override
@@ -55,22 +52,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void setPrefernceCickListeners() {
-        about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                return false;
-            }
-        });
 
-        source.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https:github.com/naman14/Timber"));
-                startActivity(intent);
-                return false;
-            }
-        });
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {

@@ -44,7 +44,7 @@ public class Helpers {
         String urlcommunity = "https://plus.google.com/communities/111029425713454201429";
         String urltwitter = "https://twitter.com/naman1405";
         String urlgithub = "https://github.com/naman14";
-        String urlsource = "https://github.com/naman14/Timber";
+        String urlsource = "https://github.com/naman14/Timber/issues";
 
         public AboutDialog() {
         }

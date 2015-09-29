@@ -25,6 +25,7 @@ public class SubStyleSelectorFragment extends Fragment {
 
     LinearLayout currentStyle;
     View foreground;
+    ImageView styleImage;
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
     private static final String WHAT = "what";
@@ -46,7 +47,7 @@ public class SubStyleSelectorFragment extends Fragment {
         TextView styleName=(TextView) rootView.findViewById(R.id.style_name);
         styleName.setText(String.valueOf(getArguments().getInt(ARG_PAGE_NUMBER)+1));
 
-        ImageView styleImage=(ImageView) rootView.findViewById(R.id.style_image);
+        styleImage=(ImageView) rootView.findViewById(R.id.style_image);
         styleImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

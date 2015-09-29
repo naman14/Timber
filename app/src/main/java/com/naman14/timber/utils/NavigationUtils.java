@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
 
@@ -61,26 +60,20 @@ public class NavigationUtils {
     }
 
     public static void navigateToNowplaying(Activity context,boolean withAnimations){
-        SharedPreferences prefs = context.getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
         final Intent intent=new Intent(context, MainActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()){
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
         intent.setAction(Constants.NAVIGATE_NOWPLAYING);
-        intent.putExtra(Constants.NOWPLAYING_FRAGMENT_ID,fragmentID);
         intent.putExtra(Constants.WITH_ANIMATIONS,withAnimations);
         context.startActivity(intent);
     }
 
     public static Intent getNowPlayingIntent(Context context){
-        SharedPreferences prefs = context.getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-        String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
         final Intent intent=new Intent(context, MainActivity.class);
         intent.setAction(Constants.NAVIGATE_NOWPLAYING);
-        intent.putExtra(Constants.NOWPLAYING_FRAGMENT_ID,fragmentID);
         return intent;
     }
 

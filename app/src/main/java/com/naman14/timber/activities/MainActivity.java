@@ -1,6 +1,8 @@
 package com.naman14.timber.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -331,11 +333,12 @@ public class MainActivity extends BaseActivity {
     Runnable navigateNowplaying = new Runnable() {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setCheckable(false);
-            String fragmentID = getIntent().getExtras().getString(Constants.NOWPLAYING_FRAGMENT_ID);
-            boolean withAnimations = getIntent().getExtras().getBoolean(Constants.WITH_ANIMATIONS);
+            SharedPreferences prefs = getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
+            String fragmentID= prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
             Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
             FragmentManager fragmentManager = getSupportFragmentManager();
+
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commit();
             panelLayout.setPanelHeight(0);

@@ -498,7 +498,9 @@ public class MusicService extends Service {
         int notificationId = hashCode();
         if (mNotifyMode != newNotifyMode) {
             if (mNotifyMode == NOTIFY_MODE_FOREGROUND) {
+                if (TimberUtils.isLollipop())
                 stopForeground(newNotifyMode == NOTIFY_MODE_NONE);
+                else stopForeground(newNotifyMode == NOTIFY_MODE_NONE || newNotifyMode==NOTIFY_MODE_BACKGROUND);
             } else if (newNotifyMode == NOTIFY_MODE_NONE) {
                 mNotificationManager.cancel(notificationId);
                 mNotificationPostTime = 0;
@@ -597,7 +599,9 @@ public class MusicService extends Service {
         if (goToIdle) {
             setIsSupposedToBePlaying(false, false);
         } else {
+            if (TimberUtils.isLollipop())
             stopForeground(false);
+            else stopForeground(true);
         }
     }
 
@@ -1109,19 +1113,19 @@ public class MusicService extends Service {
                 .setWhen(mNotificationPostTime)
                 .setShowWhen(false)
                 .addAction(R.drawable.ic_skip_previous_white_36dp,
-                        getString(R.string.accessibility_prev),
+                        "",
                         retrievePlaybackAction(PREVIOUS_ACTION))
-                .addAction(playButtonResId, getString(playButtonTitleResId),
+                .addAction(playButtonResId, "",
                         retrievePlaybackAction(TOGGLEPAUSE_ACTION))
                 .addAction(R.drawable.ic_skip_next_white_36dp,
-                        getString(R.string.accessibility_next),
+                        "",
                         retrievePlaybackAction(NEXT_ACTION));
 
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
             Notification.MediaStyle style = new Notification.MediaStyle()
                     .setMediaSession(mSession.getSessionToken())
-                    .setShowActionsInCompactView(0, 1, 2);
+                    .setShowActionsInCompactView(0, 1, 2,3);
             builder.setStyle(style);
         }
         if (artwork!=null && TimberUtils.isLollipop())

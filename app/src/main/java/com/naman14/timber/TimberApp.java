@@ -2,6 +2,7 @@ package com.naman14.timber;
 
 import android.app.Application;
 
+import com.naman14.timber.permissions.Nammu;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -19,6 +20,7 @@ public class TimberApp extends Application {
         mInstance = this;
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(localImageLoaderConfiguration);
+        Nammu.init(this);
 
     }
 

@@ -25,6 +25,7 @@ import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaylistFragment;
 import com.naman14.timber.fragments.QueueFragment;
+import com.naman14.timber.permissions.PermissionCallback;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
@@ -114,15 +115,7 @@ public class MainActivity extends BaseActivity {
         songtitle = (TextView) header.findViewById(R.id.song_title);
         songartist = (TextView) header.findViewById(R.id.song_artist);
 
-        Runnable navigation = navigationMap.get(action);
-        if (navigation != null) {
-            navigation.run();
-        } else {
-            navigateLibrary.run();
-        }
-
         setPanelSlideListeners();
-
 
         navDrawerRunnable.postDelayed(new Runnable() {
             @Override
@@ -133,10 +126,41 @@ public class MainActivity extends BaseActivity {
         }, 700);
 
 
-        new initQuickControls().execute("");
+        //check for permission
+//        if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//           loadEverything();
+//        } else {
+//            if (Nammu.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                Snackbar.make(panelLayout, "Timber will need to read external storage to display songs on your device.",
+//                        Snackbar.LENGTH_INDEFINITE)
+//                        .setAction("OK", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Nammu.askForPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE, permissionReadstorageCallback);
+//                            }
+//                        }).show();
+//            } else {
+//                //First time asking for permission
+//                // or phone doesn't offer permission
+//                // or user marked "never ask again"
+//                Nammu.askForPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, permissionReadstorageCallback);
+//            }
+//        }
+
+        loadEverything();
 
     }
 
+    private void loadEverything() {
+        Runnable navigation = navigationMap.get(action);
+        if (navigation != null) {
+            navigation.run();
+        } else {
+            navigateLibrary.run();
+        }
+
+        new initQuickControls().execute("");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -436,6 +460,18 @@ public class MainActivity extends BaseActivity {
         protected void onPreExecute() {
         }
     }
+
+    final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
+        @Override
+        public void permissionGranted() {
+          loadEverything();
+        }
+
+        @Override
+        public void permissionRefused() {
+
+        }
+    };
 
 }
 

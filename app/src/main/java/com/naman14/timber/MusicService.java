@@ -1111,7 +1111,6 @@ public class MusicService extends Service {
                 .setContentTitle(getTrackName())
                 .setContentText(text)
                 .setWhen(mNotificationPostTime)
-                .setShowWhen(false)
                 .addAction(R.drawable.ic_skip_previous_white_36dp,
                         "",
                         retrievePlaybackAction(PREVIOUS_ACTION))
@@ -1121,7 +1120,10 @@ public class MusicService extends Service {
                         "",
                         retrievePlaybackAction(NEXT_ACTION));
 
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+        if (TimberUtils.isJellyBeanMR1()) {
+            builder.setShowWhen(false);
+        }
+        if (TimberUtils.isLollipop()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
             Notification.MediaStyle style = new Notification.MediaStyle()
                     .setMediaSession(mSession.getSessionToken())

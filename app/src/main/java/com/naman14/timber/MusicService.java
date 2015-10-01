@@ -1,5 +1,6 @@
 package com.naman14.timber;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -45,6 +46,7 @@ import android.util.Log;
 
 import com.naman14.timber.helpers.MediaButtonIntentReceiver;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
+import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
@@ -319,7 +321,7 @@ public class MusicService extends Service {
 
         scheduleDelayedShutdown();
 
-        reloadQueue();
+        reloadQueueAfterPermissionCheck();
         notifyChange(QUEUE_CHANGED);
         notifyChange(META_CHANGED);
     }
@@ -525,6 +527,16 @@ public class MusicService extends Service {
 
 
     private int getCardId() {
+       if (TimberUtils.isMarshmallow()) {
+           if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+               return getmCardId();
+           } else return 0;
+       } else {
+           return getmCardId();
+       }
+    }
+
+    private int getmCardId() {
         final ContentResolver resolver = getContentResolver();
         Cursor cursor = resolver.query(Uri.parse("content://media/external/fs_id"), null, null,
                 null, null);
@@ -542,7 +554,6 @@ public class MusicService extends Service {
         notifyChange(QUEUE_CHANGED);
         notifyChange(META_CHANGED);
     }
-
     public void registerExternalStorageListener() {
         if (mUnmountReceiver == null) {
             mUnmountReceiver = new BroadcastReceiver() {
@@ -558,7 +569,7 @@ public class MusicService extends Service {
                     } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
                         mMediaMountedCount++;
                         mCardId = getCardId();
-                        reloadQueue();
+                        reloadQueueAfterPermissionCheck();
                         mQueueIsSaveable = true;
                         notifyChange(QUEUE_CHANGED);
                         notifyChange(META_CHANGED);
@@ -1165,6 +1176,16 @@ public class MusicService extends Service {
         editor.apply();
     }
 
+    private void reloadQueueAfterPermissionCheck() {
+       if (TimberUtils.isMarshmallow()) {
+           if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+               reloadQueue();
+           }
+       } else {
+           reloadQueue();
+       }
+    }
+
     private void reloadQueue() {
         int id = mCardId;
         if (mPreferences.contains("cardid")) {
@@ -1225,7 +1246,6 @@ public class MusicService extends Service {
             mShuffleMode = shufmode;
         }
     }
-
     public boolean openFile(final String path) {
         if (D) Log.d(TAG, "openFile: path = " + path);
         synchronized (this) {

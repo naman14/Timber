@@ -169,13 +169,13 @@ public class AlbumDetailFragment extends Fragment {
                         if (TimberUtils.isLollipop()&& PreferencesUtility.getInstance(getActivity()).getAnimations() )
                             scheduleStartPostponedTransition(albumArt);
 
-                        if (!TimberUtils.isLollipop()) {
+
                             if (isDarkTheme){
                                 MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                                         .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                                         .setColor(Color.BLACK);
                                 fab.setImageDrawable(builder.build());
-                            }
+
                         }
                     }
 

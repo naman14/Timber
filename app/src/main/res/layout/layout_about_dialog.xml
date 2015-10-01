@@ -33,7 +33,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
         android:id="@+id/googleplus"
         android:text="Google+"
         android:textSize="17sp"
-        android:paddingLeft="20dp"
+        android:clickable="true"
         style="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
@@ -74,7 +75,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:paddingLeft="15dp"
-        android:paddingTop="25dp"
+        android:layout_marginTop="25dp"
         android:text="@string/timber_source"
         android:textSize="16sp"
         style="@style/TextAppearance.AppCompat.Body1"/>
@@ -84,8 +85,8 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:paddingLeft="15dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/timber_feature_request"
         android:textSize="16sp"
         style="@style/TextAppearance.AppCompat.Body1"/>

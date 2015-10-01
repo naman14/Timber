@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -140,7 +139,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadEverything() {
-        Log.d("lol","here");
         Runnable navigation = navigationMap.get(action);
         if (navigation != null) {
             navigation.run();
@@ -162,14 +160,10 @@ public class MainActivity extends BaseActivity {
                         .setAction("OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Log.d("lol","here1");
                                 Nammu.askForPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE, permissionReadstorageCallback);
                             }
                         }).show();
             } else {
-                //First time asking for permission
-                // or phone doesn't offer permission
-                // or user marked "never ask again"
                 Nammu.askForPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, permissionReadstorageCallback);
             }
         }
@@ -177,6 +171,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (action.equals(Constants.NAVIGATE_NOWPLAYING)) {
+            menu.findItem(R.id.action_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        } else {
+            menu.findItem(R.id.action_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
         return true;
     }
 
@@ -476,7 +475,6 @@ public class MainActivity extends BaseActivity {
     final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
-            Log.d("lol","here2");
           loadEverything();
         }
 

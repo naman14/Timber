@@ -61,11 +61,13 @@ public class ArtistFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
-            if (isGrid){
-                int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
-                recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+            if (getActivity() != null) {
+                if (isGrid) {
+                    int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
+                    recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+                } else
+                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
             }
-            else recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
         }
 
         @Override

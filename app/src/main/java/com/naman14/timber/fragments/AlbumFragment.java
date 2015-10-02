@@ -70,8 +70,10 @@ public class AlbumFragment extends Fragment {
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
             //to add spacing between cards
-            int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
-            recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+            if (getActivity() != null) {
+                int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
+                recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+            }
 
         }
 

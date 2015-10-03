@@ -24,7 +24,8 @@ import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.PlayPauseButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 
 /**
@@ -105,11 +106,29 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
                     new DisplayImageOptions.Builder().cacheInMemory(true)
                             .showImageOnFail(R.drawable.ic_empty_music2)
                             .resetViewBeforeLoading(true)
-                            .build(), new SimpleImageLoadingListener() {
+                            .build(), new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                            Bitmap failedBitmap = ImageLoader.getInstance().loadImageSync("drawable://" + R.drawable.ic_empty_music2);
+                            if (getActivity()!=null)
+                                new setBlurredAlbumArt().execute(failedBitmap);
+                        }
+
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        if (getActivity()!=null)
-                            new setBlurredAlbumArt().execute(loadedImage);
+                            if (getActivity()!=null)
+                                new setBlurredAlbumArt().execute(loadedImage);
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
                         }
                     });
         }

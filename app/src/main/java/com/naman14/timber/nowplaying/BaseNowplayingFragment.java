@@ -322,7 +322,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
                             @Override
                             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
+                                Bitmap failedBitmap = ImageLoader.getInstance().loadImageSync("drawable://" + R.drawable.ic_empty_music2);
+                                doAlbumArtStuff(failedBitmap);
                             }
 
                         });

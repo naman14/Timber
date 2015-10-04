@@ -181,7 +181,7 @@
                 android:layout_marginTop="@dimen/appBarTopMargin"
                 android:background="@android:color/transparent"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/Theme.AppCompat" />
+                android:theme="@style/Theme.AppCompat" />
 
 
         </FrameLayout>

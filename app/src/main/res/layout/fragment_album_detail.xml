@@ -19,7 +19,7 @@
         app:contentScrim="@color/colorPrimary"
         app:statusBarScrim="@color/colorPrimaryDark"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:theme="@style/Theme.AppCompat"
+        android:theme="@style/Theme.AppCompat"
         app:expandedTitleTextAppearance="@style/TextApperance.Album.Title">
 
 

@@ -164,7 +164,7 @@
             android:layout_marginTop="@dimen/appBarTopMargin"
             android:layout_gravity="top"
             android:background="@android:color/transparent"
-            app:theme="@style/Theme.AppCompat"
+            android:theme="@style/Theme.AppCompat"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     </FrameLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_theme_entries">
+        <item>Hell</item>
+        <item>Dunkel</item>
+        <item>Schwarz</item>
+    </string-array>
+
+    <string-array name="pref_theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>black</item>
+    </string-array>
+
+</resources>

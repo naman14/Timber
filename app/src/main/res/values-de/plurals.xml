@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+        <plurals name="Nartists">
+            <item quantity="one"><xliff:g id="count">%d</xliff:g> Interpret</item>
+            <item quantity="other"><xliff:g id="count">%d</xliff:g> Interpreten</item>
+        </plurals>
+
+
+        <plurals name="Nalbums">
+            <item quantity="one"><xliff:g id="count">%d</xliff:g> Album</item>
+            <item quantity="other"><xliff:g id="count">%d</xliff:g> Alben</item>
+        </plurals>
+
+        <plurals name="Nsongs">
+            <item quantity="zero"><xliff:g id="count">%d</xliff:g> Songs</item>
+            <item quantity="one"><xliff:g id="count">%d</xliff:g> Song</item>
+            <item quantity="other"><xliff:g id="count">%d</xliff:g> Songs</item>
+        </plurals>
+
+</resources>

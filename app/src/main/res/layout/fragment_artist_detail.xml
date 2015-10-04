@@ -23,7 +23,7 @@
             app:expandedTitleTextAppearance="@style/TextApperance.Artist.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@android:color/transparent"
-            app:theme="@style/Theme.AppCompat">
+            android:theme="@style/Theme.AppCompat">
 
 
             <ImageView

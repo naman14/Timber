@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Timber</string>
+    <string name="hello_world">Hallo Welt!</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="accessibility_play">Play</string>
+    <string name="accessibility_pause">Pause</string>
+    <string name="accessibility_next">Nächstes</string>
+    <string name="accessibility_prev">Vorheriges</string> <!-- not sure about that. should be ok. -->
+    <string name="accessibility_shuffle">Shuffle</string>
+    <string name="accessibility_shuffle_all">Shuffle all</string>
+    <string name="accessibility_repeat">Wiederholen</string>
+    <string name="accessibility_repeat_all">Alle Wiederholen</string>
+    <string name="accessibility_repeat_one">Aktuelles Wiederholen</string>
+    <string name="accessibility_queue">Warteschlange anzeigen</string>
+    <string name="accessibility_browse">Musik durchsuchen</string>
+
+    <string name="error_playing_track">Fehler bei der Wiedergabe des Songs</string>
+
+    <string name="playlist_last_added">Zuletzt hinzugefügt</string>
+    <string name="playlist_recently_played">Zuletzt angehört</string>
+    <string name="playlist_top_tracks">Meine Lieblingssongs</string>
+
+    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
+
+    <string name="duration_format"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
+    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
+    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
+    <string name="timber_source">Melden Sie Fehler <u> hier </u> </string>
+    <string name="timber_feature_request">Vorschläge? Posten Sie sie in der Google+ Community <u> hier </u></string>
+
+
+</resources>

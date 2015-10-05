@@ -28,11 +28,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.R;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment {
+
+    PreferencesUtility mPreferences;
+    ViewPager viewPager;
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPreferences = PreferencesUtility.getInstance(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +57,7 @@ public class MainFragment extends Fragment {
         ab.setDisplayHomeAsUpEnabled(true);
 
 
-        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         if (viewPager != null) {
             setupViewPager(viewPager);
             viewPager.setOffscreenPageLimit(2);
@@ -58,6 +68,12 @@ public class MainFragment extends Fragment {
 
         return rootView;
 
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewPager.setCurrentItem(mPreferences.getStartPageIndex());
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -95,5 +111,11 @@ public class MainFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPreferences.setStartPageIndex(viewPager.getCurrentItem());
     }
 }

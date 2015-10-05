@@ -17,6 +17,7 @@ package com.naman14.timber.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 public final class PreferencesUtility {
@@ -26,6 +27,7 @@ public final class PreferencesUtility {
     private static final String TOGGLE_SYSTEM_ANIMATIONS="toggle_system_animations";
     private static final String TOGGLE_ARTIST_GRID="toggle_artist_grid";
     private static final String THEME_PREFERNCE="theme_preference";
+    private static final String START_PAGE_INDEX = "start_page_index";
 
     private static PreferencesUtility sInstance;
 
@@ -46,17 +48,33 @@ public final class PreferencesUtility {
         mPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    public static boolean getAnimations(){
+    public boolean getAnimations(){
        return mPreferences.getBoolean(TOGGLE_ANIMATIONS,true);
     }
 
-    public static boolean getSystemAnimations(){
+    public boolean getSystemAnimations(){
         return mPreferences.getBoolean(TOGGLE_SYSTEM_ANIMATIONS,true);
     }
-    public static boolean isArtistsInGrid(){
+    public boolean isArtistsInGrid(){
         return mPreferences.getBoolean(TOGGLE_ARTIST_GRID,false);
     }
-    public static String getTheme(){
+    public String getTheme(){
         return mPreferences.getString(THEME_PREFERNCE, "light");
+    }
+
+    public void setStartPageIndex(final int index) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                final SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putInt(START_PAGE_INDEX, index);
+                editor.apply();
+                return null;
+            }
+        }.execute();
+    }
+
+    public int getStartPageIndex() {
+        return mPreferences.getInt(START_PAGE_INDEX, 0);
     }
 }

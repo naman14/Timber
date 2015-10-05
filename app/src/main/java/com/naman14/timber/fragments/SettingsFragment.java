@@ -35,10 +35,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String KEY_THEME = "theme_preference";
     private static final String TOGGLE_ANIMATIONS="toggle_animations";
     private static final String TOGGLE_SYSTEM_ANIMATIONS="toggle_system_animations";
+    private static final String KEY_START_PAGE = "start_page_preference";
 
     Preference nowPlayingSelector;
     SwitchPreference toggleAnimations;
-    ListPreference themePreference;
+    ListPreference themePreference, startPagePreference;
+
+    PreferencesUtility mPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         addPreferencesFromResource(R.xml.preferences);
 
+        mPreferences = PreferencesUtility.getInstance(getActivity());
+
         nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
         themePreference = (ListPreference) findPreference(KEY_THEME);
+        startPagePreference = (ListPreference) findPreference(KEY_START_PAGE);
         toggleAnimations=(SwitchPreference)findPreference(TOGGLE_ANIMATIONS);
 
         nowPlayingSelector.setIntent(NavigationUtils.getNavigateToStyleSelectorIntent(getActivity(), Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING));
@@ -70,6 +76,30 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 Intent i = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
+                return true;
+            }
+        });
+
+        startPagePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                switch ((String) newValue) {
+                    case "last_opened":
+                        mPreferences.setLastOpenedAsStartPagePreference(true);
+                        break;
+                    case "songs":
+                        mPreferences.setLastOpenedAsStartPagePreference(false);
+                        mPreferences.setStartPageIndex(0);
+                        break;
+                    case "albums":
+                        mPreferences.setLastOpenedAsStartPagePreference(false);
+                        mPreferences.setStartPageIndex(1);
+                        break;
+                    case "artists":
+                        mPreferences.setLastOpenedAsStartPagePreference(false);
+                        mPreferences.setStartPageIndex(2);
+                        break;
+                }
                 return true;
             }
         });

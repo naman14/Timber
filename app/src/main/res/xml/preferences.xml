@@ -40,5 +40,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Other">
+
+        <ListPreference
+            android:defaultValue="last_opened"
+            android:entries="@array/pref_startpage_entries"
+            android:entryValues="@array/pref_startpage_values"
+            android:key="start_page_preference"
+            android:summary="Choose the start page to be displayed on launch."
+            android:title="Start page" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

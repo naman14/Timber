@@ -28,6 +28,7 @@ public final class PreferencesUtility {
     private static final String TOGGLE_ARTIST_GRID="toggle_artist_grid";
     private static final String THEME_PREFERNCE="theme_preference";
     private static final String START_PAGE_INDEX = "start_page_index";
+    private static final String START_PAGE_PREFERENCE_LASTOPENED= "start_page_preference_latopened";
 
     private static PreferencesUtility sInstance;
 
@@ -76,5 +77,15 @@ public final class PreferencesUtility {
 
     public int getStartPageIndex() {
         return mPreferences.getInt(START_PAGE_INDEX, 0);
+    }
+
+    public void setLastOpenedAsStartPagePreference(boolean preference) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(START_PAGE_PREFERENCE_LASTOPENED, preference);
+        editor.apply();
+    }
+
+    public boolean lastOpenedIsStartPagePreference() {
+        return mPreferences.getBoolean(START_PAGE_PREFERENCE_LASTOPENED,true);
     }
 }

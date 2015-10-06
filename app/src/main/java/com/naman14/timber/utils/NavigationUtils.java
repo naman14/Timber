@@ -19,9 +19,11 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.media.audiofx.AudioEffect;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
 import com.naman14.timber.activities.SearchActivity;
@@ -130,6 +132,20 @@ public class NavigationUtils {
         }
     }
 
+    public static void navigateToEqualizer(Activity context) {
+        int mAudioSession = 0;
+        if (MusicPlayer.isPlaybackServiceConnected()) {
+            mAudioSession = MusicPlayer.getAudioSessionId();
+        }
+        try {
+            final Intent effects = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+            effects.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.getPackageName());
+            effects.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, mAudioSession);
+            context.startActivity(effects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static Intent getNavigateToStyleSelectorIntent(Activity context,String what){
         final Intent intent=new Intent(context, SettingsActivity.class);

@@ -218,6 +218,10 @@ public class MainActivity extends BaseActivity {
             case R.id.action_search:
                 NavigationUtils.navigateToSearch(this);
                 return true;
+            case R.id.action_equalizer:
+                NavigationUtils.navigateToEqualizer(this);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

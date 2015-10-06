@@ -8,8 +8,8 @@ android {
         applicationId "naman14.timber"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 2
-        versionName "0.1b"
+        versionCode 3
+        versionName "0.11b"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }

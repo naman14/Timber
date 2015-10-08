@@ -19,7 +19,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +42,9 @@ public class ArtistFragment extends Fragment {
 
     private ArtistAdapter mAdapter;
     private RecyclerView recyclerView;
+    private FastScroller fastScroller;
+    private GridLayoutManager layoutManager;
+    private RecyclerView.ItemDecoration itemDecoration;
     private PreferencesUtility mPreferences;
     private boolean isGrid;
 
@@ -50,25 +52,18 @@ public class ArtistFragment extends Fragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPreferences = PreferencesUtility.getInstance(getActivity());
+        isGrid = mPreferences.isArtistsInGrid();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(
+        View rootView = inflater.inflate(
                 R.layout.fragment_recyclerview, container, false);
 
-        recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
-        FastScroller fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
 
-        isGrid=PreferencesUtility.getInstance(getActivity()).isArtistsInGrid();
-
-        if (isGrid) {
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-            fastScroller.setVisibility(View.GONE);
-        } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            fastScroller.setRecyclerView(recyclerView);
-        }
+        setLayoutManager();
 
         new loadArtists().execute("");
         return rootView;
@@ -87,17 +82,44 @@ public class ArtistFragment extends Fragment {
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
             if (getActivity() != null) {
-                if (isGrid) {
-                    int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
-                    recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
-                } else
-                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+                setItemDecoration();
             }
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
     }
+
+    private void setLayoutManager() {
+        if (isGrid) {
+            layoutManager = new GridLayoutManager(getActivity(), 2);
+            fastScroller.setVisibility(View.GONE);
+        } else {
+            layoutManager = new GridLayoutManager(getActivity(), 1);
+            fastScroller.setVisibility(View.VISIBLE);
+            fastScroller.setRecyclerView(recyclerView);
+        }
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    private void setItemDecoration() {
+        if (isGrid) {
+            int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
+            itemDecoration = new SpacesItemDecoration(spacingInPixels);
+        } else {
+            itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        }
+        recyclerView.addItemDecoration(itemDecoration);
+    }
+
+    private void updateLayoutManager(int column) {
+        recyclerView.removeItemDecoration(itemDecoration);
+        recyclerView.setAdapter( new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity())));
+        layoutManager.setSpanCount(column);
+        layoutManager.requestLayout();
+    }
+
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
@@ -109,12 +131,10 @@ public class ArtistFragment extends Fragment {
         @Override
         public void getItemOffsets(Rect outRect, View view,
                                    RecyclerView parent, RecyclerView.State state) {
-
-
             outRect.left = space;
-            outRect.top=space;
-            outRect.right=space;
-            outRect.bottom=space;
+            outRect.top = space;
+            outRect.right = space;
+            outRect.bottom = space;
 
         }
     }
@@ -145,6 +165,7 @@ public class ArtistFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.artist_sort_by, menu);
+        inflater.inflate(R.menu.menu_show_as, menu);
 
     }
 
@@ -166,6 +187,14 @@ public class ArtistFragment extends Fragment {
             case R.id.menu_sort_by_number_of_albums:
                 mPreferences.setArtistSortOrder(SortOrder.ArtistSortOrder.ARTIST_NUMBER_OF_ALBUMS);
                 reloadAdapter();
+                return true;
+            case R.id.menu_show_as_list:
+                mPreferences.setArtistsInGrid(false);
+                updateLayoutManager(1);
+                return true;
+            case R.id.menu_show_as_grid:
+                mPreferences.setArtistsInGrid(true);
+                updateLayoutManager(2);
                 return true;
         }
         return super.onOptionsItemSelected(item);

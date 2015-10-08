@@ -66,6 +66,18 @@ public final class PreferencesUtility {
     public boolean isArtistsInGrid(){
         return mPreferences.getBoolean(TOGGLE_ARTIST_GRID,false);
     }
+    public void setArtistsInGrid(final boolean b){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                final SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean(TOGGLE_ARTIST_GRID, b);
+                editor.apply();
+                return null;
+            }
+        }.execute();
+
+    }
     public String getTheme(){
         return mPreferences.getString(THEME_PREFERNCE, "light");
     }

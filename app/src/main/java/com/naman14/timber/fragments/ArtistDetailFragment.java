@@ -14,7 +14,6 @@
 
 package com.naman14.timber.fragments;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -42,7 +41,6 @@ import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.Constants;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,20 +124,14 @@ public class ArtistDetailFragment extends Fragment  {
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl,artistArt,
-                        new DisplayImageOptions.Builder().cacheInMemory(true)
-                                .cacheOnDisk(true)
-                                .showImageOnFail(R.drawable.ic_empty_music2)
-                                .resetViewBeforeLoading(true)
-                                .build(),new SimpleImageLoadingListener(){
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                                if (getActivity()!=null) {
-//                                    Drawable d = new BitmapDrawable(getActivity().getResources(), loadedImage);
-//                                    appBarLayout.setBackground(d);
-//                                }
-                            }
-                        });
+                if (artist != null) {
+                    ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl, artistArt,
+                            new DisplayImageOptions.Builder().cacheInMemory(true)
+                                    .cacheOnDisk(true)
+                                    .showImageOnFail(R.drawable.ic_empty_music2)
+                                    .resetViewBeforeLoading(true)
+                                    .build());
+                }
             }
 
             @Override

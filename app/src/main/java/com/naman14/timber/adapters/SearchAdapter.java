@@ -115,7 +115,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
                 LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
                     @Override
                     public void artistInfoSucess(LastfmArtist artist) {
-                        if (itemHolder.artistImage != null) {
+                        if (artist != null && itemHolder.artistImage != null) {
                             ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
                                     new DisplayImageOptions.Builder().cacheInMemory(true)
                                             .cacheOnDisk(true)

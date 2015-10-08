@@ -18,6 +18,7 @@ import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,9 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -54,6 +58,7 @@ import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.SortOrder;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -87,6 +92,8 @@ public class AlbumDetailFragment extends Fragment {
     private boolean loadFailed=false;
     private boolean isDarkTheme;
 
+    private PreferencesUtility mPreferences;
+
     public static AlbumDetailFragment newInstance(long id) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
         Bundle args = new Bundle();
@@ -102,6 +109,7 @@ public class AlbumDetailFragment extends Fragment {
             albumID = getArguments().getLong(Constants.ALBUM_ID);
         }
         isDarkTheme=PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
+        mPreferences = PreferencesUtility.getInstance(getActivity());
     }
 
     @TargetApi(21)
@@ -251,6 +259,62 @@ public class AlbumDetailFragment extends Fragment {
         fab.setImageDrawable(builder.build());
         enableViews();
     }
+
+    private void reloadAdapter() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                List<Song> songList = AlbumSongLoader.getSongsForAlbum(getActivity(), albumID);
+                mAdapter.updateDataSet(songList);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.album_song_sort_by, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_sort_by_az:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_A_Z);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_za:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_Z_A);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_year:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_YEAR);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_duration:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_DURATION);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_track_number:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_TRACK_LIST);
+                reloadAdapter();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void enableViews(){
         recyclerView.setEnabled(true);

@@ -113,6 +113,9 @@ public final class SortOrder {
         /* Album song sort order duration */
         public final static String SONG_DURATION = SongSortOrder.SONG_DURATION;
 
+        /* Album Song sort order year */
+        public final static String SONG_YEAR = MediaStore.Audio.Media.YEAR + " DESC";
+
         /* Album song sort order filename */
         public final static String SONG_FILENAME = SongSortOrder.SONG_FILENAME;
     }

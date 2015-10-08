@@ -64,10 +64,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
             int tracknumber = localItem.trackNumber;
             if (tracknumber == 0) {
                 itemHolder.trackNumber.setText("-");
-            } else if (tracknumber > 9) {
-                String number = String.valueOf(tracknumber);
-                itemHolder.trackNumber.setText(number.substring(number.length() - 1, number.length()));
-            } else itemHolder.trackNumber.setText(String.valueOf(tracknumber));
+            }  else itemHolder.trackNumber.setText(String.valueOf(tracknumber));
 
 
     }
@@ -111,6 +108,11 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
         }
 
         return ret;
+    }
+
+    public void updateDataSet(List<Song> arraylist) {
+        this.arraylist = arraylist;
+        this.songIDs = getSongIds();
     }
 
 }

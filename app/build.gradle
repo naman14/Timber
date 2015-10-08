@@ -8,14 +8,14 @@ android {
         applicationId "naman14.timber"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 5
-        versionName "0.121b"
+        versionCode 6
+        versionName "0.122b"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

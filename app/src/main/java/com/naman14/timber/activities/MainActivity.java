@@ -472,7 +472,7 @@ public class MainActivity extends BaseActivity {
             QuickControlsFragment fragment1 = new QuickControlsFragment();
             FragmentManager fragmentManager1 = getSupportFragmentManager();
             fragmentManager1.beginTransaction()
-                    .replace(R.id.quickcontrols_container, fragment1).commit();
+                    .replace(R.id.quickcontrols_container, fragment1).commitAllowingStateLoss();
             return "Executed";
         }
 

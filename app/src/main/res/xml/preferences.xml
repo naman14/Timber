@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Now Playing">
+    <PreferenceCategory android:title="@string/now_playing">
 
         <Preference
             android:key="now_paying_selector"
-            android:summary="Choose a now playing screen from 4 different styles."
-            android:title="Now Playing"></Preference>
+            android:summary="@string/now_playing_selector"
+            android:title="@string/now_playing"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Personalisation">
+    <PreferenceCategory android:title="@string/personalisation">
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="toggle_animations"
-            android:summary="Toggle for Transition animation throughout the app."
-            android:title="Animations"></SwitchPreference>
+            android:summary="@string/toggle_animations"
+            android:title="@string/animations"/>
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="toggle_system_animations"
-            android:summary="Toggle for system animations throughout the app."
-            android:title="System animations"></SwitchPreference>
+            android:summary="@string/toggle_system_animations"
+            android:title="@string/system_animations"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="toggle_artist_grid"
-            android:summary="Toggle for displaying artists in a 2x2 grid."
-            android:title="Artists in Grid"></SwitchPreference>
+            android:summary="@string/toggle_artists_grid"
+            android:title="@string/artist_in_grid"/>
 
         <ListPreference
             android:defaultValue="light"
             android:entries="@array/pref_theme_entries"
             android:entryValues="@array/pref_theme_values"
             android:key="theme_preference"
-            android:summary="Choose a theme to be used throughout the app."
-            android:title="Select Theme" />
+            android:summary="@string/choose_theme_throughout"
+            android:title="@string/select_theme" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Other">
+    <PreferenceCategory android:title="@string/other">
 
         <ListPreference
             android:defaultValue="last_opened"
             android:entries="@array/pref_startpage_entries"
             android:entryValues="@array/pref_startpage_values"
             android:key="start_page_preference"
-            android:summary="Choose the start page to be displayed on launch."
-            android:title="Start page" />
+            android:summary="@string/choose_start_page"
+            android:title="@string/start_page" />
 
     </PreferenceCategory>
 

@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 
         mSearchView.setOnQueryTextListener(this);
-        mSearchView.setQueryHint("Search Library");
+        mSearchView.setQueryHint(getString(R.string.search_library));
 
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setIconified(false);

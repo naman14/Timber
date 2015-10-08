@@ -17,6 +17,19 @@
     <string name="accessibility_queue">Open queue</string>
     <string name="accessibility_browse">Browse music</string>
 
+    <string name="menu_sort_by">Sort by</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="sort_order_entry_artist">Artist</string>
+    <string name="sort_order_entry_album">Album</string>
+    <string name="sort_order_entry_year">Year</string>
+    <string name="sort_order_entry_duration">Duration</string>
+    <string name="sort_order_entry_date_added">Date added</string>
+    <string name="sort_order_entry_track_list">Track list</string>
+    <string name="sort_order_entry_number_of_songs">Number of songs</string>
+    <string name="sort_order_entry_number_of_albums">Number of albums</string>
+    <string name="sort_order_entry_filename">Filename</string>
+
     <string name="error_playing_track">Error Playing track</string>
 
     <string name="playlist_last_added">Last Added</string>

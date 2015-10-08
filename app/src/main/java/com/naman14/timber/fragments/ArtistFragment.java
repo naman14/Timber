@@ -22,21 +22,35 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ArtistAdapter;
 import com.naman14.timber.dataloaders.ArtistLoader;
+import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.SortOrder;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
+import java.util.List;
+
 public class ArtistFragment extends Fragment {
 
-    ArtistAdapter mAdapter;
-    RecyclerView recyclerView;
+    private ArtistAdapter mAdapter;
+    private RecyclerView recyclerView;
+    private PreferencesUtility mPreferences;
     private boolean isGrid;
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPreferences = PreferencesUtility.getInstance(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,6 +119,57 @@ public class ArtistFragment extends Fragment {
         }
     }
 
+    private void reloadAdapter() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                List<Artist> artistList = ArtistLoader.getAllArtists(getActivity());
+                mAdapter.updateDataSet(artistList);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.artist_sort_by, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_sort_by_az:
+                mPreferences.setArtistSortOrder(SortOrder.ArtistSortOrder.ARTIST_A_Z);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_za:
+                mPreferences.setArtistSortOrder(SortOrder.ArtistSortOrder.ARTIST_Z_A);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_number_of_songs:
+                mPreferences.setArtistSortOrder(SortOrder.ArtistSortOrder.ARTIST_NUMBER_OF_SONGS);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_number_of_albums:
+                mPreferences.setArtistSortOrder(SortOrder.ArtistSortOrder.ARTIST_NUMBER_OF_ALBUMS);
+                reloadAdapter();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

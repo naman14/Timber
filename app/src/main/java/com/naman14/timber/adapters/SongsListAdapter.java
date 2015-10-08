@@ -177,6 +177,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             lastPosition = position;
         }
     }
+
+    public void updateDataSet(List<Song> arraylist) {
+        this.arraylist = arraylist;
+        this.songIDs = getSongIds();
+    }
 }
 
 

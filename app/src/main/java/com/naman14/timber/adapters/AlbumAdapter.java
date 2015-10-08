@@ -127,6 +127,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
         return 0xFF000000 | paramInt;
     }
 
+    public void updateDataSet(List<Album> arraylist) {
+        this.arraylist = arraylist;
+    }
+
 
 }
 

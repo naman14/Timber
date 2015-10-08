@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
 
@@ -106,10 +107,12 @@ public class SongLoader {
 
     public static Cursor makeSongCursor(Context context, String selection,String[] paramArrayOfString) {
         String selectionStatement = "is_music=1 AND title != ''";
+        final String songSortOrder = PreferencesUtility.getInstance(context).getSongSortOrder();
+
         if (!TextUtils.isEmpty(selection)) {
             selectionStatement = selectionStatement + " AND " + selection;
         }
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, songSortOrder);
 
         return cursor;
     }

@@ -19,6 +19,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 
 import com.naman14.timber.models.Album;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,8 @@ public class AlbumLoader {
 
 
     public static Cursor makeAlbumCursor(Context context, String selection, String[] paramArrayOfString) {
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"}, selection, paramArrayOfString, MediaStore.Audio.Albums.DEFAULT_SORT_ORDER);
+        final String albumSortOrder = PreferencesUtility.getInstance(context).getAlbumSortOrder();
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"}, selection, paramArrayOfString, albumSortOrder);
 
         return cursor;
     }

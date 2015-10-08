@@ -172,6 +172,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
     public static int getOpaqueColor(@ColorInt int paramInt) {
         return 0xFF000000 | paramInt;
     }
+
+    public void updateDataSet(List<Artist> arrayList) {
+        this.arraylist = arrayList;
+    }
 }
 
 

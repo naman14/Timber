@@ -1,5 +1,10 @@
 #Changelog
 
+v0.121b-
+* Fix crash in search activity
+* Added albums view options(list,grid)
+
+
 v0.12b-
 * Fix crash in artist detail and search
 * Add intent for equalizer

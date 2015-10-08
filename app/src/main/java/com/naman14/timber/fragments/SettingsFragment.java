@@ -29,7 +29,7 @@ import com.naman14.timber.utils.PreferencesUtility;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String NOW_PLAYING_SELECTOR="now_paying_selector";
+    private static final String NOW_PLAYING_SELECTOR="now_playing_selector";
     private static final String KEY_ABOUT="preference_about";
     private static final String KEY_SOURCE="preference_source";
     private static final String KEY_THEME = "theme_preference";

@@ -22,7 +22,7 @@ import android.preference.PreferenceManager;
 
 public final class PreferencesUtility {
 
-    private static final String NOW_PLAYING_SELECTOR="now_paying_selector";
+    private static final String NOW_PLAYING_SELECTOR="now_playing_selector";
     private static final String TOGGLE_ANIMATIONS="toggle_animations";
     private static final String TOGGLE_SYSTEM_ANIMATIONS="toggle_system_animations";
     private static final String TOGGLE_ARTIST_GRID="toggle_artist_grid";

@@ -81,7 +81,7 @@ public final class PreferencesUtility {
     }
 
     public boolean isAlbumsInGrid(){
-        return mPreferences.getBoolean(TOGGLE_ALBUM_GRID,false);
+        return mPreferences.getBoolean(TOGGLE_ALBUM_GRID,true);
     }
     public void setAlbumsInGrid(final boolean b){
         new AsyncTask<Void, Void, Void>() {

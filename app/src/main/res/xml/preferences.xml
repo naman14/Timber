@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="@string/now_playing">
 
         <Preference
-            android:key="now_paying_selector"
+            android:key="now_playing_selector"
             android:summary="@string/now_playing_selector"
             android:title="@string/now_playing"/>
 

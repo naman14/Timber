@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.naman14.timber.R;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -43,18 +44,26 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
     private List<Album> arraylist;
     private Activity mContext;
+    private boolean isGrid;
 
     public AlbumAdapter(Activity context, List<Album> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
+        this.isGrid = PreferencesUtility.getInstance(mContext).isAlbumsInGrid();
 
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_grid, null);
-        ItemHolder ml = new ItemHolder(v);
-        return ml;
+        if (isGrid) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_grid, null);
+            ItemHolder ml = new ItemHolder(v);
+            return ml;
+        } else {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_list, null);
+            ItemHolder ml = new ItemHolder(v);
+            return ml;
+        }
     }
 
     @Override
@@ -72,21 +81,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                 .build(),new SimpleImageLoadingListener(){
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                       Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
-                           @Override
-                           public void onGenerated(Palette palette) {
-                               int color=palette.getVibrantColor(Color.parseColor("#66000000"));
-                               itemHolder.footer.setBackgroundColor(color);
-                               Palette.Swatch swatch=palette.getVibrantSwatch();
-                               int textColor;
-                               if (swatch!=null){
-                                   textColor=getOpaqueColor(swatch.getTitleTextColor());
-                               } else textColor=Color.parseColor("#ffffff");
+                        if (isGrid) {
+                            Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    int color = palette.getVibrantColor(Color.parseColor("#66000000"));
+                                    itemHolder.footer.setBackgroundColor(color);
+                                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                                    int textColor;
+                                    if (swatch != null) {
+                                        textColor = getOpaqueColor(swatch.getTitleTextColor());
+                                    } else textColor = Color.parseColor("#ffffff");
 
-                               itemHolder.title.setTextColor(textColor);
-                               itemHolder.artist.setTextColor(textColor);
-                           }
-                       });
+                                    itemHolder.title.setTextColor(textColor);
+                                    itemHolder.artist.setTextColor(textColor);
+                                }
+                            });
+                        }
 
                     }
                 });

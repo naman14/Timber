@@ -26,6 +26,7 @@ public final class PreferencesUtility {
     private static final String TOGGLE_ANIMATIONS="toggle_animations";
     private static final String TOGGLE_SYSTEM_ANIMATIONS="toggle_system_animations";
     private static final String TOGGLE_ARTIST_GRID="toggle_artist_grid";
+    private static final String TOGGLE_ALBUM_GRID="toggle_album_grid";
     private static final String THEME_PREFERNCE="theme_preference";
     private static final String START_PAGE_INDEX = "start_page_index";
     private static final String START_PAGE_PREFERENCE_LASTOPENED= "start_page_preference_latopened";
@@ -78,6 +79,23 @@ public final class PreferencesUtility {
         }.execute();
 
     }
+
+    public boolean isAlbumsInGrid(){
+        return mPreferences.getBoolean(TOGGLE_ALBUM_GRID,false);
+    }
+    public void setAlbumsInGrid(final boolean b){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                final SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean(TOGGLE_ALBUM_GRID, b);
+                editor.apply();
+                return null;
+            }
+        }.execute();
+
+    }
+
     public String getTheme(){
         return mPreferences.getString(THEME_PREFERNCE, "light");
     }

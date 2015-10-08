@@ -33,6 +33,7 @@ import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
+import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
 import java.util.List;
@@ -41,12 +42,17 @@ public class AlbumFragment extends Fragment {
 
     private AlbumAdapter mAdapter;
     private RecyclerView recyclerView;
+    private FastScroller fastScroller;
+    private GridLayoutManager layoutManager;
+    private RecyclerView.ItemDecoration itemDecoration;
     private PreferencesUtility mPreferences;
+    private boolean isGrid;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPreferences = PreferencesUtility.getInstance(getActivity());
+        isGrid = mPreferences.isAlbumsInGrid();
     }
 
     @Override
@@ -55,13 +61,41 @@ public class AlbumFragment extends Fragment {
                 R.layout.fragment_recyclerview, container, false);
 
         recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        fastScroller=(FastScroller) rootView.findViewById(R.id.fastscroller);
 
-        FastScroller fastScroller=(FastScroller) rootView.findViewById(R.id.fastscroller);
-        fastScroller.setVisibility(View.GONE);
+        setLayoutManager();
 
         new loadAlbums().execute("");
         return rootView;
+    }
+
+    private void setLayoutManager() {
+        if (isGrid) {
+            layoutManager = new GridLayoutManager(getActivity(), 2);
+            fastScroller.setVisibility(View.GONE);
+        } else {
+            layoutManager = new GridLayoutManager(getActivity(), 1);
+            fastScroller.setVisibility(View.VISIBLE);
+            fastScroller.setRecyclerView(recyclerView);
+        }
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    private void setItemDecoration() {
+        if (isGrid) {
+            int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
+            itemDecoration = new SpacesItemDecoration(spacingInPixels);
+        } else {
+            itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        }
+        recyclerView.addItemDecoration(itemDecoration);
+    }
+
+    private void updateLayoutManager(int column) {
+        recyclerView.removeItemDecoration(itemDecoration);
+        recyclerView.setAdapter(new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity())));
+        layoutManager.setSpanCount(column);
+        layoutManager.requestLayout();
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
@@ -97,8 +131,7 @@ public class AlbumFragment extends Fragment {
             recyclerView.setAdapter(mAdapter);
             //to add spacing between cards
             if (getActivity() != null) {
-                int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.spacing_card_album_grid);
-                recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+                setItemDecoration();
             }
 
         }
@@ -133,6 +166,7 @@ public class AlbumFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.album_sort_by, menu);
+        inflater.inflate(R.menu.menu_show_as, menu);
 
     }
 
@@ -158,6 +192,14 @@ public class AlbumFragment extends Fragment {
             case R.id.menu_sort_by_number_of_songs:
                 mPreferences.setAlbumSortOrder(SortOrder.AlbumSortOrder.ALBUM_NUMBER_OF_SONGS);
                 reloadAdapter();
+                return true;
+            case R.id.menu_show_as_list:
+                mPreferences.setAlbumsInGrid(false);
+                updateLayoutManager(1);
+                return true;
+            case R.id.menu_show_as_grid:
+                mPreferences.setAlbumsInGrid(true);
+                updateLayoutManager(2);
                 return true;
         }
         return super.onOptionsItemSelected(item);

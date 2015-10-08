@@ -50,14 +50,14 @@ public class SettingsActivity extends AppCompatActivity {
         action = getIntent().getAction();
 
         if (action.equals(Constants.SETTINGS_STYLE_SELECTOR)){
-            getSupportActionBar().setTitle("Now Playing");
+            getSupportActionBar().setTitle(R.string.now_playing);
             String what =getIntent().getExtras().getString(Constants.SETTINGS_STYLE_SELECTOR_WHAT);
             Fragment fragment = new StyleSelectorFragment().newInstance(what);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
         } else {
-            getSupportActionBar().setTitle("Settings");
+            getSupportActionBar().setTitle(R.string.settings);
             PreferenceFragment fragment = new SettingsFragment();
             android.app.FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()

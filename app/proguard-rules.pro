@@ -42,3 +42,6 @@
 
 #renderscript
 -keep class android.support.v8.renderscript.** { *; }
+
+#searchview
+-keep class android.support.v7.widget.SearchView { *; }

@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.dataloaders;
 
 import android.content.ContentResolver;
@@ -7,12 +21,10 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
 
-/**
- * Created by naman on 23/07/15.
- */
 public class AlbumSongLoader {
 
     private static final long[] sEmptyList = new long[0];
@@ -43,9 +55,10 @@ public class AlbumSongLoader {
     public static Cursor makeAlbumSongCursor(Context context, long albumID)
     {
         ContentResolver contentResolver = context.getContentResolver();
+        final String albumSongSortOrder = PreferencesUtility.getInstance(context).getAlbumSongSortOrder();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String string = "is_music=1 AND title != '' AND album_id=" + albumID;
-        Cursor cursor=contentResolver.query(uri, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id"}, string, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        Cursor cursor=contentResolver.query(uri, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id"}, string, null, albumSongSortOrder);
         return cursor;
     }
 }

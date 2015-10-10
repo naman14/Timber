@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.utils;
 
 import android.annotation.TargetApi;
@@ -5,9 +19,11 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.media.audiofx.AudioEffect;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
 import com.naman14.timber.activities.SearchActivity;
@@ -19,9 +35,6 @@ import com.naman14.timber.nowplaying.Timber4;
 
 import java.util.ArrayList;
 
-/**
- * Created by naman on 22/07/15.
- */
 public class NavigationUtils {
 
     @TargetApi(21)
@@ -119,6 +132,20 @@ public class NavigationUtils {
         }
     }
 
+    public static void navigateToEqualizer(Activity context) {
+        int mAudioSession = 0;
+        if (MusicPlayer.isPlaybackServiceConnected()) {
+            mAudioSession = MusicPlayer.getAudioSessionId();
+        }
+        try {
+            final Intent effects = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+            effects.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.getPackageName());
+            effects.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, mAudioSession);
+            context.startActivity(effects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static Intent getNavigateToStyleSelectorIntent(Activity context,String what){
         final Intent intent=new Intent(context, SettingsActivity.class);

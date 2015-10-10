@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
@@ -16,6 +30,7 @@ import android.widget.TextView;
 import com.naman14.timber.R;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -25,25 +40,30 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by naman on 07/07/15.
- */
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> {
 
     private List<Album> arraylist;
     private Activity mContext;
+    private boolean isGrid;
 
     public AlbumAdapter(Activity context, List<Album> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
+        this.isGrid = PreferencesUtility.getInstance(mContext).isAlbumsInGrid();
 
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_grid, null);
-        ItemHolder ml = new ItemHolder(v);
-        return ml;
+        if (isGrid) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_grid, null);
+            ItemHolder ml = new ItemHolder(v);
+            return ml;
+        } else {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_list, null);
+            ItemHolder ml = new ItemHolder(v);
+            return ml;
+        }
     }
 
     @Override
@@ -61,21 +81,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                 .build(),new SimpleImageLoadingListener(){
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                       Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
-                           @Override
-                           public void onGenerated(Palette palette) {
-                               int color=palette.getVibrantColor(Color.parseColor("#66000000"));
-                               itemHolder.footer.setBackgroundColor(color);
-                               Palette.Swatch swatch=palette.getVibrantSwatch();
-                               int textColor;
-                               if (swatch!=null){
-                                   textColor=getOpaqueColor(swatch.getTitleTextColor());
-                               } else textColor=Color.parseColor("#ffffff");
+                        if (isGrid) {
+                            Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    int color = palette.getVibrantColor(Color.parseColor("#66000000"));
+                                    itemHolder.footer.setBackgroundColor(color);
+                                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                                    int textColor;
+                                    if (swatch != null) {
+                                        textColor = getOpaqueColor(swatch.getTitleTextColor());
+                                    } else textColor = Color.parseColor("#ffffff");
 
-                               itemHolder.title.setTextColor(textColor);
-                               itemHolder.artist.setTextColor(textColor);
-                           }
-                       });
+                                    itemHolder.title.setTextColor(textColor);
+                                    itemHolder.artist.setTextColor(textColor);
+                                }
+                            });
+                        }
 
                     }
                 });
@@ -114,6 +136,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
     public static int getOpaqueColor(@ColorInt int paramInt)
     {
         return 0xFF000000 | paramInt;
+    }
+
+    public void updateDataSet(List<Album> arraylist) {
+        this.arraylist = arraylist;
     }
 
 

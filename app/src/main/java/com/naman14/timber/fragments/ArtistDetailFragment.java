@@ -1,6 +1,19 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.fragments;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -28,14 +41,10 @@ import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.Constants;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by naman on 23/07/15.
- */
 public class ArtistDetailFragment extends Fragment  {
 
     long artistID = -1;
@@ -115,20 +124,14 @@ public class ArtistDetailFragment extends Fragment  {
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
-                ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl,artistArt,
-                        new DisplayImageOptions.Builder().cacheInMemory(true)
-                                .cacheOnDisk(true)
-                                .showImageOnFail(R.drawable.ic_empty_music2)
-                                .resetViewBeforeLoading(true)
-                                .build(),new SimpleImageLoadingListener(){
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                                if (getActivity()!=null) {
-//                                    Drawable d = new BitmapDrawable(getActivity().getResources(), loadedImage);
-//                                    appBarLayout.setBackground(d);
-//                                }
-                            }
-                        });
+                if (artist != null) {
+                    ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl, artistArt,
+                            new DisplayImageOptions.Builder().cacheInMemory(true)
+                                    .cacheOnDisk(true)
+                                    .showImageOnFail(R.drawable.ic_empty_music2)
+                                    .resetViewBeforeLoading(true)
+                                    .build());
+                }
             }
 
             @Override

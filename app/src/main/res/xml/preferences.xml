@@ -6,7 +6,7 @@
         <Preference
             android:key="now_paying_selector"
             android:summary="Choose a now playing screen from 4 different styles."
-            android:title="Now Playing"></Preference>
+            android:title="Now Playing" />
 
     </PreferenceCategory>
 
@@ -16,13 +16,13 @@
             android:defaultValue="true"
             android:key="toggle_animations"
             android:summary="Toggle for Transition animation throughout the app."
-            android:title="Animations"></SwitchPreference>
+            android:title="Animations" />
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="toggle_system_animations"
             android:summary="Toggle for system animations throughout the app."
-            android:title="System animations"></SwitchPreference>
+            android:title="System animations" />
 
         <ListPreference
             android:defaultValue="light"
@@ -43,6 +43,12 @@
             android:key="start_page_preference"
             android:summary="Choose the start page to be displayed on launch."
             android:title="Start page" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="toggle_headphone_pause"
+            android:summary="Toggle for pausing playback when headphone is detached"
+            android:title="Pause on Detach" />
 
     </PreferenceCategory>
 

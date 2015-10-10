@@ -35,6 +35,12 @@
         <activity android:name=".activities.SearchActivity"
             android:theme="@style/AppThemeNormalLight"/>
 
+        <receiver android:name=".helpers.MediaButtonIntentReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
         <!-- Music service -->
         <service
             android:name=".MusicService"

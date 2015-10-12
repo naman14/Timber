@@ -31,4 +31,13 @@
     <color name="progressBackgroundColorLight">#33000000</color>
     <color name="progressBackgroundColorDark">#33ffffff</color>
 
+    <color name="colorPopupBackgroundLight">#FAFAFA</color>
+    <color name="colorPopupMenuItemLight">#512DA8</color>
+
+    <color name="colorPopupBackgroundDark">#512DA8</color>
+    <color name="colorPopupMenuItemDark">#FAFAFA</color>
+
+    <color name="colorPopupBackgroundBlack">#F5F5F5</color>
+    <color name="colorPopupMenuItemBlack">#424242</color>
+
 </resources>

@@ -14,6 +14,7 @@
 
 package com.naman14.timber.subfragments;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ public class PlaylistPagerFragment extends Fragment {
     private TextView playlistame,songcount, playlistnumber,playlisttype;
     private ImageView playlistImage;
     private View foreground;
+    private Context mContext;
 
     int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent, R.color.blue_transparent, R.color.red_transparent, R.color.purple_transparent};
 
@@ -95,6 +97,7 @@ public class PlaylistPagerFragment extends Fragment {
             }
         });
 
+        mContext = this.getContext();
         setUpPlaylistDetails();
         return rootView;
     }
@@ -205,7 +208,7 @@ public class PlaylistPagerFragment extends Fragment {
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         }
                     });
-            songcount.setText(" "+String.valueOf(songCountInt)+" Songs");
+            songcount.setText(" " + String.valueOf(songCountInt) + " " + mContext.getString(R.string.songs));
         }
 
         @Override

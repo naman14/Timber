@@ -47,7 +47,7 @@ public class PlaylistFragment extends Fragment {
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Playlists");
+        ab.setTitle(R.string.playlists);
 
         final List<Playlist> playlists= PlaylistLoader.getPlaylists(getActivity());
         playlistcount=playlists.size();

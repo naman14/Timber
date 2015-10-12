@@ -8,19 +8,19 @@
         <item
             android:id="@+id/nav_library"
 
-            android:title="Library" />
+            android:title="@string/library" />
         <item
             android:id="@+id/nav_playlists"
 
-            android:title="Playlists" />
+            android:title="@string/playlists" />
         <item
             android:id="@+id/nav_queue"
 
-            android:title="Playing Queue" />
+            android:title="@string/playing_queue" />
         <item
             android:id="@+id/nav_nowplaying"
             android:checkable="false"
-            android:title="Now Playing" />
+            android:title="@string/now_playing" />
 
     </group>
 
@@ -30,16 +30,16 @@
         <item
 
             android:id="@+id/nav_settings"
-            android:title="Settings" />
+            android:title="@string/settings" />
 
         <item
 
             android:id="@+id/nav_about"
-            android:title="About" />
+            android:title="@string/about" />
         <item
 
             android:id="@+id/nav_help"
-            android:title="Help and Feedback" />
+            android:title="@string/help_and_feedback" />
     </group>
 
 </menu>

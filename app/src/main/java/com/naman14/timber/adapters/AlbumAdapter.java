@@ -53,6 +53,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
     }
 
+    public static int getOpaqueColor(@ColorInt int paramInt) {
+        return 0xFF000000 | paramInt;
+    }
+
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (isGrid) {
@@ -75,14 +79,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
-                .showImageOnFail(R.drawable.ic_empty_music2)
-                .resetViewBeforeLoading(true)
-                .displayer(new FadeInBitmapDisplayer(400))
-                .build(),new SimpleImageLoadingListener(){
+                        .showImageOnFail(R.drawable.ic_empty_music2)
+                        .resetViewBeforeLoading(true)
+                        .displayer(new FadeInBitmapDisplayer(400))
+                        .build(), new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         if (isGrid) {
-                            Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                            new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette palette) {
                                     int color = palette.getVibrantColor(Color.parseColor("#66000000"));
@@ -109,9 +113,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
         return (null != arraylist ? arraylist.size() : 0);
     }
 
+    public void updateDataSet(List<Album> arraylist) {
+        this.arraylist = arraylist;
+    }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,artist;
+        protected TextView title, artist;
         protected ImageView albumArt;
         protected View footer;
 
@@ -119,27 +126,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
             super(view);
             this.title = (TextView) view.findViewById(R.id.album_title);
             this.artist = (TextView) view.findViewById(R.id.album_artist);
-            this.albumArt=(ImageView) view.findViewById(R.id.album_art);
-            this.footer=view.findViewById(R.id.footer);
+            this.albumArt = (ImageView) view.findViewById(R.id.album_art);
+            this.footer = view.findViewById(R.id.footer);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews=new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View)albumArt,"transition_album_art"));
-            NavigationUtils.navigateToAlbum(mContext,arraylist.get(getAdapterPosition()).id,tranitionViews);
+            ArrayList<Pair> tranitionViews = new ArrayList<>();
+            tranitionViews.add(0, Pair.create((View) albumArt, "transition_album_art"));
+            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
         }
 
-    }
-
-    public static int getOpaqueColor(@ColorInt int paramInt)
-    {
-        return 0xFF000000 | paramInt;
-    }
-
-    public void updateDataSet(List<Album> arraylist) {
-        this.arraylist = arraylist;
     }
 
 

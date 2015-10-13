@@ -40,8 +40,9 @@
                     android:id="@+id/song_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
                     android:ellipsize="end"
-                    android:maxLength="20"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
                     android:textColor="#ffffff"
@@ -93,33 +94,35 @@
                             android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:background="@android:color/transparent"
-                            android:scaleType="centerCrop"
-                           />
+                            android:scaleType="centerCrop" />
+
                         <com.naman14.timber.widgets.CircleImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_centerInParent="true"
                             android:layout_gravity="center"
-                            android:src="@color/black_translucent"
                             android:scaleType="centerCrop"
-                            />
+                            android:src="@color/black_translucent" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:orientation="vertical">
-                        <include
-                            layout="@layout/song_elapsedtime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center" />
+
+                            <include
+                                layout="@layout/song_elapsedtime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center" />
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:orientation="horizontal"
-                                android:paddingTop="10dp"
-                                android:layout_gravity="center">
+                                android:paddingTop="10dp">
+
                                 <ImageView
                                     android:id="@+id/shuffle"
                                     android:layout_width="48dp"
@@ -180,8 +183,8 @@
                 android:layout_gravity="top"
                 android:layout_marginTop="@dimen/appBarTopMargin"
                 android:background="@android:color/transparent"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:theme="@style/Theme.AppCompat" />
+                android:theme="@style/Theme.AppCompat"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
         </FrameLayout>

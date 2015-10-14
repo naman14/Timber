@@ -89,7 +89,7 @@ public class AlbumDetailFragment extends Fragment {
     AppBarLayout appBarLayout;
     FloatingActionButton fab;
 
-    private boolean loadFailed=false;
+    private boolean loadFailed = false;
     private boolean isDarkTheme;
 
     private PreferencesUtility mPreferences;
@@ -108,7 +108,7 @@ public class AlbumDetailFragment extends Fragment {
         if (getArguments() != null) {
             albumID = getArguments().getLong(Constants.ALBUM_ID);
         }
-        isDarkTheme=PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
+        isDarkTheme = PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
         mPreferences = PreferencesUtility.getInstance(getActivity());
     }
 
@@ -148,15 +148,15 @@ public class AlbumDetailFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Handler handler=new Handler();
+                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        AlbumSongsAdapter adapter=(AlbumSongsAdapter)recyclerView.getAdapter();
-                        MusicPlayer.playAll(getActivity(), adapter.getSongIds(), 0,albumID , TimberUtils.IdType.Album, true);
-                        NavigationUtils.navigateToNowplaying(getActivity(),false);
+                        AlbumSongsAdapter adapter = (AlbumSongsAdapter) recyclerView.getAdapter();
+                        MusicPlayer.playAll(getActivity(), adapter.getSongIds(), 0, albumID, TimberUtils.IdType.Album, true);
+                        NavigationUtils.navigateToNowplaying(getActivity(), false);
                     }
-                },150);
+                }, 150);
             }
         });
 
@@ -184,36 +184,41 @@ public class AlbumDetailFragment extends Fragment {
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                         loadFailed=true;
-                        if (TimberUtils.isLollipop()&& PreferencesUtility.getInstance(getActivity()).getAnimations() )
+                        loadFailed = true;
+                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
                             scheduleStartPostponedTransition(albumArt);
 
 
-                            if (isDarkTheme){
-                                MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                                        .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                                        .setColor(Color.BLACK);
-                                fab.setImageDrawable(builder.build());
+                        if (isDarkTheme) {
+                            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                                    .setColor(Color.BLACK);
+                            fab.setImageDrawable(builder.build());
 
                         }
                     }
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        Palette palette = Palette.generate(loadedImage);
-                        collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(Color.parseColor("#66000000")));
-                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkVibrantColor(Color.parseColor("#66000000")));
+                        new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+                                collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(Color.parseColor("#66000000")));
+                                collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkVibrantColor(Color.parseColor("#66000000")));
 
-                        ColorStateList fabColorStateList = new ColorStateList(
-                                new int[][]{
-                                        new int[]{}
-                                },
-                                new int[]{
-                                        palette.getMutedColor(Color.parseColor("#66000000")),
-                                }
-                        );
+                                ColorStateList fabColorStateList = new ColorStateList(
+                                        new int[][]{
+                                                new int[]{}
+                                        },
+                                        new int[]{
+                                                palette.getMutedColor(Color.parseColor("#66000000")),
+                                        }
+                                );
 
-                        fab.setBackgroundTintList(fabColorStateList);
+                                fab.setBackgroundTintList(fabColorStateList);
+                            }
+                        });
+
                         if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
                             scheduleStartPostponedTransition(albumArt);
                     }
@@ -253,7 +258,7 @@ public class AlbumDetailFragment extends Fragment {
         FabAnimationUtils.scaleIn(fab);
         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
-        if( (loadFailed && isDarkTheme) )
+        if ((loadFailed && isDarkTheme))
             builder.setColor(Color.BLACK);
         else builder.setColor(Color.WHITE);
         fab.setImageDrawable(builder.build());
@@ -316,11 +321,11 @@ public class AlbumDetailFragment extends Fragment {
     }
 
 
-    private void enableViews(){
+    private void enableViews() {
         recyclerView.setEnabled(true);
     }
 
-    private void disableView(){
+    private void disableView() {
         recyclerView.setEnabled(false);
     }
 

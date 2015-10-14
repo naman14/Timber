@@ -91,6 +91,7 @@
     <string name="timber_about_opensource">Timber is a open source Music Player developed by Naman Dwivedi.</string>
     <string name="summary_pause_detach">Toggle for pausing playback when headphone is detached</string>
     <string name="pause_detach">Pause on Detach</string>
+    <string name="currently_selected">Currently Selected</string>
 
 
 </resources>

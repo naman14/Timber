@@ -26,7 +26,7 @@
     <string name="sort_order_entry_track_number">Titelnummer</string>
     <string name="sort_order_entry_duration">Länge</string>
     <string name="sort_order_entry_date_added">Hinzufügedatum</string>
-    <string name="sort_order_entry_track_list">Titelliste</string>
+    <string name="sort_order_entry_track_list">Tracklist</string>
     <string name="sort_order_entry_number_of_songs">Anzahl an Lieder</string>
     <string name="sort_order_entry_number_of_albums">Anzahl an Alben</string>
     <string name="sort_order_entry_filename">Dateiname</string>

@@ -98,7 +98,7 @@ public class FastScroller extends LinearLayout{
   public void setRecyclerView(RecyclerView recyclerView)
     {
     this.recyclerView=recyclerView;
-    recyclerView.setOnScrollListener(scrollListener);
+    recyclerView.addOnScrollListener(scrollListener);
     }
 
   private void setRecyclerViewPosition(float y)
@@ -180,7 +180,7 @@ public class FastScroller extends LinearLayout{
           return;
         }
       View firstVisibleView=recyclerView.getChildAt(0);
-      int firstVisiblePosition=recyclerView.getChildPosition(firstVisibleView);
+      int firstVisiblePosition=recyclerView.getChildLayoutPosition(firstVisibleView);
       int visibleRange=recyclerView.getChildCount();
       int lastVisiblePosition=firstVisiblePosition+visibleRange;
       int itemCount=recyclerView.getAdapter().getItemCount();

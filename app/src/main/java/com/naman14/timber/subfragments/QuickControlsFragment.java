@@ -20,6 +20,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,19 +45,40 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 public class QuickControlsFragment extends BaseNowplayingFragment implements MusicStateListener {
 
 
+    public static View topContainer;
+    private static ProgressBar mProgress;
     private PlayPauseButton mPlayPause;
     private TextView mTitle;
     private TextView mArtist;
     private TextView mExtraInfo;
     private ImageView mAlbumArt, mBlurredArt;
     private String mArtUrl;
-    private static ProgressBar mProgress;
-    public static View topContainer;
     private View rootView;
     private View playPauseWrapper;
 
     private boolean duetoplaypause = false;
+    private final View.OnClickListener mButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            duetoplaypause = true;
+            ;
+            if (!mPlayPause.isPlayed()) {
+                mPlayPause.setPlayed(true);
+                mPlayPause.startAnimation();
+            } else {
+                mPlayPause.setPlayed(false);
+                mPlayPause.startAnimation();
+            }
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playOrPause();
+                }
+            }, 200);
 
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,10 +104,11 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
         mProgress.setScaleY(0.5f);
 
         if (isThemeIsLight()) {
-            mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccent));
+            mPlayPause.setColor(ContextCompat.getColor(mPlayPause.getContext(), R.color.colorAccent));
         } else if (isThemeIsDark()) {
-            mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccentDarkTheme));
-        } else mPlayPause.setColor(getActivity().getResources().getColor(R.color.colorAccentBlack));
+            mPlayPause.setColor(ContextCompat.getColor(mPlayPause.getContext(), R.color.colorAccentDarkTheme));
+        } else
+            mPlayPause.setColor(ContextCompat.getColor(mPlayPause.getContext(), R.color.colorAccentBlack));
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +167,6 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
         duetoplaypause = false;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -163,30 +185,6 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
         topContainer = rootView.findViewById(R.id.topContainer);
 
     }
-
-
-    private final View.OnClickListener mButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            duetoplaypause = true;
-            ;
-            if (!mPlayPause.isPlayed()) {
-                mPlayPause.setPlayed(true);
-                mPlayPause.startAnimation();
-            } else {
-                mPlayPause.setPlayed(false);
-                mPlayPause.startAnimation();
-            }
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MusicPlayer.playOrPause();
-                }
-            }, 200);
-
-        }
-    };
 
     public void updateState() {
         if (MusicPlayer.isPlaying()) {

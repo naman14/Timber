@@ -17,6 +17,7 @@ package com.naman14.timber.nowplaying;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,15 +35,15 @@ public class Timber3 extends BaseNowplayingFragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_timber3, container, false);
 
-        PlayPauseButton playPauseButton=(PlayPauseButton)rootView.findViewById(R.id.playpause);
-        fab =(FloatingActionButton) rootView.findViewById(R.id.playpausefloating);
+        PlayPauseButton playPauseButton = (PlayPauseButton) rootView.findViewById(R.id.playpause);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.playpausefloating);
 
         setMusicStateListener();
         setSongDetails(rootView);
 
-        if (playPauseButton!=null) {
+        if (playPauseButton != null) {
             if (PreferencesUtility.getInstance(getActivity()).getTheme().equals("light")) {
-                playPauseButton.setColor(getActivity().getResources().getColor(android.R.color.black));
+                playPauseButton.setColor(ContextCompat.getColor(getActivity(), android.R.color.black));
             }
         }
 
@@ -50,7 +51,7 @@ public class Timber3 extends BaseNowplayingFragment {
     }
 
     @Override
-    public void doAlbumArtStuff(Bitmap bitmap){
+    public void doAlbumArtStuff(Bitmap bitmap) {
 //        if (fab!=null) {
 //            Palette palette = Palette.generate(bitmap);
 //            ColorStateList fabColorStateList = new ColorStateList(

@@ -9,8 +9,8 @@
     <string name="accessibility_pause">Pause</string>
     <string name="accessibility_next">Nächstes</string>
     <string name="accessibility_prev">Vorheriges</string>
-    <string name="accessibility_shuffle">Shuffle</string>
-    <string name="accessibility_shuffle_all">Shuffle all</string>
+    <string name="accessibility_shuffle">Zufall</string>
+    <string name="accessibility_shuffle_all">Alles zufällig abspielen</string>
     <string name="accessibility_repeat">Wiederholen</string>
     <string name="accessibility_repeat_all">Alle wiederholen</string>
     <string name="accessibility_repeat_one">Aktuelles wiederholen</string>
@@ -45,7 +45,7 @@
     <string name="timber_source">Melden Sie Fehler <u> hier </u> </string>
     <string name="timber_feature_request">Vorschläge? Posten Sie sie in der <u> Google+ Community </u></string>
 
-    <string name="menu_show_as">View As</string>
+    <string name="menu_show_as">Ansicht</string>
     <string name="menu_show_as_entry_list">Liste</string>
     <string name="menu_show_as_entry_grid">Raster</string>
 
@@ -55,18 +55,18 @@
 
     <string name="last_opened">Zuletzt geöffnet</string>
 
-    <string name="songs">Songs</string>
+    <string name="songs">Lieder</string>
     <string name="albums">Alben</string>
     <string name="artists">Interpreten</string>
     <string name="library">Bibliothek</string>
-    <string name="playlists">Playlists</string>
+    <string name="playlists">Playlisten</string>
     <string name="playing_queue">Warteschlange</string>
     <string name="now_playing">Now Playing</string>
     <string name="settings">Einstellungen</string>
     <string name="about">Über</string>
     <string name="help_and_feedback">Hifle und Feedback</string>
     <string name="search">Suchen</string>
-    <string name="action_shuffle_all">Shuffle All</string>
+    <string name="action_shuffle_all">Alles zufällig abspielen</string>
     <string name="action_equalizer">Equalizer</string>
     <string name="search_library">Bibliothek durchsuchen</string>
     <string name="count_song"><xliff:g id="count">%d</xliff:g> Song</string>
@@ -75,21 +75,21 @@
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> Alben</string>
     <string name="count_artist"><xliff:g id="count">%d</xliff:g> Interpret</string>
     <string name="count_artists"><xliff:g id="count">%d</xliff:g> Interpreten</string>
-    <string name="select_theme">Theme auswählen</string>
-    <string name="choose_theme_throughout">Wählen Sie ein Theme welches die App nutzt.</string>
+    <string name="select_theme">Design auswählen</string>
+    <string name="choose_theme_throughout">Wählen Sie ein Design welches die App nutzt.</string>
     <string name="choose_start_page">Wählen Sie die Startseite die beim starten der App angezeigt wird.</string>
     <string name="start_page">Startseite</string>
     <string name="artist_in_grid">Interpreten in Raster</string>
-    <string name="toggle_artists_grid">Toggle for displaying artists in a 2x2 grid.</string>
+    <string name="toggle_artists_grid">Interpreten in einem 2x2 Raster anzeigen</string>
     <string name="toggle_system_animations">System-Animationen aktivieren.</string>
     <string name="system_animations">System-Animationen</string>
     <string name="toggle_animations">Übergangs-Animationen aktivieren.</string>
     <string name="animations">Animationen</string>
-    <string name="now_playing_selector">Wählen Sie einen "Now-Playing"-Screen aus 4 verschiedenen Styles.</string>
+    <string name="now_playing_selector">Wählen Sie einen "Now-Playing"-Screen aus 4 verschiedenen Stilen.</string>
     <string name="personalisation">Personifizierung</string>
     <string name="other">Anderes</string>
-    <string name="timber_about_opensource">Timber ist ein offener Musik-Player entwickelt von Naman Dwivedi..</string>
-    <string name="summary_pause_detach">Playback pausieren wenn Kopfhörer entfernt werden.</string>
+    <string name="timber_about_opensource">Timber ist ein offener Musik-Player entwickelt von Naman Dwivedi.</string>
+    <string name="summary_pause_detach">Wiedergabe pausieren wenn Kopfhörer entfernt werden.</string>
     <string name="pause_detach">Pause beim entfernen</string>
 
 

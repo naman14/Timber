@@ -55,7 +55,7 @@
 
     <string name="last_opened">Zuletzt geöffnet</string>
 
-    <string name="songs">Lieder</string>
+    <string name="songs">Titel</string>
     <string name="albums">Alben</string>
     <string name="artists">Interpreten</string>
     <string name="library">Bibliothek</string>

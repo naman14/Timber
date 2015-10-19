@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="hello_world">Hallo Welt!</string>
     <string name="action_settings">Einstellungen</string>
 
     <string name="accessibility_play">Play</string>

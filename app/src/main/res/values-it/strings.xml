@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Timber</string>
     <string name="accessibility_play">Play</string>
     <string name="accessibility_pause">Pausa</string>
     <string name="accessibility_shuffle">Casuale</string>
     <string name="accessibility_shuffle_all">Brani casuali</string>
     <string name="action_settings">Impostazioni</string>
     <string name="error_playing_track">Errore di riproduzione della traccia</string>
-    <string name="hello_world">Ciao mondo!</string>
     <string name="menu_sort_by">Ordina per</string>
     <string name="playlist_last_added">Ultimi aggiunti</string>
     <string name="sort_order_entry_album">Album</string>

@@ -21,5 +21,5 @@ public class ArtistTag {
     private static final String NAME = "name";
 
     @SerializedName(NAME)
-    public String mName ;
+    public String mName;
 }

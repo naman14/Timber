@@ -23,8 +23,8 @@ public class ArtistQuery {
     @SerializedName(ARTIST_NAME)
     public String mArtist;
 
-    public ArtistQuery(String artist){
-        this.mArtist=artist;
+    public ArtistQuery(String artist) {
+        this.mArtist = artist;
     }
 
 

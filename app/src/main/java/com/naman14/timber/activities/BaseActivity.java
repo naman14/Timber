@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 import static com.naman14.timber.MusicPlayer.mService;
 
-public class BaseActivity extends AppCompatActivity implements ServiceConnection,MusicStateListener {
+public class BaseActivity extends AppCompatActivity implements ServiceConnection, MusicStateListener {
 
     private MusicPlayer.ServiceToken mToken;
     private PlaybackStatus mPlaybackStatus;
@@ -81,6 +81,7 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
 
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -188,7 +189,7 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
                 } else if (action.equals(MusicService.TRACK_ERROR)) {
                     final String errorMsg = context.getString(R.string.error_playing_track,
                             intent.getStringExtra(MusicService.TrackErrorExtra.TRACK_NAME));
-                   Toast.makeText(baseActivity, errorMsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(baseActivity, errorMsg, Toast.LENGTH_SHORT).show();
                 }
             }
         }

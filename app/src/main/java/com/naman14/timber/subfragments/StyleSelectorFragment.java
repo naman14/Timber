@@ -28,7 +28,7 @@ import com.naman14.timber.widgets.MultiViewPager;
 
 public class StyleSelectorFragment extends Fragment {
 
-    public String ACTION="action";
+    public String ACTION = "action";
     private SubStyleSelectorFragment selectorFragment;
     FragmentStatePagerAdapter adapter;
     MultiViewPager pager;
@@ -55,12 +55,12 @@ public class StyleSelectorFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_style_selector, container, false);
 
-        if (ACTION.equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)){
+        if (ACTION.equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)) {
 
         }
         pager = (MultiViewPager) rootView.findViewById(R.id.pager);
 
-       adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
+        adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
 
             @Override
             public int getCount() {
@@ -69,7 +69,7 @@ public class StyleSelectorFragment extends Fragment {
 
             @Override
             public Fragment getItem(int position) {
-                selectorFragment = SubStyleSelectorFragment.newInstance(position,ACTION);
+                selectorFragment = SubStyleSelectorFragment.newInstance(position, ACTION);
                 return selectorFragment;
             }
 

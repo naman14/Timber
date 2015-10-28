@@ -27,9 +27,9 @@ public class AlbumQuery {
     @SerializedName(ARTIST_NAME)
     public String mArtist;
 
-    public AlbumQuery(String album, String artist){
-        this.mALbum=album;
-        this.mArtist=artist;
+    public AlbumQuery(String album, String artist) {
+        this.mALbum = album;
+        this.mArtist = artist;
     }
 
 

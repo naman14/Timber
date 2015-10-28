@@ -75,7 +75,7 @@ public class SearchHistory {
 
             database.delete(SearchHistoryColumns.NAME,
                     SearchHistoryColumns.SEARCHSTRING + " = ? COLLATE NOCASE",
-                    new String[] { trimmedString });
+                    new String[]{trimmedString});
 
             final ContentValues values = new ContentValues(2);
             values.put(SearchHistoryColumns.SEARCHSTRING, trimmedString);
@@ -94,7 +94,7 @@ public class SearchHistory {
 
                     database.delete(SearchHistoryColumns.NAME,
                             SearchHistoryColumns.TIMESEARCHED + " < ?",
-                            new String[] { String.valueOf(timeOfRecordToKeep) });
+                            new String[]{String.valueOf(timeOfRecordToKeep)});
 
                 }
             } finally {

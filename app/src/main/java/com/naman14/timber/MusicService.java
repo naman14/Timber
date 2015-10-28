@@ -288,8 +288,8 @@ public class MusicService extends Service {
                 MediaButtonIntentReceiver.class.getName());
         mAudioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
 
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
-        setUpMediaSession();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            setUpMediaSession();
 
         mPreferences = getSharedPreferences("Service", 0);
         mCardId = getCardId();
@@ -396,15 +396,15 @@ public class MusicService extends Service {
         mPlayerHandler.removeCallbacksAndMessages(null);
 
         if (TimberUtils.isJellyBeanMR2())
-        mHandlerThread.quitSafely();
+            mHandlerThread.quitSafely();
         else mHandlerThread.quit();
 
         mPlayer.release();
         mPlayer = null;
 
         mAudioManager.abandonAudioFocus(mAudioFocusListener);
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
-        mSession.release();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            mSession.release();
 
         getContentResolver().unregisterContentObserver(mMediaStoreObserver);
 
@@ -455,8 +455,8 @@ public class MusicService extends Service {
         if (D) Log.d(TAG, "Nothing is playing anymore, releasing notification");
         cancelNotification();
         mAudioManager.abandonAudioFocus(mAudioFocusListener);
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
-        mSession.setActive(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            mSession.setActive(false);
 
         if (!mServiceInUse) {
             saveQueue(true);
@@ -513,8 +513,9 @@ public class MusicService extends Service {
         if (mNotifyMode != newNotifyMode) {
             if (mNotifyMode == NOTIFY_MODE_FOREGROUND) {
                 if (TimberUtils.isLollipop())
-                stopForeground(newNotifyMode == NOTIFY_MODE_NONE);
-                else stopForeground(newNotifyMode == NOTIFY_MODE_NONE || newNotifyMode==NOTIFY_MODE_BACKGROUND);
+                    stopForeground(newNotifyMode == NOTIFY_MODE_NONE);
+                else
+                    stopForeground(newNotifyMode == NOTIFY_MODE_NONE || newNotifyMode == NOTIFY_MODE_BACKGROUND);
             } else if (newNotifyMode == NOTIFY_MODE_NONE) {
                 mNotificationManager.cancel(notificationId);
                 mNotificationPostTime = 0;
@@ -539,13 +540,13 @@ public class MusicService extends Service {
 
 
     private int getCardId() {
-       if (TimberUtils.isMarshmallow()) {
-           if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-               return getmCardId();
-           } else return 0;
-       } else {
-           return getmCardId();
-       }
+        if (TimberUtils.isMarshmallow()) {
+            if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                return getmCardId();
+            } else return 0;
+        } else {
+            return getmCardId();
+        }
     }
 
     private int getmCardId() {
@@ -566,6 +567,7 @@ public class MusicService extends Service {
         notifyChange(QUEUE_CHANGED);
         notifyChange(META_CHANGED);
     }
+
     public void registerExternalStorageListener() {
         if (mUnmountReceiver == null) {
             mUnmountReceiver = new BroadcastReceiver() {
@@ -623,7 +625,7 @@ public class MusicService extends Service {
             setIsSupposedToBePlaying(false, false);
         } else {
             if (TimberUtils.isLollipop())
-            stopForeground(false);
+                stopForeground(false);
             else stopForeground(true);
         }
     }
@@ -1014,8 +1016,8 @@ public class MusicService extends Service {
         if (D) Log.d(TAG, "notifyChange: what = " + what);
 
         // Update the lockscreen controls
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
-        updateMediaSession(what);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            updateMediaSession(what);
 
         if (what.equals(POSITION_CHANGED)) {
             return;
@@ -1066,8 +1068,7 @@ public class MusicService extends Service {
                 : PlaybackState.STATE_PAUSED;
 
         if (what.equals(PLAYSTATE_CHANGED) || what.equals(POSITION_CHANGED)) {
-            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mSession.setPlaybackState(new PlaybackState.Builder()
                         .setState(playState, position(), 1.0f).build());
             }
@@ -1081,23 +1082,23 @@ public class MusicService extends Service {
                 }
                 albumArt = albumArt.copy(config, false);
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            mSession.setMetadata(new MediaMetadata.Builder()
-                    .putString(MediaMetadata.METADATA_KEY_ARTIST, getArtistName())
-                    .putString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST, getAlbumArtistName())
-                    .putString(MediaMetadata.METADATA_KEY_ALBUM, getAlbumName())
-                    .putString(MediaMetadata.METADATA_KEY_TITLE, getTrackName())
-                    .putLong(MediaMetadata.METADATA_KEY_DURATION, duration())
-                    .putLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER, getQueuePosition() + 1)
-                    .putLong(MediaMetadata.METADATA_KEY_NUM_TRACKS, getQueue().length)
-                    .putString(MediaMetadata.METADATA_KEY_GENRE, getGenreName())
-                    .putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART,
-                            mShowAlbumArtOnLockscreen ? albumArt : null)
-                    .build());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mSession.setMetadata(new MediaMetadata.Builder()
+                        .putString(MediaMetadata.METADATA_KEY_ARTIST, getArtistName())
+                        .putString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST, getAlbumArtistName())
+                        .putString(MediaMetadata.METADATA_KEY_ALBUM, getAlbumName())
+                        .putString(MediaMetadata.METADATA_KEY_TITLE, getTrackName())
+                        .putLong(MediaMetadata.METADATA_KEY_DURATION, duration())
+                        .putLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER, getQueuePosition() + 1)
+                        .putLong(MediaMetadata.METADATA_KEY_NUM_TRACKS, getQueue().length)
+                        .putString(MediaMetadata.METADATA_KEY_GENRE, getGenreName())
+                        .putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART,
+                                mShowAlbumArtOnLockscreen ? albumArt : null)
+                        .build());
 
-            mSession.setPlaybackState(new PlaybackState.Builder()
-                    .setState(playState, position(), 1.0f).build());
-        }
+                mSession.setPlaybackState(new PlaybackState.Builder()
+                        .setState(playState, position(), 1.0f).build());
+            }
         }
     }
 
@@ -1150,11 +1151,11 @@ public class MusicService extends Service {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
             Notification.MediaStyle style = new Notification.MediaStyle()
                     .setMediaSession(mSession.getSessionToken())
-                    .setShowActionsInCompactView(0, 1, 2,3);
+                    .setShowActionsInCompactView(0, 1, 2, 3);
             builder.setStyle(style);
         }
-        if (artwork!=null && TimberUtils.isLollipop())
-        builder.setColor(Palette.from(artwork).generate().getDarkVibrantColor(Color.parseColor("#403f4d")));
+        if (artwork != null && TimberUtils.isLollipop())
+            builder.setColor(Palette.from(artwork).generate().getDarkVibrantColor(Color.parseColor("#403f4d")));
 
         return builder.build();
     }
@@ -1189,13 +1190,13 @@ public class MusicService extends Service {
     }
 
     private void reloadQueueAfterPermissionCheck() {
-       if (TimberUtils.isMarshmallow()) {
-           if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-               reloadQueue();
-           }
-       } else {
-           reloadQueue();
-       }
+        if (TimberUtils.isMarshmallow()) {
+            if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                reloadQueue();
+            }
+        } else {
+            reloadQueue();
+        }
     }
 
     private void reloadQueue() {
@@ -1258,6 +1259,7 @@ public class MusicService extends Service {
             mShuffleMode = shufmode;
         }
     }
+
     public boolean openFile(final String path) {
         if (D) Log.d(TAG, "openFile: path = " + path);
         synchronized (this) {
@@ -1795,8 +1797,8 @@ public class MusicService extends Service {
 
         mAudioManager.registerMediaButtonEventReceiver(new ComponentName(getPackageName(),
                 MediaButtonIntentReceiver.class.getName()));
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
-        mSession.setActive(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            mSession.setActive(true);
 
         if (createNewNextTrack) {
             setNextTrack();

@@ -40,7 +40,7 @@ public class RestServiceFactory {
             @Override
             public void intercept(RequestFacade request) {
                 //7-days cache
-                request.addHeader("Cache-Control", String.format("max-age=%d,max-stale=%d", Integer.valueOf(60*60*24*7), Integer.valueOf(31536000)));
+                request.addHeader("Cache-Control", String.format("max-age=%d,max-stale=%d", Integer.valueOf(60 * 60 * 24 * 7), Integer.valueOf(31536000)));
                 request.addHeader("Connection", "keep-alive");
             }
         };

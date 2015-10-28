@@ -17,12 +17,14 @@ import android.provider.MediaStore;
 
 /**
  * Holds all of the sort orders for each list type.
- * 
+ *
  * @author Andrew Neal (andrewdneal@gmail.com)
  */
 public final class SortOrder {
 
-    /** This class is never instantiated */
+    /**
+     * This class is never instantiated
+     */
     public SortOrder() {
     }
 

@@ -51,7 +51,7 @@ public class Timber4 extends BaseNowplayingFragment {
         setSongDetails(rootView);
 
         mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
-        horizontalRecyclerview=(RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
+        horizontalRecyclerview = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
 
         setupHorizontalQueue();
 
@@ -164,11 +164,11 @@ public class Timber4 extends BaseNowplayingFragment {
         blurredAlbumArt.execute(loadedImage);
     }
 
-    private void setupHorizontalQueue(){
-        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        horizontalAdapter=new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
+    private void setupHorizontalQueue() {
+        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
         horizontalRecyclerview.setAdapter(horizontalAdapter);
-        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition()-3);
+        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
     }
 
 

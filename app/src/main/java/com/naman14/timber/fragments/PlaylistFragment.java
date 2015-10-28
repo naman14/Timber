@@ -42,15 +42,15 @@ public class PlaylistFragment extends Fragment {
                 R.layout.fragment_playlist, container, false);
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle(R.string.playlists);
 
-        final List<Playlist> playlists= PlaylistLoader.getPlaylists(getActivity());
-        playlistcount=playlists.size();
+        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity());
+        playlistcount = playlists.size();
 
         final MultiViewPager pager = (MultiViewPager) rootView.findViewById(R.id.playlistpager);
 

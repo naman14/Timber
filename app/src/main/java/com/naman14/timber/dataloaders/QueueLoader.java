@@ -22,14 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class QueueLoader  {
+public class QueueLoader {
 
 
     private static NowPlayingCursor mCursor;
 
     public static List<Song> getQueueSongs(Context context) {
 
-        final ArrayList<Song> mSongList =new ArrayList<>();
+        final ArrayList<Song> mSongList = new ArrayList<>();
         mCursor = new NowPlayingCursor(context);
 
         if (mCursor != null && mCursor.moveToFirst()) {
@@ -49,9 +49,9 @@ public class QueueLoader  {
 
                 final long artistid = mCursor.getInt(6);
 
-                final int tracknumber =mCursor.getInt(7);
+                final int tracknumber = mCursor.getInt(7);
 
-                final Song song = new Song(id, albumId, artistid,songName, artist, album, duration,tracknumber);
+                final Song song = new Song(id, albumId, artistid, songName, artist, album, duration, tracknumber);
 
                 mSongList.add(song);
             } while (mCursor.moveToNext());

@@ -41,8 +41,8 @@ public class SortedCursor extends AbstractCursor {
     private ArrayList<Object> mExtraData;
 
     /**
-     * @param cursor to wrap
-     * @param order the list of unique ids in sorted order to display
+     * @param cursor     to wrap
+     * @param order      the list of unique ids in sorted order to display
      * @param columnName the column name of the id to look up in the internal cursor
      */
     public SortedCursor(final Cursor cursor, final long[] order, final String columnName,
@@ -58,12 +58,13 @@ public class SortedCursor extends AbstractCursor {
     /**
      * This function populates mOrderedPositions with the cursor positions in the order based
      * on the order passed in
-     * @param order the target order of the internal cursor
+     *
+     * @param order     the target order of the internal cursor
      * @param extraData Extra data we want to add to the cursor
      * @return returns the ids that aren't found in the underlying cursor
      */
     private ArrayList<Long> buildCursorPositionMapping(final long[] order,
-            final String columnName, final List<? extends Object> extraData) {
+                                                       final String columnName, final List<? extends Object> extraData) {
         ArrayList<Long> missingIds = new ArrayList<Long>();
 
         mOrderedPositions = new ArrayList<Integer>(mCursor.getCount());

@@ -34,7 +34,7 @@ import com.naman14.timber.widgets.MultiViewPager;
 
 public class ArtistBioFragment extends Fragment {
 
-    long artistID=-1;
+    long artistID = -1;
 
     public static ArtistBioFragment newInstance(long id) {
         ArtistBioFragment fragment = new ArtistBioFragment();
@@ -51,14 +51,15 @@ public class ArtistBioFragment extends Fragment {
             artistID = getArguments().getLong(Constants.ARTIST_ID);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_artist_bio, container, false);
 
-        Artist artist= ArtistLoader.getArtist(getActivity(), artistID);
+        Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
 
-        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
+        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
 

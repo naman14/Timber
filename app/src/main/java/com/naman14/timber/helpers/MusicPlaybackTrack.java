@@ -79,7 +79,7 @@ public class MusicPlaybackTrack implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (o instanceof MusicPlaybackTrack) {
-            MusicPlaybackTrack other = (MusicPlaybackTrack)o;
+            MusicPlaybackTrack other = (MusicPlaybackTrack) o;
             if (other != null) {
                 if (mId == other.mId
                         && mSourceId == other.mSourceId

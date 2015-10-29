@@ -57,11 +57,11 @@ public class AlbumFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(
+        View rootView = inflater.inflate(
                 R.layout.fragment_recyclerview, container, false);
 
-        recyclerView=(RecyclerView) rootView.findViewById(R.id.recyclerview);
-        fastScroller=(FastScroller) rootView.findViewById(R.id.fastscroller);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
 
         setLayoutManager();
 
@@ -111,9 +111,9 @@ public class AlbumFragment extends Fragment {
 
 
             outRect.left = space;
-            outRect.top=space;
-            outRect.right=space;
-            outRect.bottom=space;
+            outRect.top = space;
+            outRect.right = space;
+            outRect.bottom = space;
 
         }
     }
@@ -137,7 +137,8 @@ public class AlbumFragment extends Fragment {
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
     }
 
     private void reloadAdapter() {

@@ -220,7 +220,6 @@ public class PlayPauseDrawable extends Drawable {
     }
 
 
-
     @Override
     public int getOpacity() {
         return PixelFormat.TRANSLUCENT;

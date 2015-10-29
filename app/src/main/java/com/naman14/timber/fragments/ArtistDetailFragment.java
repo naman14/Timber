@@ -45,7 +45,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistDetailFragment extends Fragment  {
+public class ArtistDetailFragment extends Fragment {
 
     long artistID = -1;
 
@@ -74,20 +74,18 @@ public class ArtistDetailFragment extends Fragment  {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_artist_detail, container, false);
 
-        artistArt=(ImageView) rootView.findViewById(R.id.artist_art);
+        artistArt = (ImageView) rootView.findViewById(R.id.artist_art);
 
-        collapsingToolbarLayout=(CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
-        appBarLayout=(AppBarLayout) rootView.findViewById(R.id.app_bar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
+        appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
 
 
-
-        toolbar=(Toolbar) rootView.findViewById(R.id.toolbar);
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         setupToolbar();
         setUpArtistDetails();
 
@@ -106,22 +104,22 @@ public class ArtistDetailFragment extends Fragment  {
         return rootView;
     }
 
-    private void setupToolbar(){
+    private void setupToolbar() {
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setUpArtistDetails(){
+    private void setUpArtistDetails() {
 
-        Artist artist= ArtistLoader.getArtist(getActivity(),artistID);
+        Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
 
         collapsingToolbarLayout.setTitle(artist.name);
 
-        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
+        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
                 if (artist != null) {
@@ -178,9 +176,6 @@ public class ArtistDetailFragment extends Fragment  {
             return mFragmentTitles.get(position);
         }
     }
-
-
-
 
 
 }

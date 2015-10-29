@@ -18,12 +18,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Artwork {
 
-    private static final String URL   = "#text";
-    private static final String SIZE   = "size";
+    private static final String URL = "#text";
+    private static final String SIZE = "size";
 
     @SerializedName(URL)
-    public String mUrl ;
+    public String mUrl;
 
     @SerializedName(SIZE)
-    public String mSize ;
+    public String mSize;
 }

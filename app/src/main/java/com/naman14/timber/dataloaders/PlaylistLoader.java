@@ -29,7 +29,7 @@ import java.util.List;
 
 public class PlaylistLoader {
 
-   static ArrayList<Playlist> mPlaylistList;
+    static ArrayList<Playlist> mPlaylistList;
     private static Cursor mCursor;
 
     public static List<Playlist> getPlaylists(Context context) {
@@ -83,7 +83,7 @@ public class PlaylistLoader {
 
     public static final Cursor makePlaylistCursor(final Context context) {
         return context.getContentResolver().query(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
-                new String[] {
+                new String[]{
                         BaseColumns._ID,
                         PlaylistsColumns.NAME
                 }, null, null, MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER);

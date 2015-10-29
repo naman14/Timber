@@ -47,7 +47,7 @@ public class LastFmClient {
     }
 
     public void getAlbumInfo(AlbumQuery albumQuery) {
-        mRestService.getAlbumInfo(albumQuery.mArtist, albumQuery.mALbum,new Callback<AlbumInfo>() {
+        mRestService.getAlbumInfo(albumQuery.mArtist, albumQuery.mALbum, new Callback<AlbumInfo>() {
             @Override
             public void success(AlbumInfo albumInfo, Response response) {
 
@@ -71,7 +71,7 @@ public class LastFmClient {
             @Override
             public void failure(RetrofitError error) {
                 listener.artistInfoFailed();
-                Log.d("lol","failed");
+                Log.d("lol", "failed");
                 error.printStackTrace();
             }
         });

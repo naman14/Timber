@@ -37,11 +37,11 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
     private long albumID;
     private long[] songIDs;
 
-    public AlbumSongsAdapter(Activity context, List<Song> arraylist,long albumID) {
+    public AlbumSongsAdapter(Activity context, List<Song> arraylist, long albumID) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.songIDs=getSongIds();
-        this.albumID=albumID;
+        this.songIDs = getSongIds();
+        this.albumID = albumID;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_song, null);
         ItemHolder ml = new ItemHolder(v);
-            return ml;
+        return ml;
 
 
     }
@@ -57,14 +57,14 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
     @Override
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
 
-            Song localItem = arraylist.get(i);
+        Song localItem = arraylist.get(i);
 
-            itemHolder.title.setText(localItem.title);
-            itemHolder.duration.setText(TimberUtils.makeShortTimeString(mContext, (localItem.duration) / 1000));
-            int tracknumber = localItem.trackNumber;
-            if (tracknumber == 0) {
-                itemHolder.trackNumber.setText("-");
-            }  else itemHolder.trackNumber.setText(String.valueOf(tracknumber));
+        itemHolder.title.setText(localItem.title);
+        itemHolder.duration.setText(TimberUtils.makeShortTimeString(mContext, (localItem.duration) / 1000));
+        int tracknumber = localItem.trackNumber;
+        if (tracknumber == 0) {
+            itemHolder.trackNumber.setText("-");
+        } else itemHolder.trackNumber.setText(String.valueOf(tracknumber));
 
 
     }
@@ -76,26 +76,26 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,duration,trackNumber;
+        protected TextView title, duration, trackNumber;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.duration = (TextView) view.findViewById(R.id.song_duration);
-            this.trackNumber=(TextView) view.findViewById(R.id.trackNumber);
+            this.trackNumber = (TextView) view.findViewById(R.id.trackNumber);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Handler handler=new Handler();
+            Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(),albumID , TimberUtils.IdType.Album, false);
+                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), albumID, TimberUtils.IdType.Album, false);
                     NavigationUtils.navigateToNowplaying(mContext, true);
                 }
-            },100);
+            }, 100);
 
         }
 

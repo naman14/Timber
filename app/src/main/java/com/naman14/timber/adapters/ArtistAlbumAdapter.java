@@ -58,7 +58,7 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
         Album localItem = arraylist.get(i);
 
         itemHolder.title.setText(localItem.title);
-        String songCount= TimberUtils.makeLabel(mContext,R.plurals.Nsongs,localItem.songCount);
+        String songCount = TimberUtils.makeLabel(mContext, R.plurals.Nsongs, localItem.songCount);
         itemHolder.details.setText(songCount);
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt,
@@ -76,24 +76,24 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,details;
+        protected TextView title, details;
         protected ImageView albumArt;
         protected CardView rootView;
 
         public ItemHolder(View view) {
             super(view);
-            this.rootView=(CardView) view.findViewById(R.id.root_view);
+            this.rootView = (CardView) view.findViewById(R.id.root_view);
             this.title = (TextView) view.findViewById(R.id.album_title);
             this.details = (TextView) view.findViewById(R.id.album_details);
-            this.albumArt=(ImageView) view.findViewById(R.id.album_art);
+            this.albumArt = (ImageView) view.findViewById(R.id.album_art);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews=new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View)albumArt,"transition_album_art"));
-            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id ,tranitionViews);
+            ArrayList<Pair> tranitionViews = new ArrayList<>();
+            tranitionViews.add(0, Pair.create((View) albumArt, "transition_album_art"));
+            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
         }
 
     }

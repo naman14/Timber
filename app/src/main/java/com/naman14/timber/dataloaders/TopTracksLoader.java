@@ -38,7 +38,7 @@ public class TopTracksLoader extends SongLoader {
     protected static QueryType mQueryType;
 
     public TopTracksLoader(final Context context, QueryType type) {
-        this.mContext=context;
+        this.mContext = context;
         mQueryType = type;
     }
 
@@ -123,7 +123,7 @@ public class TopTracksLoader extends SongLoader {
 
             selection.append(")");
 
-            Cursor songCursor = makeSongCursor(context, selection.toString(),null);
+            Cursor songCursor = makeSongCursor(context, selection.toString(), null);
             if (songCursor != null) {
                 return new SortedCursor(songCursor, order, BaseColumns._ID, null);
             }

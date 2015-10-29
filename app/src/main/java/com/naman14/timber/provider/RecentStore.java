@@ -94,7 +94,7 @@ public class RecentStore {
 
                     database.delete(RecentStoreColumns.NAME,
                             RecentStoreColumns.TIMEPLAYED + " < ?",
-                            new String[] { String.valueOf(timeOfRecordToKeep) });
+                            new String[]{String.valueOf(timeOfRecordToKeep)});
 
                 }
             } finally {
@@ -112,8 +112,8 @@ public class RecentStore {
 
     public void removeItem(final long songId) {
         final SQLiteDatabase database = mMusicDatabase.getWritableDatabase();
-        database.delete(RecentStoreColumns.NAME, RecentStoreColumns.ID + " = ?", new String[] {
-            String.valueOf(songId)
+        database.delete(RecentStoreColumns.NAME, RecentStoreColumns.ID + " = ?", new String[]{
+                String.valueOf(songId)
         });
 
     }

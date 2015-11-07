@@ -1,8 +1,5 @@
 package com.naman14.timber.widgets;
 
-/**
- * Created by naman on 18/05/15.
- */
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;

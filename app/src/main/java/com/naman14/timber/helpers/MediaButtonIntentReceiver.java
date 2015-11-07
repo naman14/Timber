@@ -1,3 +1,14 @@
+/*
+ * Copyright (C) 2007 The Android Open Source Project Licensed under the Apache
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
 package com.naman14.timber.helpers;
 
 import android.content.Context;
@@ -11,8 +22,9 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.MusicService;
+import com.naman14.timber.activities.MainActivity;
+import com.naman14.timber.utils.PreferencesUtility;
 
 /**
  * Used to control headset playback.
@@ -23,7 +35,7 @@ import com.naman14.timber.MusicService;
  */
 public class MediaButtonIntentReceiver extends WakefulBroadcastReceiver {
     private static final boolean DEBUG = false;
-    private static final String TAG = "MediaButtonIntentReceiver";
+    private static final String TAG = "ButtonIntentReceiver";
 
     private static final int MSG_LONGPRESS_TIMEOUT = 1;
     private static final int MSG_HEADSET_DOUBLE_CLICK_TIMEOUT = 2;
@@ -87,13 +99,48 @@ public class MediaButtonIntentReceiver extends WakefulBroadcastReceiver {
         }
     };
 
+    private static void startService(Context context, String command) {
+        final Intent i = new Intent(context, MusicService.class);
+        i.setAction(MusicService.SERVICECMD);
+        i.putExtra(MusicService.CMDNAME, command);
+        i.putExtra(MusicService.FROM_MEDIA_BUTTON, true);
+        startWakefulService(context, i);
+    }
+
+    private static void acquireWakeLockAndSendMessage(Context context, Message msg, long delay) {
+        if (mWakeLock == null) {
+            Context appContext = context.getApplicationContext();
+            PowerManager pm = (PowerManager) appContext.getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Timber headset button");
+            mWakeLock.setReferenceCounted(false);
+        }
+        if (DEBUG) Log.v(TAG, "Acquiring wake lock and sending " + msg.what);
+        // Make sure we don't indefinitely hold the wake lock under any circumstances
+        mWakeLock.acquire(10000);
+
+        mHandler.sendMessageDelayed(msg, delay);
+    }
+
+    private static void releaseWakeLockIfHandlerIdle() {
+        if (mHandler.hasMessages(MSG_LONGPRESS_TIMEOUT)
+                || mHandler.hasMessages(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT)) {
+            if (DEBUG) Log.v(TAG, "Handler still has messages pending, not releasing wake lock");
+            return;
+        }
+
+        if (mWakeLock != null) {
+            if (DEBUG) Log.v(TAG, "Releasing wake lock");
+            mWakeLock.release();
+            mWakeLock = null;
+        }
+    }
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        if (DEBUG) Log.v(TAG, "Received intent: " + intent);
         final String intentAction = intent.getAction();
         if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intentAction)) {
-            startService(context, MusicService.CMDPAUSE);
+            if (PreferencesUtility.getInstance(context).pauseEnabledOnDetach())
+                startService(context, MusicService.CMDPAUSE);
         } else if (Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
             final KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (event == null) {
@@ -172,42 +219,6 @@ public class MediaButtonIntentReceiver extends WakefulBroadcastReceiver {
                 }
                 releaseWakeLockIfHandlerIdle();
             }
-        }
-    }
-
-    private static void startService(Context context, String command) {
-        final Intent i = new Intent(context, MusicService.class);
-        i.setAction(MusicService.SERVICECMD);
-        i.putExtra(MusicService.CMDNAME, command);
-        i.putExtra(MusicService.FROM_MEDIA_BUTTON, true);
-        startWakefulService(context, i);
-    }
-
-    private static void acquireWakeLockAndSendMessage(Context context, Message msg, long delay) {
-        if (mWakeLock == null) {
-            Context appContext = context.getApplicationContext();
-            PowerManager pm = (PowerManager) appContext.getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Timber headset button");
-            mWakeLock.setReferenceCounted(false);
-        }
-        if (DEBUG) Log.v(TAG, "Acquiring wake lock and sending " + msg.what);
-        // Make sure we don't indefinitely hold the wake lock under any circumstances
-        mWakeLock.acquire(10000);
-
-        mHandler.sendMessageDelayed(msg, delay);
-    }
-
-    private static void releaseWakeLockIfHandlerIdle() {
-        if (mHandler.hasMessages(MSG_LONGPRESS_TIMEOUT)
-                || mHandler.hasMessages(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT)) {
-            if (DEBUG) Log.v(TAG, "Handler still has messages pending, not releasing wake lock");
-            return;
-        }
-
-        if (mWakeLock != null) {
-            if (DEBUG) Log.v(TAG, "Releasing wake lock");
-            mWakeLock.release();
-            mWakeLock = null;
         }
     }
 }

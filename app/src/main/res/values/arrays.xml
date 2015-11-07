@@ -12,4 +12,18 @@
         <item>black</item>
     </string-array>
 
+
+    <string-array name="pref_startpage_entries">
+        <item>Last opened</item>
+        <item>Songs</item>
+        <item>Albums</item>
+        <item>Artists</item>
+    </string-array>
+
+    <string-array name="pref_startpage_values">
+        <item>last_opened</item>
+        <item>songs</item>
+        <item>albums</item>
+        <item>artists</item>
+    </string-array>
 </resources>

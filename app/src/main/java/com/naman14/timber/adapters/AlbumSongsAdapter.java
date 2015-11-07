@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
@@ -16,9 +30,6 @@ import com.naman14.timber.utils.TimberUtils;
 
 import java.util.List;
 
-/**
- * Created by naman on 23/07/15.
- */
 public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.ItemHolder> {
 
     private List<Song> arraylist;
@@ -53,10 +64,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
             int tracknumber = localItem.trackNumber;
             if (tracknumber == 0) {
                 itemHolder.trackNumber.setText("-");
-            } else if (tracknumber > 9) {
-                String number = String.valueOf(tracknumber);
-                itemHolder.trackNumber.setText(number.substring(number.length() - 1, number.length()));
-            } else itemHolder.trackNumber.setText(String.valueOf(tracknumber));
+            }  else itemHolder.trackNumber.setText(String.valueOf(tracknumber));
 
 
     }
@@ -100,6 +108,11 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
         }
 
         return ret;
+    }
+
+    public void updateDataSet(List<Song> arraylist) {
+        this.arraylist = arraylist;
+        this.songIDs = getSongIds();
     }
 
 }

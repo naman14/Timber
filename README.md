@@ -13,8 +13,18 @@
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-31-11-50-50.png" alt="alt text">
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-31-11-52-50.png" alt="alt text">
 
-License
-===============
+#Changelog
+Changelog is available [here](https://github.com/naman14/Timber/blob/master/Changelog.md)
+
+#Credits
+* CyanogenMod's [Eleven Music Player](https://github.com/CyanogenMod/android_packages_apps_Eleven)
+* [TimelyTextView](https://github.com/adnan-SM/TimelyTextView)
+* [MultiViewPager](https://github.com/Pixplicity/MultiViewPager)
+* [PlayPauseButton](https://github.com/recruit-lifestyle/PlayPauseButton)
+* [CircularSeekBar](https://github.com/devadvance/circularseekbar)
+* [Nammu](https://github.com/tajchert/Nammu)
+
+#License
 >(c) 2015 Naman Dwivedi 
 
 >This is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. 

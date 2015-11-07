@@ -2,60 +2,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingLeft="5dp"
-    android:paddingTop="8dp"
     android:paddingBottom="8dp"
-    android:background="?attr/selectableItemBackground">
+    android:paddingLeft="5dp"
+    android:paddingTop="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:paddingLeft="15dp"
+        <ImageView
+            android:id="@+id/album_art"
             android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/trackNumber"
-            android:maxLength="3"
-            android:padding="2dp"
-            android:textSize="20sp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            style="@style/TextAppearance.AppCompat.Large"
-            />
+            android:padding="1dp"
+            android:transitionName="transition_album_art" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="18dp"
-            android:paddingTop="5dp"
-            android:layout_toRightOf="@+id/trackNumber"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/currentlyPlayingIndicator"
-            android:layout_marginRight="10dp">
+            android:layout_toRightOf="@+id/album_art"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp">
 
 
             <TextView
-                android:id="@+id/song_title"
+                android:id="@+id/album_title"
+                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                style="@style/TextAppearance.AppCompat.Body1"/>
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/song_duration"
+                android:id="@+id/album_artist"
+                style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:paddingTop="3dp"
-                android:textSize="12sp"
-                android:ellipsize="end"
                 android:singleLine="true"
-                style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"/>
-
+                android:textSize="13sp" />
 
 
         </LinearLayout>
@@ -64,18 +58,16 @@
             android:id="@+id/currentlyPlayingIndicator"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
-            app:materialIconColor="#fff"
-            app:materialIconSize="35dp"
             android:visibility="invisible"
-            android:layout_alignParentRight="true"/>
-
+            app:materialIconColor="#fff"
+            app:materialIconSize="35dp" />
 
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

@@ -31,7 +31,7 @@ import static com.naman14.timber.MusicPlayer.mService;
 
 public class NowPlayingCursor extends AbstractCursor {
 
-    private static final String[] PROJECTION = new String[] {
+    private static final String[] PROJECTION = new String[]{
 
             BaseColumns._ID,
 
@@ -187,13 +187,15 @@ public class NowPlayingCursor extends AbstractCursor {
         } catch (final Exception close) {
         }
         super.close();
-    };
+    }
+
+    ;
 
 
     private void makeNowPlayingCursor() {
         mQueueCursor = null;
         mNowPlaying = MusicPlayer.getQueue();
-        Log.d("lol1",mNowPlaying.toString() + "   "+mNowPlaying.length);
+        Log.d("lol1", mNowPlaying.toString() + "   " + mNowPlaying.length);
         mSize = mNowPlaying.length;
         if (mSize == 0) {
             return;

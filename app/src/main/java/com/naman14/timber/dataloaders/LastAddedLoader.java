@@ -24,7 +24,7 @@ import com.naman14.timber.models.Song;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LastAddedLoader  {
+public class LastAddedLoader {
 
     private static Cursor mCursor;
 
@@ -44,7 +44,7 @@ public class LastAddedLoader  {
                 long artistId = mCursor.getInt(6);
                 long albumId = mCursor.getLong(7);
 
-                final Song song = new Song(id, albumId, artistId, title, artist,album, duration, trackNumber);
+                final Song song = new Song(id, albumId, artistId, title, artist, album, duration, trackNumber);
 
                 mSongList.add(song);
             } while (mCursor.moveToNext());
@@ -61,7 +61,9 @@ public class LastAddedLoader  {
         long fourWeeksAgo = (System.currentTimeMillis() / 1000) - (4 * 3600 * 24 * 7);
         long cutoff = 0L;
         // use the most recent of the two timestamps
-        if(cutoff < fourWeeksAgo) { cutoff = fourWeeksAgo; }
+        if (cutoff < fourWeeksAgo) {
+            cutoff = fourWeeksAgo;
+        }
 
         final StringBuilder selection = new StringBuilder();
         selection.append(AudioColumns.IS_MUSIC + "=1");

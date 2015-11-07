@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -250,7 +251,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             ab.setTitle("");
         }
         if (mPlayPause != null && getActivity() != null) {
-            mPlayPause.setColor(getActivity().getResources().getColor(android.R.color.white));
+            mPlayPause.setColor(ContextCompat.getColor(getContext(), android.R.color.white));
         }
 
         if (playPauseFloating != null) {
@@ -299,11 +300,11 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         if (mProgress != null && getActivity() != null) {
             if (isThemeIsLight()) {
-                mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN);
             } else if (isThemeIsDark()) {
-                mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccentDarkTheme), PorterDuff.Mode.SRC_IN);
+                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccentDarkTheme), PorterDuff.Mode.SRC_IN);
             } else
-                mProgress.getThumb().setColorFilter(getActivity().getResources().getColor(R.color.colorAccentBlack), PorterDuff.Mode.SRC_IN);
+                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccentBlack), PorterDuff.Mode.SRC_IN);
         }
         if (recyclerView != null)
             setQueueSongs();

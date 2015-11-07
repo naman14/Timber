@@ -124,7 +124,7 @@ public class PlayTransition extends Transition {
             return null;
         }
         Bitmap startImage = (Bitmap) startValues.values.get(PROPERTY_IMAGE);
-        Drawable startBackground = new BitmapDrawable(startImage);
+        Drawable startBackground = new BitmapDrawable(sceneRoot.getContext().getResources(), startImage);
         final View startView = addViewToOverlay(sceneRoot, startImage.getWidth(),
                 startImage.getHeight(), startBackground);
         Drawable shrinkingBackground = new ColorDrawable(mColor);
@@ -252,7 +252,7 @@ public class PlayTransition extends Transition {
     static float calculateMaxRadius(View view) {
         float widthSquared = view.getWidth() * view.getWidth();
         float heightSquared = view.getHeight() * view.getHeight();
-        float radius = (float)Math.sqrt(widthSquared + heightSquared) / 2;
+        float radius = (float) Math.sqrt(widthSquared + heightSquared) / 2;
         return radius;
     }
 

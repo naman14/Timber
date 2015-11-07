@@ -26,9 +26,9 @@ import java.io.ByteArrayOutputStream;
 
 public class ImageUtils {
 
-    public static Drawable createBlurredImageFromBitmap(Bitmap bitmap,Context context,int inSampleSize) {
+    public static Drawable createBlurredImageFromBitmap(Bitmap bitmap, Context context, int inSampleSize) {
 
-        RenderScript rs=RenderScript.create(context);
+        RenderScript rs = RenderScript.create(context);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = inSampleSize;
 
@@ -45,9 +45,8 @@ public class ImageUtils {
         script.setInput(input);
         script.forEach(output);
         output.copyTo(blurTemplate);
-        Drawable dr = new BitmapDrawable(blurTemplate);
 
-        return dr;
+        return new BitmapDrawable(context.getResources(), blurTemplate);
     }
 
 }

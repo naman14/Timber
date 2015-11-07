@@ -19,6 +19,7 @@ import com.naman14.timber.lastfmapi.models.LastfmAlbum;
 public interface AlbuminfoListener {
 
     public void albumInfoSucess(LastfmAlbum album);
+
     public void albumInfoFailed();
 
 }

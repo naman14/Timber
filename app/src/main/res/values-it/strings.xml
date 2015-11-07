@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="accessibility_play">Play</string>
+    <string name="accessibility_pause">Pausa</string>
+    <string name="accessibility_shuffle">Casuale</string>
+    <string name="accessibility_shuffle_all">Brani casuali</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="error_playing_track">Errore di riproduzione della traccia</string>
+    <string name="menu_sort_by">Ordina per</string>
+    <string name="playlist_last_added">Ultimi aggiunti</string>
+    <string name="sort_order_entry_album">Album</string>
+    <string name="sort_order_entry_artist">Artista</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_duration">Durata</string>
+    <string name="sort_order_entry_filename">Nome del file</string>
+    <string name="sort_order_entry_number_of_albums">Numero di album</string>
+    <string name="sort_order_entry_number_of_songs">Numero di canzoni</string>
+    <string name="sort_order_entry_year">Anno</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="timber_feature_request">Per qualsiasi richiesta di nuove funzionalità vai nella comunity di Google+ <u> qui </u></string>
+    <string name="timber_source">Riporta <u> qui </u> qualsiasi bug</string>
+    <string name="light">Chiaro</string>
+    <string name="dark">Scuro</string>
+    <string name="black">Nero</string>
+    <string name="last_opened">Ultima aperta</string>
+    <string name="songs">Brani</string>
+    <string name="albums">Album</string>
+    <string name="artists">Artisti</string>
+    <string name="library">Libreria</string>
+    <string name="settings">Impostazioni</string>
+    <string name="playlists">Playlist</string>
+    <string name="playing_queue">Coda di riproduzione</string>
+    <string name="now_playing">In riproduzione</string>
+    <string name="accessibility_queue">Apri coda</string>
+    <string name="about">Info su</string>
+    <string name="playlist_recently_played">Ascoltati di recente</string>
+    <string name="playlist_top_tracks">Brani più ascoltati</string>
+    <string name="action_shuffle_all">Brani casuali</string>
+    <string name="action_equalizer">Equalizzatore</string>
+    <string name="accessibility_prev">Precedente</string>
+    <string name="accessibility_next">Successivo</string>
+    <string name="search">Cerca</string>
+    <string name="search_library">Cerca nella libreria</string>
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> brano</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> brani</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artisti</string>
+    <string name="animations">Animazioni</string>
+    <string name="artist_in_grid">Artisti visualizzati in griglia</string>
+    <string name="choose_start_page">Scegli la pagina iniziale da mostrare all\'apertura dell\'app.</string>
+    <string name="other">Altro</string>
+    <string name="personalisation">Personalizzazione</string>
+    <string name="select_theme">Seleziona un tema</string>
+    <string name="start_page">Pagina iniziale</string>
+    <string name="choose_theme_throughout">Scegli un tema da utilizzare all\'interno dell\'app.</string>
+    <string name="accessibility_repeat">Ripeti</string>
+    <string name="accessibility_repeat_all">Ripeti tutti</string>
+    <string name="accessibility_repeat_one">Ripeti uno</string>
+    <string name="toggle_animations">Abilita/disabilita animazione di transizione all\'interno dell\'app.</string>
+    <string name="toggle_artists_grid">Abilita/disabilita visualizzazione degli artisti in griglia 2x2.</string>
+    <string name="toggle_system_animations">Abilita/disabilita animazioni di sistema all\'interno dell\'app.</string>
+    <string name="system_animations">Animazioni di sistema</string>
+    <string name="now_playing_selector">Scegli la schermata di riproduzione tra 4 stili differenti.</string>
+    <string name="sort_order_entry_date_added">Data di aggiunta</string>
+    <string name="accessibility_browse">Sfoglia musica</string>
+    <string name="sort_order_entry_track_number">Numero di traccia</string>
+    <string name="help_and_feedback">Aiuto e Feedback</string>
+    <string name="sort_order_entry_track_list">Lista tracce</string>
+    <string name="timber_about_opensource">Timber è un player per la musica open source sviluppato da Naman Dwivedi.</string>
+</resources>

@@ -57,6 +57,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         this.isGrid = PreferencesUtility.getInstance(mContext).isArtistsInGrid();
     }
 
+    public static int getOpaqueColor(@ColorInt int paramInt) {
+        return 0xFF000000 | paramInt;
+    }
+
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (isGrid) {
@@ -94,8 +98,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                                         .build(), new SimpleImageLoadingListener() {
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        if (isGrid && loadedImage!=null) {
-                                            Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                                        if (isGrid && loadedImage != null) {
+                                            new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
                                                 @Override
                                                 public void onGenerated(Palette palette) {
                                                     int color = palette.getVibrantColor(Color.parseColor("#66000000"));
@@ -139,6 +143,16 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         return (null != arraylist ? arraylist.size() : 0);
     }
 
+    @Override
+    public String getTextToShowInBubble(final int pos) {
+        if (arraylist == null || arraylist.size() == 0)
+            return "";
+        return Character.toString(arraylist.get(pos).name.charAt(0));
+    }
+
+    public void updateDataSet(List<Artist> arrayList) {
+        this.arraylist = arrayList;
+    }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView name, albums;
@@ -161,20 +175,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
             NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
         }
 
-    }
-
-
-    @Override
-    public String getTextToShowInBubble(final int pos) {
-        return Character.toString(arraylist.get(pos).name.charAt(0));
-    }
-
-    public static int getOpaqueColor(@ColorInt int paramInt) {
-        return 0xFF000000 | paramInt;
-    }
-
-    public void updateDataSet(List<Artist> arrayList) {
-        this.arraylist = arrayList;
     }
 }
 

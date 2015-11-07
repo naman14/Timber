@@ -14,6 +14,7 @@
 
 package com.naman14.timber.subfragments;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,14 +49,15 @@ import java.util.Random;
 public class PlaylistPagerFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
-    private int pageNumber,songCountInt;
+    private int pageNumber, songCountInt;
     private int foregroundColor;
     private long firstAlbumID = -1;
 
     private Playlist playlist;
-    private TextView playlistame,songcount, playlistnumber,playlisttype;
+    private TextView playlistame, songcount, playlistnumber, playlisttype;
     private ImageView playlistImage;
     private View foreground;
+    private Context mContext;
 
     int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent, R.color.blue_transparent, R.color.red_transparent, R.color.purple_transparent};
 
@@ -74,12 +76,12 @@ public class PlaylistPagerFragment extends Fragment {
 
         final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity());
 
-        pageNumber=getArguments().getInt(ARG_PAGE_NUMBER);
+        pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
         playlist = playlists.get(pageNumber);
 
         playlistame = (TextView) rootView.findViewById(R.id.name);
         playlistnumber = (TextView) rootView.findViewById(R.id.number);
-        songcount=(TextView) rootView.findViewById(R.id.songcount);
+        songcount = (TextView) rootView.findViewById(R.id.songcount);
         playlisttype = (TextView) rootView.findViewById(R.id.playlisttype);
         playlistImage = (ImageView) rootView.findViewById(R.id.playlist_image);
         foreground = rootView.findViewById(R.id.foreground);
@@ -87,21 +89,22 @@ public class PlaylistPagerFragment extends Fragment {
         playlistImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Pair> tranitionViews=new ArrayList<>();
-                tranitionViews.add(0, Pair.create((View)playlistame,"transition_playlist_name"));
-                tranitionViews.add(1, Pair.create((View)playlistImage,"transition_album_art"));
-                tranitionViews.add(2, Pair.create((View)foreground,"transition_foreground"));
-                NavigationUtils.navigateToPlaylistDetail(getActivity(), getPlaylistType(),firstAlbumID,String.valueOf(playlistame.getText()),foregroundColor, playlist.id,tranitionViews);
+                ArrayList<Pair> tranitionViews = new ArrayList<>();
+                tranitionViews.add(0, Pair.create((View) playlistame, "transition_playlist_name"));
+                tranitionViews.add(1, Pair.create((View) playlistImage, "transition_album_art"));
+                tranitionViews.add(2, Pair.create((View) foreground, "transition_foreground"));
+                NavigationUtils.navigateToPlaylistDetail(getActivity(), getPlaylistType(), firstAlbumID, String.valueOf(playlistame.getText()), foregroundColor, playlist.id, tranitionViews);
             }
         });
 
+        mContext = this.getContext();
         setUpPlaylistDetails();
         return rootView;
     }
 
 
     @Override
-    public void onViewCreated(View view,Bundle savedinstancestate){
+    public void onViewCreated(View view, Bundle savedinstancestate) {
         new loadPlaylistImage().execute("");
     }
 
@@ -121,17 +124,17 @@ public class PlaylistPagerFragment extends Fragment {
         Random random = new Random();
         int rndInt = random.nextInt(foregroundColors.length);
 
-        foregroundColor=foregroundColors[rndInt];
+        foregroundColor = foregroundColors[rndInt];
         foreground.setBackgroundColor(foregroundColor);
 
-        if (pageNumber>2){
+        if (pageNumber > 2) {
             playlisttype.setVisibility(View.GONE);
         }
 
     }
 
-    private String getPlaylistType(){
-        switch (pageNumber){
+    private String getPlaylistType() {
+        switch (pageNumber) {
             case 0:
                 return Constants.NAVIGATE_PLAYLIST_LASTADDED;
             case 1:
@@ -148,46 +151,42 @@ public class PlaylistPagerFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            if (getActivity()!=null) {
+            if (getActivity() != null) {
                 switch (pageNumber) {
                     case 0:
                         List<Song> lastAddedSongs = LastAddedLoader.getLastAddedSongs(getActivity());
-                        songCountInt=lastAddedSongs.size();
+                        songCountInt = lastAddedSongs.size();
 
                         if (songCountInt != 0) {
                             firstAlbumID = lastAddedSongs.get(0).albumId;
                             return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        }
-                        else return "nosongs";
+                        } else return "nosongs";
                     case 1:
                         TopTracksLoader recentloader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.RecentSongs);
                         List<Song> recentsongs = SongLoader.getSongsForCursor(recentloader.getCursor());
-                        songCountInt=recentsongs.size();
+                        songCountInt = recentsongs.size();
 
                         if (songCountInt != 0) {
                             firstAlbumID = recentsongs.get(0).albumId;
                             return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        }
-                        else return "nosongs";
+                        } else return "nosongs";
                     case 2:
                         TopTracksLoader topTracksLoader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.TopTracks);
                         List<Song> topsongs = SongLoader.getSongsForCursor(topTracksLoader.getCursor());
-                        songCountInt=topsongs.size();
+                        songCountInt = topsongs.size();
 
                         if (songCountInt != 0) {
-                            firstAlbumID=topsongs.get(0).albumId;
+                            firstAlbumID = topsongs.get(0).albumId;
                             return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        }
-                        else return "nosongs";
+                        } else return "nosongs";
                     default:
                         List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(getActivity(), playlist.id);
-                        songCountInt=playlistsongs.size();
+                        songCountInt = playlistsongs.size();
 
                         if (songCountInt != 0) {
                             firstAlbumID = playlistsongs.get(0).albumId;
                             return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        }
-                        else return "nosongs";
+                        } else return "nosongs";
 
                 }
             } else return "context is null";
@@ -196,7 +195,7 @@ public class PlaylistPagerFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String uri) {
-            ImageLoader.getInstance().displayImage(uri,playlistImage,
+            ImageLoader.getInstance().displayImage(uri, playlistImage,
                     new DisplayImageOptions.Builder().cacheInMemory(true)
                             .showImageOnFail(R.drawable.ic_empty_music2)
                             .resetViewBeforeLoading(true)
@@ -205,11 +204,12 @@ public class PlaylistPagerFragment extends Fragment {
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         }
                     });
-            songcount.setText(" "+String.valueOf(songCountInt)+" Songs");
+            songcount.setText(" " + String.valueOf(songCountInt) + " " + mContext.getString(R.string.songs));
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
     }
 
 

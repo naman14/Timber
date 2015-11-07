@@ -29,7 +29,7 @@ import com.naman14.timber.models.Song;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistSongLoader  {
+public class PlaylistSongLoader {
 
     private static Cursor mCursor;
 
@@ -37,12 +37,11 @@ public class PlaylistSongLoader  {
     private static Context context;
 
 
-
-    public static List<Song> getSongsInPlaylist(Context mContext,long playlistID) {
+    public static List<Song> getSongsInPlaylist(Context mContext, long playlistID) {
         ArrayList<Song> mSongList = new ArrayList<>();
 
-        context=mContext;
-        mPlaylistID=playlistID;
+        context = mContext;
+        mPlaylistID = playlistID;
 
         final int playlistCount = countPlaylist(context, mPlaylistID);
 
@@ -108,7 +107,7 @@ public class PlaylistSongLoader  {
                 final int tracknumber = mCursor.getInt(mCursor
                         .getColumnIndexOrThrow(AudioColumns.TRACK));
 
-                final Song song = new Song(id, albumId, artistId, songName, artist,album, durationInSecs, tracknumber);
+                final Song song = new Song(id, albumId, artistId, songName, artist, album, durationInSecs, tracknumber);
 
                 mSongList.add(song);
             } while (mCursor.moveToNext());
@@ -122,7 +121,7 @@ public class PlaylistSongLoader  {
     }
 
     private static void cleanupPlaylist(final Context context, final long playlistId,
-                                 final Cursor cursor) {
+                                        final Cursor cursor) {
         final int idCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID);
         final Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
 
@@ -184,7 +183,7 @@ public class PlaylistSongLoader  {
         mSelection.append(" AND " + AudioColumns.TITLE + " != ''");
         return context.getContentResolver().query(
                 MediaStore.Audio.Playlists.Members.getContentUri("external", playlistID),
-                new String[] {
+                new String[]{
                         MediaStore.Audio.Playlists.Members._ID,
                         MediaStore.Audio.Playlists.Members.AUDIO_ID,
                         AudioColumns.TITLE,

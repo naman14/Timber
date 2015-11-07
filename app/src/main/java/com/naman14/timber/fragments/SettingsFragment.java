@@ -29,12 +29,12 @@ import com.naman14.timber.utils.PreferencesUtility;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String NOW_PLAYING_SELECTOR="now_paying_selector";
-    private static final String KEY_ABOUT="preference_about";
-    private static final String KEY_SOURCE="preference_source";
+    private static final String NOW_PLAYING_SELECTOR = "now_playing_selector";
+    private static final String KEY_ABOUT = "preference_about";
+    private static final String KEY_SOURCE = "preference_source";
     private static final String KEY_THEME = "theme_preference";
-    private static final String TOGGLE_ANIMATIONS="toggle_animations";
-    private static final String TOGGLE_SYSTEM_ANIMATIONS="toggle_system_animations";
+    private static final String TOGGLE_ANIMATIONS = "toggle_animations";
+    private static final String TOGGLE_SYSTEM_ANIMATIONS = "toggle_system_animations";
     private static final String KEY_START_PAGE = "start_page_preference";
 
     Preference nowPlayingSelector;
@@ -54,7 +54,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
         themePreference = (ListPreference) findPreference(KEY_THEME);
         startPagePreference = (ListPreference) findPreference(KEY_START_PAGE);
-        toggleAnimations=(SwitchPreference)findPreference(TOGGLE_ANIMATIONS);
+        toggleAnimations = (SwitchPreference) findPreference(TOGGLE_ANIMATIONS);
 
         nowPlayingSelector.setIntent(NavigationUtils.getNavigateToStyleSelectorIntent(getActivity(), Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING));
 

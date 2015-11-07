@@ -39,36 +39,36 @@ public class Timber1 extends BaseNowplayingFragment {
     }
 
     @Override
-    public void updateShuffleState(){
-            if (shuffle!=null && getActivity()!=null) {
-                MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                        .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                        .setSizeDp(30);
+    public void updateShuffleState() {
+        if (shuffle != null && getActivity() != null) {
+            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                    .setSizeDp(30);
 
-                int color,color2;
-                if (isThemeIsLight()) {
-                    color = Color.parseColor("#ffffff");
-                    color2=Color.parseColor("#000000");
-                }
-                else  {
-                    color=Color.parseColor("#000000");
-                    if (isThemeIsBlack())
-                    color2=Color.parseColor("#ffb701");
-                    else color2= Color.parseColor("#ffffff");
-                };
-
-                if (MusicPlayer.getShuffleMode()==0){
-                    builder.setColor(color);
-                } else builder.setColor(color2);
-
-                shuffle.setImageDrawable(builder.build());
-                shuffle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        MusicPlayer.cycleShuffle();
-                        updateShuffleState();
-                    }
-                });
+            int color, color2;
+            if (isThemeIsLight()) {
+                color = Color.parseColor("#ffffff");
+                color2 = Color.parseColor("#000000");
+            } else {
+                color = Color.parseColor("#000000");
+                if (isThemeIsBlack())
+                    color2 = Color.parseColor("#ffb701");
+                else color2 = Color.parseColor("#ffffff");
             }
+            ;
+
+            if (MusicPlayer.getShuffleMode() == 0) {
+                builder.setColor(color);
+            } else builder.setColor(color2);
+
+            shuffle.setImageDrawable(builder.build());
+            shuffle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicPlayer.cycleShuffle();
+                    updateShuffleState();
+                }
+            });
+        }
     }
 }

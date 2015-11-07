@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="action_settings">设置</string>
+
+    <string name="menu_sort_by">排序</string>
+    <string name="sort_order_entry_az">A 到 Z</string>
+    <string name="sort_order_entry_za">Z 到 A</string>
+    <string name="sort_order_entry_artist">艺术家</string>
+    <string name="sort_order_entry_album">专辑</string>
+    <string name="sort_order_entry_year">年份</string>
+    <string name="sort_order_entry_track_number">曲目编号</string>
+    <string name="sort_order_entry_duration">时长</string>
+    <string name="sort_order_entry_date_added">添加时间</string>
+    <string name="sort_order_entry_track_list">曲目列表</string>
+    <string name="sort_order_entry_number_of_songs">歌曲数量</string>
+    <string name="sort_order_entry_number_of_albums">专辑数量</string>
+    <string name="sort_order_entry_filename">文件名</string>
+
+    <string name="error_playing_track">播放曲目错误</string>
+
+    <string name="playlist_last_added">最新添加</string>
+    <string name="playlist_recently_played">最近播放</string>
+    <string name="playlist_top_tracks">我的最佳单曲</string>
+
+    <string name="timber_source">报告任何 bug，在<u> 这里 </u>。</string>
+    <string name="timber_feature_request">提出任何特性请求通过 Google+ 社区，在 <u> 这里 </u>。</string>
+
+    <string name="menu_show_as">视图</string>
+    <string name="menu_show_as_entry_list">列表</string>
+    <string name="menu_show_as_entry_grid">网格</string>
+
+    <string name="light">默认主题</string>
+    <string name="dark">似水年华</string>
+    <string name="black">黑胶唱片</string>
+
+    <string name="last_opened">上次打开</string>
+
+    <string name="songs">歌曲</string>
+    <string name="albums">专辑</string>
+    <string name="artists">艺术家</string>
+    <string name="library">库</string>
+    <string name="playlists">播放列表</string>
+    <string name="playing_queue">播放队列</string>
+    <string name="now_playing">正在播放</string>
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+    <string name="help_and_feedback">帮助与反馈</string>
+    <string name="search">搜索</string>
+    <string name="action_shuffle_all">随机</string>
+    <string name="action_equalizer">均衡</string>
+    <string name="search_library">在库中搜索</string>
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> 首歌</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> 首歌</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> 张专辑</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> 张专辑</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
+    <string name="select_theme">选择主题</string>
+    <string name="choose_theme_throughout">选择一个主题，在整个应用中。</string>
+    <string name="choose_start_page">选择起始页，在启动时显示。</string>
+    <string name="start_page">起始页</string>
+    <string name="artist_in_grid">艺术家网格显示</string>
+    <string name="toggle_artists_grid">切换艺术家显示，在 2×2 的网格中。</string>
+    <string name="toggle_system_animations">切换系统动画，在整个应用中。</string>
+    <string name="system_animations">系统动画</string>
+    <string name="toggle_animations">切换过渡动画，在整个应用中。</string>
+    <string name="animations">动画</string>
+    <string name="now_playing_selector">选择正在播放画面，从4个不同风格中。</string>
+    <string name="personalisation">个性化</string>
+    <string name="other">其他</string>
+    <string name="timber_about_opensource">Timber 是一个开源音乐播放器，由 Naman Dwivedi 开发。</string>
+    <string name="summary_pause_detach">切换为暂停播放，当耳机被拔出时。</string>
+    <string name="pause_detach">拔出暂停</string>
+    <string name="currently_selected">当前选择</string>
+
+
+</resources>

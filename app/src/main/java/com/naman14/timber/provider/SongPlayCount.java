@@ -66,7 +66,7 @@ public class SongPlayCount {
         mMusicDatabase = MusicDB.getInstance(context);
 
         long msSinceEpoch = System.currentTimeMillis();
-        mNumberOfWeeksSinceEpoch = (int)(msSinceEpoch / ONE_WEEK_IN_MS);
+        mNumberOfWeeksSinceEpoch = (int) (msSinceEpoch / ONE_WEEK_IN_MS);
 
         mDatabaseUpdated = false;
     }
@@ -119,6 +119,7 @@ public class SongPlayCount {
 
     /**
      * Increases the play count of a song by 1
+     *
      * @param songId The song id to increase the play count
      */
     public void bumpSongCount(final long songId) {
@@ -132,8 +133,9 @@ public class SongPlayCount {
 
     /**
      * This creates a new entry that indicates a song has been played once as well as its score
+     *
      * @param database a writeable database
-     * @param songId the id of the track
+     * @param songId   the id of the track
      */
     private void createNewPlayedEntry(final SQLiteDatabase database, final long songId) {
         // no row exists, create a new one
@@ -152,8 +154,9 @@ public class SongPlayCount {
     /**
      * This function will take a song entry and update it to the latest week and increase the count
      * for the current week by 1 if necessary
-     * @param database a writeable database
-     * @param id the id of the track to bump
+     *
+     * @param database  a writeable database
+     * @param id        the id of the track to bump
      * @param bumpCount whether to bump the current's week play count by 1 and adjust the score
      */
     private void updateExistingRow(final SQLiteDatabase database, final long id, boolean bumpCount) {
@@ -164,7 +167,7 @@ public class SongPlayCount {
 
         // get the cursor of this content inside the transaction
         final Cursor cursor = database.query(SongPlayCountColumns.NAME, null, WHERE_ID_EQUALS,
-                new String[] { stringId }, null, null, null);
+                new String[]{stringId}, null, null, null);
 
         // if we have a result
         if (cursor != null && cursor.moveToFirst()) {
@@ -261,6 +264,7 @@ public class SongPlayCount {
     /**
      * Gets a cursor containing the top songs played.  Note this only returns songs that have been
      * played at least once in the past NUM_WEEKS
+     *
      * @param numResults number of results to limit by.  If <= 0 it returns all results
      * @return the top tracks
      */
@@ -268,13 +272,14 @@ public class SongPlayCount {
         updateResults();
 
         final SQLiteDatabase database = mMusicDatabase.getReadableDatabase();
-        return database.query(SongPlayCountColumns.NAME, new String[] { SongPlayCountColumns.ID },
+        return database.query(SongPlayCountColumns.NAME, new String[]{SongPlayCountColumns.ID},
                 null, null, null, null, SongPlayCountColumns.PLAYCOUNTSCORE + " DESC",
                 (numResults <= 0 ? null : String.valueOf(numResults)));
     }
 
     /**
      * Given a list of ids, it sorts the results based on the most played results
+     *
      * @param ids list
      * @return sorted list - this may be smaller than the list passed in for performance reasons
      */
@@ -325,7 +330,7 @@ public class SongPlayCount {
 
         try {
             topSongsCursor = database.query(SongPlayCountColumns.NAME,
-                    new String[]{ SongPlayCountColumns.ID }, selection.toString(), null, null,
+                    new String[]{SongPlayCountColumns.ID}, selection.toString(), null, null,
                     null, SongPlayCountColumns.PLAYCOUNTSCORE + " DESC");
 
             if (topSongsCursor != null && topSongsCursor.moveToFirst()) {
@@ -372,7 +377,7 @@ public class SongPlayCount {
 
         // get the remaining rows
         Cursor cursor = database.query(SongPlayCountColumns.NAME,
-                new String[] { SongPlayCountColumns.ID },
+                new String[]{SongPlayCountColumns.ID},
                 null, null, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -400,6 +405,7 @@ public class SongPlayCount {
 
     /**
      * Deletes the entry
+     *
      * @param database database to use
      * @param stringId id to delete
      */
@@ -409,6 +415,7 @@ public class SongPlayCount {
 
     /**
      * Calculates the score of the song given the play counts
+     *
      * @param playCounts an array of the # of times a song has been played for each week
      *                   where playCounts[N] is the # of times it was played N weeks ago
      * @return the score
@@ -428,6 +435,7 @@ public class SongPlayCount {
 
     /**
      * Gets the column name for each week #
+     *
      * @param week number
      * @return the column name
      */
@@ -437,17 +445,19 @@ public class SongPlayCount {
 
     /**
      * Gets the score multiplier for each week
+     *
      * @param week number
      * @return the multiplier to apply
      */
     private static float getScoreMultiplierForWeek(final int week) {
-        return sInterpolator.getInterpolation(1 - (week / (float)NUM_WEEKS)) * INTERPOLATOR_HEIGHT
+        return sInterpolator.getInterpolation(1 - (week / (float) NUM_WEEKS)) * INTERPOLATOR_HEIGHT
                 + INTERPOLATOR_BASE;
     }
 
     /**
      * For some performance gain, return a static value for the column index for a week
      * WARNIGN: This function assumes you have selected all columns for it to work
+     *
      * @param week number
      * @return column index of that week
      */

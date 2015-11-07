@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
@@ -20,9 +34,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by naman on 24/07/15.
- */
 public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.ItemHolder> {
 
     private List<Album> arraylist;
@@ -47,7 +58,7 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
         Album localItem = arraylist.get(i);
 
         itemHolder.title.setText(localItem.title);
-        String songCount= TimberUtils.makeLabel(mContext,R.plurals.Nsongs,localItem.songCount);
+        String songCount = TimberUtils.makeLabel(mContext, R.plurals.Nsongs, localItem.songCount);
         itemHolder.details.setText(songCount);
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt,
@@ -65,24 +76,24 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,details;
+        protected TextView title, details;
         protected ImageView albumArt;
         protected CardView rootView;
 
         public ItemHolder(View view) {
             super(view);
-            this.rootView=(CardView) view.findViewById(R.id.root_view);
+            this.rootView = (CardView) view.findViewById(R.id.root_view);
             this.title = (TextView) view.findViewById(R.id.album_title);
             this.details = (TextView) view.findViewById(R.id.album_details);
-            this.albumArt=(ImageView) view.findViewById(R.id.album_art);
+            this.albumArt = (ImageView) view.findViewById(R.id.album_art);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews=new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View)albumArt,"transition_album_art"));
-            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id ,tranitionViews);
+            ArrayList<Pair> tranitionViews = new ArrayList<>();
+            tranitionViews.add(0, Pair.create((View) albumArt, "transition_album_art"));
+            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
         }
 
     }

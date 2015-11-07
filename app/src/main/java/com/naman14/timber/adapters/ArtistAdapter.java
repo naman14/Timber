@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
@@ -31,9 +45,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by naman on 08/07/15.
- */
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> implements BubbleTextGetter {
 
     private List<Artist> arraylist;
@@ -44,6 +55,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         this.arraylist = arraylist;
         this.mContext = context;
         this.isGrid = PreferencesUtility.getInstance(mContext).isArtistsInGrid();
+    }
+
+    public static int getOpaqueColor(@ColorInt int paramInt) {
+        return 0xFF000000 | paramInt;
     }
 
     @Override
@@ -83,8 +98,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                                         .build(), new SimpleImageLoadingListener() {
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        if (isGrid && loadedImage!=null) {
-                                            Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                                        if (isGrid && loadedImage != null) {
+                                            new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
                                                 @Override
                                                 public void onGenerated(Palette palette) {
                                                     int color = palette.getVibrantColor(Color.parseColor("#66000000"));
@@ -128,6 +143,16 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         return (null != arraylist ? arraylist.size() : 0);
     }
 
+    @Override
+    public String getTextToShowInBubble(final int pos) {
+        if (arraylist == null || arraylist.size() == 0)
+            return "";
+        return Character.toString(arraylist.get(pos).name.charAt(0));
+    }
+
+    public void updateDataSet(List<Artist> arrayList) {
+        this.arraylist = arrayList;
+    }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView name, albums;
@@ -150,16 +175,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
             NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
         }
 
-    }
-
-
-    @Override
-    public String getTextToShowInBubble(final int pos) {
-        return Character.toString(arraylist.get(pos).name.charAt(0));
-    }
-
-    public static int getOpaqueColor(@ColorInt int paramInt) {
-        return 0xFF000000 | paramInt;
     }
 }
 

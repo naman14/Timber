@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.transition;
 
 import android.animation.Animator;
@@ -5,6 +19,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -29,9 +44,7 @@ import com.naman14.timber.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by naman on 30/05/15.
- */
+@TargetApi(21)
 public class PlayTransition extends Transition {
     private static final String PROPERTY_BOUNDS = "circleTransition:bounds";
     private static final String PROPERTY_POSITION = "circleTransition:position";
@@ -111,7 +124,7 @@ public class PlayTransition extends Transition {
             return null;
         }
         Bitmap startImage = (Bitmap) startValues.values.get(PROPERTY_IMAGE);
-        Drawable startBackground = new BitmapDrawable(startImage);
+        Drawable startBackground = new BitmapDrawable(sceneRoot.getContext().getResources(), startImage);
         final View startView = addViewToOverlay(sceneRoot, startImage.getWidth(),
                 startImage.getHeight(), startBackground);
         Drawable shrinkingBackground = new ColorDrawable(mColor);
@@ -239,7 +252,7 @@ public class PlayTransition extends Transition {
     static float calculateMaxRadius(View view) {
         float widthSquared = view.getWidth() * view.getWidth();
         float heightSquared = view.getHeight() * view.getHeight();
-        float radius = (float)Math.sqrt(widthSquared + heightSquared) / 2;
+        float radius = (float) Math.sqrt(widthSquared + heightSquared) / 2;
         return radius;
     }
 

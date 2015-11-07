@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2012 Andrew Neal
+ * Copyright (C) 2014 The CyanogenMod Project
+ * Licensed under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
 package com.naman14.timber.dataloaders;
 
 import android.content.Context;
@@ -18,7 +31,7 @@ import static com.naman14.timber.MusicPlayer.mService;
 
 public class NowPlayingCursor extends AbstractCursor {
 
-    private static final String[] PROJECTION = new String[] {
+    private static final String[] PROJECTION = new String[]{
 
             BaseColumns._ID,
 
@@ -174,13 +187,15 @@ public class NowPlayingCursor extends AbstractCursor {
         } catch (final Exception close) {
         }
         super.close();
-    };
+    }
+
+    ;
 
 
     private void makeNowPlayingCursor() {
         mQueueCursor = null;
         mNowPlaying = MusicPlayer.getQueue();
-        Log.d("lol1",mNowPlaying.toString() + "   "+mNowPlaying.length);
+        Log.d("lol1", mNowPlaying.toString() + "   " + mNowPlaying.length);
         mSize = mNowPlaying.length;
         if (mSize == 0) {
             return;

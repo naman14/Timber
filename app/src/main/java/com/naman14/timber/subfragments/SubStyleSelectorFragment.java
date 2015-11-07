@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.subfragments;
 
 import android.content.Context;
@@ -15,9 +29,6 @@ import android.widget.TextView;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
 
-/**
- * Created by naman on 08/08/15.
- */
 public class SubStyleSelectorFragment extends Fragment {
 
     SharedPreferences.Editor editor;
@@ -30,11 +41,11 @@ public class SubStyleSelectorFragment extends Fragment {
     private static final String ARG_PAGE_NUMBER = "pageNumber";
     private static final String WHAT = "what";
 
-    public static SubStyleSelectorFragment newInstance(int pageNumber,String what) {
+    public static SubStyleSelectorFragment newInstance(int pageNumber, String what) {
         SubStyleSelectorFragment fragment = new SubStyleSelectorFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_PAGE_NUMBER, pageNumber);
-        bundle.putString(WHAT,what);
+        bundle.putString(WHAT, what);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -44,10 +55,10 @@ public class SubStyleSelectorFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_style_selector_pager, container, false);
 
-        TextView styleName=(TextView) rootView.findViewById(R.id.style_name);
-        styleName.setText(String.valueOf(getArguments().getInt(ARG_PAGE_NUMBER)+1));
+        TextView styleName = (TextView) rootView.findViewById(R.id.style_name);
+        styleName.setText(String.valueOf(getArguments().getInt(ARG_PAGE_NUMBER) + 1));
 
-        styleImage=(ImageView) rootView.findViewById(R.id.style_image);
+        styleImage = (ImageView) rootView.findViewById(R.id.style_image);
         styleImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,18 +84,18 @@ public class SubStyleSelectorFragment extends Fragment {
         currentStyle = (LinearLayout) rootView.findViewById(R.id.currentStyle);
         foreground = rootView.findViewById(R.id.foreground);
 
-       setCurrentStyle();
+        setCurrentStyle();
 
         return rootView;
     }
 
     public void setCurrentStyle() {
         preferences = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-        String fragmentID= preferences.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
+        String fragmentID = preferences.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
-        ((StyleSelectorFragment)getParentFragment()).scrollToCurrentStyle(getIntForCurrentNowplaying(fragmentID));
+        ((StyleSelectorFragment) getParentFragment()).scrollToCurrentStyle(getIntForCurrentNowplaying(fragmentID));
 
-        if (getArguments().getInt(ARG_PAGE_NUMBER)==getIntForCurrentNowplaying(fragmentID)) {
+        if (getArguments().getInt(ARG_PAGE_NUMBER) == getIntForCurrentNowplaying(fragmentID)) {
             currentStyle.setVisibility(View.VISIBLE);
             foreground.setVisibility(View.VISIBLE);
         } else {
@@ -101,17 +112,22 @@ public class SubStyleSelectorFragment extends Fragment {
             editor.putString(Constants.NOWPLAYING_FRAGMENT_ID, getStyleForPageNumber());
             editor.commit();
             setCurrentStyle();
-            ((StyleSelectorFragment)getParentFragment()).updateCurrentStyle();
+            ((StyleSelectorFragment) getParentFragment()).updateCurrentStyle();
         }
     }
 
-    private String getStyleForPageNumber(){
-        switch (getArguments().getInt(ARG_PAGE_NUMBER)){
-            case 0: return Constants.TIMBER1;
-            case 1: return Constants.TIMBER2;
-            case 2: return Constants.TIMBER3;
-            case 3: return Constants.TIMBER4;
-            default:return Constants.TIMBER3;
+    private String getStyleForPageNumber() {
+        switch (getArguments().getInt(ARG_PAGE_NUMBER)) {
+            case 0:
+                return Constants.TIMBER1;
+            case 1:
+                return Constants.TIMBER2;
+            case 2:
+                return Constants.TIMBER3;
+            case 3:
+                return Constants.TIMBER4;
+            default:
+                return Constants.TIMBER3;
         }
     }
 

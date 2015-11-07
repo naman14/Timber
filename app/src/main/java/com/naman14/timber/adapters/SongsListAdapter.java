@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
@@ -25,9 +39,6 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.List;
 
-/**
- * Created by naman on 13/06/15.
- */
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
     private List<Song> arraylist;
@@ -41,8 +52,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     public SongsListAdapter(Activity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.isPlaylist=isPlaylistSong;
-        this.songIDs=getSongIds();
+        this.isPlaylist = isPlaylistSong;
+        this.songIDs = getSongIds();
     }
 
     @Override
@@ -66,9 +77,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         itemHolder.artist.setText(localItem.artistName);
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
-        if (MusicPlayer.getCurrentAudioId()==localItem.id){
-            currentlyPlayingPosition=i;
-            if (MusicPlayer.isPlaying()){
+        if (MusicPlayer.getCurrentAudioId() == localItem.id) {
+            currentlyPlayingPosition = i;
+            if (MusicPlayer.isPlaying()) {
                 itemHolder.playingIndicator.setVisibility(View.VISIBLE);
                 itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
             } else {
@@ -77,12 +88,12 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             }
         } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
 
-        if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()){
+        if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
             if (TimberUtils.isLollipop())
-            setAnimation(itemHolder.itemView, i);
+                setAnimation(itemHolder.itemView, i);
             else {
-                if (i>10)
-                    setAnimation(itemHolder.itemView,i);
+                if (i > 10)
+                    setAnimation(itemHolder.itemView, i);
             }
         }
 
@@ -95,7 +106,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,artist;
+        protected TextView title, artist;
         protected ImageView albumArt;
         private MaterialIconView playingIndicator;
 
@@ -103,35 +114,35 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
-            this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
-            this.playingIndicator=(MaterialIconView) view.findViewById(R.id.currentlyPlayingIndicator);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.playingIndicator = (MaterialIconView) view.findViewById(R.id.currentlyPlayingIndicator);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            final Handler handler=new Handler();
+            final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
-                   Handler handler1=new Handler();
+                    Handler handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             notifyItemChanged(currentlyPlayingPosition);
                             notifyItemChanged(getAdapterPosition());
-                            Handler handler2=new Handler();
+                            Handler handler2 = new Handler();
                             handler2.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 //                                    NavigationUtils.navigateToNowplaying(mContext, true);
                                 }
-                            },50);
+                            }, 50);
                         }
-                    },50);
+                    }, 50);
                 }
-            },100);
+            }, 100);
 
 
         }
@@ -148,23 +159,28 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     }
 
     @Override
-    public String getTextToShowInBubble(final int pos)
-    {   Character ch=arraylist.get(pos).title.charAt(0);
-        if (Character.isDigit(ch)){
+    public String getTextToShowInBubble(final int pos) {
+        if (arraylist == null || arraylist.size() == 0)
+            return "";
+        Character ch = arraylist.get(pos).title.charAt(0);
+        if (Character.isDigit(ch)) {
             return "#";
         } else
-        return Character.toString(ch);
+            return Character.toString(ch);
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.abc_slide_in_bottom);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
+    }
+
+    public void updateDataSet(List<Song> arraylist) {
+        this.arraylist = arraylist;
+        this.songIDs = getSongIds();
     }
 }
 

@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.activities;
 
 import android.content.Context;
@@ -30,9 +44,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by naman on 17/08/15.
- */
 public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
 
     private SearchView mSearchView;
@@ -76,7 +87,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 
         mSearchView.setOnQueryTextListener(this);
-        mSearchView.setQueryHint("Search Library");
+        mSearchView.setQueryHint(getString(R.string.search_library));
 
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setIconified(false);

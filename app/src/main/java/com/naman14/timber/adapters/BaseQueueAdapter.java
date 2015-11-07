@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
@@ -21,9 +35,6 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.List;
 
-/**
- * Created by naman on 27/07/15.
- */
 public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.ItemHolder> {
 
     private List<Song> arraylist;
@@ -33,7 +44,7 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
     public BaseQueueAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.currentlyPlayingPosition=MusicPlayer.getQueuePosition();
+        this.currentlyPlayingPosition = MusicPlayer.getQueuePosition();
     }
 
     @Override
@@ -50,9 +61,9 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
-        if (MusicPlayer.getCurrentAudioId()==localItem.id){
-            currentlyPlayingPosition=i;
-            if (MusicPlayer.isPlaying()){
+        if (MusicPlayer.getCurrentAudioId() == localItem.id) {
+            currentlyPlayingPosition = i;
+            if (MusicPlayer.isPlaying()) {
                 itemHolder.playingIndicator.setVisibility(View.VISIBLE);
                 itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
             } else {
@@ -71,7 +82,7 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,artist;
+        protected TextView title, artist;
         protected ImageView albumArt;
         protected MaterialIconView playingIndicator;
 
@@ -79,35 +90,35 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
-            this.albumArt=(ImageView) view.findViewById(R.id.albumArt);
-            this.playingIndicator=(MaterialIconView) view.findViewById(R.id.playSong);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.playingIndicator = (MaterialIconView) view.findViewById(R.id.playSong);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            final Handler handler=new Handler();
+            final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     MusicPlayer.setQueuePosition(getAdapterPosition());
-                    Handler handler1=new Handler();
+                    Handler handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             notifyItemChanged(currentlyPlayingPosition);
                             notifyItemChanged(getAdapterPosition());
-                            Handler handler2=new Handler();
+                            Handler handler2 = new Handler();
                             handler2.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 //                                    NavigationUtils.navigateToNowplaying(mContext, true);
                                 }
-                            },50);
+                            }, 50);
                         }
-                    },50);
+                    }, 50);
                 }
-            },100);
+            }, 100);
 
         }
 

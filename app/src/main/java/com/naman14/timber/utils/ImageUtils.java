@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.utils;
 
 import android.content.Context;
@@ -10,14 +24,11 @@ import android.support.v8.renderscript.RenderScript;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-/**
- * Created by naman on 07/07/15.
- */
 public class ImageUtils {
 
-    public static Drawable createBlurredImageFromBitmap(Bitmap bitmap,Context context,int inSampleSize) {
+    public static Drawable createBlurredImageFromBitmap(Bitmap bitmap, Context context, int inSampleSize) {
 
-        RenderScript rs=RenderScript.create(context);
+        RenderScript rs = RenderScript.create(context);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = inSampleSize;
 
@@ -34,9 +45,8 @@ public class ImageUtils {
         script.setInput(input);
         script.forEach(output);
         output.copyTo(blurTemplate);
-        Drawable dr = new BitmapDrawable(blurTemplate);
 
-        return dr;
+        return new BitmapDrawable(context.getResources(), blurTemplate);
     }
 
 }

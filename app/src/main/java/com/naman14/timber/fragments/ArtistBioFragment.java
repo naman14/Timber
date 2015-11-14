@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.fragments;
 
 import android.os.Bundle;
@@ -18,12 +32,9 @@ import com.naman14.timber.subfragments.ArtistTagFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.widgets.MultiViewPager;
 
-/**
- * Created by naman on 23/07/15.
- */
 public class ArtistBioFragment extends Fragment {
 
-    long artistID=-1;
+    long artistID = -1;
 
     public static ArtistBioFragment newInstance(long id) {
         ArtistBioFragment fragment = new ArtistBioFragment();
@@ -40,14 +51,15 @@ public class ArtistBioFragment extends Fragment {
             artistID = getArguments().getLong(Constants.ARTIST_ID);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_artist_bio, container, false);
 
-        Artist artist= ArtistLoader.getArtist(getActivity(), artistID);
+        Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
 
-        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name),new ArtistInfoListener() {
+        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
             @Override
             public void artistInfoSucess(LastfmArtist artist) {
 

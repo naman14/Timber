@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="action_settings">Options</string>
+
+    <string name="accessibility_play">Lire</string>
+    <string name="accessibility_pause">Pause</string>
+    <string name="accessibility_next">Suivant</string>
+    <string name="accessibility_prev">Précédent</string>
+    <string name="accessibility_shuffle">Aléatoire</string>
+    <string name="accessibility_shuffle_all">Aléatoire</string>
+    <string name="accessibility_repeat">Répéter</string>
+    <string name="accessibility_repeat_all">Tout répéter</string>
+    <string name="accessibility_repeat_one">Répéter</string>
+    <string name="accessibility_queue">Ouvrir la file d\'attente</string>
+    <string name="accessibility_browse">Parcourir la musique</string>
+
+    <string name="menu_sort_by">Trier par</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="sort_order_entry_artist">Artiste</string>
+    <string name="sort_order_entry_album">Album</string>
+    <string name="sort_order_entry_year">Année</string>
+    <string name="sort_order_entry_track_number">Numéro de piste</string>
+    <string name="sort_order_entry_duration">Durée</string>
+    <string name="sort_order_entry_date_added">Date d\'ajout</string>
+    <string name="sort_order_entry_track_list">Liste des pistes</string>
+    <string name="sort_order_entry_number_of_songs">Nombre de musiques</string>
+    <string name="sort_order_entry_number_of_albums">Nombre d\'albums</string>
+    <string name="sort_order_entry_filename">Nom de fichier</string>
+
+    <string name="error_playing_track">Erreur lors de la lecture de la piste</string>
+
+    <string name="playlist_last_added">Derniers ajouts</string>
+    <string name="playlist_recently_played">Ecoutes récentes</string>
+    <string name="playlist_top_tracks">Top musiques</string>
+
+    <string name="timber_source">Signalez tout bug <u>ici</u></string>
+    <string name="timber_feature_request">Proposez des fonctionnalités dans la communauté Google+ <u>ici</u></string>
+
+    <string name="menu_show_as">Voir en tant que</string>
+    <string name="menu_show_as_entry_list">Liste</string>
+    <string name="menu_show_as_entry_grid">Grille</string>
+
+    <string name="light">Clair</string>
+    <string name="dark">Sombre</string>
+    <string name="black">Noir</string>
+
+    <string name="last_opened">Dernier ouverts</string>
+
+    <string name="songs">Musiques</string>
+    <string name="albums">Albums</string>
+    <string name="artists">Artistes</string>
+    <string name="library">Librairie</string>
+    <string name="playlists">Playlists</string>
+    <string name="playing_queue">File d\'attente de lecture</string>
+    <string name="now_playing">En cours</string>
+    <string name="settings">Options</string>
+    <string name="about">A propos</string>
+    <string name="help_and_feedback">Aide</string>
+    <string name="search">Recherche</string>
+    <string name="action_shuffle_all">Aléatoire</string>
+    <string name="action_equalizer">Egaliseur</string>
+    <string name="search_library">Rechercher dans la bibliothèque</string>
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> chanson</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> chansons</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artiste</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistes</string>
+    <string name="select_theme">Sélectionner le thème</string>
+    <string name="choose_theme_throughout">Choisissez le thème qui sera utilisé dans l\'application</string>
+    <string name="choose_start_page">Choisissez l\'écran de départ au lancement de l\'application</string>
+    <string name="start_page">Ecran de démarrage</string>
+    <string name="artist_in_grid">Artistes dans la grille</string>
+    <string name="toggle_artists_grid">Afficher les articles dans une grille 2x2</string>
+    <string name="toggle_system_animations">Activer les animations système</string>
+    <string name="system_animations">Animations système</string>
+    <string name="toggle_animations">Activer les animations de transition</string>
+    <string name="animations">Animations</string>
+    <string name="now_playing_selector">Choisissez un écran de lecture parmi les 4 proposés</string>
+    <string name="personalisation">Personnalisation</string>
+    <string name="other">Autre</string>
+    <string name="timber_about_opensource">Timber est une application développée par Naman Dwivedi.</string>
+    <string name="summary_pause_detach">Mettre en pause la musique lorsque les écouteurs sont déconnectés</string>
+    <string name="pause_detach">Pause dès qu\'écouteurs déconnectés</string>
+    <string name="currently_selected">Sélection courante</string>
+</resources>

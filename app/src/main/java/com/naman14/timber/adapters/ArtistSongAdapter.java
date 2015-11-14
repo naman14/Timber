@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
@@ -23,9 +37,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by naman on 24/07/15.
- */
 public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.ItemHolder> {
 
     private List<Song> arraylist;
@@ -33,21 +44,20 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     private long artistID;
     private long[] songIDs;
 
-    public ArtistSongAdapter(Activity context, List<Song> arraylist,long artistID) {
+    public ArtistSongAdapter(Activity context, List<Song> arraylist, long artistID) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.artistID=artistID;
+        this.artistID = artistID;
 //        this.songIDs=getSongIds();
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        if (viewType==0) {
+        if (viewType == 0) {
             View v0 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.artist_detail_albums_header, null);
             ItemHolder ml = new ItemHolder(v0);
             return ml;
-        }
-         else {
+        } else {
             View v2 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist_song, null);
             ItemHolder ml = new ItemHolder(v2);
             return ml;
@@ -57,11 +67,10 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     @Override
     public void onBindViewHolder(ItemHolder itemHolder, int i) {
 
-        if (getItemViewType(i)==0){
+        if (getItemViewType(i) == 0) {
             //nothing
             setUpAlbums(itemHolder.albumsRecyclerView);
-        }
-      else {
+        } else {
             Song localItem = arraylist.get(i);
             itemHolder.title.setText(localItem.title);
             itemHolder.album.setText(localItem.albumName);
@@ -75,7 +84,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     @Override
     public void onViewRecycled(ItemHolder itemHolder) {
 
-        if (itemHolder.getItemViewType()==0)
+        if (itemHolder.getItemViewType() == 0)
             clearExtraSpacingBetweenCards(itemHolder.albumsRecyclerView);
 
     }
@@ -87,18 +96,18 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title,album;
+        protected TextView title, album;
         protected ImageView albumArt;
         protected RecyclerView albumsRecyclerView;
 
         public ItemHolder(View view) {
             super(view);
 
-                    this.albumsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_album);
+            this.albumsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_album);
 
-                    this.title = (TextView) view.findViewById(R.id.song_title);
-                    this.album = (TextView) view.findViewById(R.id.song_album);
-                    this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.title = (TextView) view.findViewById(R.id.song_title);
+            this.album = (TextView) view.findViewById(R.id.song_album);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
 
 
             view.setOnClickListener(this);
@@ -106,20 +115,20 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
         @Override
         public void onClick(View v) {
-            Handler handler=new Handler();
+            Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition()-1, artistID, TimberUtils.IdType.Artist, false);
+                    MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
                     NavigationUtils.navigateToNowplaying(mContext, true);
                 }
-            },100);
+            }, 100);
 
         }
 
     }
 
-    private void setUpAlbums(RecyclerView albumsRecyclerview){
+    private void setUpAlbums(RecyclerView albumsRecyclerview) {
 
         albumsRecyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         albumsRecyclerview.setHasFixedSize(true);
@@ -130,11 +139,11 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         albumsRecyclerview.setNestedScrollingEnabled(false);
 
 
-        ArtistAlbumAdapter mAlbumAdapter=new ArtistAlbumAdapter(mContext, ArtistAlbumLoader.getAlbumsForArtist(mContext, artistID));
+        ArtistAlbumAdapter mAlbumAdapter = new ArtistAlbumAdapter(mContext, ArtistAlbumLoader.getAlbumsForArtist(mContext, artistID));
         albumsRecyclerview.setAdapter(mAlbumAdapter);
     }
 
-    private void clearExtraSpacingBetweenCards(RecyclerView albumsRecyclerview){
+    private void clearExtraSpacingBetweenCards(RecyclerView albumsRecyclerview) {
         //to clear any extra spacing between cards
         int spacingInPixelstoClear = -(mContext.getResources().getDimensionPixelSize(R.dimen.spacing_card));
         albumsRecyclerview.addItemDecoration(new SpacesItemDecoration(spacingInPixelstoClear));
@@ -157,12 +166,11 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             outRect.left = space;
 
 
-
         }
     }
 
     public long[] getSongIds() {
-        List<Song> actualArraylist=new ArrayList<Song>(arraylist);
+        List<Song> actualArraylist = new ArrayList<Song>(arraylist);
         actualArraylist.remove(0);
         long[] ret = new long[actualArraylist.size()];
         for (int i = 0; i < actualArraylist.size(); i++) {
@@ -176,7 +184,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         int viewType;
         if (position == 0) {
             viewType = 0;
-        }  else viewType=1;
+        } else viewType = 1;
         return viewType;
     }
 }

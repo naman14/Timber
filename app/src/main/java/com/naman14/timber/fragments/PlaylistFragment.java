@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.fragments;
 
 import android.os.Bundle;
@@ -18,9 +32,6 @@ import com.naman14.timber.widgets.MultiViewPager;
 
 import java.util.List;
 
-/**
- * Created by naman on 14/08/15.
- */
 public class PlaylistFragment extends Fragment {
 
     int playlistcount;
@@ -31,15 +42,15 @@ public class PlaylistFragment extends Fragment {
                 R.layout.fragment_playlist, container, false);
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Playlists");
+        ab.setTitle(R.string.playlists);
 
-        final List<Playlist> playlists= PlaylistLoader.getPlaylists(getActivity());
-        playlistcount=playlists.size();
+        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity());
+        playlistcount = playlists.size();
 
         final MultiViewPager pager = (MultiViewPager) rootView.findViewById(R.id.playlistpager);
 

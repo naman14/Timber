@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.nowplaying;
 
 import android.graphics.Bitmap;
@@ -22,9 +36,6 @@ import com.naman14.timber.utils.ImageUtils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
-/**
- * Created by naman on 30/08/15.
- */
 public class Timber4 extends BaseNowplayingFragment {
 
     ImageView mBlurredArt;
@@ -40,7 +51,7 @@ public class Timber4 extends BaseNowplayingFragment {
         setSongDetails(rootView);
 
         mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
-        horizontalRecyclerview=(RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
+        horizontalRecyclerview = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
 
         setupHorizontalQueue();
 
@@ -153,11 +164,11 @@ public class Timber4 extends BaseNowplayingFragment {
         blurredAlbumArt.execute(loadedImage);
     }
 
-    private void setupHorizontalQueue(){
-        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        horizontalAdapter=new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
+    private void setupHorizontalQueue() {
+        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
         horizontalRecyclerview.setAdapter(horizontalAdapter);
-        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition()-3);
+        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
     }
 
 

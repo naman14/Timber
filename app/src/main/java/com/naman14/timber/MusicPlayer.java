@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2012 Andrew Neal
+ * Copyright (C) 2014 The CyanogenMod Project
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
 package com.naman14.timber;
 
 import android.app.Activity;
@@ -21,9 +36,6 @@ import com.naman14.timber.utils.TimberUtils.IdType;
 import java.util.Arrays;
 import java.util.WeakHashMap;
 
-/**
- * Created by naman on 07/07/15.
- */
 public class MusicPlayer {
 
     public static ITimberService mService = null;
@@ -39,9 +51,9 @@ public class MusicPlayer {
     public static final ServiceToken bindToService(final Context context,
                                                    final ServiceConnection callback) {
 
-        Activity realActivity = ((Activity)context).getParent();
+        Activity realActivity = ((Activity) context).getParent();
         if (realActivity == null) {
-            realActivity = (Activity)context;
+            realActivity = (Activity) context;
         }
         final ContextWrapper contextWrapper = new ContextWrapper(realActivity);
         contextWrapper.startService(new Intent(contextWrapper, MusicService.class));
@@ -489,6 +501,7 @@ public class MusicPlayer {
             playAll(context, albumList, position, albumId, IdType.Album, shuffle);
         }
     }
+
     public static void playAll(final Context context, final long[] list, int position,
                                final long sourceId, final IdType sourceType,
                                final boolean forceShuffle) {
@@ -514,7 +527,7 @@ public class MusicPlayer {
             mService.open(list, forceShuffle ? -1 : position, sourceId, sourceType.mId);
             mService.play();
         } catch (final RemoteException ignored) {
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
     }
@@ -530,7 +543,7 @@ public class MusicPlayer {
     }
 
     public static void shuffleAll(final Context context) {
-        Cursor cursor = SongLoader.makeSongCursor(context, null,null);
+        Cursor cursor = SongLoader.makeSongCursor(context, null, null);
         final long[] mTrackList = SongLoader.getSongListForCursor(cursor);
         final int position = 0;
         if (mTrackList.length == 0 || mService == null) {
@@ -557,7 +570,7 @@ public class MusicPlayer {
     }
 
     public static final long[] getSongListForArtist(final Context context, final long id) {
-        final String[] projection = new String[] {
+        final String[] projection = new String[]{
                 BaseColumns._ID
         };
         final String selection = MediaStore.Audio.AudioColumns.ARTIST_ID + "=" + id + " AND "
@@ -575,7 +588,7 @@ public class MusicPlayer {
     }
 
     public static final long[] getSongListForAlbum(final Context context, final long id) {
-        final String[] projection = new String[] {
+        final String[] projection = new String[]{
                 BaseColumns._ID
         };
         final String selection = MediaStore.Audio.AudioColumns.ALBUM_ID + "=" + id + " AND " + MediaStore.Audio.AudioColumns.IS_MUSIC
@@ -594,15 +607,17 @@ public class MusicPlayer {
 
     public static final int getSongCountForAlbumInt(final Context context, final long id) {
         int songCount = 0;
-        if (id == -1) { return songCount; }
+        if (id == -1) {
+            return songCount;
+        }
 
         Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, id);
         Cursor cursor = context.getContentResolver().query(uri,
-                new String[] { MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS }, null, null, null);
+                new String[]{MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS}, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
             if (!cursor.isAfterLast()) {
-                if(!cursor.isNull(0)) {
+                if (!cursor.isNull(0)) {
                     songCount = cursor.getInt(0);
                 }
             }
@@ -618,7 +633,7 @@ public class MusicPlayer {
             return null;
         }
         Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, id);
-        Cursor cursor = context.getContentResolver().query(uri, new String[] {
+        Cursor cursor = context.getContentResolver().query(uri, new String[]{
                 MediaStore.Audio.AlbumColumns.FIRST_YEAR
         }, null, null, null);
         String releaseDate = null;

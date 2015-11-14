@@ -8,6 +8,6 @@
         android:orderInCategory="1"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"
-        android:title="Search"/>
+        android:title="@string/search"/>
 
 </menu>

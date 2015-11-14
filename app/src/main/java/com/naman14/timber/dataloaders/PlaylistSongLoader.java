@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.dataloaders;
 
 import android.content.ContentProviderOperation;
@@ -15,7 +29,7 @@ import com.naman14.timber.models.Song;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistSongLoader  {
+public class PlaylistSongLoader {
 
     private static Cursor mCursor;
 
@@ -23,12 +37,11 @@ public class PlaylistSongLoader  {
     private static Context context;
 
 
-
-    public static List<Song> getSongsInPlaylist(Context mContext,long playlistID) {
+    public static List<Song> getSongsInPlaylist(Context mContext, long playlistID) {
         ArrayList<Song> mSongList = new ArrayList<>();
 
-        context=mContext;
-        mPlaylistID=playlistID;
+        context = mContext;
+        mPlaylistID = playlistID;
 
         final int playlistCount = countPlaylist(context, mPlaylistID);
 
@@ -94,7 +107,7 @@ public class PlaylistSongLoader  {
                 final int tracknumber = mCursor.getInt(mCursor
                         .getColumnIndexOrThrow(AudioColumns.TRACK));
 
-                final Song song = new Song(id, albumId, artistId, songName, artist,album, durationInSecs, tracknumber);
+                final Song song = new Song(id, albumId, artistId, songName, artist, album, durationInSecs, tracknumber);
 
                 mSongList.add(song);
             } while (mCursor.moveToNext());
@@ -108,7 +121,7 @@ public class PlaylistSongLoader  {
     }
 
     private static void cleanupPlaylist(final Context context, final long playlistId,
-                                 final Cursor cursor) {
+                                        final Cursor cursor) {
         final int idCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID);
         final Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
 
@@ -170,7 +183,7 @@ public class PlaylistSongLoader  {
         mSelection.append(" AND " + AudioColumns.TITLE + " != ''");
         return context.getContentResolver().query(
                 MediaStore.Audio.Playlists.Members.getContentUri("external", playlistID),
-                new String[] {
+                new String[]{
                         MediaStore.Audio.Playlists.Members._ID,
                         MediaStore.Audio.Playlists.Members.AUDIO_ID,
                         AudioColumns.TITLE,

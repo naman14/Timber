@@ -1,8 +1,19 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.models;
 
-/**
- * Created by naman on 13/06/15.
- */
 public class Song {
 
     public final long albumId;
@@ -14,8 +25,7 @@ public class Song {
     public final String title;
     public final int trackNumber;
 
-    public Song()
-    {
+    public Song() {
         this.id = -1;
         this.albumId = -1;
         this.artistId = -1;
@@ -26,8 +36,7 @@ public class Song {
         this.trackNumber = -1;
     }
 
-    public Song(long _id, long _albumId, long _artistId, String _title, String _artistName, String _albumName, int _duration, int _trackNumber)
-    {
+    public Song(long _id, long _albumId, long _artistId, String _title, String _artistName, String _albumName, int _duration, int _trackNumber) {
         this.id = _id;
         this.albumId = _albumId;
         this.artistId = _artistId;

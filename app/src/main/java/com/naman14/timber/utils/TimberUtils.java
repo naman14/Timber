@@ -1,10 +1,22 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.utils;
 
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.BaseColumns;
@@ -13,123 +25,34 @@ import android.util.TypedValue;
 
 import com.naman14.timber.R;
 
-/**
- * Created by naman on 14/06/15.
- */
 public class TimberUtils {
 
     public static final String MUSIC_ONLY_SELECTION = MediaStore.Audio.AudioColumns.IS_MUSIC + "=1"
             + " AND " + MediaStore.Audio.AudioColumns.TITLE + " != ''";
 
-    public static final boolean isOnline(final Context context) {
-
-        if (context == null) {
-            return false;
-        }
-
-        boolean state = false;
-        final boolean onlyOnWifi = true;
-
-        /* Monitor network connections */
-        final ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        /* Wi-Fi connection */
-        final NetworkInfo wifiNetwork = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (wifiNetwork != null) {
-            state = wifiNetwork.isConnectedOrConnecting();
-        }
-
-        /* Mobile data connection */
-        final NetworkInfo mbobileNetwork = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (mbobileNetwork != null) {
-            if (!onlyOnWifi) {
-                state = mbobileNetwork.isConnectedOrConnecting();
-            }
-        }
-
-        /* Other networks */
-        final NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        if (activeNetwork != null) {
-            if (!onlyOnWifi) {
-                state = activeNetwork.isConnectedOrConnecting();
-            }
-        }
-
-        return state;
+    public static boolean isMarshmallow() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
-    public static boolean isMarshmallow(){
-        return Build.VERSION.SDK_INT>=Build.VERSION_CODES.M;
-    }
-
-    public static boolean isLollipop(){
-        return Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP;
+    public static boolean isLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
 
-    public static boolean isJellyBeanMR2(){
-        return Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2;
+    public static boolean isJellyBeanMR2() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
     }
 
-    public static boolean isJellyBean(){
-        return Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN;
+    public static boolean isJellyBean() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 
-    public static boolean isJellyBeanMR1(){
-        return Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR1;
+    public static boolean isJellyBeanMR1() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     }
 
     public static Uri getAlbumArtUri(long paramInt) {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), paramInt);
-    }
-
-    public static enum IdType {
-        NA(0),
-        Artist(1),
-        Album(2),
-        Playlist(3);
-
-        public final int mId;
-
-        IdType(final int id) {
-            mId = id;
-        }
-
-        public static IdType getTypeById(int id) {
-            for (IdType type : values()) {
-                if (type.mId == id) {
-                    return type;
-                }
-            }
-
-            throw new IllegalArgumentException("Unrecognized id: " + id);
-        }
-    }
-    public static enum PlaylistType {
-        LastAdded(-1, R.string.playlist_last_added),
-        RecentlyPlayed(-2, R.string.playlist_recently_played),
-        TopTracks(-3, R.string.playlist_top_tracks);
-
-        public long mId;
-        public int mTitleId;
-
-        PlaylistType(long id, int titleId) {
-            mId = id;
-            mTitleId = titleId;
-        }
-
-        public static PlaylistType getTypeById(long id) {
-            for (PlaylistType type : PlaylistType.values()) {
-                if (type.mId == id) {
-                    return type;
-                }
-            }
-
-            return null;
-        }
     }
 
     public static final String makeCombinedString(final Context context, final String first,
@@ -183,6 +106,53 @@ public class TimberUtils {
         }
 
         return 0;
+    }
+
+    public static enum IdType {
+        NA(0),
+        Artist(1),
+        Album(2),
+        Playlist(3);
+
+        public final int mId;
+
+        IdType(final int id) {
+            mId = id;
+        }
+
+        public static IdType getTypeById(int id) {
+            for (IdType type : values()) {
+                if (type.mId == id) {
+                    return type;
+                }
+            }
+
+            throw new IllegalArgumentException("Unrecognized id: " + id);
+        }
+    }
+
+    public static enum PlaylistType {
+        LastAdded(-1, R.string.playlist_last_added),
+        RecentlyPlayed(-2, R.string.playlist_recently_played),
+        TopTracks(-3, R.string.playlist_top_tracks);
+
+        public long mId;
+        public int mTitleId;
+
+        PlaylistType(long id, int titleId) {
+            mId = id;
+            mTitleId = titleId;
+        }
+
+        public static PlaylistType getTypeById(long id) {
+            for (PlaylistType type : PlaylistType.values()) {
+                if (type.mId == id) {
+                    return type;
+                }
+            }
+
+            return null;
+        }
     }
 
 

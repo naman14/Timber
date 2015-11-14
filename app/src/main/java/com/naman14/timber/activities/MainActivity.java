@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.activities;
 
 import android.Manifest;
@@ -131,7 +145,7 @@ public class MainActivity extends BaseActivity {
 
         if (TimberUtils.isMarshmallow()) {
             checkPermissionAndThenLoad();
-        } else  {
+        } else {
             loadEverything();
         }
 
@@ -168,6 +182,7 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -203,6 +218,10 @@ public class MainActivity extends BaseActivity {
             case R.id.action_search:
                 NavigationUtils.navigateToSearch(this);
                 return true;
+            case R.id.action_equalizer:
+                NavigationUtils.navigateToEqualizer(this);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -453,7 +472,7 @@ public class MainActivity extends BaseActivity {
             QuickControlsFragment fragment1 = new QuickControlsFragment();
             FragmentManager fragmentManager1 = getSupportFragmentManager();
             fragmentManager1.beginTransaction()
-                    .replace(R.id.quickcontrols_container, fragment1).commit();
+                    .replace(R.id.quickcontrols_container, fragment1).commitAllowingStateLoss();
             return "Executed";
         }
 
@@ -475,7 +494,7 @@ public class MainActivity extends BaseActivity {
     final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
-          loadEverything();
+            loadEverything();
         }
 
         @Override

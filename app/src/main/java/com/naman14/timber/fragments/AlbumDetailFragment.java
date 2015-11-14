@@ -1,9 +1,24 @@
+/*
+ * Copyright (C) 2015 Naman Dwivedi
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 package com.naman14.timber.fragments;
 
 import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +37,9 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -40,6 +58,7 @@ import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.SortOrder;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -51,9 +70,6 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
 
-/**
- * Created by naman on 22/07/15.
- */
 public class AlbumDetailFragment extends Fragment {
 
     long albumID = -1;
@@ -73,8 +89,10 @@ public class AlbumDetailFragment extends Fragment {
     AppBarLayout appBarLayout;
     FloatingActionButton fab;
 
-    private boolean loadFailed=false;
+    private boolean loadFailed = false;
     private boolean isDarkTheme;
+
+    private PreferencesUtility mPreferences;
 
     public static AlbumDetailFragment newInstance(long id) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
@@ -90,7 +108,8 @@ public class AlbumDetailFragment extends Fragment {
         if (getArguments() != null) {
             albumID = getArguments().getLong(Constants.ALBUM_ID);
         }
-        isDarkTheme=PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
+        isDarkTheme = PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
+        mPreferences = PreferencesUtility.getInstance(getActivity());
     }
 
     @TargetApi(21)
@@ -129,15 +148,15 @@ public class AlbumDetailFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Handler handler=new Handler();
+                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        AlbumSongsAdapter adapter=(AlbumSongsAdapter)recyclerView.getAdapter();
-                        MusicPlayer.playAll(getActivity(), adapter.getSongIds(), 0,albumID , TimberUtils.IdType.Album, true);
-                        NavigationUtils.navigateToNowplaying(getActivity(),false);
+                        AlbumSongsAdapter adapter = (AlbumSongsAdapter) recyclerView.getAdapter();
+                        MusicPlayer.playAll(getActivity(), adapter.getSongIds(), 0, albumID, TimberUtils.IdType.Album, true);
+                        NavigationUtils.navigateToNowplaying(getActivity(), false);
                     }
-                },150);
+                }, 150);
             }
         });
 
@@ -165,36 +184,41 @@ public class AlbumDetailFragment extends Fragment {
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                         loadFailed=true;
-                        if (TimberUtils.isLollipop()&& PreferencesUtility.getInstance(getActivity()).getAnimations() )
+                        loadFailed = true;
+                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
                             scheduleStartPostponedTransition(albumArt);
 
 
-                            if (isDarkTheme){
-                                MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                                        .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                                        .setColor(Color.BLACK);
-                                fab.setImageDrawable(builder.build());
+                        if (isDarkTheme) {
+                            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                                    .setColor(Color.BLACK);
+                            fab.setImageDrawable(builder.build());
 
                         }
                     }
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        Palette palette = Palette.generate(loadedImage);
-                        collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(Color.parseColor("#66000000")));
-                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkVibrantColor(Color.parseColor("#66000000")));
+                        new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+                                collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(Color.parseColor("#66000000")));
+                                collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkVibrantColor(Color.parseColor("#66000000")));
 
-                        ColorStateList fabColorStateList = new ColorStateList(
-                                new int[][]{
-                                        new int[]{}
-                                },
-                                new int[]{
-                                        palette.getMutedColor(Color.parseColor("#66000000")),
-                                }
-                        );
+                                ColorStateList fabColorStateList = new ColorStateList(
+                                        new int[][]{
+                                                new int[]{}
+                                        },
+                                        new int[]{
+                                                palette.getMutedColor(Color.parseColor("#66000000")),
+                                        }
+                                );
 
-                        fab.setBackgroundTintList(fabColorStateList);
+                                fab.setBackgroundTintList(fabColorStateList);
+                            }
+                        });
+
                         if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
                             scheduleStartPostponedTransition(albumArt);
                     }
@@ -234,18 +258,74 @@ public class AlbumDetailFragment extends Fragment {
         FabAnimationUtils.scaleIn(fab);
         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
-        if( (loadFailed && isDarkTheme) )
+        if ((loadFailed && isDarkTheme))
             builder.setColor(Color.BLACK);
         else builder.setColor(Color.WHITE);
         fab.setImageDrawable(builder.build());
         enableViews();
     }
 
-    private void enableViews(){
+    private void reloadAdapter() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                List<Song> songList = AlbumSongLoader.getSongsForAlbum(getActivity(), albumID);
+                mAdapter.updateDataSet(songList);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.album_song_sort_by, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_sort_by_az:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_A_Z);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_za:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_Z_A);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_year:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_YEAR);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_duration:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_DURATION);
+                reloadAdapter();
+                return true;
+            case R.id.menu_sort_by_track_number:
+                mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_TRACK_LIST);
+                reloadAdapter();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void enableViews() {
         recyclerView.setEnabled(true);
     }
 
-    private void disableView(){
+    private void disableView() {
         recyclerView.setEnabled(false);
     }
 

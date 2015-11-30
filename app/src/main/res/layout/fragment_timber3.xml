@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/song_duration"
+                    android:id="@+id/song_elapsed_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
@@ -138,7 +138,7 @@
                     android:layout_alignParentLeft="true" />
 
                 <TextView
-                    android:id="@+id/song_elapsed_time"
+                    android:id="@+id/song_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"

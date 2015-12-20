@@ -14,8 +14,8 @@
 
 package com.naman14.timber.adapters;
 
-import android.app.Activity;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -45,14 +46,14 @@ import java.util.List;
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
     private List<Song> arraylist;
-    private Activity mContext;
+    private AppCompatActivity mContext;
     private long[] songIDs;
     private boolean isPlaylist;
     public int currentlyPlayingPosition;
 
     private int lastPosition = -1;
 
-    public SongsListAdapter(Activity context, List<Song> arraylist, boolean isPlaylistSong) {
+    public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.isPlaylist = isPlaylistSong;
@@ -160,7 +161,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             @Override
             public void onClick(View v) {
 
-                PopupMenu menu = new PopupMenu(mContext, v);
+                final PopupMenu menu = new PopupMenu(mContext, v);
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -185,6 +186,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                                 MusicPlayer.addToQueue(mContext, id, -1, TimberUtils.IdType.NA);
                                 break;
                             case R.id.popup_song_addto_playlist:
+                                AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
                         }
                         return false;

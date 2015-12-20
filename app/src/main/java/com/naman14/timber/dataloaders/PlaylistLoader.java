@@ -32,11 +32,12 @@ public class PlaylistLoader {
     static ArrayList<Playlist> mPlaylistList;
     private static Cursor mCursor;
 
-    public static List<Playlist> getPlaylists(Context context) {
+    public static List<Playlist> getPlaylists(Context context, boolean defaultIncluded) {
 
         mPlaylistList = new ArrayList<>();
 
-        makeDefaultPlaylists(context);
+        if (defaultIncluded)
+            makeDefaultPlaylists(context);
 
         mCursor = makePlaylistCursor(context);
 

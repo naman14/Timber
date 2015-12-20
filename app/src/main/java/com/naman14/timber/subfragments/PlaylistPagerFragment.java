@@ -74,7 +74,7 @@ public class PlaylistPagerFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_playlist_pager, container, false);
 
-        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity());
+        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), true);
 
         pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
         playlist = playlists.get(pageNumber);

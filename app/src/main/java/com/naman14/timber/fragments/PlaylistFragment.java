@@ -49,7 +49,7 @@ public class PlaylistFragment extends Fragment {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle(R.string.playlists);
 
-        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity());
+        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), true);
         playlistcount = playlists.size();
 
         final MultiViewPager pager = (MultiViewPager) rootView.findViewById(R.id.playlistpager);

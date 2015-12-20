@@ -24,4 +24,9 @@
         <item quantity="other"><xliff:g id="number" example="27">%d</xliff:g> songs added to the queue.</item>
     </plurals>
 
+    <plurals name="NNNtrackstoplaylist">
+        <item quantity="one"><xliff:g id="number" example="1">%d</xliff:g> song added to playlist.</item>
+        <item quantity="other"><xliff:g id="number" example="27">%d</xliff:g> songs added to playlist.</item>
+    </plurals>
+
 </resources>

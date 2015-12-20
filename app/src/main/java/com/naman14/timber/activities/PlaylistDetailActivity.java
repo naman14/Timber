@@ -15,7 +15,6 @@
 package com.naman14.timber.activities;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,7 +47,7 @@ import java.util.List;
 
 public class PlaylistDetailActivity extends AppCompatActivity {
 
-    private Activity mContext = PlaylistDetailActivity.this;
+    private AppCompatActivity mContext = PlaylistDetailActivity.this;
     String action;
     long playlistID;
 

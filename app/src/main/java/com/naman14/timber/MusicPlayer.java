@@ -537,12 +537,14 @@ public class MusicPlayer {
         }
     }
 
-    public static void playNext(final long[] list, final long sourceId, final IdType sourceType) {
+    public static void playNext(Context context, final long[] list, final long sourceId, final IdType sourceType) {
         if (mService == null) {
             return;
         }
         try {
             mService.enqueue(list, MusicService.NEXT, sourceId, sourceType.mId);
+            final String message = makeLabel(context, R.plurals.NNNtrackstoqueue, list.length);
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         } catch (final RemoteException ignored) {
         }
     }
@@ -787,7 +789,7 @@ public class MusicPlayer {
     public static final long createPlaylist(final Context context, final String name) {
         if (name != null && name.length() > 0) {
             final ContentResolver resolver = context.getContentResolver();
-            final String[] projection = new String[] {
+            final String[] projection = new String[]{
                     MediaStore.Audio.PlaylistsColumns.NAME
             };
             final String selection = MediaStore.Audio.PlaylistsColumns.NAME + " = '" + name + "'";

@@ -60,14 +60,24 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:scaleType="center"
             app:materialIconColor="#fff"
             app:materialIconSize="35dp"
             android:visibility="invisible"
-            android:layout_alignParentRight="true"/>
+            android:layout_toLeftOf="@+id/popup_menu"/>
 
-
+        <ImageView
+            android:id="@+id/popup_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:foregroundTint="#434343"
+            android:padding="5dp"
+            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
 
     </RelativeLayout>
 

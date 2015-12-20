@@ -94,10 +94,11 @@ public class AlbumDetailFragment extends Fragment {
 
     private PreferencesUtility mPreferences;
 
-    public static AlbumDetailFragment newInstance(long id) {
+    public static AlbumDetailFragment newInstance(long id, boolean transition) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
         Bundle args = new Bundle();
         args.putLong(Constants.ALBUM_ID, id);
+        args.putBoolean("transition", transition);
         fragment.setArguments(args);
         return fragment;
     }
@@ -137,7 +138,7 @@ public class AlbumDetailFragment extends Fragment {
 
         setAlbumart();
 
-        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations()) {
+        if (getArguments().getBoolean("transition")) {
             getActivity().postponeEnterTransition();
             getActivity().getWindow().getEnterTransition().addListener(new EnterTransitionListener());
             getActivity().getWindow().getReturnTransition().addListener(new ReturnTransitionListener());

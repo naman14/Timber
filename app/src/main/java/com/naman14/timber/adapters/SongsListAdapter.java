@@ -172,7 +172,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                             case R.id.popup_song_play_next:
                                 long[] ids = new long[1];
                                 ids[0] = arraylist.get(position).id;
-                                MusicPlayer.playNext(ids, -1, TimberUtils.IdType.NA);
+                                MusicPlayer.playNext(mContext, ids, -1, TimberUtils.IdType.NA);
                                 break;
                             case R.id.popup_song_goto_album:
                                 NavigationUtils.navigateToAlbum(mContext, arraylist.get(position).albumId, null);

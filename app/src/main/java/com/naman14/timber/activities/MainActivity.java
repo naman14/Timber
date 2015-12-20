@@ -404,7 +404,8 @@ public class MainActivity extends BaseActivity {
     Runnable navigateAlbum = new Runnable() {
         public void run() {
             long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
-            Fragment fragment = new AlbumDetailFragment().newInstance(albumID);
+            boolean withTransition = getIntent().getBooleanExtra("transition", false);
+            Fragment fragment = new AlbumDetailFragment().newInstance(albumID, withTransition);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commit();

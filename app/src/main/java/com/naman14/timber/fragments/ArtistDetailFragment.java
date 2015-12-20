@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -45,7 +46,6 @@ import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.ImageUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
@@ -122,20 +122,19 @@ public class ArtistDetailFragment extends Fragment {
 
     private void setUpArtistDetails() {
 
-        Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
+        final Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
 
         collapsingToolbarLayout.setTitle(artist.name);
 
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
             @Override
-            public void artistInfoSucess(LastfmArtist artist) {
+            public void artistInfoSucess(final LastfmArtist artist) {
                 if (artist != null) {
 
                     ImageLoader.getInstance().displayImage(artist.mArtwork.get(4).mUrl, artistArt,
                             new DisplayImageOptions.Builder().cacheInMemory(true)
                                     .cacheOnDisk(true)
                                     .showImageOnFail(R.drawable.ic_empty_music2)
-                                    .displayer(new FadeInBitmapDisplayer(500))
                                     .resetViewBeforeLoading(true)
                                     .build(), new SimpleImageLoadingListener() {
                                 @Override
@@ -143,15 +142,13 @@ public class ArtistDetailFragment extends Fragment {
                                     largeImageLoaded = true;
                                 }
                             });
-
-                    ImageLoader.getInstance().loadImage(artist.mArtwork.get(1).mUrl, new SimpleImageLoadingListener() {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
                         @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            if (getActivity() != null && !largeImageLoaded)
-                                new setBlurredAlbumArt().execute(loadedImage);
-
+                        public void run() {
+                            setBlurredPlaceholder(artist);
                         }
-                    });
+                    }, 100);
 
                 }
             }
@@ -162,6 +159,17 @@ public class ArtistDetailFragment extends Fragment {
             }
         });
 
+    }
+
+    private void setBlurredPlaceholder(LastfmArtist artist) {
+        ImageLoader.getInstance().loadImage(artist.mArtwork.get(1).mUrl, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (getActivity() != null && !largeImageLoaded)
+                    new setBlurredAlbumArt().execute(loadedImage);
+
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {

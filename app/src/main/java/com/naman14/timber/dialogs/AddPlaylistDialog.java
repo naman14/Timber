@@ -49,7 +49,7 @@ public class AddPlaylistDialog extends DialogFragment {
             public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                 long[] songs = getArguments().getLongArray("songs");
                 if (which == 0) {
-
+                    CreatePlaylistDialog.newInstance(songs).show(getActivity().getSupportFragmentManager(), "CREATE_PLAYLIST");
                     return;
                 }
 

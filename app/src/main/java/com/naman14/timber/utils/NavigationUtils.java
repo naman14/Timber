@@ -17,13 +17,13 @@ package com.naman14.timber.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.media.audiofx.AudioEffect;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
+import android.widget.Toast;
 
-import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
 import com.naman14.timber.activities.SearchActivity;
@@ -133,17 +133,11 @@ public class NavigationUtils {
     }
 
     public static void navigateToEqualizer(Activity context) {
-        int mAudioSession = 0;
-        if (MusicPlayer.isPlaybackServiceConnected()) {
-            mAudioSession = MusicPlayer.getAudioSessionId();
-        }
         try {
-            final Intent effects = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
-            effects.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.getPackageName());
-            effects.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, mAudioSession);
-            context.startActivity(effects);
-        } catch (Exception e) {
-            e.printStackTrace();
+            // The google MusicFX apps need to be started using startActivityForResult
+            context.startActivityForResult(TimberUtils.createEffectsIntent(), 666);
+        } catch (final ActivityNotFoundException notFound) {
+            Toast.makeText(context, "Equalizer not found", Toast.LENGTH_SHORT).show();
         }
     }
 

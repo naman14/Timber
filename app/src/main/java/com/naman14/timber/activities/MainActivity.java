@@ -191,6 +191,9 @@ public class MainActivity extends BaseActivity {
         } else {
             menu.findItem(R.id.action_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
+        if (!TimberUtils.hasEffectsPanel(MainActivity.this)) {
+            menu.removeItem(R.id.action_equalizer);
+        }
         return true;
     }
 

@@ -14,15 +14,20 @@
 
 package com.naman14.timber.utils;
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.util.TypedValue;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 
 public class TimberUtils {
@@ -153,6 +158,18 @@ public class TimberUtils {
 
             return null;
         }
+    }
+
+    public static boolean hasEffectsPanel(final Activity activity) {
+        final PackageManager packageManager = activity.getPackageManager();
+        return packageManager.resolveActivity(createEffectsIntent(),
+                PackageManager.MATCH_DEFAULT_ONLY) != null;
+    }
+
+    public static Intent createEffectsIntent() {
+        final Intent effects = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+        effects.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MusicPlayer.getAudioSessionId());
+        return effects;
     }
 
 

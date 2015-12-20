@@ -16,16 +16,21 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -49,7 +54,7 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_playing_queue, null);
         ItemHolder ml = new ItemHolder(v);
         return ml;
     }
@@ -70,9 +75,42 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
                 itemHolder.playingIndicator.setVisibility(View.VISIBLE);
                 itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
             }
-        } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
+        } else itemHolder.playingIndicator.setVisibility(View.GONE);
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+        setOnPopupMenuListener(itemHolder, i);
+    }
 
+    private void setOnPopupMenuListener(ItemHolder itemHolder, final int position) {
+
+        itemHolder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final PopupMenu menu = new PopupMenu(mContext, v);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.popup_song_play:
+                                MusicPlayer.playAll(mContext, getSongIds(), position, -1, TimberUtils.IdType.NA, false);
+                                break;
+                            case R.id.popup_song_goto_album:
+                                NavigationUtils.navigateToAlbum(mContext, arraylist.get(position).albumId, null);
+                                break;
+                            case R.id.popup_song_goto_artist:
+                                NavigationUtils.navigateToArtist(mContext, arraylist.get(position).artistId, null);
+                                break;
+                            case R.id.popup_song_addto_playlist:
+                                AddPlaylistDialog.newInstance(arraylist.get(position)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                menu.inflate(R.menu.popup_playing_queue);
+                menu.show();
+            }
+        });
     }
 
     @Override
@@ -83,7 +121,7 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, artist;
-        protected ImageView albumArt;
+        protected ImageView albumArt, reorder, menu;
         protected MaterialIconView playingIndicator;
 
         public ItemHolder(View view) {
@@ -92,6 +130,8 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
             this.artist = (TextView) view.findViewById(R.id.song_artist);
             this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
             this.playingIndicator = (MaterialIconView) view.findViewById(R.id.currentlyPlayingIndicator);
+            this.menu = (ImageView) view.findViewById(R.id.popup_menu);
+            this.reorder = (ImageView) view.findViewById(R.id.reorder);
             view.setOnClickListener(this);
         }
 

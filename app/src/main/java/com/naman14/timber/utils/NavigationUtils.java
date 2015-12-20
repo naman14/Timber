@@ -48,7 +48,7 @@ public class NavigationUtils {
 
         if (TimberUtils.isLollipop() && transitionViews != null && PreferencesUtility.getInstance(context).getAnimations()) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(context, transitionViews.get(0));
-            context.startActivity(intent.putExtra("transition",true), options.toBundle());
+            context.startActivity(intent.putExtra("transition", true), options.toBundle());
         } else {
             context.startActivity(intent.putExtra("transition", false));
         }

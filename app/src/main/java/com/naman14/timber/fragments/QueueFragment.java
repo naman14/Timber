@@ -89,7 +89,7 @@ public class QueueFragment extends Fragment implements MusicStateListener {
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
             DragSortRecycler dragSortRecycler = new DragSortRecycler();
-            dragSortRecycler.setViewHandleId(R.id.albumArt);
+            dragSortRecycler.setViewHandleId(R.id.reorder);
 
             dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
                 @Override

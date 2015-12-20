@@ -5,7 +5,6 @@
     android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="6dp"
-    android:paddingLeft="5dp"
     android:paddingTop="6dp">
 
     <RelativeLayout
@@ -13,11 +12,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/reorder"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="center"
+            app:materialIconColor="?attr/iconColor"
+            app:materialIconSize="30dp"
+            app:materialIcon="drag_vertical"/>
+
+
         <ImageView
             android:id="@+id/albumArt"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@+id/reorder"
             android:padding="1dp" />
 
         <LinearLayout
@@ -71,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:foregroundTint="#434343"
             android:padding="5dp"

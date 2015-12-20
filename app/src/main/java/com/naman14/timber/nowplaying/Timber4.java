@@ -129,7 +129,7 @@ public class Timber4 extends BaseNowplayingFragment {
             Drawable drawable = null;
             try {
                 drawable = ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return drawable;

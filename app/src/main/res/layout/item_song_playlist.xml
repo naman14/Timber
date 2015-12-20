@@ -2,11 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingLeft="5dp"
-    android:paddingTop="6dp"
     android:paddingBottom="6dp"
-    android:background="?attr/selectableItemBackground">
+    android:paddingLeft="5dp"
+    android:paddingTop="6dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,43 +14,41 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/albumArt"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:id="@+id/albumArt"
-            android:padding="1dp"
             android:layout_alignParentLeft="true"
-            />
+            android:padding="1dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/currentlyPlayingIndicator"
+            android:layout_toRightOf="@+id/albumArt"
             android:orientation="vertical"
             android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:layout_toRightOf="@+id/albumArt"
-            android:layout_toLeftOf="@+id/currentlyPlayingIndicator"
-            android:layout_marginRight="10dp">
+            android:paddingTop="5dp">
 
 
             <TextView
                 android:id="@+id/song_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:textSize="16sp"
                 android:ellipsize="end"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/song_artist"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp"
-                android:textColor="#99ffffff"
-                android:textSize="13sp"
                 android:ellipsize="end"
-                android:singleLine="true"/>
-
+                android:paddingTop="3dp"
+                android:singleLine="true"
+                android:textColor="#99ffffff"
+                android:textSize="13sp" />
 
 
         </LinearLayout>
@@ -59,18 +57,29 @@
             android:id="@+id/currentlyPlayingIndicator"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/popup_menu"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginRight="20dp"
             android:scaleType="center"
-            app:materialIconColor="?attr/accentColor"
-            app:materialIconSize="35dp"
             android:visibility="invisible"
-            android:layout_alignParentRight="true"/>
+            app:materialIconColor="?attr/accentColor"
+            app:materialIconSize="35dp" />
 
+        <ImageView
+            android:id="@+id/popup_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:foregroundTint="#434343"
+            android:padding="5dp"
+            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+            android:theme="@style/Theme.AppCompat" />
 
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

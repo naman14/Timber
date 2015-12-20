@@ -223,7 +223,7 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
             Drawable drawable = null;
             try {
                 drawable = ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return drawable;

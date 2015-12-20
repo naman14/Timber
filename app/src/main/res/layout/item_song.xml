@@ -57,8 +57,8 @@
             android:id="@+id/currentlyPlayingIndicator"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/popup_menu"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
             android:visibility="invisible"
@@ -70,12 +70,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:foregroundTint="#434343"
             android:padding="5dp"
-            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
 
 
     </RelativeLayout>

@@ -28,6 +28,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
@@ -709,5 +710,23 @@ public class MusicPlayer {
             mService.removeTracks(0, Integer.MAX_VALUE);
         } catch (final RemoteException ignored) {
         }
+    }
+
+    public static void addToQueue(final Context context, final long[] list, long sourceId,
+                                  IdType sourceType) {
+        if (mService == null) {
+            return;
+        }
+        try {
+            mService.enqueue(list, MusicService.LAST, sourceId, sourceType.mId);
+            final String message = makeLabel(context, R.plurals.NNNtrackstoqueue, list.length);
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        } catch (final RemoteException ignored) {
+        }
+    }
+
+    public static final String makeLabel(final Context context, final int pluralInt,
+                                         final int number) {
+        return context.getResources().getQuantityString(pluralInt, number, number);
     }
 }

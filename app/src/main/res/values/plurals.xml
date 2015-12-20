@@ -19,4 +19,9 @@
             <item quantity="other">@string/count_songs</item>
         </plurals>
 
+    <plurals name="NNNtrackstoqueue">
+        <item quantity="one"><xliff:g id="number" example="1">%d</xliff:g> song added to the queue.</item>
+        <item quantity="other"><xliff:g id="number" example="27">%d</xliff:g> songs added to the queue.</item>
+    </plurals>
+
 </resources>

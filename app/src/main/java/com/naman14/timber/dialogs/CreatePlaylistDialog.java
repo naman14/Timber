@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.fragments.PlaylistFragment;
 import com.naman14.timber.models.Song;
 
 /**
@@ -53,6 +54,9 @@ public class CreatePlaylistDialog extends DialogFragment {
                         MusicPlayer.addToPlaylist(getActivity(), songs, playistId);
                     else
                         Toast.makeText(getActivity(), "Created playlist", Toast.LENGTH_SHORT).show();
+                    if (getParentFragment() instanceof PlaylistFragment) {
+                        ((PlaylistFragment) getParentFragment()).updatePlaylists(playistId);
+                    }
                 } else {
                     Toast.makeText(getActivity(), "Unable to create playlist", Toast.LENGTH_SHORT).show();
                 }

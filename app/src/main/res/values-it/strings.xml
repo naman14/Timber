@@ -69,14 +69,14 @@
     <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
     <string name="count_artists"><xliff:g id="count">%d</xliff:g> artisti</string>
     <string name="select_theme">Seleziona tema</string>
-    <string name="choose_theme_throughout">Scegli un tema da usare all'interno dell'app.</string>
-    <string name="choose_start_page">Seleziona la pagina di apertura da mostrare all'avvio.</string>
+    <string name="choose_theme_throughout">Scegli un tema da usare all\'interno dell\'app.</string>
+    <string name="choose_start_page">Seleziona la pagina di apertura da mostrare all\'avvio.</string>
     <string name="start_page">Pagina di apertura</string>
     <string name="artist_in_grid">Artisti in griglia</string>
     <string name="toggle_artists_grid">Abilita per mostrare gli artisti in una griglia 2x2.</string>
-    <string name="toggle_system_animations">Abilita per usare le animazioni di sistema all'interno dell'app.</string>
+    <string name="toggle_system_animations">Abilita per usare le animazioni di sistema all\'interno dell\'app.</string>
     <string name="system_animations">Animazioni di sistema</string>
-    <string name="toggle_animations">Abilita l'animazione di transizione all'interno dell'app.</string>
+    <string name="toggle_animations">Abilita l\'animazione di transizione all\'interno dell\'app.</string>
     <string name="animations">Animazioni</string>
     <string name="now_playing_selector">Scegli la schermata di riproduzione tra 4 stili differenti.</string>
     <string name="personalisation">Personalizzazione</string>

@@ -23,6 +23,14 @@
         <item name="progressDrawable">@drawable/progress_drawable</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground</item>
 
+        <item name="actionOverflowMenuStyle">@style/ActionBarOptionsMenuLight</item>
+
+        <item name="textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLargeLight</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLargeLight</item>
+
+        <item name="textAppearanceSmallPopupMenu">@style/myPopupMenuTextAppearanceSmallLight</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/myPopupMenuTextAppearanceSmallLight</item>
+
     </style>
     <style name="ThemeBaseDark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
@@ -38,6 +46,14 @@
         <item name="progressDrawable">@drawable/progress_drawable_dark</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground_dark</item>
 
+        <item name="actionOverflowMenuStyle">@style/ActionBarOptionsMenuDark</item>
+
+        <item name="textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLargeDark</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLargeDark</item>
+
+        <item name="textAppearanceSmallPopupMenu">@style/myPopupMenuTextAppearanceSmallDark</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/myPopupMenuTextAppearanceSmallDark</item>
+
     </style>
     <style name="ThemeBaseBlack" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryBlack</item>
@@ -52,6 +68,14 @@
         <item name="progressBackgroundColor">@color/progressBackgroundColorDark</item>
         <item name="progressDrawable">@drawable/progress_drawable_black</item>
         <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground_black</item>
+
+        <item name="actionOverflowMenuStyle">@style/ActionBarOptionsMenuBlack</item>
+
+        <item name="textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLargeBlack</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLargeBlack</item>
+
+        <item name="textAppearanceSmallPopupMenu">@style/myPopupMenuTextAppearanceSmallBlack</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/myPopupMenuTextAppearanceSmallBlack</item>
 
     </style>
 
@@ -89,12 +113,47 @@
 
     </style>
 
+
+    <style name="myPopupMenuTextAppearanceLargeLight" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/colorPopupMenuItemLight</item>
+    </style>
+
+    <style name="myPopupMenuTextAppearanceSmallLight" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/colorPopupMenuItemLight</item>
+    </style>
+
+    <style name="myPopupMenuTextAppearanceLargeDark" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/colorPopupMenuItemDark</item>
+    </style>
+
+    <style name="myPopupMenuTextAppearanceSmallDark" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/colorPopupMenuItemDark</item>
+    </style>
+
+    <style name="myPopupMenuTextAppearanceLargeBlack" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/colorPopupMenuItemBlack</item>
+    </style>
+
+    <style name="myPopupMenuTextAppearanceSmallBlack" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/colorPopupMenuItemBlack</item>
+    </style>
+
+    <style name="ActionBarOptionsMenuLight" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/colorPopupBackgroundLight</item>
+    </style>
+
+    <style name="ActionBarOptionsMenuDark" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/colorPopupBackgroundDark</item>
+    </style>
+
+    <style name="ActionBarOptionsMenuBlack" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/colorPopupBackgroundBlack</item>
+    </style>
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
     </style>
-
-
 
     <style name="TextApperance.Album.Title" parent="@style/TextAppearance.AppCompat.Large">
         <item name="android:textSize">29sp</item>
@@ -130,8 +189,5 @@
     <style name="CardViewStyle.Black" parent="CardView">
         <item name="cardBackgroundColor">@color/window_background_black</item>
     </style>
-
-
-
 
 </resources>

@@ -27,18 +27,20 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.BubbleTextGetter;
+import com.naman14.timber.widgets.MusicVisualizer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.List;
@@ -52,12 +54,14 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     public int currentlyPlayingPosition;
 
     private int lastPosition = -1;
+    private String ateKey;
 
     public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.isPlaylist = isPlaylistSong;
         this.songIDs = getSongIds();
+        this.ateKey = Helpers.getATEKey(context);
     }
 
     @Override
@@ -82,15 +86,16 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
-            currentlyPlayingPosition = i;
+            itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));
             if (MusicPlayer.isPlaying()) {
-                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
-                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
-            } else {
-                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
-                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+                itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
+                itemHolder.visualizer.setVisibility(View.VISIBLE);
             }
-        } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
+        } else {
+            itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
+            itemHolder.visualizer.setVisibility(View.GONE);
+        }
+
 
         if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
             if (TimberUtils.isLollipop())
@@ -114,6 +119,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         protected TextView title, artist;
         protected ImageView albumArt, popupMenu;
         private MaterialIconView playingIndicator;
+        private MusicVisualizer visualizer;
 
         public ItemHolder(View view) {
             super(view);
@@ -122,6 +128,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
             this.playingIndicator = (MaterialIconView) view.findViewById(R.id.currentlyPlayingIndicator);
             this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
+            visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
             view.setOnClickListener(this);
         }
 
@@ -138,13 +145,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                         public void run() {
                             notifyItemChanged(currentlyPlayingPosition);
                             notifyItemChanged(getAdapterPosition());
-                            Handler handler2 = new Handler();
-                            handler2.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-//                                    NavigationUtils.navigateToNowplaying(mContext, true);
-                                }
-                            }, 50);
                         }
                     }, 50);
                 }

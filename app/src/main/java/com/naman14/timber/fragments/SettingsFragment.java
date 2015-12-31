@@ -14,7 +14,6 @@
 
 package com.naman14.timber.fragments;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -62,9 +61,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         mPreferences = PreferencesUtility.getInstance(getActivity());
 
         nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
-        themePreference = (ListPreference) findPreference(KEY_THEME);
+//        themePreference = (ListPreference) findPreference(KEY_THEME);
         startPagePreference = (ListPreference) findPreference(KEY_START_PAGE);
-        toggleAnimations = (SwitchPreference) findPreference(TOGGLE_ANIMATIONS);
 
         nowPlayingSelector.setIntent(NavigationUtils.getNavigateToStyleSelectorIntent(getActivity(), Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING));
 
@@ -80,15 +78,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private void setPrefernceCickListeners() {
 
-        themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Intent i = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                return true;
-            }
-        });
+//        themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//            @Override
+//            public boolean onPreferenceChange(Preference preference, Object newValue) {
+//                Intent i = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+//                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(i);
+//                return true;
+//            }
+//        });
 
         startPagePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -119,6 +117,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         invalidateSettings();
+        ATE.apply(view, mAteKey);
     }
 
     public void invalidateSettings() {

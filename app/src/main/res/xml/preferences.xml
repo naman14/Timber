@@ -2,42 +2,44 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/now_playing">
+    <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/now_playing">
 
         <Preference
             android:key="now_playing_selector"
             android:summary="@string/now_playing_selector"
-            android:title="@string/now_playing"/>
+            android:title="@string/now_playing" />
 
-    </PreferenceCategory>
+    </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
-    <PreferenceCategory android:title="@string/personalisation">
+    <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/personalisation">
 
-        <SwitchPreference
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="true"
             android:key="toggle_animations"
             android:summary="@string/toggle_animations"
-            android:title="@string/animations"/>
+            android:title="@string/animations"
+            app:ateKey_pref_checkBox="?ate_key" />
 
-        <SwitchPreference
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="true"
             android:key="toggle_system_animations"
             android:summary="@string/toggle_system_animations"
-            android:title="@string/system_animations"/>
+            android:title="@string/system_animations"
+            app:ateKey_pref_checkBox="?ate_key" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="toggle_artist_grid"
-            android:summary="@string/toggle_artists_grid"
-            android:title="@string/artist_in_grid"/>
+        <!--<SwitchPreference-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="toggle_artist_grid"-->
+        <!--android:summary="@string/toggle_artists_grid"-->
+        <!--android:title="@string/artist_in_grid"/>-->
 
-        <ListPreference
-            android:defaultValue="light"
-            android:entries="@array/pref_theme_entries"
-            android:entryValues="@array/pref_theme_values"
-            android:key="theme_preference"
-            android:summary="@string/choose_theme_throughout"
-            android:title="@string/select_theme" />
+        <!--<ListPreference-->
+        <!--android:defaultValue="light"-->
+        <!--android:entries="@array/pref_theme_entries"-->
+        <!--android:entryValues="@array/pref_theme_values"-->
+        <!--android:key="theme_preference"-->
+        <!--android:summary="@string/choose_theme_throughout"-->
+        <!--android:title="@string/select_theme" />-->
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="false"
@@ -78,24 +80,26 @@
             android:title="@string/colored_nav_bar"
             app:ateKey_pref_checkBox="?ate_key" />
 
-    </PreferenceCategory>
+    </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
-    <PreferenceCategory android:title="@string/other">
+    <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/other">
 
-        <ListPreference
+        <com.afollestad.appthemeengine.prefs.ATEListPreference
             android:defaultValue="last_opened"
             android:entries="@array/pref_startpage_entries"
             android:entryValues="@array/pref_startpage_values"
             android:key="start_page_preference"
             android:summary="@string/choose_start_page"
-            android:title="@string/start_page" />
+            android:title="@string/start_page"
+            app:ateKey_pref_checkBox="?ate_key" />
 
-        <SwitchPreference
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="true"
             android:key="toggle_headphone_pause"
             android:summary="@string/summary_pause_detach"
-            android:title="@string/pause_detach" />
+            android:title="@string/pause_detach"
+            app:ateKey_pref_checkBox="?ate_key" />
 
-    </PreferenceCategory>
+    </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
 </PreferenceScreen>

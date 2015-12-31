@@ -18,6 +18,8 @@ import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +29,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.LastAddedLoader;
@@ -45,7 +48,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlaylistDetailActivity extends BaseThemedActivity {
+public class PlaylistDetailActivity extends BaseThemedActivity implements ATEActivityThemeCustomizer {
 
     private AppCompatActivity mContext = PlaylistDetailActivity.this;
     String action;
@@ -245,6 +248,13 @@ public class PlaylistDetailActivity extends BaseThemedActivity {
 
         public void onTransitionStart(Transition paramTransition) {
         }
+
+    }
+
+    @StyleRes
+    @Override
+    public int getActivityTheme() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
 
     }
 

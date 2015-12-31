@@ -23,7 +23,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.naman14.timber.ITimberService;
@@ -37,7 +36,7 @@ import java.util.ArrayList;
 
 import static com.naman14.timber.MusicPlayer.mService;
 
-public class BaseActivity extends AppCompatActivity implements ServiceConnection, MusicStateListener {
+public class BaseActivity extends BaseThemedActivity implements ServiceConnection, MusicStateListener {
 
     private MusicPlayer.ServiceToken mToken;
     private PlaybackStatus mPlaybackStatus;

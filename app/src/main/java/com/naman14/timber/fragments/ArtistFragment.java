@@ -65,7 +65,8 @@ public class ArtistFragment extends Fragment {
 
         setLayoutManager();
 
-        new loadArtists().execute("");
+        if (getActivity() != null)
+            new loadArtists().execute("");
         return rootView;
     }
 

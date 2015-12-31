@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="ate_key" format="string" />
+
     <declare-styleable name="SlidingUpPanelLayout">
         <attr name="panelHeight" format="dimension" />
         <attr name="slidePanelOffset" format="dimension" />

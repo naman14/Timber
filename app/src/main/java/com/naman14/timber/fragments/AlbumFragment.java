@@ -65,7 +65,8 @@ public class AlbumFragment extends Fragment {
 
         setLayoutManager();
 
-        new loadAlbums().execute("");
+        if (getActivity() != null)
+            new loadAlbums().execute("");
         return rootView;
     }
 

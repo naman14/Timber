@@ -93,4 +93,19 @@
     <string name="currently_selected">Currently Selected</string>
 
 
+    <string name="dark_theme">Dark Theme</string>
+    <string name="dark_theme_summary">Apply a dark theme throughout the app</string>
+
+    <string name="primary_color">Primary Color</string>
+    <string name="primary_color_summary">Change the primary theme color</string>
+
+    <string name="accent_color">Accent Color</string>
+    <string name="accent_color_summary">Change the accent theme color</string>
+
+    <string name="colored_status_bar">Colored Status Bar</string>
+    <string name="colored_status_bar_summary">Toggle status bar coloring</string>
+
+    <string name="colored_nav_bar">Colored Navigation Bar</string>
+    <string name="colored_nav_bar_summary">Toggle navigation bar coloring</string>
+
 </resources>

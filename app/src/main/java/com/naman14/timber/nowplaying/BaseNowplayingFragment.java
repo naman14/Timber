@@ -19,7 +19,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +37,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
@@ -295,17 +298,19 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
+            ATE.apply(this, "dark_theme");
+        } else {
+            ATE.apply(this, "light_theme");
+        }
+    }
+
     private void setSongDetails() {
         updateSongDetails();
 
-        if (mProgress != null && getActivity() != null) {
-            if (isThemeIsLight()) {
-                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN);
-            } else if (isThemeIsDark()) {
-                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccentDarkTheme), PorterDuff.Mode.SRC_IN);
-            } else
-                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccentBlack), PorterDuff.Mode.SRC_IN);
-        }
         if (recyclerView != null)
             setQueueSongs();
 

@@ -22,6 +22,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.annotation.StyleRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -34,6 +36,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.ATE;
+import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
@@ -48,7 +52,6 @@ import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
-import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,7 +59,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
 
 
     private static MainActivity sMainActivity;
@@ -73,7 +76,6 @@ public class MainActivity extends BaseActivity {
     Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
     Handler navDrawerRunnable = new Handler();
 
-    private boolean isLightTheme;
     private boolean isDarkTheme;
 
     private boolean isNavigatingMain = true;
@@ -89,8 +91,7 @@ public class MainActivity extends BaseActivity {
         sMainActivity = this;
         action = getIntent().getAction();
 
-        isLightTheme = PreferencesUtility.getInstance(this).getTheme().equals("light");
-        isDarkTheme = PreferencesUtility.getInstance(this).getTheme().equals("dark");
+        isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false);
 
         if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
             isNavigatingMain = false;
@@ -99,17 +100,10 @@ public class MainActivity extends BaseActivity {
         }
 
         if (!isNavigatingMain) {
-            if (isLightTheme)
-                setTheme(R.style.AppTheme_FullScreen_Light);
-            else if (isDarkTheme) setTheme(R.style.AppTheme_FullScreen_Dark);
-            else setTheme(R.style.AppTheme_FullScreen_Black);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main_fullscreen);
         } else {
-            if (isLightTheme)
-                setTheme(R.style.AppThemeLight);
-            else if (isDarkTheme) setTheme(R.style.AppThemeDark);
-            else setTheme(R.style.AppThemeBlack);
+
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
         }
@@ -194,6 +188,7 @@ public class MainActivity extends BaseActivity {
         if (!TimberUtils.hasEffectsPanel(MainActivity.this)) {
             menu.removeItem(R.id.action_equalizer);
         }
+        ATE.applyMenu(this, getATEKey(), menu);
         return true;
     }
 
@@ -257,7 +252,7 @@ public class MainActivity extends BaseActivity {
         //set icons manually for now
         //https://github.com/code-mc/material-icon-lib/issues/15
 
-        if (isLightTheme) {
+        if (!isDarkTheme) {
             navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music);
             navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play);
             navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note);
@@ -510,6 +505,17 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @StyleRes
+    @Override
+    public int getActivityTheme() {
+        if (!isNavigatingMain) {
+            return isDarkTheme ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
+        } else {
+            return isDarkTheme ? R.style.AppThemeDark : R.style.AppThemeLight;
+        }
+
     }
 
 }

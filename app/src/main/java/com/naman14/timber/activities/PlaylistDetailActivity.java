@@ -45,7 +45,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlaylistDetailActivity extends AppCompatActivity {
+public class PlaylistDetailActivity extends BaseThemedActivity {
 
     private AppCompatActivity mContext = PlaylistDetailActivity.this;
     String action;

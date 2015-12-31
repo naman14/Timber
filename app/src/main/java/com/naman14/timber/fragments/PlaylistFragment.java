@@ -16,6 +16,7 @@ package com.naman14.timber.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
@@ -28,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.PlaylistLoader;
 import com.naman14.timber.dialogs.CreatePlaylistDialog;
@@ -79,6 +81,16 @@ public class PlaylistFragment extends Fragment {
 
         return rootView;
 
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
+            ATE.apply(this, "dark_theme");
+        } else {
+            ATE.apply(this, "light_theme");
+        }
     }
 
     @Override

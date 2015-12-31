@@ -8,22 +8,20 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="5dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="330dp"
-            android:background="@android:color/transparent"
-            android:fitsSystemWindows="true"
+            android:background="@android:color/white"
+            android:theme="@style/Theme.AppCompat"
             app:contentScrim="@android:color/transparent"
             app:expandedTitleMarginBottom="25dp"
             app:expandedTitleMarginStart="30dp"
             app:expandedTitleTextAppearance="@style/TextApperance.Artist.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="@android:color/transparent"
-            android:theme="@style/Theme.AppCompat">
+            app:statusBarScrim="@android:color/transparent">
 
 
             <ImageView
@@ -44,9 +42,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
-                android:elevation="5dp"
-                android:gravity="top"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 

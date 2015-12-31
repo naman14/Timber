@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/now_playing">
 
@@ -37,6 +38,45 @@
             android:key="theme_preference"
             android:summary="@string/choose_theme_throughout"
             android:title="@string/select_theme" />
+
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="false"
+            android:key="dark_theme"
+            android:persistent="true"
+            android:summary="@string/dark_theme_summary"
+            android:title="@string/dark_theme"
+            android:widgetLayout="@layout/ate_preference_checkbox"
+            app:ateKey_pref_checkBox="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATEColorPreference
+            android:key="primary_color"
+            android:persistent="false"
+            android:summary="@string/primary_color_summary"
+            android:title="@string/primary_color"
+            app:ateKey_pref_color="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATEColorPreference
+            android:key="accent_color"
+            android:persistent="false"
+            android:summary="@string/accent_color_summary"
+            android:title="@string/accent_color"
+            app:ateKey_pref_color="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="true"
+            android:key="colored_status_bar"
+            android:persistent="false"
+            android:summary="@string/colored_status_bar_summary"
+            android:title="@string/colored_status_bar"
+            app:ateKey_pref_checkBox="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="true"
+            android:key="colored_nav_bar"
+            android:persistent="false"
+            android:summary="@string/colored_nav_bar_summary"
+            android:title="@string/colored_nav_bar"
+            app:ateKey_pref_checkBox="?ate_key" />
 
     </PreferenceCategory>
 

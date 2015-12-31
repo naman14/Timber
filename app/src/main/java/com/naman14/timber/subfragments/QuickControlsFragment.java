@@ -20,7 +20,6 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +28,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.nowplaying.BaseNowplayingFragment;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.PlayPauseButton;
@@ -101,24 +102,10 @@ public class QuickControlsFragment extends BaseNowplayingFragment implements Mus
         mProgress.measure(0, 0);
         layoutParams.setMargins(0, -(mProgress.getMeasuredHeight() / 2), 0, 0);
         mProgress.setLayoutParams(layoutParams);
-        mProgress.setScaleY(0.5f);
 
-        if (isThemeIsLight()) {
-            mPlayPause.setColor(ContextCompat.getColor(mPlayPause.getContext(), R.color.colorAccent));
-        } else if (isThemeIsDark()) {
-            mPlayPause.setColor(ContextCompat.getColor(mPlayPause.getContext(), R.color.colorAccentDarkTheme));
-        } else
-            mPlayPause.setColor(ContextCompat.getColor(mPlayPause.getContext(), R.color.colorAccentBlack));
-
-        rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        mPlayPause.setColor(Config.accentColor(getActivity(), Helpers.getATEKey(getActivity())));
 
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
-
 
         return rootView;
     }

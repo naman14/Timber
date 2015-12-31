@@ -2,7 +2,7 @@
 <resources>
 
     <color name="window_background">#FFF5F5F5</color>
-    <color name="window_background_dark">#403f4d</color>
+    <color name="window_background_dark">#212121</color>
     <color name="window_background_black">#000000</color>
     <color name="bt_accent">#00B8D4</color>
 
@@ -30,5 +30,11 @@
 
     <color name="progressBackgroundColorLight">#33000000</color>
     <color name="progressBackgroundColorDark">#33ffffff</color>
+
+    <color name="colorPrimaryLightDefault">#FAFAFA</color>
+    <color name="colorAccentLightDefault">#E91E63</color>
+
+    <color name="colorPrimaryDarkDefault">#37474F</color>
+    <color name="colorAccentDarkDefault">#2196F3</color>
 
 </resources>

@@ -1,19 +1,7 @@
-/*
- * Copyright (C) 2015 Naman Dwivedi
- *
- * Licensed under the GNU General Public License v3
- *
- * This is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- */
-package com.naman14.timber.fragments;
+package com.naman14.timber.activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -21,30 +9,28 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.Transition;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
+import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumSongsAdapter;
@@ -55,6 +41,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
@@ -69,10 +56,10 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
 
-
-////// NO LONGER USED - SWITCHED TO AlbumDetailActivity
-
-public class AlbumDetailFragment extends Fragment {
+/**
+ * Created by naman on 01/01/16.
+ */
+public class AlbumDetailActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
 
     long albumID = -1;
 
@@ -83,7 +70,6 @@ public class AlbumDetailFragment extends Fragment {
     AlbumSongsAdapter mAdapter;
 
     Toolbar toolbar;
-    CoordinatorLayout coordinatorLayout;
 
     Album album;
 
@@ -92,58 +78,43 @@ public class AlbumDetailFragment extends Fragment {
     FloatingActionButton fab;
 
     private boolean loadFailed = false;
-    private boolean isDarkTheme;
 
+    private Activity context;
     private PreferencesUtility mPreferences;
-
-    public static AlbumDetailFragment newInstance(long id, boolean transition) {
-        AlbumDetailFragment fragment = new AlbumDetailFragment();
-        Bundle args = new Bundle();
-        args.putLong(Constants.ALBUM_ID, id);
-        args.putBoolean("transition", transition);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            albumID = getArguments().getLong(Constants.ALBUM_ID);
-        }
-        isDarkTheme = PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
-        mPreferences = PreferencesUtility.getInstance(getActivity());
-    }
 
     @TargetApi(21)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(
-                R.layout.fragment_album_detail, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        albumArt = (ImageView) rootView.findViewById(R.id.album_art);
-        artistArt = (ImageView) rootView.findViewById(R.id.artist_art);
-        albumTitle = (TextView) rootView.findViewById(R.id.album_title);
-        albumDetails = (TextView) rootView.findViewById(R.id.album_details);
+        setContentView(R.layout.fragment_album_detail);
+        context = this;
+        albumID = getIntent().getLongExtra(Constants.ALBUM_ID, -1);
+        mPreferences = PreferencesUtility.getInstance(context);
 
-        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        albumArt = (ImageView) findViewById(R.id.album_art);
+        artistArt = (ImageView) findViewById(R.id.artist_art);
+        albumTitle = (TextView) findViewById(R.id.album_title);
+        albumDetails = (TextView) findViewById(R.id.album_details);
 
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
-        appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         recyclerView.setEnabled(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        album = AlbumLoader.getAlbum(getActivity(), albumID);
+        album = AlbumLoader.getAlbum(this, albumID);
 
         setAlbumart();
 
-        if (getArguments().getBoolean("transition")) {
-            getActivity().postponeEnterTransition();
-            getActivity().getWindow().getEnterTransition().addListener(new EnterTransitionListener());
-            getActivity().getWindow().getReturnTransition().addListener(new ReturnTransitionListener());
+        if (getIntent().getBooleanExtra("transition", false)) {
+            postponeEnterTransition();
+            getWindow().getEnterTransition().addListener(new EnterTransitionListener());
+            getWindow().getReturnTransition().addListener(new ReturnTransitionListener());
         } else {
             setUpEverything();
         }
@@ -156,20 +127,19 @@ public class AlbumDetailFragment extends Fragment {
                     @Override
                     public void run() {
                         AlbumSongsAdapter adapter = (AlbumSongsAdapter) recyclerView.getAdapter();
-                        MusicPlayer.playAll(getActivity(), adapter.getSongIds(), 0, albumID, TimberUtils.IdType.Album, true);
-                        NavigationUtils.navigateToNowplaying(getActivity(), false);
+                        MusicPlayer.playAll(context, adapter.getSongIds(), 0, albumID, TimberUtils.IdType.Album, true);
+                        NavigationUtils.navigateToNowplaying(context, false);
                     }
                 }, 150);
             }
         });
 
-        return rootView;
     }
 
     private void setupToolbar() {
 
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle(album.title);
 
@@ -188,17 +158,15 @@ public class AlbumDetailFragment extends Fragment {
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                         loadFailed = true;
-                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
+                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations())
                             scheduleStartPostponedTransition(albumArt);
 
+                        MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(context)
+                                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                                .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
+                        fab.setImageDrawable(builder.build());
 
-                        if (isDarkTheme) {
-                            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                                    .setColor(Color.BLACK);
-                            fab.setImageDrawable(builder.build());
 
-                        }
                     }
 
                     @Override
@@ -222,7 +190,7 @@ public class AlbumDetailFragment extends Fragment {
                             }
                         });
 
-                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
+                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations())
                             scheduleStartPostponedTransition(albumArt);
                     }
 
@@ -235,7 +203,7 @@ public class AlbumDetailFragment extends Fragment {
 
     private void setAlbumDetails() {
 
-        String songCount = TimberUtils.makeLabel(getActivity(), R.plurals.Nsongs, album.songCount);
+        String songCount = TimberUtils.makeLabel(this, R.plurals.Nsongs, album.songCount);
 
         String year = (album.year != 0) ? (" - " + String.valueOf(album.year)) : "";
 
@@ -247,10 +215,20 @@ public class AlbumDetailFragment extends Fragment {
 
     private void setUpAlbumSongs() {
 
-        List<Song> songList = AlbumSongLoader.getSongsForAlbum(getActivity(), albumID);
-        mAdapter = new AlbumSongsAdapter(getActivity(), songList, albumID);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        recyclerView.setAdapter(mAdapter);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                List<Song> songList = AlbumSongLoader.getSongsForAlbum(context, albumID);
+                mAdapter = new AlbumSongsAdapter(context, songList, albumID);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+                recyclerView.setAdapter(mAdapter);
+            }
+        }.execute();
 
     }
 
@@ -259,10 +237,10 @@ public class AlbumDetailFragment extends Fragment {
         setAlbumDetails();
         setUpAlbumSongs();
         FabAnimationUtils.scaleIn(fab);
-        MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+        MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(this)
                 .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
-        if ((loadFailed && isDarkTheme))
-            builder.setColor(Color.BLACK);
+        if ((loadFailed))
+            builder.setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
         else builder.setColor(Color.WHITE);
         fab.setImageDrawable(builder.build());
         enableViews();
@@ -272,7 +250,7 @@ public class AlbumDetailFragment extends Fragment {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(final Void... unused) {
-                List<Song> songList = AlbumSongLoader.getSongsForAlbum(getActivity(), albumID);
+                List<Song> songList = AlbumSongLoader.getSongsForAlbum(context, albumID);
                 mAdapter.updateDataSet(songList);
                 return null;
             }
@@ -284,16 +262,12 @@ public class AlbumDetailFragment extends Fragment {
         }.execute();
     }
 
-    @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.album_song_sort_by, menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.album_song_sort_by, menu);
+        return true;
     }
 
     @Override
@@ -339,7 +313,7 @@ public class AlbumDetailFragment extends Fragment {
             transition.excludeTarget(R.id.album_art, true);
             transition.setInterpolator(new LinearOutSlowInInterpolator());
             transition.setDuration(300);
-            getActivity().getWindow().setEnterTransition(transition);
+            getWindow().setEnterTransition(transition);
         }
     }
 
@@ -350,7 +324,7 @@ public class AlbumDetailFragment extends Fragment {
                     @Override
                     public boolean onPreDraw() {
                         sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        getActivity().startPostponedEnterTransition();
+                        startPostponedEnterTransition();
                         return true;
                     }
                 });
@@ -383,5 +357,18 @@ public class AlbumDetailFragment extends Fragment {
 
     }
 
+    @Override
+    public int getActivityTheme() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
+    }
 
+    @Override
+    public int getToolbarColor() {
+        return Color.TRANSPARENT;
+    }
+
+    @Override
+    public int getLightToolbarMode() {
+        return Config.LIGHT_TOOLBAR_AUTO;
+    }
 }

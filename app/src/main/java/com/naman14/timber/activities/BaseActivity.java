@@ -22,10 +22,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
@@ -33,6 +37,8 @@ import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.TimberUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -195,6 +201,46 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
+            menu.removeItem(R.id.action_equalizer);
+        }
+        ATE.applyMenu(this, getATEKey(), menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            case R.id.action_settings:
+                NavigationUtils.navigateToSettings(this);
+                return true;
+            case R.id.action_shuffle:
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MusicPlayer.shuffleAll(BaseActivity.this);
+                    }
+                }, 80);
+
+                return true;
+            case R.id.action_search:
+                NavigationUtils.navigateToSearch(this);
+                return true;
+            case R.id.action_equalizer:
+                NavigationUtils.navigateToEqualizer(this);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

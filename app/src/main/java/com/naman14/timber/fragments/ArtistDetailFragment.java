@@ -51,6 +51,9 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.util.ArrayList;
 import java.util.List;
 
+
+////// NO LONGER USED - SWITCHED TO ArtistDetailActivity
+
 public class ArtistDetailFragment extends Fragment {
 
     long artistID = -1;

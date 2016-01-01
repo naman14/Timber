@@ -24,6 +24,8 @@ import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.naman14.timber.activities.AlbumDetailActivity;
+import com.naman14.timber.activities.ArtistDetailActivity;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.NowPlayingActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
@@ -40,7 +42,7 @@ public class NavigationUtils {
 
     @TargetApi(21)
     public static void navigateToAlbum(Activity context, long albumID, ArrayList<Pair> transitionViews) {
-        final Intent intent = new Intent(context, MainActivity.class);
+        final Intent intent = new Intent(context, AlbumDetailActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
@@ -58,7 +60,7 @@ public class NavigationUtils {
 
     @TargetApi(21)
     public static void navigateToArtist(Activity context, long artistID, ArrayList<Pair> transitionViews) {
-        final Intent intent = new Intent(context, MainActivity.class);
+        final Intent intent = new Intent(context, ArtistDetailActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
@@ -105,11 +107,6 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
-    public static void navigateToMainActivityWithFragment(Context context, String navID) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setAction(navID);
-        context.startActivity(intent);
-    }
 
     @TargetApi(21)
     public static void navigateToPlaylistDetail(Activity context, String action, long firstAlbumID, String playlistName, int foregroundcolor, long playlistID, ArrayList<Pair> transitionViews) {

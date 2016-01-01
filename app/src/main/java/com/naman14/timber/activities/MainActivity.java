@@ -34,12 +34,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
-import com.naman14.timber.fragments.AlbumDetailFragment;
-import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaylistFragment;
 import com.naman14.timber.fragments.QueueFragment;
@@ -76,11 +73,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     private boolean isDarkTheme;
 
-    private boolean isNavigatingMain = true;
-
     public static MainActivity getInstance() {
         return sMainActivity;
-
     }
 
     @Override
@@ -91,26 +85,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false);
 
-        if (action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)) {
-            isNavigatingMain = false;
-        } else {
-            isNavigatingMain = true;
-        }
-
-        if (!isNavigatingMain) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main_fullscreen);
-        } else {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-        }
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
         navigationMap.put(Constants.NAVIGATE_PLAYLIST, navigatePlaylist);
         navigationMap.put(Constants.NAVIGATE_QUEUE, navigateQueue);
-        navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
-        navigationMap.put(Constants.NAVIGATE_ARTIST, navigateArtist);
         navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -176,16 +156,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        if (action.equals(Constants.NAVIGATE_NOWPLAYING)) {
-            menu.findItem(R.id.action_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        } else {
-            menu.findItem(R.id.action_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        }
-        if (!TimberUtils.hasEffectsPanel(MainActivity.this)) {
-            menu.removeItem(R.id.action_equalizer);
-        }
-        ATE.applyMenu(this, getATEKey(), menu);
+        super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -193,30 +164,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (!(action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)))
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                else super.onBackPressed();
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_settings:
-                NavigationUtils.navigateToSettings(this);
-                return true;
-            case R.id.action_shuffle:
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        MusicPlayer.shuffleAll(MainActivity.this);
-                    }
-                }, 80);
-
-                return true;
-            case R.id.action_search:
-                NavigationUtils.navigateToSearch(this);
-                return true;
-            case R.id.action_equalizer:
-                NavigationUtils.navigateToEqualizer(this);
-                return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -274,25 +223,19 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         switch (menuItem.getItemId()) {
             case R.id.nav_library:
-                if (isNavigatingMain)
-                    fragment = new MainFragment();
-                else
-                    NavigationUtils.navigateToMainActivityWithFragment(MainActivity.this, Constants.NAVIGATE_LIBRARY);
+                fragment = new MainFragment();
+
                 break;
             case R.id.nav_playlists:
-                if (isNavigatingMain)
-                    fragment = new PlaylistFragment();
-                else
-                    NavigationUtils.navigateToMainActivityWithFragment(MainActivity.this, Constants.NAVIGATE_PLAYLIST);
+                fragment = new PlaylistFragment();
+
                 break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 break;
             case R.id.nav_queue:
-                if (isNavigatingMain)
-                    fragment = new QueueFragment();
-                else
-                    NavigationUtils.navigateToMainActivityWithFragment(MainActivity.this, Constants.NAVIGATE_QUEUE);
+                fragment = new QueueFragment();
+
                 break;
             case R.id.nav_settings:
                 NavigationUtils.navigateToSettings(MainActivity.this);
@@ -393,27 +336,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         sMainActivity = this;
     }
 
-    Runnable navigateAlbum = new Runnable() {
-        public void run() {
-            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
-            boolean withTransition = getIntent().getBooleanExtra("transition", false);
-            Fragment fragment = new AlbumDetailFragment().newInstance(albumID, withTransition);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-        }
-    };
-
-    Runnable navigateArtist = new Runnable() {
-        public void run() {
-            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
-            Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-        }
-    };
-
     Runnable navigateNowplaying = new Runnable() {
         public void run() {
             navigateLibrary.run();
@@ -499,12 +421,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @StyleRes
     @Override
     public int getActivityTheme() {
-        if (!isNavigatingMain) {
-            return isDarkTheme ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
-        } else {
-            return isDarkTheme ? R.style.AppThemeDark : R.style.AppThemeLight;
-        }
-
+        return isDarkTheme ? R.style.AppThemeDark : R.style.AppThemeLight;
     }
 
 }

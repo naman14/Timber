@@ -123,7 +123,8 @@ public class AlbumFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
+            if (getActivity() != null)
+                mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
             return "Executed";
         }
 

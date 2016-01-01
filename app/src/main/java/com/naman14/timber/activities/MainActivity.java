@@ -120,7 +120,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             loadEverything();
         }
 
-
     }
 
     private void loadEverything() {

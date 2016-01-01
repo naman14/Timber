@@ -75,7 +75,8 @@ public class ArtistFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
+            if (getActivity() != null)
+                mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
             return "Executed";
         }
 

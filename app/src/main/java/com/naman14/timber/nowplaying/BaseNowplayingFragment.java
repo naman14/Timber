@@ -21,7 +21,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -33,7 +32,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -119,24 +117,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
-    ProgressBar mProgressNormal;
-    //normal progressbar
-    public Runnable mUpdateProgressNormal = new Runnable() {
 
-        @Override
-        public void run() {
-
-            if (mProgressNormal != null) {
-                long position = MusicPlayer.position();
-                mProgressNormal.setProgress((int) position);
-            }
-
-            if (MusicPlayer.isPlaying()) {
-                mProgressNormal.postDelayed(mUpdateProgressNormal, 50);
-            }
-
-        }
-    };
     RecyclerView recyclerView;
     BaseQueueAdapter mAdapter;
     TimelyView timelyView11, timelyView12, timelyView13, timelyView14, timelyView15;
@@ -254,7 +235,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         mProgress = (SeekBar) view.findViewById(R.id.song_progress);
         mCircularProgress = (CircularSeekBar) view.findViewById(R.id.song_progress_circular);
-        mProgressNormal = (ProgressBar) view.findViewById(R.id.song_progress_normal);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.queue_recyclerview);
 
@@ -526,13 +506,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
         }
 
-        if (mProgressNormal != null) {
-            mProgressNormal.setMax((int) MusicPlayer.duration());
-            if (mUpdateProgressNormal != null) {
-                mProgressNormal.removeCallbacks(mUpdateProgressNormal);
-            }
-            mProgressNormal.postDelayed(mUpdateProgressNormal, 10);
-        }
         if (timelyView11 != null) {
             mElapsedTimeHandler = new Handler();
             mElapsedTimeHandler.postDelayed(mUpdateElapsedTime, 600);
@@ -686,9 +659,5 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         @Override
         protected void onPreExecute() {
         }
-    }
-
-    public static int getOpaqueColor(@ColorInt int paramInt) {
-        return 0xFF000000 | paramInt;
     }
 }

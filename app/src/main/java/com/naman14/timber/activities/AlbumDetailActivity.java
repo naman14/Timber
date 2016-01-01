@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.graphics.Palette;
@@ -39,6 +40,7 @@ import com.naman14.timber.dataloaders.AlbumSongLoader;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.Helpers;
@@ -110,6 +112,7 @@ public class AlbumDetailActivity extends BaseActivity implements ATEActivityThem
         album = AlbumLoader.getAlbum(this, albumID);
 
         setAlbumart();
+        new initQuickControls().execute("");
 
         if (getIntent().getBooleanExtra("transition", false)) {
             postponeEnterTransition();
@@ -370,5 +373,31 @@ public class AlbumDetailActivity extends BaseActivity implements ATEActivityThem
     @Override
     public int getLightToolbarMode() {
         return Config.LIGHT_TOOLBAR_AUTO;
+    }
+
+    private class initQuickControls extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            QuickControlsFragment fragment1 = new QuickControlsFragment();
+            FragmentManager fragmentManager1 = getSupportFragmentManager();
+            fragmentManager1.beginTransaction()
+                    .replace(R.id.quickcontrols_container, fragment1).commitAllowingStateLoss();
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavigationUtils.navigateToNowplaying(context, false);
+                }
+            });
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
     }
 }

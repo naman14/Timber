@@ -56,6 +56,26 @@ public class TimberApp extends Application {
                     .usingMaterialDialogs(true)
                     .commit();
         }
+        if (!ATE.config(this, "light_theme_notoolbar").isConfigured()) {
+            ATE.config(this, "light_theme_notoolbar")
+                    .activityTheme(R.style.AppThemeLight)
+                    .coloredActionBar(false)
+                    .primaryColorRes(R.color.colorPrimaryLightDefault)
+                    .accentColorRes(R.color.colorAccentLightDefault)
+                    .coloredNavigationBar(false)
+                    .usingMaterialDialogs(true)
+                    .commit();
+        }
+        if (!ATE.config(this, "dark_theme_notoolbar").isConfigured()) {
+            ATE.config(this, "dark_theme_notoolbar")
+                    .activityTheme(R.style.AppThemeDark)
+                    .coloredActionBar(false)
+                    .primaryColorRes(R.color.colorPrimaryDarkDefault)
+                    .accentColorRes(R.color.colorAccentDarkDefault)
+                    .coloredNavigationBar(true)
+                    .usingMaterialDialogs(true)
+                    .commit();
+        }
 
     }
 

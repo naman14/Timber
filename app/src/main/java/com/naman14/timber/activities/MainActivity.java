@@ -15,9 +15,7 @@
 package com.naman14.timber.activities;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,7 +101,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main_fullscreen);
         } else {
-
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
         }
@@ -196,7 +193,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (!(action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST) || action.equals(Constants.NAVIGATE_NOWPLAYING)))
+                if (!(action.equals(Constants.NAVIGATE_ALBUM) || action.equals(Constants.NAVIGATE_ARTIST)))
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 else super.onBackPressed();
                 return true;
@@ -419,16 +416,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     Runnable navigateNowplaying = new Runnable() {
         public void run() {
-            navigationView.getMenu().findItem(R.id.nav_nowplaying).setCheckable(false);
-            SharedPreferences prefs = getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-            String fragmentID = prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
-
-            Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-            panelLayout.setPanelHeight(0);
+            navigateLibrary.run();
+            startActivity(new Intent(MainActivity.this, NowPlayingActivity.class));
         }
     };
 

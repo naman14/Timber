@@ -2,70 +2,79 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingTop="5dp"
     android:paddingBottom="5dp"
-    android:background="?attr/selectableItemBackground">
+    android:paddingLeft="10dp"
+    android:paddingTop="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="75dp"
-        android:layout_height="70dp"
-        android:id="@+id/albumArt"
-        android:padding="3dp"
-        android:layout_alignParentLeft="true"
-        />
+        <ImageView
+            android:id="@+id/albumArt"
+            android:layout_width="75dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:padding="3dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:layout_toRightOf="@+id/albumArt"
-        android:layout_toLeftOf="@+id/playSong"
-        android:layout_marginRight="10dp">
-
-
-        <TextView
-            android:id="@+id/song_title"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            style="@style/TextAppearance.AppCompat.Body1"/>
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/visualizer"
+            android:layout_toRightOf="@+id/albumArt"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp">
 
-        <TextView
-            android:id="@+id/song_artist"
-            android:layout_width="fill_parent"
+
+            <TextView
+                android:id="@+id/song_title"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/song_artist"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingTop="3dp"
+                android:singleLine="true"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+        <com.naman14.timber.widgets.MusicVisualizer
+            android:id="@+id/visualizer"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/popup_menu"
+            android:visibility="gone" />
+
+
+        <ImageView
+            android:id="@+id/popup_menu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:textSize="13sp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            style="@style/TextAppearance.AppCompat.Body1"/>
-
-
-
-    </LinearLayout>
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            android:id="@+id/playSong"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginRight="20dp"
-            android:scaleType="center"
-            app:materialIconColor="?attr/accentColor"
-            app:materialIconSize="35dp"
-            android:visibility="invisible"
-            android:layout_alignParentRight="true"/>
+            android:foregroundTint="#434343"
+            android:padding="5dp"
+            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
 
     </RelativeLayout>
 

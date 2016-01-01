@@ -12,7 +12,7 @@ public class BaseThemedActivity extends ATEActivity {
 
     @Nullable
     @Override
-    public final String getATEKey() {
+    public String getATEKey() {
         return Helpers.getATEKey(this);
     }
 }

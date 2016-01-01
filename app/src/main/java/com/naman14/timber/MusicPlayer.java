@@ -230,6 +230,16 @@ public class MusicPlayer {
         }
     }
 
+    public static void setShuffleMode(int mode) {
+        try {
+            if (mService != null) {
+                mService.setShuffleMode(mode);
+            }
+        } catch (RemoteException ignored) {
+
+        }
+    }
+
 
     public static final boolean isPlaying() {
         if (mService != null) {

@@ -16,12 +16,13 @@ package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -30,7 +31,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -38,6 +38,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.ATE;
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
@@ -45,6 +46,7 @@ import com.naman14.timber.adapters.BaseQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.timely.TimelyView;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.CircularSeekBar;
@@ -71,6 +73,9 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     PlayPauseDrawable playPauseDrawable = new PlayPauseDrawable();
     FloatingActionButton playPauseFloating;
     View playPauseWrapper;
+
+    String ateKey;
+    int accentColor;
 
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
@@ -216,6 +221,13 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     };
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ateKey = Helpers.getATEKey(getActivity());
+        accentColor = Config.accentColor(getActivity(), ateKey);
+    }
+
     public void setSongDetails(View view) {
 
         albumart = (ImageView) view.findViewById(R.id.album_art);
@@ -258,12 +270,17 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
 
         if (playPauseFloating != null) {
-            if (isThemeIsBlack())
-                playPauseDrawable.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+            playPauseDrawable.setColorFilter(TimberUtils.getBlackWhiteColor(accentColor), PorterDuff.Mode.MULTIPLY);
             playPauseFloating.setImageDrawable(playPauseDrawable);
             if (MusicPlayer.isPlaying())
                 playPauseDrawable.transformToPause(false);
             else playPauseDrawable.transformToPlay(false);
+        }
+
+        if (mCircularProgress != null) {
+            mCircularProgress.setCircleProgressColor(accentColor);
+            mCircularProgress.setPointerColor(accentColor);
+            mCircularProgress.setPointerHaloColor(accentColor);
         }
 
         if (timelyView11 != null) {
@@ -367,22 +384,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                     .setSizeDp(30);
-            TypedValue typeValue = new TypedValue();
 
-            getActivity().getTheme().resolveAttribute(R.attr.iconColor, typeValue, true);
-            int color = typeValue.data;
-
-            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-
-            int color2;
-            if (isThemeIsBlack())
-                color2 = Color.parseColor("#ffb701");
-            else
-                color2 = typeValue.data;
-
-            if (MusicPlayer.getShuffleMode() == 0) {
-                builder.setColor(color);
-            } else builder.setColor(color2);
+            if (getActivity() != null) {
+                if (MusicPlayer.getShuffleMode() == 0) {
+                    builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
+                } else builder.setColor(Config.accentColor(getActivity(), ateKey));
+            }
 
             shuffle.setImageDrawable(builder.build());
             shuffle.setOnClickListener(new View.OnClickListener() {
@@ -401,21 +408,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
-            TypedValue typeValue = new TypedValue();
 
-            getActivity().getTheme().resolveAttribute(R.attr.iconColor, typeValue, true);
-            int color = typeValue.data;
-
-            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-            int color2;
-            if (isThemeIsBlack())
-                color2 = Color.parseColor("#ffb701");
-            else
-                color2 = typeValue.data;
-
-            if (MusicPlayer.getRepeatMode() == 0) {
-                builder.setColor(color);
-            } else builder.setColor(color2);
+            if (getActivity() != null) {
+                if (MusicPlayer.getRepeatMode() == 0) {
+                    builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
+                } else builder.setColor(Config.accentColor(getActivity(), ateKey));
+            }
 
             repeat.setImageDrawable(builder.build());
             repeat.setOnClickListener(new View.OnClickListener() {
@@ -672,7 +670,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
+            mAdapter = new BaseQueueAdapter((AppCompatActivity) getActivity(), QueueLoader.getQueueSongs(getActivity()));
             return "Executed";
         }
 
@@ -688,5 +686,9 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         @Override
         protected void onPreExecute() {
         }
+    }
+
+    public static int getOpaqueColor(@ColorInt int paramInt) {
+        return 0xFF000000 | paramInt;
     }
 }

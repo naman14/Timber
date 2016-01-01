@@ -1155,7 +1155,7 @@ public class MusicService extends Service {
             builder.setStyle(style);
         }
         if (artwork != null && TimberUtils.isLollipop())
-            builder.setColor(Palette.from(artwork).generate().getDarkVibrantColor(Color.parseColor("#403f4d")));
+            builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
 
         return builder.build();
     }

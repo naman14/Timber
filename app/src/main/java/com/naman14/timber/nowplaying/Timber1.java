@@ -14,14 +14,16 @@
 
 package com.naman14.timber.nowplaying;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
+import com.naman14.timber.utils.TimberUtils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -45,30 +47,25 @@ public class Timber1 extends BaseNowplayingFragment {
                     .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                     .setSizeDp(30);
 
-            int color, color2;
-            if (isThemeIsLight()) {
-                color = Color.parseColor("#ffffff");
-                color2 = Color.parseColor("#000000");
-            } else {
-                color = Color.parseColor("#000000");
-                if (isThemeIsBlack())
-                    color2 = Color.parseColor("#ffb701");
-                else color2 = Color.parseColor("#ffffff");
-            }
-            ;
-
-            if (MusicPlayer.getShuffleMode() == 0) {
-                builder.setColor(color);
-            } else builder.setColor(color2);
+            builder.setColor(TimberUtils.getBlackWhiteColor(accentColor));
 
             shuffle.setImageDrawable(builder.build());
             shuffle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MusicPlayer.cycleShuffle();
-                    updateShuffleState();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            MusicPlayer.setShuffleMode(MusicService.SHUFFLE_NORMAL);
+                            MusicPlayer.next();
+                            recyclerView.scrollToPosition(MusicPlayer.getQueuePosition());
+                        }
+                    }, 150);
+
                 }
             });
         }
     }
+
 }

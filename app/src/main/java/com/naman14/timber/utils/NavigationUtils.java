@@ -25,6 +25,7 @@ import android.util.Pair;
 import android.widget.Toast;
 
 import com.naman14.timber.activities.MainActivity;
+import com.naman14.timber.activities.NowPlayingActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
 import com.naman14.timber.activities.SearchActivity;
 import com.naman14.timber.activities.SettingsActivity;
@@ -74,12 +75,10 @@ public class NavigationUtils {
 
     public static void navigateToNowplaying(Activity context, boolean withAnimations) {
 
-        final Intent intent = new Intent(context, MainActivity.class);
+        final Intent intent = new Intent(context, NowPlayingActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
-        intent.setAction(Constants.NAVIGATE_NOWPLAYING);
-        intent.putExtra(Constants.WITH_ANIMATIONS, withAnimations);
         context.startActivity(intent);
     }
 

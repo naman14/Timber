@@ -23,20 +23,23 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.afollestad.appthemeengine.ATEActivity;
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.listeners.MusicStateListener;
+import com.naman14.timber.utils.Helpers;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import static com.naman14.timber.MusicPlayer.mService;
 
-public class BaseActivity extends BaseThemedActivity implements ServiceConnection, MusicStateListener {
+public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
 
     private MusicPlayer.ServiceToken mToken;
     private PlaybackStatus mPlaybackStatus;
@@ -192,6 +195,13 @@ public class BaseActivity extends BaseThemedActivity implements ServiceConnectio
                 }
             }
         }
+    }
+
+
+    @Nullable
+    @Override
+    public String getATEKey() {
+        return Helpers.getATEKey(this);
     }
 
 }

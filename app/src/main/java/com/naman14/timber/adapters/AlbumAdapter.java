@@ -94,7 +94,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                                     Palette.Swatch swatch = palette.getVibrantSwatch();
                                     int textColor;
                                     if (swatch != null) {
-                                        textColor = getOpaqueColor(swatch.getTitleTextColor());
+                                        textColor = TimberUtils.getBlackWhiteColor(swatch.getTitleTextColor());
                                     } else textColor = Color.parseColor("#ffffff");
 
                                     itemHolder.title.setTextColor(textColor);

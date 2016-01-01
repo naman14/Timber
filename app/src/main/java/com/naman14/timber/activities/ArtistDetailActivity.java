@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -26,8 +27,10 @@ import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
 import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
+import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.ImageUtils;
+import com.naman14.timber.utils.NavigationUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -64,6 +67,7 @@ public class ArtistDetailActivity extends BaseActivity implements ATEActivityThe
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setupToolbar();
+        new initQuickControls().execute("");
         setUpArtistDetails();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new ArtistMusicFragment().newInstance(artistID)).commit();
@@ -168,5 +172,31 @@ public class ArtistDetailActivity extends BaseActivity implements ATEActivityThe
     @Override
     public int getLightToolbarMode() {
         return Config.LIGHT_TOOLBAR_AUTO;
+    }
+
+    private class initQuickControls extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            QuickControlsFragment fragment1 = new QuickControlsFragment();
+            FragmentManager fragmentManager1 = getSupportFragmentManager();
+            fragmentManager1.beginTransaction()
+                    .replace(R.id.quickcontrols_container, fragment1).commitAllowingStateLoss();
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavigationUtils.navigateToNowplaying(context, false);
+                }
+            });
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
     }
 }

@@ -14,6 +14,7 @@
 
 package com.naman14.timber.adapters;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -92,6 +93,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
             }
         } else {
+            if (isPlaylist)
+                itemHolder.title.setTextColor(Color.WHITE);
             itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
             itemHolder.visualizer.setVisibility(View.GONE);
         }

@@ -217,21 +217,10 @@ public class AlbumDetailActivity extends BaseActivity implements ATEActivityThem
     }
 
     private void setUpAlbumSongs() {
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(final Void... unused) {
-                List<Song> songList = AlbumSongLoader.getSongsForAlbum(context, albumID);
-                mAdapter = new AlbumSongsAdapter(context, songList, albumID);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
-                recyclerView.setAdapter(mAdapter);
-            }
-        }.execute();
+        List<Song> songList = AlbumSongLoader.getSongsForAlbum(context, albumID);
+        mAdapter = new AlbumSongsAdapter(context, songList, albumID);
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setAdapter(mAdapter);
 
     }
 

@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -129,6 +130,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     public void onMetaChanged() {
         // Let the listener know to the meta chnaged
+        Log.d("lol1",String.valueOf(mMusicStateListener.size()));
         for (final MusicStateListener listener : mMusicStateListener) {
             if (listener != null) {
                 listener.onMetaChanged();

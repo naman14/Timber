@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -193,6 +194,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     }
 
     public void updateNowplayingCard() {
+        Log.d("lol", "here");
         mTitle.setText(MusicPlayer.getTrackName());
         mArtist.setText(MusicPlayer.getArtistName());
         mTitleExpanded.setText(MusicPlayer.getTrackName());

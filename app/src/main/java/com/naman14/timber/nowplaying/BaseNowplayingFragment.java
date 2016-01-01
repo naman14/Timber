@@ -45,7 +45,6 @@ import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.timely.TimelyView;
 import com.naman14.timber.utils.Helpers;
-import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.CircularSeekBar;
 import com.naman14.timber.widgets.DividerItemDecoration;
@@ -322,7 +321,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                         @Override
                         public void run() {
                             MusicPlayer.next();
-//                updateSongDetails();
                             notifyPlayingDrawableChange();
                         }
                     }, 200);
@@ -339,7 +337,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                         @Override
                         public void run() {
                             MusicPlayer.previous(getActivity(), false);
-//                updateSongDetails();
                             notifyPlayingDrawableChange();
                         }
                     }, 200);
@@ -568,24 +565,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     public void doAlbumArtStuff(Bitmap loadedImage) {
 
-    }
-
-    public boolean isThemeIsLight() {
-        if (getActivity() != null)
-            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("light");
-        else return true;
-    }
-
-    public boolean isThemeIsDark() {
-        if (getActivity() != null)
-            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("dark");
-        else return true;
-    }
-
-    public boolean isThemeIsBlack() {
-        if (getActivity() != null)
-            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
-        else return true;
     }
 
     public void changeDigit(TimelyView tv, int end) {

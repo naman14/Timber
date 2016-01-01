@@ -17,7 +17,6 @@ package com.naman14.timber.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -43,7 +42,6 @@ import com.naman14.timber.fragments.QueueFragment;
 import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.permissions.PermissionCallback;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
-import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
@@ -103,7 +101,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         songtitle = (TextView) header.findViewById(R.id.song_title);
         songartist = (TextView) header.findViewById(R.id.song_artist);
 
-        setPanelSlideListeners();
+        setPanelSlideListeners(panelLayout);
 
         navDrawerRunnable.postDelayed(new Runnable() {
             @Override
@@ -296,39 +294,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     }
 
 
-    private void setPanelSlideListeners() {
-        panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1 - slideOffset);
-            }
-
-            @Override
-            public void onPanelCollapsed(View panel) {
-                View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1);
-            }
-
-            @Override
-            public void onPanelExpanded(View panel) {
-                View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(0);
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-
-            }
-
-            @Override
-            public void onPanelHidden(View panel) {
-
-            }
-        });
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -374,31 +339,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
-    private class initQuickControls extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            QuickControlsFragment fragment1 = new QuickControlsFragment();
-            FragmentManager fragmentManager1 = getSupportFragmentManager();
-            fragmentManager1.beginTransaction()
-                    .replace(R.id.quickcontrols_container, fragment1).commitAllowingStateLoss();
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavigationUtils.navigateToNowplaying(MainActivity.this, false);
-                }
-            });
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-    }
 
     final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override

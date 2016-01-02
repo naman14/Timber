@@ -20,8 +20,6 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
-import com.naman14.timber.fragments.ArtistFragment;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
@@ -52,12 +49,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
     private List<Artist> arraylist;
     private Activity mContext;
     private boolean isGrid;
-    private ArtistFragment artistFragment;
 
-    public ArtistAdapter(Activity context, ArtistFragment fragment, List<Artist> arraylist) {
+    public ArtistAdapter(Activity context, List<Artist> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.artistFragment = fragment;
         this.isGrid = PreferencesUtility.getInstance(mContext).isArtistsInGrid();
     }
 
@@ -177,10 +172,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
         @Override
         public void onClick(View v) {
-            Transition changeImage = TransitionInflater.from(mContext).inflateTransition(R.transition.image_transform);
-//            artistFragment.setExitTransition(TransitionInflater.from(mContext).inflateTransition(R.transition.image_transform));
-//            artistFragment.setSharedElementReturnTransition(changeImage);
-//            artistFragment.setReenterTransition(TransitionInflater.from(mContext).inflateTransition(android.R.transition.explode));
             NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id,
                     new Pair<View, String>(artistImage, "transition_artist_art" + getAdapterPosition()));
         }

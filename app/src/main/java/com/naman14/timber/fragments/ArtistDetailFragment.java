@@ -122,7 +122,6 @@ public class ArtistDetailFragment extends Fragment {
                             new DisplayImageOptions.Builder().cacheInMemory(true)
                                     .cacheOnDisk(true)
                                     .showImageOnFail(R.drawable.ic_empty_music2)
-                                    .resetViewBeforeLoading(true)
                                     .build(), new SimpleImageLoadingListener() {
                                 @Override
                                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

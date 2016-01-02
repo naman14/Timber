@@ -48,14 +48,11 @@ public class ArtistFragment extends Fragment {
     private PreferencesUtility mPreferences;
     private boolean isGrid;
 
-    private ArtistFragment sInstance;
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPreferences = PreferencesUtility.getInstance(getActivity());
         isGrid = mPreferences.isArtistsInGrid();
-        sInstance = this;
     }
 
     @Override
@@ -79,7 +76,7 @@ public class ArtistFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             if (getActivity() != null)
-                mAdapter = new ArtistAdapter(getActivity(), sInstance, ArtistLoader.getAllArtists(getActivity()));
+                mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
             return "Executed";
         }
 
@@ -120,7 +117,7 @@ public class ArtistFragment extends Fragment {
 
     private void updateLayoutManager(int column) {
         recyclerView.removeItemDecoration(itemDecoration);
-        recyclerView.setAdapter(new ArtistAdapter(getActivity(), sInstance, ArtistLoader.getAllArtists(getActivity())));
+        recyclerView.setAdapter(new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity())));
         layoutManager.setSpanCount(column);
         layoutManager.requestLayout();
     }

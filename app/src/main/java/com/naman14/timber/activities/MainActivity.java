@@ -35,6 +35,8 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.fragments.AlbumDetailFragment;
+import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaylistFragment;
 import com.naman14.timber.fragments.QueueFragment;
@@ -50,7 +52,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
 
@@ -72,8 +73,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     private boolean isDarkTheme;
 
-    private Stack<Fragment> fragmentStack;
-
     public static MainActivity getInstance() {
         return sMainActivity;
     }
@@ -89,12 +88,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragmentStack = new Stack<Fragment>();
-
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
         navigationMap.put(Constants.NAVIGATE_PLAYLIST, navigatePlaylist);
         navigationMap.put(Constants.NAVIGATE_QUEUE, navigateQueue);
         navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
+        navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
+        navigationMap.put(Constants.NAVIGATE_ARTIST, navigateArtist);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -165,9 +164,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+            case android.R.id.home: {
+                if (isNavigatingMain()) {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                } else super.onBackPressed();
                 return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -343,6 +345,26 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
+    Runnable navigateAlbum = new Runnable() {
+        public void run() {
+            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
+            Fragment fragment = AlbumDetailFragment.newInstance(albumID, false, null);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+
+    Runnable navigateArtist = new Runnable() {
+        public void run() {
+            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
+            Fragment fragment = ArtistDetailFragment.newInstance(artistID, false, null);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+
 
     final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
@@ -362,13 +384,17 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    private boolean isNavigatingMain() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        return (currentFragment instanceof MainFragment || currentFragment instanceof QueueFragment
+                || currentFragment instanceof PlaylistFragment);
+    }
+
 
     @Override
     public int getActivityTheme() {
         return isDarkTheme ? R.style.AppThemeNormalDark : R.style.AppThemeNormalLight;
     }
-
-
 }
 
 

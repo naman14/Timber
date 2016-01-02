@@ -19,8 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
-import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -46,12 +43,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
     private List<Album> arraylist;
     private Activity mContext;
     private boolean isGrid;
-    private AlbumFragment albumFragment;
 
-    public AlbumAdapter(Activity context, AlbumFragment fragment, List<Album> arraylist) {
+    public AlbumAdapter(Activity context, List<Album> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.albumFragment = fragment;
         this.isGrid = PreferencesUtility.getInstance(mContext).isAlbumsInGrid();
 
     }
@@ -135,8 +130,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
         @Override
         public void onClick(View v) {
-            Transition changeImage = TransitionInflater.from(mContext).inflateTransition(R.transition.image_transform);
-            albumFragment.setSharedElementReturnTransition(changeImage);
             NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id,
                     new Pair<View, String>(albumArt, "transition_album_art" + getAdapterPosition()));
         }

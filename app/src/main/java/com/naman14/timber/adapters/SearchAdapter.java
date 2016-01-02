@@ -233,10 +233,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
 
                     break;
                 case 1:
-                    NavigationUtils.navigateToAlbum(mContext, ((Album) searchResults.get(getAdapterPosition())).id, null);
+                    NavigationUtils.goToAlbum(mContext, ((Album) searchResults.get(getAdapterPosition())).id);
                     break;
                 case 2:
-                    NavigationUtils.navigateToArtist(mContext, ((Artist) searchResults.get(getAdapterPosition())).id, null);
+                    NavigationUtils.goToArtist(mContext, ((Artist) searchResults.get(getAdapterPosition())).id);
                     break;
                 case 3:
                     break;

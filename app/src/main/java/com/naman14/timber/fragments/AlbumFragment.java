@@ -48,11 +48,14 @@ public class AlbumFragment extends Fragment {
     private PreferencesUtility mPreferences;
     private boolean isGrid;
 
+    private AlbumFragment sInstance;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPreferences = PreferencesUtility.getInstance(getActivity());
         isGrid = mPreferences.isAlbumsInGrid();
+        sInstance = this;
     }
 
     @Override
@@ -94,7 +97,7 @@ public class AlbumFragment extends Fragment {
 
     private void updateLayoutManager(int column) {
         recyclerView.removeItemDecoration(itemDecoration);
-        recyclerView.setAdapter(new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity())));
+        recyclerView.setAdapter(new AlbumAdapter(getActivity(), sInstance, AlbumLoader.getAllAlbums(getActivity())));
         layoutManager.setSpanCount(column);
         layoutManager.requestLayout();
     }
@@ -124,7 +127,7 @@ public class AlbumFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             if (getActivity() != null)
-                mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
+                mAdapter = new AlbumAdapter(getActivity(), sInstance, AlbumLoader.getAllAlbums(getActivity()));
             return "Executed";
         }
 

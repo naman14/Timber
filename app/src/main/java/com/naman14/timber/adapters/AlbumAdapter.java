@@ -17,9 +17,10 @@ package com.naman14.timber.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
+import com.naman14.timber.fragments.AlbumFragment;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -37,7 +39,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> {
@@ -45,16 +46,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
     private List<Album> arraylist;
     private Activity mContext;
     private boolean isGrid;
+    private AlbumFragment albumFragment;
 
-    public AlbumAdapter(Activity context, List<Album> arraylist) {
+    public AlbumAdapter(Activity context, AlbumFragment fragment, List<Album> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
+        this.albumFragment = fragment;
         this.isGrid = PreferencesUtility.getInstance(mContext).isAlbumsInGrid();
 
-    }
-
-    public static int getOpaqueColor(@ColorInt int paramInt) {
-        return 0xFF000000 | paramInt;
     }
 
     @Override
@@ -106,6 +105,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                     }
                 });
 
+        if (TimberUtils.isLollipop())
+            itemHolder.albumArt.setTransitionName("transition_album_art" + i);
+
     }
 
     @Override
@@ -133,9 +135,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews = new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View) albumArt, "transition_album_art"));
-            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
+            Transition changeImage = TransitionInflater.from(mContext).inflateTransition(R.transition.image_transform);
+            albumFragment.setSharedElementReturnTransition(changeImage);
+            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id,
+                    new Pair<View, String>(albumArt, "transition_album_art" + getAdapterPosition()));
         }
 
     }

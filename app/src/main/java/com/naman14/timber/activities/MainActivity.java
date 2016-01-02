@@ -20,11 +20,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.StyleRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -51,6 +51,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
 
@@ -71,6 +72,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     private boolean isDarkTheme;
 
+    private Stack<Fragment> fragmentStack;
+
     public static MainActivity getInstance() {
         return sMainActivity;
     }
@@ -85,6 +88,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentStack = new Stack<Fragment>();
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
         navigationMap.put(Constants.NAVIGATE_PLAYLIST, navigatePlaylist);
@@ -172,8 +177,19 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         if (panelLayout.isPanelExpanded())
             panelLayout.collapsePanel();
-        else
-            super.onBackPressed();
+        else {
+            if (fragmentStack.size() == 2) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                fragmentStack.lastElement().onPause();
+                ft.remove(fragmentStack.pop());
+                fragmentStack.lastElement().onResume();
+                ft.show(fragmentStack.lastElement());
+                ft.commit();
+            } else {
+                super.onBackPressed();
+            }
+        }
+
     }
 
 
@@ -310,13 +326,18 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     Runnable navigateLibrary = new Runnable() {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
+            if (!fragmentStack.empty()) {
+                fragmentStack.empty();
+            }
             Fragment fragment = new MainFragment();
+            fragmentStack.push(fragment);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
 
         }
     };
+
 
     Runnable navigatePlaylist = new Runnable() {
         public void run() {
@@ -353,15 +374,21 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     };
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode, String[] permissions, int[] grantResults) {
         Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @StyleRes
+
     @Override
     public int getActivityTheme() {
-        return isDarkTheme ? R.style.AppThemeDark : R.style.AppThemeLight;
+        return isDarkTheme ? R.style.AppThemeNormalDark : R.style.AppThemeNormalLight;
     }
+
+    public Stack<Fragment> getFragmentStack() {
+        return fragmentStack;
+    }
+
 
 }
 

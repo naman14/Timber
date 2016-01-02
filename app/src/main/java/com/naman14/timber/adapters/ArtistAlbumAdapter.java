@@ -17,7 +17,6 @@ package com.naman14.timber.adapters;
 import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.ItemHolder> {
@@ -91,9 +89,7 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews = new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View) albumArt, "transition_album_art"));
-            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
+            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id, null);
         }
 
     }

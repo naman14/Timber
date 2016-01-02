@@ -18,7 +18,6 @@ import android.app.Activity;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +42,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -235,14 +233,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
 
                     break;
                 case 1:
-                    ArrayList<Pair> tranitionViews0 = new ArrayList<>();
-                    tranitionViews0.add(0, Pair.create((View) albumArt, "transition_album_art"));
-                    NavigationUtils.navigateToAlbum(mContext, ((Album) searchResults.get(getAdapterPosition())).id, tranitionViews0);
+                    NavigationUtils.navigateToAlbum(mContext, ((Album) searchResults.get(getAdapterPosition())).id, null);
                     break;
                 case 2:
-                    ArrayList<Pair> tranitionViews1 = new ArrayList<>();
-                    tranitionViews1.add(0, Pair.create((View) artistImage, "transition_artist_image"));
-                    NavigationUtils.navigateToArtist(mContext, ((Artist) searchResults.get(getAdapterPosition())).id, tranitionViews1);
+                    NavigationUtils.navigateToArtist(mContext, ((Artist) searchResults.get(getAdapterPosition())).id, null);
                     break;
                 case 3:
                     break;

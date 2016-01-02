@@ -21,58 +21,76 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Pair;
+import android.view.View;
 import android.widget.Toast;
 
-import com.naman14.timber.activities.AlbumDetailActivity;
-import com.naman14.timber.activities.ArtistDetailActivity;
+import com.naman14.timber.R;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.NowPlayingActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
 import com.naman14.timber.activities.SearchActivity;
 import com.naman14.timber.activities.SettingsActivity;
+import com.naman14.timber.fragments.AlbumDetailFragment;
+import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.nowplaying.Timber1;
 import com.naman14.timber.nowplaying.Timber2;
 import com.naman14.timber.nowplaying.Timber3;
 import com.naman14.timber.nowplaying.Timber4;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class NavigationUtils {
 
     @TargetApi(21)
-    public static void navigateToAlbum(Activity context, long albumID, ArrayList<Pair> transitionViews) {
-        final Intent intent = new Intent(context, AlbumDetailActivity.class);
-        if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
-        intent.setAction(Constants.NAVIGATE_ALBUM);
-        intent.putExtra(Constants.ALBUM_ID, albumID);
+    public static void navigateToAlbum(Activity context, long albumID, Pair<View, String> transitionViews) {
+
+        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+        Fragment fragment;
 
         if (TimberUtils.isLollipop() && transitionViews != null && PreferencesUtility.getInstance(context).getAnimations()) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(context, transitionViews.get(0));
-            context.startActivity(intent.putExtra("transition", true), options.toBundle());
+            Transition changeImage = TransitionInflater.from(context).inflateTransition(R.transition.image_transform);
+            transaction.addSharedElement(transitionViews.first, transitionViews.second);
+            fragment = AlbumDetailFragment.newInstance(albumID, true, transitionViews.second);
+            fragment.setSharedElementEnterTransition(changeImage);
         } else {
-            context.startActivity(intent.putExtra("transition", false));
+            fragment = AlbumDetailFragment.newInstance(albumID, false, null);
         }
+        Stack<Fragment> fragmentStack = ((MainActivity) context).getFragmentStack();
+        transaction.add(R.id.fragment_container, fragment);
+        fragmentStack.lastElement().onPause();
+        transaction.hide(fragmentStack.lastElement());
+        fragmentStack.push(fragment);
+        transaction.commit();
 
     }
 
     @TargetApi(21)
-    public static void navigateToArtist(Activity context, long artistID, ArrayList<Pair> transitionViews) {
-        final Intent intent = new Intent(context, ArtistDetailActivity.class);
-        if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
-        intent.setAction(Constants.NAVIGATE_ARTIST);
-        intent.putExtra(Constants.ARTIST_ID, artistID);
+    public static void navigateToArtist(Activity context, long artistID, Pair<View, String> transitionViews) {
+
+        FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+        Fragment fragment;
 
         if (TimberUtils.isLollipop() && transitionViews != null && PreferencesUtility.getInstance(context).getAnimations()) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(context, transitionViews.get(0));
-            context.startActivity(intent, options.toBundle());
+            Transition changeImage = TransitionInflater.from(context).inflateTransition(R.transition.image_transform);
+            transaction.addSharedElement(transitionViews.first, transitionViews.second);
+            fragment = ArtistDetailFragment.newInstance(artistID, true, transitionViews.second);
+            fragment.setSharedElementEnterTransition(changeImage);
         } else {
-            context.startActivity(intent);
+            fragment = AlbumDetailFragment.newInstance(artistID, false, null);
         }
+        Stack<Fragment> fragmentStack = ((MainActivity) context).getFragmentStack();
+        transaction.add(R.id.fragment_container, fragment);
+        fragmentStack.lastElement().onPause();
+        transaction.hide(fragmentStack.lastElement());
+        fragmentStack.push(fragment);
+        transaction.commit();
+
     }
 
     public static void navigateToNowplaying(Activity context, boolean withAnimations) {

@@ -20,6 +20,8 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
+import com.naman14.timber.fragments.ArtistFragment;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
@@ -42,7 +45,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> implements BubbleTextGetter {
@@ -50,10 +52,12 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
     private List<Artist> arraylist;
     private Activity mContext;
     private boolean isGrid;
+    private ArtistFragment artistFragment;
 
-    public ArtistAdapter(Activity context, List<Artist> arraylist) {
+    public ArtistAdapter(Activity context, ArtistFragment fragment, List<Artist> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
+        this.artistFragment = fragment;
         this.isGrid = PreferencesUtility.getInstance(mContext).isArtistsInGrid();
     }
 
@@ -136,6 +140,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
             }
         });
 
+        if (TimberUtils.isLollipop())
+            itemHolder.artistImage.setTransitionName("transition_artist_art" + i);
+
     }
 
     @Override
@@ -170,9 +177,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews = new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View) artistImage, "transition_artist_image"));
-            NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
+            Transition changeImage = TransitionInflater.from(mContext).inflateTransition(R.transition.image_transform);
+            artistFragment.setSharedElementReturnTransition(changeImage);
+            NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id,
+                    new Pair<View, String>(artistImage, "transition_artist_art" + getAdapterPosition()));
         }
 
     }

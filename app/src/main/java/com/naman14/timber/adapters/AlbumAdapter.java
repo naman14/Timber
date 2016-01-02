@@ -16,8 +16,6 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.support.annotation.ColorInt;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -37,7 +35,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> {
@@ -51,10 +48,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
         this.mContext = context;
         this.isGrid = PreferencesUtility.getInstance(mContext).isAlbumsInGrid();
 
-    }
-
-    public static int getOpaqueColor(@ColorInt int paramInt) {
-        return 0xFF000000 | paramInt;
     }
 
     @Override
@@ -89,22 +82,34 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                             new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette palette) {
-                                    int color = palette.getVibrantColor(Color.parseColor("#66000000"));
-                                    itemHolder.footer.setBackgroundColor(color);
                                     Palette.Swatch swatch = palette.getVibrantSwatch();
-                                    int textColor;
                                     if (swatch != null) {
-                                        textColor = TimberUtils.getBlackWhiteColor(swatch.getTitleTextColor());
-                                    } else textColor = Color.parseColor("#ffffff");
+                                        int color = swatch.getRgb();
+                                        itemHolder.footer.setBackgroundColor(color);
+                                        int textColor = TimberUtils.getBlackWhiteColor(swatch.getTitleTextColor());
+                                        itemHolder.title.setTextColor(textColor);
+                                        itemHolder.artist.setTextColor(textColor);
+                                    } else {
+                                        Palette.Swatch mutedSwatch = palette.getMutedSwatch();
+                                        if (mutedSwatch != null) {
+                                            int color = mutedSwatch.getRgb();
+                                            itemHolder.footer.setBackgroundColor(color);
+                                            int textColor = TimberUtils.getBlackWhiteColor(mutedSwatch.getTitleTextColor());
+                                            itemHolder.title.setTextColor(textColor);
+                                            itemHolder.artist.setTextColor(textColor);
+                                        }
+                                    }
 
-                                    itemHolder.title.setTextColor(textColor);
-                                    itemHolder.artist.setTextColor(textColor);
+
                                 }
                             });
                         }
 
                     }
                 });
+
+        if (TimberUtils.isLollipop())
+            itemHolder.albumArt.setTransitionName("transition_album_art" + i);
 
     }
 
@@ -133,9 +138,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews = new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View) albumArt, "transition_album_art"));
-            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
+            NavigationUtils.navigateToAlbum(mContext, arraylist.get(getAdapterPosition()).id,
+                    new Pair<View, String>(albumArt, "transition_album_art" + getAdapterPosition()));
         }
 
     }

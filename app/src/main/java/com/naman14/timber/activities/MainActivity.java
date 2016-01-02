@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.StyleRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -36,6 +35,8 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.fragments.AlbumDetailFragment;
+import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.fragments.PlaylistFragment;
 import com.naman14.timber.fragments.QueueFragment;
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
     Handler navDrawerRunnable = new Handler();
+    Runnable runnable;
 
     private boolean isDarkTheme;
 
@@ -90,6 +92,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         navigationMap.put(Constants.NAVIGATE_PLAYLIST, navigatePlaylist);
         navigationMap.put(Constants.NAVIGATE_QUEUE, navigateQueue);
         navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
+        navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
+        navigationMap.put(Constants.NAVIGATE_ARTIST, navigateArtist);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -118,6 +122,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             loadEverything();
         }
 
+        addBackstackListener();
     }
 
     private void loadEverything() {
@@ -160,9 +165,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+            case android.R.id.home: {
+                if (isNavigatingMain()) {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                } else super.onBackPressed();
                 return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -172,10 +180,11 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         if (panelLayout.isPanelExpanded())
             panelLayout.collapsePanel();
-        else
+        else {
             super.onBackPressed();
-    }
+        }
 
+    }
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -216,22 +225,22 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     }
 
     private void updatePosition(final MenuItem menuItem) {
-        Fragment fragment = null;
+        runnable = null;
 
         switch (menuItem.getItemId()) {
             case R.id.nav_library:
-                fragment = new MainFragment();
+                runnable = navigateLibrary;
 
                 break;
             case R.id.nav_playlists:
-                fragment = new PlaylistFragment();
+                runnable = navigatePlaylist;
 
                 break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 break;
             case R.id.nav_queue:
-                fragment = new QueueFragment();
+                runnable = navigateQueue;
 
                 break;
             case R.id.nav_settings:
@@ -256,17 +265,14 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 break;
         }
 
-        if (fragment != null) {
+        if (runnable != null) {
             menuItem.setChecked(true);
             mDrawerLayout.closeDrawers();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    transaction.commit();
+                    runnable.run();
                 }
             }, 350);
         }
@@ -318,6 +324,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
+
     Runnable navigatePlaylist = new Runnable() {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
@@ -339,6 +346,26 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
+    Runnable navigateAlbum = new Runnable() {
+        public void run() {
+            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
+            Fragment fragment = AlbumDetailFragment.newInstance(albumID, false, null);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+
+    Runnable navigateArtist = new Runnable() {
+        public void run() {
+            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
+            Fragment fragment = ArtistDetailFragment.newInstance(artistID, false, null);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+
 
     final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
@@ -353,14 +380,30 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     };
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode, String[] permissions, int[] grantResults) {
         Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @StyleRes
+    private boolean isNavigatingMain() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        return (currentFragment instanceof MainFragment || currentFragment instanceof QueueFragment
+                || currentFragment instanceof PlaylistFragment);
+    }
+
+    private void addBackstackListener() {
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container).onResume();
+            }
+        });
+    }
+
+
     @Override
     public int getActivityTheme() {
-        return isDarkTheme ? R.style.AppThemeDark : R.style.AppThemeLight;
+        return isDarkTheme ? R.style.AppThemeNormalDark : R.style.AppThemeNormalLight;
     }
 
 }

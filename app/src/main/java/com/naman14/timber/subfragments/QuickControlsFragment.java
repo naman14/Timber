@@ -194,7 +194,6 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     }
 
     public void updateNowplayingCard() {
-        Log.d("lol", "here");
         mTitle.setText(MusicPlayer.getTrackName());
         mArtist.setText(MusicPlayer.getArtistName());
         mTitleExpanded.setText(MusicPlayer.getTrackName());

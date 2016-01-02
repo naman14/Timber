@@ -42,8 +42,6 @@ import com.naman14.timber.widgets.MusicVisualizer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.steamcrafted.materialiconlib.MaterialIconView;
-
 import java.util.List;
 
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
@@ -95,7 +93,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         } else {
             if (isPlaylist)
                 itemHolder.title.setTextColor(Color.WHITE);
-            itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
+            else
+                itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
             itemHolder.visualizer.setVisibility(View.GONE);
         }
 
@@ -121,7 +120,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, artist;
         protected ImageView albumArt, popupMenu;
-        private MaterialIconView playingIndicator;
         private MusicVisualizer visualizer;
 
         public ItemHolder(View view) {
@@ -129,7 +127,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
             this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
-            this.playingIndicator = (MaterialIconView) view.findViewById(R.id.currentlyPlayingIndicator);
             this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
             visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
             view.setOnClickListener(this);
@@ -178,10 +175,10 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                                 MusicPlayer.playNext(mContext, ids, -1, TimberUtils.IdType.NA);
                                 break;
                             case R.id.popup_song_goto_album:
-                                NavigationUtils.navigateToAlbum(mContext, arraylist.get(position).albumId, null);
+                                NavigationUtils.goToAlbum(mContext, arraylist.get(position).albumId);
                                 break;
                             case R.id.popup_song_goto_artist:
-                                NavigationUtils.navigateToArtist(mContext, arraylist.get(position).artistId, null);
+                                NavigationUtils.goToArtist(mContext, arraylist.get(position).artistId);
                                 break;
                             case R.id.popup_song_addto_queue:
                                 long[] id = new long[1];

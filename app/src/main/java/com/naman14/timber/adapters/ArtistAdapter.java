@@ -42,7 +42,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> implements BubbleTextGetter {
@@ -136,6 +135,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
             }
         });
 
+        if (TimberUtils.isLollipop())
+            itemHolder.artistImage.setTransitionName("transition_artist_art" + i);
+
     }
 
     @Override
@@ -170,9 +172,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews = new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View) artistImage, "transition_artist_image"));
-            NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
+            NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id,
+                    new Pair<View, String>(artistImage, "transition_artist_art" + getAdapterPosition()));
         }
 
     }

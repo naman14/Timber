@@ -135,7 +135,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     public void onMetaChanged() {
         // Let the listener know to the meta chnaged
-        Log.d("lol1", String.valueOf(mMusicStateListener.size()));
         for (final MusicStateListener listener : mMusicStateListener) {
             if (listener != null) {
                 listener.onMetaChanged();

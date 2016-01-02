@@ -149,22 +149,22 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
                                 break;
                             case R.id.popup_song_play_next:
                                 long[] ids = new long[1];
-                                ids[0] = arraylist.get(position).id;
+                                ids[0] = arraylist.get(position + 1).id;
                                 MusicPlayer.playNext(mContext, ids, -1, TimberUtils.IdType.NA);
                                 break;
                             case R.id.popup_song_goto_album:
-                                NavigationUtils.navigateToAlbum(mContext, arraylist.get(position).albumId, null);
+                                NavigationUtils.goToAlbum(mContext, arraylist.get(position + 1).albumId);
                                 break;
                             case R.id.popup_song_goto_artist:
-                                NavigationUtils.navigateToArtist(mContext, arraylist.get(position).artistId, null);
+                                NavigationUtils.goToArtist(mContext, arraylist.get(position + 1).artistId);
                                 break;
                             case R.id.popup_song_addto_queue:
                                 long[] id = new long[1];
-                                id[0] = arraylist.get(position).id;
+                                id[0] = arraylist.get(position + 1).id;
                                 MusicPlayer.addToQueue(mContext, id, -1, TimberUtils.IdType.NA);
                                 break;
                             case R.id.popup_song_addto_playlist:
-                                AddPlaylistDialog.newInstance(arraylist.get(position)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
+                                AddPlaylistDialog.newInstance(arraylist.get(position + 1)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
                         }
                         return false;

@@ -122,6 +122,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             loadEverything();
         }
 
+        addBackstackListener();
     }
 
     private void loadEverything() {
@@ -390,11 +391,21 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 || currentFragment instanceof PlaylistFragment);
     }
 
+    private void addBackstackListener() {
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container).onResume();
+            }
+        });
+    }
+
 
     @Override
     public int getActivityTheme() {
         return isDarkTheme ? R.style.AppThemeNormalDark : R.style.AppThemeNormalLight;
     }
+
 }
 
 

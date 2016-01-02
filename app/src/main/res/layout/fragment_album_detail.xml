@@ -110,8 +110,8 @@
         android:id="@+id/fab"
         style="@style/FabStyle"
         android:tag="bg_tint_accent_color"
-        app:layout_anchor="@id/app_bar"
         android:visibility="gone"
+        app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

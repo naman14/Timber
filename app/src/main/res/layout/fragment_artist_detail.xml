@@ -18,12 +18,12 @@
             android:layout_height="330dp"
             android:background="@android:color/white"
             android:theme="@style/Theme.AppCompat"
-            app:contentScrim="@android:color/transparent"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleMarginBottom="25dp"
             app:expandedTitleMarginStart="30dp"
             app:expandedTitleTextAppearance="@style/TextApperance.Artist.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="@android:color/transparent">
+            app:statusBarScrim="@color/colorPrimaryDark">
 
 
             <ImageView

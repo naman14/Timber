@@ -15,7 +15,6 @@ package com.naman14.timber.fragments;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -50,6 +49,7 @@ import com.naman14.timber.dataloaders.AlbumSongLoader;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.Helpers;
@@ -89,6 +89,7 @@ public class AlbumDetailFragment extends Fragment {
 
     private PreferencesUtility mPreferences;
     private Context context;
+    private int primaryColor = -1;
 
     public static AlbumDetailFragment newInstance(long id, boolean useTransition, String transitionName) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
@@ -185,37 +186,63 @@ public class AlbumDetailFragment extends Fragment {
                         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(context)
                                 .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                                 .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
+                        ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
                         fab.setImageDrawable(builder.build());
 
                     }
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-                                collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(Color.parseColor("#66000000")));
-                                collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkVibrantColor(Color.parseColor("#66000000")));
+                        try {
+                            new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
+                                                                          @Override
+                                                                          public void onGenerated(Palette palette) {
+                                                                              Palette.Swatch swatch = palette.getVibrantSwatch();
+                                                                              if (swatch != null) {
+                                                                                  primaryColor = swatch.getRgb();
+                                                                                  collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                                                  ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+                                                                              } else {
+                                                                                  Palette.Swatch swatchMuted = palette.getMutedSwatch();
+                                                                                  if (swatchMuted != null) {
+                                                                                      primaryColor = swatchMuted.getRgb();
+                                                                                      collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                                                      ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+                                                                                  }
+                                                                              }
 
-                                ColorStateList fabColorStateList = new ColorStateList(
-                                        new int[][]{
-                                                new int[]{}
-                                        },
-                                        new int[]{
-                                                palette.getMutedColor(Color.parseColor("#66000000")),
-                                        }
-                                );
+                                                                              MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                                                                                      .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                                                                                      .setSizeDp(30);
+                                                                              if (primaryColor != -1) {
+                                                                                  builder.setColor(TimberUtils.getBlackWhiteColor(primaryColor));
+                                                                                  ATEUtils.setFabBackgroundTint(fab, primaryColor);
+                                                                                  fab.setImageDrawable(builder.build());
+                                                                              } else {
+                                                                                  ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
+                                                                                  builder.setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
+                                                                                  fab.setImageDrawable(builder.build());
+                                                                              }
+                                                                          }
+                                                                      }
 
-                                fab.setBackgroundTintList(fabColorStateList);
-                            }
-                        });
+                            );
+                        } catch (
+                                Exception ignored
+                                )
+
+                        {
+
+                        }
                     }
 
                     @Override
                     public void onLoadingCancelled(String imageUri, View view) {
                     }
 
-                });
+                }
+
+        );
     }
 
     private void setAlbumDetails() {
@@ -243,12 +270,6 @@ public class AlbumDetailFragment extends Fragment {
         setupToolbar();
         setAlbumDetails();
         setUpAlbumSongs();
-        MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
-        if ((loadFailed))
-            builder.setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
-        else builder.setColor(Color.WHITE);
-        fab.setImageDrawable(builder.build());
     }
 
     private void reloadAdapter() {
@@ -315,6 +336,19 @@ public class AlbumDetailFragment extends Fragment {
 
         public void onTransitionStart(Transition paramTransition) {
             FabAnimationUtils.scaleOut(fab, 0, null);
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        toolbar.setBackgroundColor(Color.TRANSPARENT);
+        if (primaryColor != -1) {
+            collapsingToolbarLayout.setContentScrimColor(primaryColor);
+            ATEUtils.setFabBackgroundTint(fab, primaryColor);
+            String ateKey = Helpers.getATEKey(getActivity());
+            ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
         }
 
     }

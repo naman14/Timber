@@ -16,7 +16,6 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -83,16 +82,25 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                             new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette palette) {
-                                    int color = palette.getVibrantColor(Color.parseColor("#66000000"));
-                                    itemHolder.footer.setBackgroundColor(color);
                                     Palette.Swatch swatch = palette.getVibrantSwatch();
-                                    int textColor;
                                     if (swatch != null) {
-                                        textColor = TimberUtils.getBlackWhiteColor(swatch.getTitleTextColor());
-                                    } else textColor = Color.parseColor("#ffffff");
+                                        int color = swatch.getRgb();
+                                        itemHolder.footer.setBackgroundColor(color);
+                                        int textColor = TimberUtils.getBlackWhiteColor(swatch.getTitleTextColor());
+                                        itemHolder.title.setTextColor(textColor);
+                                        itemHolder.artist.setTextColor(textColor);
+                                    } else {
+                                        Palette.Swatch mutedSwatch = palette.getMutedSwatch();
+                                        if (mutedSwatch != null) {
+                                            int color = mutedSwatch.getRgb();
+                                            itemHolder.footer.setBackgroundColor(color);
+                                            int textColor = TimberUtils.getBlackWhiteColor(mutedSwatch.getTitleTextColor());
+                                            itemHolder.title.setTextColor(textColor);
+                                            itemHolder.artist.setTextColor(textColor);
+                                        }
+                                    }
 
-                                    itemHolder.title.setTextColor(textColor);
-                                    itemHolder.artist.setTextColor(textColor);
+
                                 }
                             });
                         }

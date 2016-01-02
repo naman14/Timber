@@ -24,7 +24,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -69,6 +68,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
     Handler navDrawerRunnable = new Handler();
+    Runnable runnable;
 
     private boolean isDarkTheme;
 
@@ -178,20 +178,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         if (panelLayout.isPanelExpanded())
             panelLayout.collapsePanel();
         else {
-            if (fragmentStack.size() == 2) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                fragmentStack.lastElement().onPause();
-                ft.remove(fragmentStack.pop());
-                fragmentStack.lastElement().onResume();
-                ft.show(fragmentStack.lastElement());
-                ft.commit();
-            } else {
-                super.onBackPressed();
-            }
+            super.onBackPressed();
         }
 
     }
-
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -232,22 +222,22 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     }
 
     private void updatePosition(final MenuItem menuItem) {
-        Fragment fragment = null;
+        runnable = null;
 
         switch (menuItem.getItemId()) {
             case R.id.nav_library:
-                fragment = new MainFragment();
+                runnable = navigateLibrary;
 
                 break;
             case R.id.nav_playlists:
-                fragment = new PlaylistFragment();
+                runnable = navigatePlaylist;
 
                 break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 break;
             case R.id.nav_queue:
-                fragment = new QueueFragment();
+                runnable = navigateQueue;
 
                 break;
             case R.id.nav_settings:
@@ -272,17 +262,14 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 break;
         }
 
-        if (fragment != null) {
+        if (runnable != null) {
             menuItem.setChecked(true);
             mDrawerLayout.closeDrawers();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    transaction.commit();
+                    runnable.run();
                 }
             }, 350);
         }
@@ -326,11 +313,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     Runnable navigateLibrary = new Runnable() {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
-            if (!fragmentStack.empty()) {
-                fragmentStack.empty();
-            }
             Fragment fragment = new MainFragment();
-            fragmentStack.push(fragment);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
@@ -383,10 +366,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @Override
     public int getActivityTheme() {
         return isDarkTheme ? R.style.AppThemeNormalDark : R.style.AppThemeNormalLight;
-    }
-
-    public Stack<Fragment> getFragmentStack() {
-        return fragmentStack;
     }
 
 

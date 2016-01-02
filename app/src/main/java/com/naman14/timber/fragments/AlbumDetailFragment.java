@@ -14,26 +14,23 @@
 package com.naman14.timber.fragments;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
 import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,10 +38,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumSongsAdapter;
@@ -55,6 +52,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
@@ -69,9 +67,6 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.util.List;
 
-
-////// NO LONGER USED - SWITCHED TO AlbumDetailActivity
-
 public class AlbumDetailFragment extends Fragment {
 
     long albumID = -1;
@@ -83,7 +78,6 @@ public class AlbumDetailFragment extends Fragment {
     AlbumSongsAdapter mAdapter;
 
     Toolbar toolbar;
-    CoordinatorLayout coordinatorLayout;
 
     Album album;
 
@@ -92,9 +86,9 @@ public class AlbumDetailFragment extends Fragment {
     FloatingActionButton fab;
 
     private boolean loadFailed = false;
-    private boolean isDarkTheme;
 
     private PreferencesUtility mPreferences;
+    private Context context;
 
     public static AlbumDetailFragment newInstance(long id, boolean useTransition, String transitionName) {
         AlbumDetailFragment fragment = new AlbumDetailFragment();
@@ -113,8 +107,8 @@ public class AlbumDetailFragment extends Fragment {
         if (getArguments() != null) {
             albumID = getArguments().getLong(Constants.ALBUM_ID);
         }
-        isDarkTheme = PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
-        mPreferences = PreferencesUtility.getInstance(getActivity());
+        context = getActivity();
+        mPreferences = PreferencesUtility.getInstance(context);
     }
 
     @TargetApi(21)
@@ -141,18 +135,12 @@ public class AlbumDetailFragment extends Fragment {
         recyclerView.setEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         album = AlbumLoader.getAlbum(getActivity(), albumID);
 
         setAlbumart();
 
-        if (getArguments().getBoolean("transition")) {
-            getActivity().postponeEnterTransition();
-            getActivity().getWindow().getEnterTransition().addListener(new EnterTransitionListener());
-            getActivity().getWindow().getReturnTransition().addListener(new ReturnTransitionListener());
-        } else {
-            setUpEverything();
-        }
+        setUpEverything();
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,17 +182,11 @@ public class AlbumDetailFragment extends Fragment {
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                         loadFailed = true;
-                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
-                            scheduleStartPostponedTransition(albumArt);
+                        MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(context)
+                                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                                .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
+                        fab.setImageDrawable(builder.build());
 
-
-                        if (isDarkTheme) {
-                            MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                                    .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                                    .setColor(Color.BLACK);
-                            fab.setImageDrawable(builder.build());
-
-                        }
                     }
 
                     @Override
@@ -227,9 +209,6 @@ public class AlbumDetailFragment extends Fragment {
                                 fab.setBackgroundTintList(fabColorStateList);
                             }
                         });
-
-                        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(getActivity()).getAnimations())
-                            scheduleStartPostponedTransition(albumArt);
                     }
 
                     @Override
@@ -264,14 +243,12 @@ public class AlbumDetailFragment extends Fragment {
         setupToolbar();
         setAlbumDetails();
         setUpAlbumSongs();
-        FabAnimationUtils.scaleIn(fab);
         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                 .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
-        if ((loadFailed && isDarkTheme))
-            builder.setColor(Color.BLACK);
+        if ((loadFailed))
+            builder.setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
         else builder.setColor(Color.WHITE);
         fab.setImageDrawable(builder.build());
-        enableViews();
     }
 
     private void reloadAdapter() {
@@ -329,65 +306,17 @@ public class AlbumDetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void enableViews() {
-        recyclerView.setEnabled(true);
-    }
-
-    private void disableView() {
-        recyclerView.setEnabled(false);
-    }
-
-    private void initActivityTransitions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Slide transition = new Slide();
-            transition.excludeTarget(android.R.id.statusBarBackground, true);
-            transition.excludeTarget(R.id.album_art, true);
-            transition.setInterpolator(new LinearOutSlowInInterpolator());
-            transition.setDuration(300);
-            getActivity().getWindow().setEnterTransition(transition);
-        }
-    }
-
-    @TargetApi(21)
-    private void scheduleStartPostponedTransition(final View sharedElement) {
-        sharedElement.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        getActivity().startPostponedEnterTransition();
-                        return true;
-                    }
-                });
-    }
-
     private class EnterTransitionListener extends SimplelTransitionListener {
 
         @TargetApi(21)
         public void onTransitionEnd(Transition paramTransition) {
-            setUpEverything();
+            FabAnimationUtils.scaleIn(fab);
         }
 
         public void onTransitionStart(Transition paramTransition) {
-            FabAnimationUtils.scaleOut(fab, 50, null);
-            disableView();
+            FabAnimationUtils.scaleOut(fab, 0, null);
         }
 
     }
-
-    private class ReturnTransitionListener extends SimplelTransitionListener {
-
-        @TargetApi(21)
-        public void onTransitionEnd(Transition paramTransition) {
-        }
-
-        public void onTransitionStart(Transition paramTransition) {
-            FabAnimationUtils.scaleOut(fab, 50, null);
-            disableView();
-        }
-
-    }
-
 
 }

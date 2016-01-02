@@ -178,7 +178,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         @Override
         public void onClick(View v) {
             Transition changeImage = TransitionInflater.from(mContext).inflateTransition(R.transition.image_transform);
-            artistFragment.setSharedElementReturnTransition(changeImage);
+//            artistFragment.setExitTransition(TransitionInflater.from(mContext).inflateTransition(R.transition.image_transform));
+//            artistFragment.setSharedElementReturnTransition(changeImage);
+//            artistFragment.setReenterTransition(TransitionInflater.from(mContext).inflateTransition(android.R.transition.explode));
             NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id,
                     new Pair<View, String>(artistImage, "transition_artist_art" + getAdapterPosition()));
         }

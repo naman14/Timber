@@ -21,8 +21,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -45,9 +43,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-
-////// NO LONGER USED - SWITCHED TO ArtistDetailActivity
-
 public class ArtistDetailFragment extends Fragment {
 
     long artistID = -1;
@@ -55,10 +50,8 @@ public class ArtistDetailFragment extends Fragment {
     ImageView artistArt;
 
     Toolbar toolbar;
-    TabLayout tabLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayout;
-    FloatingActionButton fab;
     boolean largeImageLoaded = false;
 
     public static ArtistDetailFragment newInstance(long id, boolean useTransition, String transitionName) {
@@ -99,8 +92,7 @@ public class ArtistDetailFragment extends Fragment {
         setupToolbar();
         setUpArtistDetails();
 
-
-        getChildFragmentManager().beginTransaction().replace(R.id.container, new ArtistMusicFragment().newInstance(artistID)).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.container, ArtistMusicFragment.newInstance(artistID)).commit();
 
 
         return rootView;

@@ -43,7 +43,6 @@ import com.naman14.timber.nowplaying.Timber3;
 import com.naman14.timber.nowplaying.Timber4;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class NavigationUtils {
 
@@ -61,12 +60,9 @@ public class NavigationUtils {
         } else {
             fragment = AlbumDetailFragment.newInstance(albumID, false, null);
         }
-        Stack<Fragment> fragmentStack = ((MainActivity) context).getFragmentStack();
+        transaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container));
         transaction.add(R.id.fragment_container, fragment);
-        fragmentStack.lastElement().onPause();
-        transaction.hide(fragmentStack.lastElement());
-        fragmentStack.push(fragment);
-        transaction.commit();
+        transaction.addToBackStack(null).commit();
 
     }
 
@@ -84,12 +80,9 @@ public class NavigationUtils {
         } else {
             fragment = AlbumDetailFragment.newInstance(artistID, false, null);
         }
-        Stack<Fragment> fragmentStack = ((MainActivity) context).getFragmentStack();
+        transaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container));
         transaction.add(R.id.fragment_container, fragment);
-        fragmentStack.lastElement().onPause();
-        transaction.hide(fragmentStack.lastElement());
-        fragmentStack.push(fragment);
-        transaction.commit();
+        transaction.addToBackStack(null).commit();
 
     }
 

@@ -3,6 +3,18 @@
 
     <string name="action_settings">设置</string>
 
+    <string name="accessibility_play">播放</string>
+    <string name="accessibility_pause">暂停</string>
+    <string name="accessibility_next">下一首</string>
+    <string name="accessibility_prev">上一首</string>
+    <string name="accessibility_shuffle">随机</string>
+    <string name="accessibility_shuffle_all">全部随机</string>
+    <string name="accessibility_repeat">循环</string>
+    <string name="accessibility_repeat_all">全部循环</string>
+    <string name="accessibility_repeat_one">单曲循环</string>
+    <string name="accessibility_queue">开启队列</string>
+    <string name="accessibility_browse">浏览音乐</string>
+
     <string name="menu_sort_by">排序</string>
     <string name="sort_order_entry_az">A 到 Z</string>
     <string name="sort_order_entry_za">Z 到 A</string>
@@ -74,5 +86,21 @@
     <string name="pause_detach">拔出暂停</string>
     <string name="currently_selected">当前选择</string>
 
+
+    <string name="dark_theme">夜间模式</string>
+    <string name="dark_theme_summary">应用夜间模式到整个应用</string>
+
+    <string name="primary_color">基础色</string>
+    <string name="primary_color_summary">更改主题基础色</string>
+
+    <string name="accent_color">强调色</string>
+
+    <string name="accent_color_summary">更改主题强调色</string>
+
+    <string name="colored_nav_bar">彩色导航栏</string>
+    <string name="colored_nav_bar_summary">切换导航栏色彩</string>
+
+    <string name="colored_status_bar">彩色状态栏</string>
+    <string name="colored_status_bar_summary">切换状态栏色彩</string>
 
 </resources>

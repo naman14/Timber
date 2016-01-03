@@ -27,6 +27,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,13 +140,15 @@ public class ArtistDetailFragment extends Fragment {
                                                 if (swatch != null) {
                                                     primaryColor = swatch.getRgb();
                                                     collapsingToolbarLayout.setContentScrimColor(primaryColor);
-                                                    ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+                                                    if (getActivity() != null)
+                                                        ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
                                                 } else {
                                                     Palette.Swatch swatchMuted = palette.getMutedSwatch();
                                                     if (swatchMuted != null) {
                                                         primaryColor = swatchMuted.getRgb();
                                                         collapsingToolbarLayout.setContentScrimColor(primaryColor);
-                                                        ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+                                                        if (getActivity() != null)
+                                                            ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
                                                     }
                                                 }
 
@@ -216,7 +219,7 @@ public class ArtistDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
         toolbar.setBackgroundColor(Color.TRANSPARENT);
-        if (primaryColor != -1) {
+        if (primaryColor != -1 && getActivity() != null) {
             collapsingToolbarLayout.setContentScrimColor(primaryColor);
             String ateKey = Helpers.getATEKey(getActivity());
             ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);

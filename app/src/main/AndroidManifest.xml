@@ -42,14 +42,6 @@
             android:name=".activities.NowPlayingActivity"
             android:theme="@style/AppTheme.FullScreen.Light" />
 
-        <activity
-            android:name=".activities.AlbumDetailActivity"
-            android:theme="@style/AppTheme.FullScreen.Light" />
-
-        <activity
-            android:name=".activities.ArtistDetailActivity"
-            android:theme="@style/AppTheme.FullScreen.Light" />
-
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />

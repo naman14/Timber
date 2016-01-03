@@ -58,6 +58,8 @@ public class NavigationUtils {
             fragment = AlbumDetailFragment.newInstance(albumID, true, transitionViews.second);
             fragment.setSharedElementEnterTransition(changeImage);
         } else {
+            transaction.setCustomAnimations(R.anim.activity_fade_in,
+                    R.anim.activity_fade_out, R.anim.activity_fade_in, R.anim.activity_fade_out);
             fragment = AlbumDetailFragment.newInstance(albumID, false, null);
         }
         transaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container));
@@ -78,7 +80,9 @@ public class NavigationUtils {
             fragment = ArtistDetailFragment.newInstance(artistID, true, transitionViews.second);
             fragment.setSharedElementEnterTransition(changeImage);
         } else {
-            fragment = AlbumDetailFragment.newInstance(artistID, false, null);
+            transaction.setCustomAnimations(R.anim.activity_fade_in,
+                    R.anim.activity_fade_out, R.anim.activity_fade_in, R.anim.activity_fade_out);
+            fragment = ArtistDetailFragment.newInstance(artistID, false, null);
         }
         transaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container));
         transaction.add(R.id.fragment_container, fragment);

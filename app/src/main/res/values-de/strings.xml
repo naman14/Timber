@@ -35,11 +35,6 @@
     <string name="playlist_recently_played">Zuletzt gespielt</string>
     <string name="playlist_top_tracks">Meine Lieblingslieder</string>
 
-    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
-
-    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
-    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
-    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
     <string name="timber_source">Melden Sie Fehler <u> hier </u> </string>
     <string name="timber_feature_request">Vorschläge? Posten Sie sie in der <u> Google+ Community </u></string>
 

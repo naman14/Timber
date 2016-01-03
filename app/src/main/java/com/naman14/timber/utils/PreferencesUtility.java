@@ -67,7 +67,7 @@ public final class PreferencesUtility {
     }
 
     public boolean isArtistsInGrid() {
-        return mPreferences.getBoolean(TOGGLE_ARTIST_GRID, false);
+        return mPreferences.getBoolean(TOGGLE_ARTIST_GRID, true);
     }
 
     public void setArtistsInGrid(final boolean b) {

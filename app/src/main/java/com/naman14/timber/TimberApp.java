@@ -52,7 +52,7 @@ public class TimberApp extends Application {
                     .activityTheme(R.style.AppThemeDark)
                     .primaryColorRes(R.color.colorPrimaryDarkDefault)
                     .accentColorRes(R.color.colorAccentDarkDefault)
-                    .coloredNavigationBar(true)
+                    .coloredNavigationBar(false)
                     .usingMaterialDialogs(true)
                     .commit();
         }

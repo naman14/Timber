@@ -41,10 +41,10 @@ import java.util.Set;
  */
 public class Nammu {
     private static final String TAG = Nammu.class.getSimpleName();
-    private static Context context;
-    private static SharedPreferences sharedPreferences;
     private static final String KEY_PREV_PERMISSIONS = "previous_permissions";
     private static final String KEY_IGNORED_PERMISSIONS = "ignored_permissions";
+    private static Context context;
+    private static SharedPreferences sharedPreferences;
     private static ArrayList<PermissionRequest> permissionRequests = new ArrayList<PermissionRequest>();
 
     public static void init(Context context) {
@@ -224,10 +224,7 @@ public class Nammu {
         if (permission == null) {
             return false;
         }
-        if (getIgnoredPermissions().contains(permission)) {
-            return true;
-        }
-        return false;
+        return getIgnoredPermissions().contains(permission);
     }
 
     /**

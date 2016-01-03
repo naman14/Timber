@@ -22,25 +22,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MusicDB extends SQLiteOpenHelper {
 
-    private static final int VERSION = 4;
-
     public static final String DATABASENAME = "musicdb.db";
-
+    private static final int VERSION = 4;
     private static MusicDB sInstance = null;
 
     private final Context mContext;
+
+    public MusicDB(final Context context) {
+        super(context, DATABASENAME, null, VERSION);
+
+        mContext = context;
+    }
 
     public static final synchronized MusicDB getInstance(final Context context) {
         if (sInstance == null) {
             sInstance = new MusicDB(context.getApplicationContext());
         }
         return sInstance;
-    }
-
-    public MusicDB(final Context context) {
-        super(context, DATABASENAME, null, VERSION);
-
-        mContext = context;
     }
 
     @Override

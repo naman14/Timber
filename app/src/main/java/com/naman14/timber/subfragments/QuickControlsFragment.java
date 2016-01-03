@@ -22,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +53,21 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     public static View topContainer;
     private ProgressBar mProgress;
     private SeekBar mSeekBar;
+    public Runnable mUpdateProgress = new Runnable() {
+
+        @Override
+        public void run() {
+
+            long position = MusicPlayer.position();
+            mProgress.setProgress((int) position);
+            mSeekBar.setProgress((int) position);
+
+            if (MusicPlayer.isPlaying()) {
+                mProgress.postDelayed(mUpdateProgress, 50);
+            } else mProgress.removeCallbacks(this);
+
+        }
+    };
     private PlayPauseButton mPlayPause, mPlayPauseExpanded;
     private TextView mTitle, mTitleExpanded;
     private TextView mArtist, mArtistExpanded;
@@ -61,14 +75,11 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     private View rootView;
     private View playPauseWrapper, playPauseWrapperExpanded;
     private MaterialIconView previous, next;
-
     private boolean duetoplaypause = false;
-
     private final View.OnClickListener mPlayPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             duetoplaypause = true;
-            ;
             if (!mPlayPause.isPlayed()) {
                 mPlayPause.setPlayed(true);
                 mPlayPause.startAnimation();
@@ -86,12 +97,10 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
 
         }
     };
-
     private final View.OnClickListener mPlayPauseExpandedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             duetoplaypause = true;
-            ;
             if (!mPlayPauseExpanded.isPlayed()) {
                 mPlayPauseExpanded.setPlayed(true);
                 mPlayPauseExpanded.startAnimation();
@@ -324,22 +333,6 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         protected void onPreExecute() {
         }
     }
-
-    public Runnable mUpdateProgress = new Runnable() {
-
-        @Override
-        public void run() {
-
-            long position = MusicPlayer.position();
-            mProgress.setProgress((int) position);
-            mSeekBar.setProgress((int) position);
-
-            if (MusicPlayer.isPlaying()) {
-                mProgress.postDelayed(mUpdateProgress, 50);
-            } else mProgress.removeCallbacks(this);
-
-        }
-    };
 
 
 }

@@ -133,9 +133,9 @@ public class FabAnimationUtils {
     }
 
     public interface ScaleCallback {
-        public void onAnimationStart();
+        void onAnimationStart();
 
-        public void onAnimationEnd();
+        void onAnimationEnd();
     }
 
 

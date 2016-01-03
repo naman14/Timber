@@ -41,15 +41,15 @@ import java.util.List;
 
 public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.ItemHolder> {
 
+    public static int currentlyPlayingPosition;
     private List<Song> arraylist;
     private AppCompatActivity mContext;
-    public static int currentlyPlayingPosition;
     private String ateKey;
 
     public BaseQueueAdapter(AppCompatActivity context, List<Song> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.currentlyPlayingPosition = MusicPlayer.getQueuePosition();
+        currentlyPlayingPosition = MusicPlayer.getQueuePosition();
         this.ateKey = Helpers.getATEKey(context);
     }
 
@@ -84,44 +84,6 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
     @Override
     public int getItemCount() {
         return (null != arraylist ? arraylist.size() : 0);
-    }
-
-
-    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, artist;
-        protected ImageView albumArt, popupMenu;
-        private MusicVisualizer visualizer;
-
-        public ItemHolder(View view) {
-            super(view);
-            this.title = (TextView) view.findViewById(R.id.song_title);
-            this.artist = (TextView) view.findViewById(R.id.song_artist);
-            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
-            this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
-            visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MusicPlayer.setQueuePosition(getAdapterPosition());
-                    Handler handler1 = new Handler();
-                    handler1.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyItemChanged(currentlyPlayingPosition);
-                            notifyItemChanged(getAdapterPosition());
-                        }
-                    }, 50);
-                }
-            }, 100);
-
-        }
-
     }
 
     private void setOnPopupMenuListener(ItemHolder itemHolder, final int position) {
@@ -174,6 +136,43 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
         }
 
         return ret;
+    }
+
+    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected TextView title, artist;
+        protected ImageView albumArt, popupMenu;
+        private MusicVisualizer visualizer;
+
+        public ItemHolder(View view) {
+            super(view);
+            this.title = (TextView) view.findViewById(R.id.song_title);
+            this.artist = (TextView) view.findViewById(R.id.song_artist);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
+            visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.setQueuePosition(getAdapterPosition());
+                    Handler handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyItemChanged(currentlyPlayingPosition);
+                            notifyItemChanged(getAdapterPosition());
+                        }
+                    }, 50);
+                }
+            }, 100);
+
+        }
+
     }
 
 }

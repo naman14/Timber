@@ -103,6 +103,19 @@ public class Timber4 extends BaseNowplayingFragment {
         }
     }
 
+    @Override
+    public void doAlbumArtStuff(Bitmap loadedImage) {
+        setBlurredAlbumArt blurredAlbumArt = new setBlurredAlbumArt();
+        blurredAlbumArt.execute(loadedImage);
+    }
+
+    private void setupHorizontalQueue() {
+        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
+        horizontalRecyclerview.setAdapter(horizontalAdapter);
+        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
+    }
+
     private class setBlurredAlbumArt extends AsyncTask<Bitmap, Void, Drawable> {
 
         @Override
@@ -137,19 +150,6 @@ public class Timber4 extends BaseNowplayingFragment {
         @Override
         protected void onPreExecute() {
         }
-    }
-
-    @Override
-    public void doAlbumArtStuff(Bitmap loadedImage) {
-        setBlurredAlbumArt blurredAlbumArt = new setBlurredAlbumArt();
-        blurredAlbumArt.execute(loadedImage);
-    }
-
-    private void setupHorizontalQueue() {
-        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
-        horizontalRecyclerview.setAdapter(horizontalAdapter);
-        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
     }
 
 

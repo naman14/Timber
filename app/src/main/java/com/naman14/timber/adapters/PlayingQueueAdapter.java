@@ -42,9 +42,9 @@ import java.util.List;
 
 public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapter.ItemHolder> {
 
+    public int currentlyPlayingPosition;
     private List<Song> arraylist;
     private Activity mContext;
-    public int currentlyPlayingPosition;
     private String ateKey;
 
     public PlayingQueueAdapter(Activity context, List<Song> arraylist) {
@@ -120,6 +120,26 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
         return (null != arraylist ? arraylist.size() : 0);
     }
 
+    public long[] getSongIds() {
+        long[] ret = new long[getItemCount()];
+        for (int i = 0; i < getItemCount(); i++) {
+            ret[i] = arraylist.get(i).id;
+        }
+
+        return ret;
+    }
+
+    public Song getSongAt(int i) {
+        return arraylist.get(i);
+    }
+
+    public void addSongTo(int i, Song song) {
+        arraylist.add(i, song);
+    }
+
+    public void removeSongAt(int i) {
+        arraylist.remove(i);
+    }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, artist;
@@ -157,27 +177,6 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
 
         }
 
-    }
-
-    public long[] getSongIds() {
-        long[] ret = new long[getItemCount()];
-        for (int i = 0; i < getItemCount(); i++) {
-            ret[i] = arraylist.get(i).id;
-        }
-
-        return ret;
-    }
-
-    public Song getSongAt(int i) {
-        return arraylist.get(i);
-    }
-
-    public void addSongTo(int i, Song song) {
-        arraylist.add(i, song);
-    }
-
-    public void removeSongAt(int i) {
-        arraylist.remove(i);
     }
 
 }

@@ -40,6 +40,13 @@ public class MusicPlaybackState {
         mMusicDatabase = MusicDB.getInstance(context);
     }
 
+    public static final synchronized MusicPlaybackState getInstance(final Context context) {
+        if (sInstance == null) {
+            sInstance = new MusicPlaybackState(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
     public void onCreate(final SQLiteDatabase db) {
         StringBuilder builder = new StringBuilder();
         builder.append("CREATE TABLE IF NOT EXISTS ");
@@ -83,13 +90,6 @@ public class MusicPlaybackState {
         db.execSQL("DROP TABLE IF EXISTS " + PlaybackQueueColumns.NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PlaybackHistoryColumns.NAME);
         onCreate(db);
-    }
-
-    public static final synchronized MusicPlaybackState getInstance(final Context context) {
-        if (sInstance == null) {
-            sInstance = new MusicPlaybackState(context.getApplicationContext());
-        }
-        return sInstance;
     }
 
     public synchronized void saveState(final ArrayList<MusicPlaybackTrack> queue,

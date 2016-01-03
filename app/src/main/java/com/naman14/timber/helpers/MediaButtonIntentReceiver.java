@@ -142,7 +142,7 @@ public class MediaButtonIntentReceiver extends WakefulBroadcastReceiver {
             if (PreferencesUtility.getInstance(context).pauseEnabledOnDetach())
                 startService(context, MusicService.CMDPAUSE);
         } else if (Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
-            final KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+            final KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (event == null) {
                 return;
             }

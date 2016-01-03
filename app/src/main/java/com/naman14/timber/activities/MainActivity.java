@@ -58,20 +58,79 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
 
     private static MainActivity sMainActivity;
-
-    private DrawerLayout mDrawerLayout;
     SlidingUpPanelLayout panelLayout;
     NavigationView navigationView;
-
     TextView songtitle, songartist;
     ImageView albumart;
-
     String action;
-
     Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
     Handler navDrawerRunnable = new Handler();
     Runnable runnable;
+    Runnable navigateLibrary = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
+            Fragment fragment = new MainFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
 
+        }
+    };
+    Runnable navigateNowplaying = new Runnable() {
+        public void run() {
+            navigateLibrary.run();
+            startActivity(new Intent(MainActivity.this, NowPlayingActivity.class));
+        }
+    };
+    final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
+        @Override
+        public void permissionGranted() {
+            loadEverything();
+        }
+
+        @Override
+        public void permissionRefused() {
+            finish();
+        }
+    };
+    Runnable navigatePlaylist = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
+            Fragment fragment = new PlaylistFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
+            transaction.replace(R.id.fragment_container, fragment).commit();
+
+        }
+    };
+    Runnable navigateQueue = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_queue).setChecked(true);
+            Fragment fragment = new QueueFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
+            transaction.replace(R.id.fragment_container, fragment).commit();
+
+        }
+    };
+    Runnable navigateAlbum = new Runnable() {
+        public void run() {
+            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
+            Fragment fragment = AlbumDetailFragment.newInstance(albumID, false, null);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+    Runnable navigateArtist = new Runnable() {
+        public void run() {
+            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
+            Fragment fragment = ArtistDetailFragment.newInstance(artistID, false, null);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+    private DrawerLayout mDrawerLayout;
     private boolean isDarkTheme;
 
     public static MainActivity getInstance() {
@@ -300,84 +359,11 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         setDetailsToHeader();
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         sMainActivity = this;
     }
-
-    Runnable navigateNowplaying = new Runnable() {
-        public void run() {
-            navigateLibrary.run();
-            startActivity(new Intent(MainActivity.this, NowPlayingActivity.class));
-        }
-    };
-
-    Runnable navigateLibrary = new Runnable() {
-        public void run() {
-            navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
-            Fragment fragment = new MainFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
-
-        }
-    };
-
-
-    Runnable navigatePlaylist = new Runnable() {
-        public void run() {
-            navigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
-            Fragment fragment = new PlaylistFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
-            transaction.replace(R.id.fragment_container, fragment).commit();
-
-        }
-    };
-    Runnable navigateQueue = new Runnable() {
-        public void run() {
-            navigationView.getMenu().findItem(R.id.nav_queue).setChecked(true);
-            Fragment fragment = new QueueFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
-            transaction.replace(R.id.fragment_container, fragment).commit();
-
-        }
-    };
-
-    Runnable navigateAlbum = new Runnable() {
-        public void run() {
-            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
-            Fragment fragment = AlbumDetailFragment.newInstance(albumID, false, null);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-        }
-    };
-
-    Runnable navigateArtist = new Runnable() {
-        public void run() {
-            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
-            Fragment fragment = ArtistDetailFragment.newInstance(artistID, false, null);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-        }
-    };
-
-
-    final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
-        @Override
-        public void permissionGranted() {
-            loadEverything();
-        }
-
-        @Override
-        public void permissionRefused() {
-            finish();
-        }
-    };
 
     @Override
     public void onRequestPermissionsResult(

@@ -17,6 +17,16 @@ public class MusicVisualizer extends View {
     Random random = new Random();
 
     Paint paint = new Paint();
+    private Runnable animateView = new Runnable() {
+        @Override
+        public void run() {
+
+            //run every 150 ms
+            postDelayed(this, 150);
+
+            invalidate();
+        }
+    };
 
     public MusicVisualizer(Context context) {
         super(context);
@@ -42,17 +52,6 @@ public class MusicVisualizer extends View {
         canvas.drawRect(getDimensionInPixel(10), getHeight() - random.nextInt((int) (getHeight() / 1.5f)), getDimensionInPixel(17), getHeight(), paint);
         canvas.drawRect(getDimensionInPixel(20), getHeight() - random.nextInt((int) (getHeight() / 1.5f)), getDimensionInPixel(27), getHeight(), paint);
     }
-
-    private Runnable animateView = new Runnable() {
-        @Override
-        public void run() {
-
-            //run every 150 ms
-            postDelayed(this, 150);
-
-            invalidate();
-        }
-    };
 
     public void setColor(int color) {
         paint.setColor(color);

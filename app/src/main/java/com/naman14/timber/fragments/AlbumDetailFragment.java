@@ -331,19 +331,6 @@ public class AlbumDetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private class EnterTransitionListener extends SimplelTransitionListener {
-
-        @TargetApi(21)
-        public void onTransitionEnd(Transition paramTransition) {
-            FabAnimationUtils.scaleIn(fab);
-        }
-
-        public void onTransitionStart(Transition paramTransition) {
-            FabAnimationUtils.scaleOut(fab, 0, null);
-        }
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -353,6 +340,19 @@ public class AlbumDetailFragment extends Fragment {
             ATEUtils.setFabBackgroundTint(fab, primaryColor);
             String ateKey = Helpers.getATEKey(getActivity());
             ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
+        }
+
+    }
+
+    private class EnterTransitionListener extends SimplelTransitionListener {
+
+        @TargetApi(21)
+        public void onTransitionEnd(Transition paramTransition) {
+            FabAnimationUtils.scaleIn(fab);
+        }
+
+        public void onTransitionStart(Transition paramTransition) {
+            FabAnimationUtils.scaleOut(fab, 0, null);
         }
 
     }

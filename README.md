@@ -12,6 +12,13 @@
 ![](https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-31-11-50-50.png)
 ![](https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-31-11-52-50.png)
 
+## Contribute
+### Translations
+
+If there isn't any translations in your language go to the [res folder](https://github.com/naman14/Timber/blob/master/app/src/main/res/) and create a file named "values-XX/strings.xml" where XX is the target language's code. Copy and paste the content of the [English base file](https://github.com/naman14/Timber/blob/master/app/src/main/res/values/strings.xml) and remove all strings with "translatable=false" attribute. Translate all the keys and make a pull request.
+
+If there is a translation in your language go to its folder in [res folder](https://github.com/naman14/Timber/blob/master/app/src/main/res/) and edit the strings.xml file. You'd like to update the translation with new keys by copying them from the [English base file](https://github.com/naman14/Timber/blob/master/app/src/main/res/values/strings.xml). Edit the file and make a pull request.
+
 ## Changelog
 
 Changelog is available [here](https://github.com/naman14/Timber/blob/master/Changelog.md)

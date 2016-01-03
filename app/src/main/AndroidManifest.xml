@@ -47,6 +47,12 @@
             android:label="@string/app_name"
             android:process=":main" />
 
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
     </application>
 
 </manifest>

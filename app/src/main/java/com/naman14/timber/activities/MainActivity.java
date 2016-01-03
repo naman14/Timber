@@ -15,6 +15,9 @@
 package com.naman14.timber.activities;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,13 +31,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.naman14.timber.AlarmReceiver;
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
@@ -53,10 +61,15 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+
+
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends BaseActivity {
+
+    public static final String TAG = "MainActivity";
 
 
     private static MainActivity sMainActivity;
@@ -67,6 +80,8 @@ public class MainActivity extends BaseActivity {
 
     TextView songtitle, songartist;
     ImageView albumart;
+
+    Calendar calendar = Calendar.getInstance();
 
     String action;
 
@@ -85,6 +100,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
 
         sMainActivity = this;
         action = getIntent().getAction();
@@ -302,6 +318,53 @@ public class MainActivity extends BaseActivity {
                 else
                     NavigationUtils.navigateToMainActivityWithFragment(MainActivity.this, Constants.NAVIGATE_QUEUE);
                 break;
+            case R.id.nav_alarm:
+
+                calendar.setTimeInMillis(System.currentTimeMillis());
+
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                new TimePickerDialog(MainActivity.this, minute, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //是设置日历的时间，主要是让日历的年月日和当前同步
+                        calendar.setTimeInMillis(System.currentTimeMillis());
+                        //设置小时分钟，秒和毫秒都设置为0
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+                        calendar.set(Calendar.SECOND, 0);
+                        calendar.set(Calendar.MILLISECOND, 0);
+
+                        int requestCode = 0;//闹钟的唯一标示
+                        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                        intent.putExtra("requestCode", requestCode);
+                        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, requestCode, intent, 0);
+                        //得到AlarmManager实例
+                        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+                        //根据当前时间预设一个警报
+                       // am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
+                        /**
+                         * 第一个参数是警报类型；第二个参数是第一次执行的延迟时间，可以延迟，也可以马上执行；第三个参数是重复周期为一天
+                         * 这句话的意思是设置闹铃重复周期，也就是执行警报的间隔时间
+                         */
+                      am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                              (24*60*60*1000), pi);
+//                        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                                1000*60*5, pi);
+
+                        String msg = hourOfDay+":"+minute;
+                        //tv.setText("当前设置的闹钟时间："+msg);
+                        Toast.makeText(MainActivity.this , "当前设置的每天闹钟时间："+msg , Toast.LENGTH_LONG).show();
+
+         //               Log.d(TAG, "findViewById(R.id.nav_alarm)" + findViewById(R.id.nav_alarm).getClass().getName());
+
+                               // ((MenuItem) findViewById(R.id.nav_alarm)).setTitle(((MenuItem) findViewById(R.id.nav_alarm)).getTitle() + "    " + "每天 " + msg);
+                    }
+                }, hour, minute, true).show();
+                //上面的TimePickerDialog中的5个参数参考：http://blog.csdn.net/yang_hui1986527/article/details/6839342
+
+                break;
             case R.id.nav_settings:
                 NavigationUtils.navigateToSettings(MainActivity.this);
                 break;
@@ -512,6 +575,22 @@ public class MainActivity extends BaseActivity {
         Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    private void setAlarm() {
+
+    }
+
+    private void cancelAlarm() {
+        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, 0,
+                intent, 0);
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        //取消警报
+        am.cancel(pi);
+        Toast.makeText(MainActivity.this, getText(R.string.cancel_alarm), Toast.LENGTH_LONG).show();
+        //取消闹钟的同时取消音乐
+        stopService(new Intent(MainActivity.this , MusicService.class));
+
+    }
 }
 
 

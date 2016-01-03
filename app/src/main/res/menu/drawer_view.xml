@@ -27,6 +27,11 @@
     <group
         android:id="@+id/group2"
         android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_alarm"
+            android:title="@string/alarm" />
+
         <item
 
             android:id="@+id/nav_settings"

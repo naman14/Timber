@@ -91,6 +91,8 @@
     <string name="summary_pause_detach">Toggle for pausing playback when headphone is detached</string>
     <string name="pause_detach">Pause on Detach</string>
     <string name="currently_selected">Currently Selected</string>
+    <string name="alarm">Alarm</string>
+    <string name="cancel_alarm">闹钟取消</string>
 
 
 </resources>

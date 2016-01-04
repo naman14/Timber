@@ -93,6 +93,12 @@ public class Timber2 extends BaseNowplayingFragment {
         }
     }
 
+    @Override
+    public void doAlbumArtStuff(Bitmap loadedImage) {
+        setBlurredAlbumArt blurredAlbumArt = new setBlurredAlbumArt();
+        blurredAlbumArt.execute(loadedImage);
+    }
+
     private class setBlurredAlbumArt extends AsyncTask<Bitmap, Void, Drawable> {
 
         @Override
@@ -127,11 +133,5 @@ public class Timber2 extends BaseNowplayingFragment {
         @Override
         protected void onPreExecute() {
         }
-    }
-
-    @Override
-    public void doAlbumArtStuff(Bitmap loadedImage) {
-        setBlurredAlbumArt blurredAlbumArt = new setBlurredAlbumArt();
-        blurredAlbumArt.execute(loadedImage);
     }
 }

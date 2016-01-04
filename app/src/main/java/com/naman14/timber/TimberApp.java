@@ -27,6 +27,10 @@ public class TimberApp extends Application {
 
     private static TimberApp mInstance;
 
+    public static synchronized TimberApp getInstance() {
+        return mInstance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -77,10 +81,6 @@ public class TimberApp extends Application {
                     .commit();
         }
 
-    }
-
-    public static synchronized TimberApp getInstance() {
-        return mInstance;
     }
 
 

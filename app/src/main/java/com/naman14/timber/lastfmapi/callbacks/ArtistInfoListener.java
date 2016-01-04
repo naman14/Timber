@@ -18,8 +18,8 @@ import com.naman14.timber.lastfmapi.models.LastfmArtist;
 
 public interface ArtistInfoListener {
 
-    public void artistInfoSucess(LastfmArtist artist);
+    void artistInfoSucess(LastfmArtist artist);
 
-    public void artistInfoFailed();
+    void artistInfoFailed();
 
 }

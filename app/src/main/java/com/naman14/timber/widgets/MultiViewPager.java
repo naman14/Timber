@@ -11,6 +11,8 @@ import com.naman14.timber.R;
 
 public class MultiViewPager extends ViewPager {
 
+    private final Point size;
+    private final Point maxSize;
     /**
      * Maximum size.
      */
@@ -23,26 +25,10 @@ public class MultiViewPager extends ViewPager {
      * Child view inside a page to match the page size against.
      */
     private int mMatchWidthChildResId;
-
     /**
      * Internal state to schedule a new measurement pass.
      */
     private boolean mNeedsMeasurePage;
-    private final Point size;
-    private final Point maxSize;
-
-    private static void constrainTo(Point size, Point maxSize) {
-        if (maxSize.x >= 0) {
-            if (size.x > maxSize.x) {
-                size.x = maxSize.x;
-            }
-        }
-        if (maxSize.y >= 0) {
-            if (size.y > maxSize.y) {
-                size.y = maxSize.y;
-            }
-        }
-    }
 
     public MultiViewPager(Context context) {
         super(context);
@@ -55,6 +41,19 @@ public class MultiViewPager extends ViewPager {
         init(context, attrs);
         size = new Point();
         maxSize = new Point();
+    }
+
+    private static void constrainTo(Point size, Point maxSize) {
+        if (maxSize.x >= 0) {
+            if (size.x > maxSize.x) {
+                size.x = maxSize.x;
+            }
+        }
+        if (maxSize.y >= 0) {
+            if (size.y > maxSize.y) {
+                size.y = maxSize.y;
+            }
+        }
     }
 
     private void init(Context context, AttributeSet attrs) {

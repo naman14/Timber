@@ -43,14 +43,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String TOGGLE_ANIMATIONS = "toggle_animations";
     private static final String TOGGLE_SYSTEM_ANIMATIONS = "toggle_system_animations";
     private static final String KEY_START_PAGE = "start_page_preference";
-
-    private String mAteKey;
-
     Preference nowPlayingSelector;
     SwitchPreference toggleAnimations;
     ListPreference themePreference, startPagePreference;
-
     PreferencesUtility mPreferences;
+    private String mAteKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +64,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         nowPlayingSelector.setIntent(NavigationUtils.getNavigateToStyleSelectorIntent(getActivity(), Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING));
 
         PreferencesUtility.getInstance(getActivity()).setOnSharedPreferenceChangeListener(this);
-        setPrefernceCickListeners();
+        setPreferenceClickListeners();
 
     }
 
@@ -76,7 +73,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                                           String key) {
     }
 
-    private void setPrefernceCickListeners() {
+    private void setPreferenceClickListeners() {
 
 //        themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 //            @Override

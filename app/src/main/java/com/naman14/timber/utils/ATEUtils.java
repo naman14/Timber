@@ -65,7 +65,7 @@ public class ATEUtils {
                 activity.getWindow().setStatusBarColor(color2);
             }
             if (Config.coloredStatusBar(activity, key))
-                ((DrawerLayout) (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0)).setStatusBarBackgroundColor(getStatusBarColor(color));
+                ((DrawerLayout) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0)).setStatusBarBackgroundColor(getStatusBarColor(color));
         } catch (Exception e) {
             e.printStackTrace();
         }

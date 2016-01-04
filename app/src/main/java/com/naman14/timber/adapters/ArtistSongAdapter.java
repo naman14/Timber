@@ -98,41 +98,6 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         return (null != arraylist ? arraylist.size() : 0);
     }
 
-
-    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, album;
-        protected ImageView albumArt, menu;
-        protected RecyclerView albumsRecyclerView;
-
-        public ItemHolder(View view) {
-            super(view);
-
-            this.albumsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_album);
-
-            this.title = (TextView) view.findViewById(R.id.song_title);
-            this.album = (TextView) view.findViewById(R.id.song_album);
-            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
-            this.menu = (ImageView) view.findViewById(R.id.popup_menu);
-
-
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
-                    NavigationUtils.navigateToNowplaying(mContext, true);
-                }
-            }, 100);
-
-        }
-
-    }
-
     private void setOnPopupMenuListener(ItemHolder itemHolder, final int position) {
 
         itemHolder.menu.setOnClickListener(new View.OnClickListener() {
@@ -198,25 +163,6 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
     }
 
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-
-            //the padding from left
-            outRect.left = space;
-
-
-        }
-    }
-
     public long[] getSongIds() {
         List<Song> actualArraylist = new ArrayList<Song>(arraylist);
         actualArraylist.remove(0);
@@ -234,6 +180,58 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             viewType = 0;
         } else viewType = 1;
         return viewType;
+    }
+
+    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected TextView title, album;
+        protected ImageView albumArt, menu;
+        protected RecyclerView albumsRecyclerView;
+
+        public ItemHolder(View view) {
+            super(view);
+
+            this.albumsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_album);
+
+            this.title = (TextView) view.findViewById(R.id.song_title);
+            this.album = (TextView) view.findViewById(R.id.song_album);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.menu = (ImageView) view.findViewById(R.id.popup_menu);
+
+
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
+                    NavigationUtils.navigateToNowplaying(mContext, true);
+                }
+            }, 100);
+
+        }
+
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+            //the padding from left
+            outRect.left = space;
+
+
+        }
     }
 }
 

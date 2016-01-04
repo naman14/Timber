@@ -52,7 +52,6 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
     private RecyclerView recyclerView;
 
     private List searchResults = Collections.emptyList();
-    ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

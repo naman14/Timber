@@ -17,47 +17,37 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
     final String TAG = "DragSortRecycler";
 
     final boolean DEBUG = false;
-
+    OnItemMovedListener moveInterface;
+    @Nullable
+    OnDragStateChangedListener dragStateChangedListener;
+    Paint bgColor = new Paint();
     private int dragHandleWidth = 0;
-
     private int selectedDragItemPos = -1;
-
     private int fingerAnchorY;
+    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
 
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            debugLog("Scrolled: " + dx + " " + dy);
+            fingerAnchorY -= dy;
+        }
+    };
     private int fingerY;
-
     private int fingerOffsetInViewY;
-
     private float autoScrollWindow = 0.1f;
     private float autoScrollSpeed = 0.5f;
-
     private BitmapDrawable floatingItem;
     private Rect floatingItemStatingBounds;
     private Rect floatingItemBounds;
-
-
     private float floatingItemAlpha = 0.5f;
     private int floatingItemBgColor = 0;
-
     private int viewHandleId = -1;
-
-
-    OnItemMovedListener moveInterface;
-
     private boolean isDragging;
-    @Nullable
-    OnDragStateChangedListener dragStateChangedListener;
-
-
-    public interface OnItemMovedListener {
-        public void onItemMoved(int from, int to);
-    }
-
-    public interface OnDragStateChangedListener {
-        public void onDragStart();
-
-        public void onDragStop();
-    }
 
     private void debugLog(String log) {
         if (DEBUG)
@@ -364,9 +354,6 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
         this.dragStateChangedListener = dragStateChangedListener;
     }
 
-
-    Paint bgColor = new Paint();
-
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         if (floatingItem != null) {
@@ -377,20 +364,6 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
         }
     }
 
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            debugLog("Scrolled: " + dx + " " + dy);
-            fingerAnchorY -= dy;
-        }
-    };
-
     /**
      * @param position
      * @return True if we can drag the item over this position, False if not.
@@ -398,7 +371,6 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
     protected boolean canDragOver(int position) {
         return true;
     }
-
 
     private BitmapDrawable createFloatingBitmap(View v) {
         floatingItemStatingBounds = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
@@ -413,5 +385,16 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
         retDrawable.setBounds(floatingItemBounds);
 
         return retDrawable;
+    }
+
+    public interface OnItemMovedListener {
+        void onItemMoved(int from, int to);
+    }
+
+
+    public interface OnDragStateChangedListener {
+        void onDragStart();
+
+        void onDragStop();
     }
 }

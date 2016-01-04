@@ -17,14 +17,16 @@ package com.naman14.timber.activities;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -37,12 +39,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.naman14.timber.AlarmReceiver;
 import com.naman14.timber.MusicPlayer;
-import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
@@ -57,40 +57,109 @@ import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.SharedPreferencesUtil;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements TimePickerDialog.OnTimeSetListener {
 
     public static final String TAG = "MainActivity";
 
+    public static final String ALARM_TIME_MS = "ALARM_TIME_MS";
 
     private static MainActivity sMainActivity;
-
-    private DrawerLayout mDrawerLayout;
     SlidingUpPanelLayout panelLayout;
     NavigationView navigationView;
-
     TextView songtitle, songartist;
     ImageView albumart;
-
     Calendar calendar = Calendar.getInstance();
-
     String action;
-
     Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
     Handler navDrawerRunnable = new Handler();
+    Runnable navigateAlbum = new Runnable() {
+        public void run() {
+            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
+            boolean withTransition = getIntent().getBooleanExtra("transition", false);
+            Fragment fragment = new AlbumDetailFragment().newInstance(albumID, withTransition);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+    Runnable navigateArtist = new Runnable() {
+        public void run() {
+            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
+            Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+        }
+    };
+    Runnable navigateNowplaying = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_nowplaying).setCheckable(false);
+            SharedPreferences prefs = getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
+            String fragmentID = prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
+            Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+            panelLayout.setPanelHeight(0);
+        }
+    };
+    Runnable navigateLibrary = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
+            Fragment fragment = new MainFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
+
+        }
+    };
+    final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
+        @Override
+        public void permissionGranted() {
+            loadEverything();
+        }
+
+        @Override
+        public void permissionRefused() {
+            finish();
+        }
+    };
+    Runnable navigatePlaylist = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
+            Fragment fragment = new PlaylistFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+
+        }
+    };
+    Runnable navigateQueue = new Runnable() {
+        public void run() {
+            navigationView.getMenu().findItem(R.id.nav_queue).setChecked(true);
+            Fragment fragment = new QueueFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit();
+
+        }
+    };
+    private DrawerLayout mDrawerLayout;
     private boolean isLightTheme;
     private boolean isDarkTheme;
-
     private boolean isNavigatingMain = true;
 
     public static MainActivity getInstance() {
@@ -165,6 +234,14 @@ public class MainActivity extends BaseActivity {
             loadEverything();
         }
 
+        long alarmTime = SharedPreferencesUtil.getLong(getApplicationContext() , ALARM_TIME_MS , 0L);
+
+        if ( alarmTime != 0L){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(alarmTime);
+
+            updateMenuAlarmTitle(getAlarmString(calendar.get(Calendar.HOUR_OF_DAY) , calendar.get(Calendar.MINUTE)));
+        }
 
     }
 
@@ -213,6 +290,11 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    private void updateMenuAlarmTitle(String alarmTimeStr) {
+
+        navigationView.getMenu().findItem(R.id.nav_alarm).setTitle(getString(R.string.alarm) + "    " + alarmTimeStr);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -254,7 +336,6 @@ public class MainActivity extends BaseActivity {
             super.onBackPressed();
     }
 
-
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -281,6 +362,7 @@ public class MainActivity extends BaseActivity {
             navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings);
             navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle);
             navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information);
+
         } else {
             navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music_white);
             navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play_white);
@@ -320,49 +402,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.nav_alarm:
 
-                calendar.setTimeInMillis(System.currentTimeMillis());
-
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                int minute = calendar.get(Calendar.MINUTE);
-
-                new TimePickerDialog(MainActivity.this, minute, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        //是设置日历的时间，主要是让日历的年月日和当前同步
-                        calendar.setTimeInMillis(System.currentTimeMillis());
-                        //设置小时分钟，秒和毫秒都设置为0
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        calendar.set(Calendar.MINUTE, minute);
-                        calendar.set(Calendar.SECOND, 0);
-                        calendar.set(Calendar.MILLISECOND, 0);
-
-                        int requestCode = 0;//闹钟的唯一标示
-                        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-                        intent.putExtra("requestCode", requestCode);
-                        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, requestCode, intent, 0);
-                        //得到AlarmManager实例
-                        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-                        //根据当前时间预设一个警报
-                       // am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
-                        /**
-                         * 第一个参数是警报类型；第二个参数是第一次执行的延迟时间，可以延迟，也可以马上执行；第三个参数是重复周期为一天
-                         * 这句话的意思是设置闹铃重复周期，也就是执行警报的间隔时间
-                         */
-                      am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                              (24*60*60*1000), pi);
-//                        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-//                                1000*60*5, pi);
-
-                        String msg = hourOfDay+":"+minute;
-                        //tv.setText("当前设置的闹钟时间："+msg);
-                        Toast.makeText(MainActivity.this , "当前设置的每天闹钟时间："+msg , Toast.LENGTH_LONG).show();
-
-         //               Log.d(TAG, "findViewById(R.id.nav_alarm)" + findViewById(R.id.nav_alarm).getClass().getName());
-
-                               // ((MenuItem) findViewById(R.id.nav_alarm)).setTitle(((MenuItem) findViewById(R.id.nav_alarm)).getTitle() + "    " + "每天 " + msg);
-                    }
-                }, hour, minute, true).show();
-                //上面的TimePickerDialog中的5个参数参考：http://blog.csdn.net/yang_hui1986527/article/details/6839342
+                setAlarm();
 
                 break;
             case R.id.nav_settings:
@@ -424,7 +464,6 @@ public class MainActivity extends BaseActivity {
         setDetailsToHeader();
     }
 
-
     private void setPanelSlideListeners() {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
@@ -464,73 +503,103 @@ public class MainActivity extends BaseActivity {
         sMainActivity = this;
     }
 
-    Runnable navigateAlbum = new Runnable() {
-        public void run() {
-            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
-            boolean withTransition = getIntent().getBooleanExtra("transition", false);
-            Fragment fragment = new AlbumDetailFragment().newInstance(albumID, withTransition);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void setAlarm() {
+
+        Calendar now = Calendar.getInstance();
+        long alarmTime = SharedPreferencesUtil.getLong(getApplicationContext(), ALARM_TIME_MS, 0L);
+
+        if ( alarmTime != 0L){
+            now.setTimeInMillis(alarmTime);
         }
-    };
 
-    Runnable navigateArtist = new Runnable() {
-        public void run() {
-            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
-            Fragment fragment = new ArtistDetailFragment().newInstance(artistID);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-        }
-    };
 
-    Runnable navigateNowplaying = new Runnable() {
-        public void run() {
-            navigationView.getMenu().findItem(R.id.nav_nowplaying).setCheckable(false);
-            SharedPreferences prefs = getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
-            String fragmentID = prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
+        TimePickerDialog tpd = TimePickerDialog.newInstance(
+                MainActivity.this,
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE),
+                true
+        );
+        tpd.setThemeDark(false);
+        tpd.vibrate(true);
+        tpd.dismissOnPause(true);
+        tpd.enableSeconds(false);
+        tpd.setAccentColor(Color.parseColor("#9C27B0"));
+        tpd.setTitle(getString(R.string.time_picker_title));
 
-            Fragment fragment = NavigationUtils.getFragmentForNowplayingID(fragmentID);
-            FragmentManager fragmentManager = getSupportFragmentManager();
+        tpd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                cancelAlarm();
+                Log.d(TAG, "Dialog and alarm was cancelled");
+            }
+        });
+        tpd.show(getFragmentManager(), "Timepickerdialog");
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-            panelLayout.setPanelHeight(0);
-        }
-    };
+    }
 
-    Runnable navigateLibrary = new Runnable() {
-        public void run() {
-            navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
-            Fragment fragment = new MainFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
 
-        }
-    };
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+        String time = getAlarmString(hourOfDay, minute);
+        Log.d(TAG, "You picked the following time: " + time);
 
-    Runnable navigatePlaylist = new Runnable() {
-        public void run() {
-            navigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
-            Fragment fragment = new PlaylistFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
+        //是设置日历的时间，主要是让日历的年月日和当前同步
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                //设置小时分钟，秒和毫秒都设置为0
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+        // 保存定时的毫秒数
+        SharedPreferencesUtil.putLong(getApplicationContext() , ALARM_TIME_MS , calendar.getTimeInMillis());
 
-        }
-    };
-    Runnable navigateQueue = new Runnable() {
-        public void run() {
-            navigationView.getMenu().findItem(R.id.nav_queue).setChecked(true);
-            Fragment fragment = new QueueFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
+        int requestCode = 0;//闹钟的唯一标示
+        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        intent.putExtra("requestCode", requestCode);
+        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, requestCode, intent, 0);
+        //得到AlarmManager实例
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        /**
+         * 第一个参数是警报类型；第二个参数是第一次执行的延迟时间，可以延迟，也可以马上执行；第三个参数是重复周期为一天
+         * 这句话的意思是设置闹铃重复周期，也就是执行警报的间隔时间
+         */
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                (24 * 60 * 60 * 1000), pi);
+        Toast.makeText(MainActivity.this, "当前设置的每天闹钟时间：" + time, Toast.LENGTH_LONG).show();
 
-        }
-    };
+        updateMenuAlarmTitle(time);
+
+    }
+
+    @NonNull
+    private String getAlarmString(int hourOfDay, int minute) {
+        int second = 0;
+        String hourString = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
+        String minuteString = minute < 10 ? "0" + minute : "" + minute;
+        String secondString = second < 10 ? "0" + second : "" + second;
+        return hourString + ":" + minuteString;
+    }
+
+    private void cancelAlarm() {
+        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, 0,
+                intent, 0);
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //取消警报
+        am.cancel(pi);
+
+        SharedPreferencesUtil.putLong(getApplicationContext() , ALARM_TIME_MS , 0L);
+
+        updateMenuAlarmTitle("");
+
+        Toast.makeText(MainActivity.this, getText(R.string.cancel_alarm), Toast.LENGTH_LONG).show();
+
+    }
 
     private class initQuickControls extends AsyncTask<String, Void, String> {
 
@@ -558,39 +627,8 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
-        @Override
-        public void permissionGranted() {
-            loadEverything();
-        }
 
-        @Override
-        public void permissionRefused() {
-            finish();
-        }
-    };
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private void setAlarm() {
-
-    }
-
-    private void cancelAlarm() {
-        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, 0,
-                intent, 0);
-        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-        //取消警报
-        am.cancel(pi);
-        Toast.makeText(MainActivity.this, getText(R.string.cancel_alarm), Toast.LENGTH_LONG).show();
-        //取消闹钟的同时取消音乐
-        stopService(new Intent(MainActivity.this , MusicService.class));
-
-    }
 }
 
 

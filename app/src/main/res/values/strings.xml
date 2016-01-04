@@ -92,7 +92,8 @@
     <string name="pause_detach">Pause on Detach</string>
     <string name="currently_selected">Currently Selected</string>
     <string name="alarm">Alarm</string>
-    <string name="cancel_alarm">闹钟取消</string>
+    <string name="cancel_alarm">Alarm Cancelled</string>
+    <string name="time_picker_title">Pick up time to schedule music alarm in everyday</string>
 
 
 </resources>

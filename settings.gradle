@@ -1,1 +1,1 @@
-include ':app', ':sublimepickerlibrary'
+include ':app'

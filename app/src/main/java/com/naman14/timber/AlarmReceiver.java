@@ -18,16 +18,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Toast.makeText(context, "闹钟时间到", Toast.LENGTH_SHORT).show();
         Log.d("AlarmReceiver" ,  "闹钟时间到" + new Date());
-         intent = new Intent(context , MusicService.class);
-        //启动Service播放音乐
-       // context.startService(intent);
-
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (MusicPlayer.isPlaying() == false){
+                if (MusicPlayer.isPlaying() == false) {
                     MusicPlayer.playOrPause();
                 }
             }

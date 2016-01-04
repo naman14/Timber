@@ -25,13 +25,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.R;
 import com.naman14.timber.models.Album;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -105,6 +108,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
                             });
                         }
 
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        if (isGrid) {
+                            itemHolder.footer.setBackgroundColor(0);
+                            if (mContext != null) {
+                                int textColorPrimary = Config.textColorPrimary(mContext, Helpers.getATEKey(mContext));
+                                itemHolder.title.setTextColor(textColorPrimary);
+                                itemHolder.artist.setTextColor(textColorPrimary);
+                            }
+                        }
                     }
                 });
 

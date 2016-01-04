@@ -27,7 +27,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,11 +52,9 @@ import static com.naman14.timber.MusicPlayer.mService;
 
 public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
 
+    private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
     private MusicPlayer.ServiceToken mToken;
     private PlaybackStatus mPlaybackStatus;
-
-    private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -178,37 +175,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         }
     }
 
-    private final static class PlaybackStatus extends BroadcastReceiver {
-
-        private final WeakReference<BaseActivity> mReference;
-
-
-        public PlaybackStatus(final BaseActivity activity) {
-            mReference = new WeakReference<BaseActivity>(activity);
-        }
-
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            final String action = intent.getAction();
-            BaseActivity baseActivity = mReference.get();
-            if (baseActivity != null) {
-                if (action.equals(MusicService.META_CHANGED)) {
-                    baseActivity.onMetaChanged();
-                } else if (action.equals(MusicService.PLAYSTATE_CHANGED)) {
-//                    baseActivity.mPlayPauseProgressButton.getPlayPauseButton().updateState();
-                } else if (action.equals(MusicService.REFRESH)) {
-                    baseActivity.restartLoader();
-                } else if (action.equals(MusicService.PLAYLIST_CHANGED)) {
-                    baseActivity.onPlaylistChanged();
-                } else if (action.equals(MusicService.TRACK_ERROR)) {
-                    final String errorMsg = context.getString(R.string.error_playing_track,
-                            intent.getStringExtra(MusicService.TrackErrorExtra.TRACK_NAME));
-                    Toast.makeText(baseActivity, errorMsg, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -249,13 +215,11 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         return super.onOptionsItemSelected(item);
     }
 
-
     @Nullable
     @Override
     public String getATEKey() {
         return Helpers.getATEKey(this);
     }
-
 
     public void setPanelSlideListeners(SlidingUpPanelLayout panelLayout) {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -288,6 +252,37 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
             }
         });
+    }
+
+    private final static class PlaybackStatus extends BroadcastReceiver {
+
+        private final WeakReference<BaseActivity> mReference;
+
+
+        public PlaybackStatus(final BaseActivity activity) {
+            mReference = new WeakReference<BaseActivity>(activity);
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            final String action = intent.getAction();
+            BaseActivity baseActivity = mReference.get();
+            if (baseActivity != null) {
+                if (action.equals(MusicService.META_CHANGED)) {
+                    baseActivity.onMetaChanged();
+                } else if (action.equals(MusicService.PLAYSTATE_CHANGED)) {
+//                    baseActivity.mPlayPauseProgressButton.getPlayPauseButton().updateState();
+                } else if (action.equals(MusicService.REFRESH)) {
+                    baseActivity.restartLoader();
+                } else if (action.equals(MusicService.PLAYLIST_CHANGED)) {
+                    baseActivity.onPlaylistChanged();
+                } else if (action.equals(MusicService.TRACK_ERROR)) {
+                    final String errorMsg = context.getString(R.string.error_playing_track,
+                            intent.getStringExtra(MusicService.TrackErrorExtra.TRACK_NAME));
+                    Toast.makeText(baseActivity, errorMsg, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     public class initQuickControls extends AsyncTask<String, Void, String> {

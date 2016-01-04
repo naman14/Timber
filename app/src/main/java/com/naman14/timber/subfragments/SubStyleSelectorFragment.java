@@ -32,15 +32,13 @@ import com.naman14.timber.utils.PreferencesUtility;
 
 public class SubStyleSelectorFragment extends Fragment {
 
+    private static final String ARG_PAGE_NUMBER = "pageNumber";
+    private static final String WHAT = "what";
     SharedPreferences.Editor editor;
     SharedPreferences preferences;
-
     LinearLayout currentStyle;
     View foreground;
     ImageView styleImage;
-
-    private static final String ARG_PAGE_NUMBER = "pageNumber";
-    private static final String WHAT = "what";
 
     public static SubStyleSelectorFragment newInstance(int pageNumber, String what) {
         SubStyleSelectorFragment fragment = new SubStyleSelectorFragment();

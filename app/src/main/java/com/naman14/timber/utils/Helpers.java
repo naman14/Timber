@@ -50,6 +50,11 @@ public class Helpers {
         new AboutDialog().show(ft, "dialog_about");
     }
 
+    public static String getATEKey(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dark_theme", false) ?
+                "dark_theme" : "light_theme";
+    }
+
     public static class AboutDialog extends DialogFragment {
 
         String urlgooglelus = "https://plus.google.com/u/0/+NamanDwivedi14";
@@ -144,11 +149,6 @@ public class Helpers {
                     .create();
         }
 
-    }
-
-    public static String getATEKey(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dark_theme", false) ?
-                "dark_theme" : "light_theme";
     }
 
 }

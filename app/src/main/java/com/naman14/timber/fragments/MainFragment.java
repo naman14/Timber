@@ -94,6 +94,27 @@ public class MainFragment extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mPreferences.lastOpenedIsStartPagePreference()) {
+            mPreferences.setStartPageIndex(viewPager.getCurrentItem());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String ateKey = Helpers.getATEKey(getActivity());
+        ATEUtils.setStatusBarColor(getActivity(), ateKey, Config.primaryColor(getActivity(), ateKey));
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
@@ -121,26 +142,5 @@ public class MainFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mPreferences.lastOpenedIsStartPagePreference()) {
-            mPreferences.setStartPageIndex(viewPager.getCurrentItem());
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        String ateKey = Helpers.getATEKey(getActivity());
-        ATEUtils.setStatusBarColor(getActivity(), ateKey, Config.primaryColor(getActivity(), ateKey));
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 }

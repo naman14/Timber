@@ -193,6 +193,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
         });
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (searchResults.get(position) instanceof Song)
+            return 0;
+        if (searchResults.get(position) instanceof Album)
+            return 1;
+        if (searchResults.get(position) instanceof Artist)
+            return 2;
+        if (searchResults.get(position) instanceof String)
+            return 10;
+        return 3;
+    }
+
+    public void updateSearchResults(List searchResults) {
+        this.searchResults = searchResults;
+    }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, songartist, albumtitle, artisttitle, albumartist, albumsongcount, sectionHeader;
@@ -245,23 +261,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
             }
         }
 
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (searchResults.get(position) instanceof Song)
-            return 0;
-        if (searchResults.get(position) instanceof Album)
-            return 1;
-        if (searchResults.get(position) instanceof Artist)
-            return 2;
-        if (searchResults.get(position) instanceof String)
-            return 10;
-        return 3;
-    }
-
-    public void updateSearchResults(List searchResults) {
-        this.searchResults = searchResults;
     }
 }
 

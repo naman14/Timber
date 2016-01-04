@@ -41,11 +41,9 @@ import java.util.WeakHashMap;
 
 public class MusicPlayer {
 
-    public static ITimberService mService = null;
     private static final WeakHashMap<Context, ServiceBinder> mConnectionMap;
-
     private static final long[] sEmptyList;
-
+    public static ITimberService mService = null;
     private static ContentValues[] mContentValuesCache = null;
 
     static {
@@ -87,46 +85,9 @@ public class MusicPlayer {
         }
     }
 
-    public static final class ServiceBinder implements ServiceConnection {
-        private final ServiceConnection mCallback;
-        private final Context mContext;
-
-
-        public ServiceBinder(final ServiceConnection callback, final Context context) {
-            mCallback = callback;
-            mContext = context;
-        }
-
-        @Override
-        public void onServiceConnected(final ComponentName className, final IBinder service) {
-            mService = ITimberService.Stub.asInterface(service);
-            if (mCallback != null) {
-                mCallback.onServiceConnected(className, service);
-            }
-            initPlaybackServiceWithSettings(mContext);
-        }
-
-        @Override
-        public void onServiceDisconnected(final ComponentName className) {
-            if (mCallback != null) {
-                mCallback.onServiceDisconnected(className);
-            }
-            mService = null;
-        }
-    }
-
-    public static final class ServiceToken {
-        public ContextWrapper mWrappedContext;
-
-        public ServiceToken(final ContextWrapper context) {
-            mWrappedContext = context;
-        }
-    }
-
     public static final boolean isPlaybackServiceConnected() {
         return mService != null;
     }
-
 
     public static void next() {
         try {
@@ -137,11 +98,9 @@ public class MusicPlayer {
         }
     }
 
-
     public static void initPlaybackServiceWithSettings(final Context context) {
         setShowAlbumArtOnLockscreen(true);
     }
-
 
     public static void setShowAlbumArtOnLockscreen(final boolean enabled) {
         try {
@@ -151,7 +110,6 @@ public class MusicPlayer {
         } catch (final RemoteException ignored) {
         }
     }
-
 
     public static void asyncNext(final Context context) {
         final Intent previous = new Intent(context, MusicService.class);
@@ -168,7 +126,6 @@ public class MusicPlayer {
         }
         context.startService(previous);
     }
-
 
     public static void playOrPause() {
         try {
@@ -205,7 +162,6 @@ public class MusicPlayer {
         }
     }
 
-
     public static void cycleShuffle() {
         try {
             if (mService != null) {
@@ -230,17 +186,6 @@ public class MusicPlayer {
         }
     }
 
-    public static void setShuffleMode(int mode) {
-        try {
-            if (mService != null) {
-                mService.setShuffleMode(mode);
-            }
-        } catch (RemoteException ignored) {
-
-        }
-    }
-
-
     public static final boolean isPlaying() {
         if (mService != null) {
             try {
@@ -250,7 +195,6 @@ public class MusicPlayer {
         }
         return false;
     }
-
 
     public static final int getShuffleMode() {
         if (mService != null) {
@@ -262,6 +206,15 @@ public class MusicPlayer {
         return 0;
     }
 
+    public static void setShuffleMode(int mode) {
+        try {
+            if (mService != null) {
+                mService.setShuffleMode(mode);
+            }
+        } catch (RemoteException ignored) {
+
+        }
+    }
 
     public static final int getRepeatMode() {
         if (mService != null) {
@@ -283,7 +236,6 @@ public class MusicPlayer {
         return null;
     }
 
-
     public static final String getArtistName() {
         if (mService != null) {
             try {
@@ -293,7 +245,6 @@ public class MusicPlayer {
         }
         return null;
     }
-
 
     public static final String getAlbumName() {
         if (mService != null) {
@@ -305,7 +256,6 @@ public class MusicPlayer {
         return null;
     }
 
-
     public static final long getCurrentAlbumId() {
         if (mService != null) {
             try {
@@ -315,7 +265,6 @@ public class MusicPlayer {
         }
         return -1;
     }
-
 
     public static final long getCurrentAudioId() {
         if (mService != null) {
@@ -327,7 +276,6 @@ public class MusicPlayer {
         return -1;
     }
 
-
     public static final MusicPlaybackTrack getCurrentTrack() {
         if (mService != null) {
             try {
@@ -337,7 +285,6 @@ public class MusicPlayer {
         }
         return null;
     }
-
 
     public static final MusicPlaybackTrack getTrack(int index) {
         if (mService != null) {
@@ -349,7 +296,6 @@ public class MusicPlayer {
         return null;
     }
 
-
     public static final long getNextAudioId() {
         if (mService != null) {
             try {
@@ -359,7 +305,6 @@ public class MusicPlayer {
         }
         return -1;
     }
-
 
     public static final long getPreviousAudioId() {
         if (mService != null) {
@@ -371,7 +316,6 @@ public class MusicPlayer {
         return -1;
     }
 
-
     public static final long getCurrentArtistId() {
         if (mService != null) {
             try {
@@ -382,7 +326,6 @@ public class MusicPlayer {
         return -1;
     }
 
-
     public static final int getAudioSessionId() {
         if (mService != null) {
             try {
@@ -392,7 +335,6 @@ public class MusicPlayer {
         }
         return -1;
     }
-
 
     public static final long[] getQueue() {
         try {
@@ -427,7 +369,6 @@ public class MusicPlayer {
         return 0;
     }
 
-
     public static final int getQueuePosition() {
         try {
             if (mService != null) {
@@ -438,6 +379,14 @@ public class MusicPlayer {
         return 0;
     }
 
+    public static void setQueuePosition(final int position) {
+        if (mService != null) {
+            try {
+                mService.setQueuePosition(position);
+            } catch (final RemoteException ignored) {
+            }
+        }
+    }
 
     public static final int getQueueHistorySize() {
         if (mService != null) {
@@ -449,7 +398,6 @@ public class MusicPlayer {
         return 0;
     }
 
-
     public static final int getQueueHistoryPosition(int position) {
         if (mService != null) {
             try {
@@ -460,7 +408,6 @@ public class MusicPlayer {
         return -1;
     }
 
-
     public static final int[] getQueueHistoryList() {
         if (mService != null) {
             try {
@@ -470,7 +417,6 @@ public class MusicPlayer {
         }
         return null;
     }
-
 
     public static final int removeTrack(final long id) {
         try {
@@ -501,7 +447,6 @@ public class MusicPlayer {
         } catch (final RemoteException ignored) {
         }
     }
-
 
     public static void playArtist(final Context context, final long artistId, int position, boolean shuffle) {
         final long[] artistList = getSongListForArtist(context, artistId);
@@ -697,7 +642,6 @@ public class MusicPlayer {
         return 0;
     }
 
-
     public static final long duration() {
         if (mService != null) {
             try {
@@ -709,17 +653,6 @@ public class MusicPlayer {
         }
         return 0;
     }
-
-
-    public static void setQueuePosition(final int position) {
-        if (mService != null) {
-            try {
-                mService.setQueuePosition(position);
-            } catch (final RemoteException ignored) {
-            }
-        }
-    }
-
 
     public static void clearQueue() {
         try {
@@ -819,5 +752,41 @@ public class MusicPlayer {
             return -1;
         }
         return -1;
+    }
+
+    public static final class ServiceBinder implements ServiceConnection {
+        private final ServiceConnection mCallback;
+        private final Context mContext;
+
+
+        public ServiceBinder(final ServiceConnection callback, final Context context) {
+            mCallback = callback;
+            mContext = context;
+        }
+
+        @Override
+        public void onServiceConnected(final ComponentName className, final IBinder service) {
+            mService = ITimberService.Stub.asInterface(service);
+            if (mCallback != null) {
+                mCallback.onServiceConnected(className, service);
+            }
+            initPlaybackServiceWithSettings(mContext);
+        }
+
+        @Override
+        public void onServiceDisconnected(final ComponentName className) {
+            if (mCallback != null) {
+                mCallback.onServiceDisconnected(className);
+            }
+            mService = null;
+        }
+    }
+
+    public static final class ServiceToken {
+        public ContextWrapper mWrappedContext;
+
+        public ServiceToken(final ContextWrapper context) {
+            mWrappedContext = context;
+        }
     }
 }

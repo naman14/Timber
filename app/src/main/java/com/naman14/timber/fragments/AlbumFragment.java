@@ -99,50 +99,6 @@ public class AlbumFragment extends Fragment {
         layoutManager.requestLayout();
     }
 
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-
-
-            outRect.left = space;
-            outRect.top = space;
-            outRect.right = space;
-            outRect.bottom = space;
-
-        }
-    }
-
-    private class loadAlbums extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            if (getActivity() != null)
-                mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            //to add spacing between cards
-            if (getActivity() != null) {
-                setItemDecoration();
-            }
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-    }
-
     private void reloadAdapter() {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -206,6 +162,50 @@ public class AlbumFragment extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+
+            outRect.left = space;
+            outRect.top = space;
+            outRect.right = space;
+            outRect.bottom = space;
+
+        }
+    }
+
+    private class loadAlbums extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (getActivity() != null)
+                mAdapter = new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            recyclerView.setAdapter(mAdapter);
+            //to add spacing between cards
+            if (getActivity() != null) {
+                setItemDecoration();
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
     }
 }
 

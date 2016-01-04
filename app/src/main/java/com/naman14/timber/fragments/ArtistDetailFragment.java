@@ -27,7 +27,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,6 +188,17 @@ public class ArtistDetailFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        toolbar.setBackgroundColor(Color.TRANSPARENT);
+        if (primaryColor != -1 && getActivity() != null) {
+            collapsingToolbarLayout.setContentScrimColor(primaryColor);
+            String ateKey = Helpers.getATEKey(getActivity());
+            ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
+        }
+
+    }
 
     private class setBlurredAlbumArt extends AsyncTask<Bitmap, Void, Drawable> {
 
@@ -213,18 +223,6 @@ public class ArtistDetailFragment extends Fragment {
         @Override
         protected void onPreExecute() {
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        toolbar.setBackgroundColor(Color.TRANSPARENT);
-        if (primaryColor != -1 && getActivity() != null) {
-            collapsingToolbarLayout.setContentScrimColor(primaryColor);
-            String ateKey = Helpers.getATEKey(getActivity());
-            ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
-        }
-
     }
 
 }

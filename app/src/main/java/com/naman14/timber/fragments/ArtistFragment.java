@@ -70,29 +70,6 @@ public class ArtistFragment extends Fragment {
         return rootView;
     }
 
-
-    private class loadArtists extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            if (getActivity() != null)
-                mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            if (getActivity() != null) {
-                setItemDecoration();
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-    }
-
     private void setLayoutManager() {
         if (isGrid) {
             layoutManager = new GridLayoutManager(getActivity(), 2);
@@ -120,25 +97,6 @@ public class ArtistFragment extends Fragment {
         recyclerView.setAdapter(new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity())));
         layoutManager.setSpanCount(column);
         layoutManager.requestLayout();
-    }
-
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
-            outRect.top = space;
-            outRect.right = space;
-            outRect.bottom = space;
-
-        }
     }
 
     private void reloadAdapter() {
@@ -200,6 +158,46 @@ public class ArtistFragment extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class loadArtists extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (getActivity() != null)
+                mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            recyclerView.setAdapter(mAdapter);
+            if (getActivity() != null) {
+                setItemDecoration();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            outRect.left = space;
+            outRect.top = space;
+            outRect.right = space;
+            outRect.bottom = space;
+
+        }
     }
 
 

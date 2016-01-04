@@ -97,6 +97,7 @@ public class ArtistFragment extends Fragment {
         recyclerView.setAdapter(new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity())));
         layoutManager.setSpanCount(column);
         layoutManager.requestLayout();
+        setItemDecoration();
     }
 
     private void reloadAdapter() {
@@ -150,10 +151,12 @@ public class ArtistFragment extends Fragment {
                 return true;
             case R.id.menu_show_as_list:
                 mPreferences.setArtistsInGrid(false);
+                isGrid = false;
                 updateLayoutManager(1);
                 return true;
             case R.id.menu_show_as_grid:
                 mPreferences.setArtistsInGrid(true);
+                isGrid = true;
                 updateLayoutManager(2);
                 return true;
         }

@@ -97,6 +97,7 @@ public class AlbumFragment extends Fragment {
         recyclerView.setAdapter(new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity())));
         layoutManager.setSpanCount(column);
         layoutManager.requestLayout();
+        setItemDecoration();
     }
 
     private void reloadAdapter() {
@@ -154,10 +155,12 @@ public class AlbumFragment extends Fragment {
                 return true;
             case R.id.menu_show_as_list:
                 mPreferences.setAlbumsInGrid(false);
+                isGrid = false;
                 updateLayoutManager(1);
                 return true;
             case R.id.menu_show_as_grid:
                 mPreferences.setAlbumsInGrid(true);
+                isGrid = true;
                 updateLayoutManager(2);
                 return true;
         }

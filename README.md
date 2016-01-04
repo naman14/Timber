@@ -1,4 +1,6 @@
 # Timber
+[![Build Status](https://travis-ci.org/naman14/Timber.svg?branch=master)](https://travis-ci.org/naman14/Timber)
+
 [WIP][BETA]-Material Design Music Player
 
 [![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=naman14.timber)

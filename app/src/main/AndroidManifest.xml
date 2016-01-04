@@ -49,8 +49,10 @@
 
         <receiver
             android:name=".AlarmReceiver"
-            android:enabled="true"
-            android:exported="true" >
+            >
+            <intent-filter>
+                <action android:name="com.naman14.timber.activities.MainActivity"/>
+            </intent-filter>
         </receiver>
 
     </application>

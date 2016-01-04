@@ -65,6 +65,7 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -555,11 +556,18 @@ public class MainActivity extends BaseActivity implements TimePickerDialog.OnTim
                 calendar.set(Calendar.MINUTE, minute);
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
+
+        if (calendar.getTime().before(new Date())){
+            calendar.add(Calendar.DAY_OF_YEAR , 1 );
+        }
+
+        Log.d(TAG, calendar.getTime() + "    saved");
         // 保存定时的毫秒数
-        SharedPreferencesUtil.putLong(getApplicationContext() , ALARM_TIME_MS , calendar.getTimeInMillis());
+        SharedPreferencesUtil.putLong(getApplicationContext(), ALARM_TIME_MS, calendar.getTimeInMillis());
 
         int requestCode = 0;//闹钟的唯一标示
         Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        intent.setAction(MainActivity.class.getName());
         intent.putExtra("requestCode", requestCode);
         PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, requestCode, intent, 0);
         //得到AlarmManager实例

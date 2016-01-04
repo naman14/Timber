@@ -621,16 +621,20 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new BaseQueueAdapter((AppCompatActivity) getActivity(), QueueLoader.getQueueSongs(getActivity()));
-            return "Executed";
+            if (getActivity() != null) {
+                mAdapter = new BaseQueueAdapter((AppCompatActivity) getActivity(), QueueLoader.getQueueSongs(getActivity()));
+                return "Executed";
+            } else return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            if (getActivity() != null)
-                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-            recyclerView.scrollToPosition(MusicPlayer.getQueuePosition() - 1);
+            if (result != null) {
+                recyclerView.setAdapter(mAdapter);
+                if (getActivity() != null)
+                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+                recyclerView.scrollToPosition(MusicPlayer.getQueuePosition() - 1);
+            }
 
         }
 

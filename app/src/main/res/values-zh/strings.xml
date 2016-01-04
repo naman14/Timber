@@ -62,12 +62,7 @@
     <string name="action_shuffle_all">随机</string>
     <string name="action_equalizer">均衡</string>
     <string name="search_library">在库中搜索</string>
-    <string name="count_song"><xliff:g id="count">%d</xliff:g> 首歌</string>
-    <string name="count_songs"><xliff:g id="count">%d</xliff:g> 首歌</string>
-    <string name="count_album"><xliff:g id="count">%d</xliff:g> 张专辑</string>
-    <string name="count_albums"><xliff:g id="count">%d</xliff:g> 张专辑</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
+
     <string name="select_theme">选择主题</string>
     <string name="choose_theme_throughout">选择一个主题，在整个应用中。</string>
     <string name="choose_start_page">选择起始页，在启动时显示。</string>
@@ -102,5 +97,12 @@
 
     <string name="colored_status_bar">彩色状态栏</string>
     <string name="colored_status_bar_summary">切换状态栏色彩</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> 首歌</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> 首歌</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> 张专辑</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> 张专辑</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
 
 </resources>

@@ -62,12 +62,7 @@
     <string name="action_shuffle_all">Aléatoire</string>
     <string name="action_equalizer">Egaliseur</string>
     <string name="search_library">Rechercher dans la bibliothèque</string>
-    <string name="count_song"><xliff:g id="count">%d</xliff:g> chanson</string>
-    <string name="count_songs"><xliff:g id="count">%d</xliff:g> chansons</string>
-    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
-    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artiste</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistes</string>
+
     <string name="select_theme">Sélectionner le thème</string>
     <string name="choose_theme_throughout">Choisissez le thème qui sera utilisé dans l\'application</string>
     <string name="choose_start_page">Choisissez l\'écran de départ au lancement de l\'application</string>
@@ -85,4 +80,11 @@
     <string name="summary_pause_detach">Mettre en pause la musique lorsque les écouteurs sont déconnectés</string>
     <string name="pause_detach">Pause dès qu\'écouteurs déconnectés</string>
     <string name="currently_selected">Sélection courante</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> chanson</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> chansons</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artiste</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistes</string>
 </resources>

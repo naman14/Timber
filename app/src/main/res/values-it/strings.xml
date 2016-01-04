@@ -62,12 +62,7 @@
     <string name="action_shuffle_all">Brani casuali</string>
     <string name="action_equalizer">Equalizzatore</string>
     <string name="search_library">Cerca nella libreria</string>
-    <string name="count_song"><xliff:g id="count">%d</xliff:g> canzone</string>
-    <string name="count_songs"><xliff:g id="count">%d</xliff:g> canzoni</string>
-    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
-    <string name="count_albums"><xliff:g id="count">%d</xliff:g> album</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artisti</string>
+
     <string name="select_theme">Seleziona tema</string>
     <string name="choose_theme_throughout">Scegli un tema da usare all\'interno dell\'app.</string>
     <string name="choose_start_page">Seleziona la pagina di apertura da mostrare all\'avvio.</string>
@@ -85,4 +80,11 @@
     <string name="summary_pause_detach">Abilita pausa della riproduzione quando vengono staccate le cuffie</string>
     <string name="pause_detach">Pausa al distacco</string>
     <string name="currently_selected">Attualmente selezionato</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> canzone</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> canzoni</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artisti</string>
 </resources>

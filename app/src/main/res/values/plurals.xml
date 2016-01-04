@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
 
-        <plurals name="Nartists">
-            <item quantity="one">@string/count_artist</item>
-            <item quantity="other">@string/count_artists</item>
-        </plurals>
+    <!--Nothing to be translated here-->
+
+    <plurals name="Nartists">
+        <item quantity="one">@string/count_artist</item>
+        <item quantity="other">@string/count_artists</item>
+    </plurals>
 
 
-        <plurals name="Nalbums">
-            <item quantity="one">@string/count_album</item>
-            <item quantity="other">@string/count_albums</item>
-        </plurals>
+    <plurals name="Nalbums">
+        <item quantity="one">@string/count_album</item>
+        <item quantity="other">@string/count_albums</item>
+    </plurals>
 
-        <plurals name="Nsongs">
-            <item quantity="zero">@string/count_songs</item>
-            <item quantity="one">@string/count_song</item>
-            <item quantity="other">@string/count_songs</item>
-        </plurals>
+    <plurals name="Nsongs">
+        <item quantity="zero">@string/count_songs</item>
+        <item quantity="one">@string/count_song</item>
+        <item quantity="other">@string/count_songs</item>
+    </plurals>
 
     <plurals name="NNNtrackstoqueue">
-        <item quantity="one"><xliff:g id="number" example="1">%d</xliff:g> song added to the queue.</item>
-        <item quantity="other"><xliff:g id="number" example="27">%d</xliff:g> songs added to the queue.</item>
+        <item quantity="one">@string/number_song_add_queue</item>
+        <item quantity="other">@string/number_songs_add_queue</item>
     </plurals>
 
     <plurals name="NNNtrackstoplaylist">
-        <item quantity="one"><xliff:g id="number" example="1">%d</xliff:g> song added to playlist.</item>
-        <item quantity="other"><xliff:g id="number" example="27">%d</xliff:g> songs added to playlist.</item>
+        <item quantity="one">@string/number_song_add_playlist</item>
+        <item quantity="other">@string/number_songs_add_playlist</item>
     </plurals>
 
 </resources>

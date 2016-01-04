@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name" translatable="false">Timber</string>
     <string name="action_settings">Settings</string>
 
     <string name="accessibility_play">Play</string>
@@ -36,11 +35,6 @@
     <string name="playlist_recently_played">Recently Played</string>
     <string name="playlist_top_tracks">My Top Tracks</string>
 
-    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
-
-    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
-    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
-    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
     <string name="timber_source">Report any bugs <u> here </u> </string>
     <string name="timber_feature_request">Specify any feature request in the Google+ community <u> here </u></string>
 
@@ -68,12 +62,7 @@
     <string name="action_shuffle_all">Shuffle All</string>
     <string name="action_equalizer">Equalizer</string>
     <string name="search_library">Search Library</string>
-    <string name="count_song"><xliff:g id="count">%d</xliff:g> song</string>
-    <string name="count_songs"><xliff:g id="count">%d</xliff:g> songs</string>
-    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
-    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artist</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artists</string>
+
     <string name="select_theme">Select Theme</string>
     <string name="choose_theme_throughout">Choose a theme to be used throughout the app.</string>
     <string name="choose_start_page">Choose the start page to be displayed on launch.</string>
@@ -92,7 +81,6 @@
     <string name="pause_detach">Pause on Detach</string>
     <string name="currently_selected">Currently Selected</string>
 
-
     <string name="dark_theme">Dark Theme</string>
     <string name="dark_theme_summary">Apply a dark theme throughout the app</string>
 
@@ -107,5 +95,25 @@
 
     <string name="colored_nav_bar">Colored Navigation Bar</string>
     <string name="colored_nav_bar_summary">Toggle navigation bar coloring</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> song</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> songs</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artist</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artists</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> song added to the queue.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> songs added to the queue.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> song added to playlist.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> songs added to playlist.</string>
+
+
+    <!--do not translate these strings-->
+    <string name="app_name" translatable="false">Timber</string>
+    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
+    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
+    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
+    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
 
 </resources>

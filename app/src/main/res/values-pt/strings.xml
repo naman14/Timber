@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name" translatable="false">Timber</string>
     <string name="action_settings">Definições</string>
 
     <string name="accessibility_play">Reproduzir</string>
@@ -36,11 +35,6 @@
     <string name="playlist_recently_played">Reproduções recentes</string>
     <string name="playlist_top_tracks">Faixas favoritas</string>
 
-    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
-
-    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
-    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
-    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
     <string name="timber_source">Reporte os erros encontrados <u>aqui</u> </string>
     <string name="timber_feature_request">Sugira funcionalidades na comunidade Google+ <u>aqui</u></string>
 
@@ -68,12 +62,7 @@
     <string name="action_shuffle_all">Baralhar tudo</string>
     <string name="action_equalizer">Equalizador</string>
     <string name="search_library">Pesquisar na coleção</string>
-    <string name="count_song"><xliff:g id="count">%d</xliff:g> faixa</string>
-    <string name="count_songs"><xliff:g id="count">%d</xliff:g> faixas</string>
-    <string name="count_album"><xliff:g id="count">%d</xliff:g> álbum</string>
-    <string name="count_albums"><xliff:g id="count">%d</xliff:g> álbuns</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistas</string>
+
     <string name="select_theme">Escolher Tema</string>
     <string name="choose_theme_throughout">Escolha o tema a utilizar na aplicação.</string>
     <string name="choose_start_page">Escolha o ecrã a mostrar ao iniciar.</string>
@@ -92,7 +81,6 @@
     <string name="pause_detach">Pausa ao remover</string>
     <string name="currently_selected">Seleção atual</string>
 
-
     <string name="dark_theme">Tema Escuro</string>
     <string name="dark_theme_summary">Aplicar um tema escuro à aplicação</string>
 
@@ -107,5 +95,17 @@
 
     <string name="colored_nav_bar">Colorir a barra de navegação</string>
     <string name="colored_nav_bar_summary">Alternar a coloração da barra de navegação</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> faixa</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> faixas</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> álbum</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> álbuns</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistas</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> faixa adicionada à fila.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> faixas adicionadas à fila.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> faixa adicionada à lista de reprodução.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> faixas adicionadas à lista de reprodução.</string>
 
 </resources>

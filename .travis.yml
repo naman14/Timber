@@ -1,0 +1,13 @@
+language: android
+
+branches:
+  only:
+    - master
+
+
+android:
+  components:
+      - platform-tools
+      - build-tools-23.0.2
+      - android-23
+      - extra-android-m2repository

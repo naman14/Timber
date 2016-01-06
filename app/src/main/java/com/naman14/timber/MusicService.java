@@ -1054,7 +1054,10 @@ public class MusicService extends Service {
         if (what.equals(PLAYSTATE_CHANGED) || what.equals(POSITION_CHANGED)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mSession.setPlaybackState(new PlaybackState.Builder()
-                        .setState(playState, position(), 1.0f).build());
+                        .setState(playState, position(), 1.0f)
+                        .setActions(PlaybackState.ACTION_PLAY | PlaybackState.ACTION_PAUSE | PlaybackState.ACTION_PLAY_PAUSE |
+                                PlaybackState.ACTION_SKIP_TO_NEXT | PlaybackState.ACTION_SKIP_TO_PREVIOUS)
+                        .build());
             }
         } else if (what.equals(META_CHANGED) || what.equals(QUEUE_CHANGED)) {
             Bitmap albumArt = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
@@ -1081,7 +1084,10 @@ public class MusicService extends Service {
                         .build());
 
                 mSession.setPlaybackState(new PlaybackState.Builder()
-                        .setState(playState, position(), 1.0f).build());
+                        .setState(playState, position(), 1.0f)
+                        .setActions(PlaybackState.ACTION_PLAY | PlaybackState.ACTION_PAUSE | PlaybackState.ACTION_PLAY_PAUSE |
+                                PlaybackState.ACTION_SKIP_TO_NEXT | PlaybackState.ACTION_SKIP_TO_PREVIOUS)
+                        .build());
             }
         }
     }
@@ -1095,9 +1101,6 @@ public class MusicService extends Service {
 
         int playButtonResId = isPlaying
                 ? R.drawable.ic_pause_white_36dp : R.drawable.ic_play_white_36dp;
-        int playButtonTitleResId = isPlaying
-                ? R.string.accessibility_pause : R.string.accessibility_play;
-
 
         Intent nowPlayingIntent = NavigationUtils.getNowPlayingIntent(this);
         PendingIntent clickIntent = PendingIntent.getActivity(this, 0, nowPlayingIntent, PendingIntent.FLAG_UPDATE_CURRENT);

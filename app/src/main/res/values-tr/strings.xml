@@ -77,8 +77,8 @@
     <string name="personalisation">Kişiselleştirme</string>
     <string name="other">Diğer</string>
     <string name="timber_about_opensource">Timber  Naman Dwivedi tarafından geliştirilen açık kaynaklı Muzik oynatıcısıdır.</string>
-    <string name="summary_pause_detach">Toggle for pausing playback when headphone is detached</string>
-    <string name="pause_detach">Duraklat(!!)</string>
+    <string name="summary_pause_detach">Kulaklığı çıkardığımda çalan şarkıyı durdur</string>
+    <string name="pause_detach">Kulaklık</string>
     <string name="currently_selected">Seçilenler</string>
 
     <string name="dark_theme">Dark Tema</string>

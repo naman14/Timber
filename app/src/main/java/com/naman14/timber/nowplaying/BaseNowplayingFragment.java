@@ -16,10 +16,12 @@ package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -28,13 +30,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.ATE;
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
@@ -42,7 +44,7 @@ import com.naman14.timber.adapters.BaseQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.timely.TimelyView;
-import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.CircularSeekBar;
 import com.naman14.timber.widgets.DividerItemDecoration;
@@ -68,6 +70,9 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     PlayPauseDrawable playPauseDrawable = new PlayPauseDrawable();
     FloatingActionButton playPauseFloating;
     View playPauseWrapper;
+
+    String ateKey;
+    int accentColor;
 
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
@@ -111,24 +116,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
-    ProgressBar mProgressNormal;
-    //normal progressbar
-    public Runnable mUpdateProgressNormal = new Runnable() {
 
-        @Override
-        public void run() {
-
-            if (mProgressNormal != null) {
-                long position = MusicPlayer.position();
-                mProgressNormal.setProgress((int) position);
-            }
-
-            if (MusicPlayer.isPlaying()) {
-                mProgressNormal.postDelayed(mUpdateProgressNormal, 50);
-            }
-
-        }
-    };
     RecyclerView recyclerView;
     BaseQueueAdapter mAdapter;
     TimelyView timelyView11, timelyView12, timelyView13, timelyView14, timelyView15;
@@ -172,7 +160,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         @Override
         public void onClick(View v) {
             duetoplaypause = true;
-            ;
             if (!mPlayPause.isPlayed()) {
                 mPlayPause.setPlayed(true);
                 mPlayPause.startAnimation();
@@ -213,6 +200,13 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     };
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ateKey = Helpers.getATEKey(getActivity());
+        accentColor = Config.accentColor(getActivity(), ateKey);
+    }
+
     public void setSongDetails(View view) {
 
         albumart = (ImageView) view.findViewById(R.id.album_art);
@@ -239,7 +233,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         mProgress = (SeekBar) view.findViewById(R.id.song_progress);
         mCircularProgress = (CircularSeekBar) view.findViewById(R.id.song_progress_circular);
-        mProgressNormal = (ProgressBar) view.findViewById(R.id.song_progress_normal);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.queue_recyclerview);
 
@@ -255,12 +248,17 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
 
         if (playPauseFloating != null) {
-            if (isThemeIsBlack())
-                playPauseDrawable.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+            playPauseDrawable.setColorFilter(TimberUtils.getBlackWhiteColor(accentColor), PorterDuff.Mode.MULTIPLY);
             playPauseFloating.setImageDrawable(playPauseDrawable);
             if (MusicPlayer.isPlaying())
                 playPauseDrawable.transformToPause(false);
             else playPauseDrawable.transformToPlay(false);
+        }
+
+        if (mCircularProgress != null) {
+            mCircularProgress.setCircleProgressColor(accentColor);
+            mCircularProgress.setPointerColor(accentColor);
+            mCircularProgress.setPointerHaloColor(accentColor);
         }
 
         if (timelyView11 != null) {
@@ -295,17 +293,19 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
+            ATE.apply(this, "dark_theme");
+        } else {
+            ATE.apply(this, "light_theme");
+        }
+    }
+
     private void setSongDetails() {
         updateSongDetails();
 
-        if (mProgress != null && getActivity() != null) {
-            if (isThemeIsLight()) {
-                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN);
-            } else if (isThemeIsDark()) {
-                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccentDarkTheme), PorterDuff.Mode.SRC_IN);
-            } else
-                mProgress.getThumb().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccentBlack), PorterDuff.Mode.SRC_IN);
-        }
         if (recyclerView != null)
             setQueueSongs();
 
@@ -320,7 +320,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                         @Override
                         public void run() {
                             MusicPlayer.next();
-//                updateSongDetails();
                             notifyPlayingDrawableChange();
                         }
                     }, 200);
@@ -337,7 +336,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                         @Override
                         public void run() {
                             MusicPlayer.previous(getActivity(), false);
-//                updateSongDetails();
                             notifyPlayingDrawableChange();
                         }
                     }, 200);
@@ -362,22 +360,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                     .setSizeDp(30);
-            TypedValue typeValue = new TypedValue();
 
-            getActivity().getTheme().resolveAttribute(R.attr.iconColor, typeValue, true);
-            int color = typeValue.data;
-
-            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-
-            int color2;
-            if (isThemeIsBlack())
-                color2 = Color.parseColor("#ffb701");
-            else
-                color2 = typeValue.data;
-
-            if (MusicPlayer.getShuffleMode() == 0) {
-                builder.setColor(color);
-            } else builder.setColor(color2);
+            if (getActivity() != null) {
+                if (MusicPlayer.getShuffleMode() == 0) {
+                    builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
+                } else builder.setColor(Config.accentColor(getActivity(), ateKey));
+            }
 
             shuffle.setImageDrawable(builder.build());
             shuffle.setOnClickListener(new View.OnClickListener() {
@@ -396,21 +384,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
-            TypedValue typeValue = new TypedValue();
 
-            getActivity().getTheme().resolveAttribute(R.attr.iconColor, typeValue, true);
-            int color = typeValue.data;
-
-            getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-            int color2;
-            if (isThemeIsBlack())
-                color2 = Color.parseColor("#ffb701");
-            else
-                color2 = typeValue.data;
-
-            if (MusicPlayer.getRepeatMode() == 0) {
-                builder.setColor(color);
-            } else builder.setColor(color2);
+            if (getActivity() != null) {
+                if (MusicPlayer.getRepeatMode() == 0) {
+                    builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
+                } else builder.setColor(Config.accentColor(getActivity(), ateKey));
+            }
 
             repeat.setImageDrawable(builder.build());
             repeat.setOnClickListener(new View.OnClickListener() {
@@ -523,13 +502,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
         }
 
-        if (mProgressNormal != null) {
-            mProgressNormal.setMax((int) MusicPlayer.duration());
-            if (mUpdateProgressNormal != null) {
-                mProgressNormal.removeCallbacks(mUpdateProgressNormal);
-            }
-            mProgressNormal.postDelayed(mUpdateProgressNormal, 10);
-        }
         if (timelyView11 != null) {
             mElapsedTimeHandler = new Handler();
             mElapsedTimeHandler.postDelayed(mUpdateElapsedTime, 600);
@@ -594,24 +566,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     }
 
-    public boolean isThemeIsLight() {
-        if (getActivity() != null)
-            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("light");
-        else return true;
-    }
-
-    public boolean isThemeIsDark() {
-        if (getActivity() != null)
-            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("dark");
-        else return true;
-    }
-
-    public boolean isThemeIsBlack() {
-        if (getActivity() != null)
-            return PreferencesUtility.getInstance(getActivity()).getTheme().equals("black");
-        else return true;
-    }
-
     public void changeDigit(TimelyView tv, int end) {
         ObjectAnimator obja = tv.animate(end);
         obja.setDuration(400);
@@ -667,16 +621,20 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         @Override
         protected String doInBackground(String... params) {
-            mAdapter = new BaseQueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
-            return "Executed";
+            if (getActivity() != null) {
+                mAdapter = new BaseQueueAdapter((AppCompatActivity) getActivity(), QueueLoader.getQueueSongs(getActivity()));
+                return "Executed";
+            } else return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            if (getActivity() != null)
-                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-            recyclerView.scrollToPosition(MusicPlayer.getQueuePosition() - 1);
+            if (result != null) {
+                recyclerView.setAdapter(mAdapter);
+                if (getActivity() != null)
+                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+                recyclerView.scrollToPosition(MusicPlayer.getQueuePosition() - 1);
+            }
 
         }
 

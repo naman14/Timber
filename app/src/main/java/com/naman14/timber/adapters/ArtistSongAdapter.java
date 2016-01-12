@@ -17,17 +17,21 @@ package com.naman14.timber.adapters;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.ArtistAlbumLoader;
+import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
@@ -48,7 +52,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         this.arraylist = arraylist;
         this.mContext = context;
         this.artistID = artistID;
-//        this.songIDs=getSongIds();
+        this.songIDs = getSongIds();
     }
 
     @Override
@@ -76,7 +80,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             itemHolder.album.setText(localItem.albumName);
 
             ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
-
+            setOnPopupMenuListener(itemHolder, i - 1);
         }
 
     }
@@ -94,38 +98,47 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
         return (null != arraylist ? arraylist.size() : 0);
     }
 
+    private void setOnPopupMenuListener(ItemHolder itemHolder, final int position) {
 
-    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, album;
-        protected ImageView albumArt;
-        protected RecyclerView albumsRecyclerView;
+        itemHolder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        public ItemHolder(View view) {
-            super(view);
-
-            this.albumsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_album);
-
-            this.title = (TextView) view.findViewById(R.id.song_title);
-            this.album = (TextView) view.findViewById(R.id.song_album);
-            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
-
-
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MusicPlayer.playAll(mContext, getSongIds(), getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
-                    NavigationUtils.navigateToNowplaying(mContext, true);
-                }
-            }, 100);
-
-        }
-
+                final PopupMenu menu = new PopupMenu(mContext, v);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.popup_song_play:
+                                MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
+                                break;
+                            case R.id.popup_song_play_next:
+                                long[] ids = new long[1];
+                                ids[0] = arraylist.get(position + 1).id;
+                                MusicPlayer.playNext(mContext, ids, -1, TimberUtils.IdType.NA);
+                                break;
+                            case R.id.popup_song_goto_album:
+                                NavigationUtils.goToAlbum(mContext, arraylist.get(position + 1).albumId);
+                                break;
+                            case R.id.popup_song_goto_artist:
+                                NavigationUtils.goToArtist(mContext, arraylist.get(position + 1).artistId);
+                                break;
+                            case R.id.popup_song_addto_queue:
+                                long[] id = new long[1];
+                                id[0] = arraylist.get(position + 1).id;
+                                MusicPlayer.addToQueue(mContext, id, -1, TimberUtils.IdType.NA);
+                                break;
+                            case R.id.popup_song_addto_playlist:
+                                AddPlaylistDialog.newInstance(arraylist.get(position + 1)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                menu.inflate(R.menu.popup_song);
+                menu.show();
+            }
+        });
     }
 
     private void setUpAlbums(RecyclerView albumsRecyclerview) {
@@ -150,25 +163,6 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
     }
 
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-
-            //the padding from left
-            outRect.left = space;
-
-
-        }
-    }
-
     public long[] getSongIds() {
         List<Song> actualArraylist = new ArrayList<Song>(arraylist);
         actualArraylist.remove(0);
@@ -186,6 +180,58 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             viewType = 0;
         } else viewType = 1;
         return viewType;
+    }
+
+    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected TextView title, album;
+        protected ImageView albumArt, menu;
+        protected RecyclerView albumsRecyclerView;
+
+        public ItemHolder(View view) {
+            super(view);
+
+            this.albumsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_album);
+
+            this.title = (TextView) view.findViewById(R.id.song_title);
+            this.album = (TextView) view.findViewById(R.id.song_album);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.menu = (ImageView) view.findViewById(R.id.popup_menu);
+
+
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
+                    NavigationUtils.navigateToNowplaying(mContext, true);
+                }
+            }, 100);
+
+        }
+
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+            //the padding from left
+            outRect.left = space;
+
+
+        }
     }
 }
 

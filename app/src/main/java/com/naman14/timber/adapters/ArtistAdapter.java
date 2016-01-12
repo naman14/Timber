@@ -27,22 +27,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.R;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
 import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
+import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.BubbleTextGetter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> implements BubbleTextGetter {
@@ -117,6 +119,18 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                                         }
 
                                     }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                        if (isGrid) {
+                                            itemHolder.footer.setBackgroundColor(0);
+                                            if (mContext != null) {
+                                                int textColorPrimary = Config.textColorPrimary(mContext, Helpers.getATEKey(mContext));
+                                                itemHolder.name.setTextColor(textColorPrimary);
+                                                itemHolder.albums.setTextColor(textColorPrimary);
+                                            }
+                                        }
+                                    }
                                 });
                     } else {
                         ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
@@ -135,6 +149,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
             }
         });
+
+        if (TimberUtils.isLollipop())
+            itemHolder.artistImage.setTransitionName("transition_artist_art" + i);
 
     }
 
@@ -170,9 +187,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
         @Override
         public void onClick(View v) {
-            ArrayList<Pair> tranitionViews = new ArrayList<>();
-            tranitionViews.add(0, Pair.create((View) artistImage, "transition_artist_image"));
-            NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id, tranitionViews);
+            NavigationUtils.navigateToArtist(mContext, arraylist.get(getAdapterPosition()).id,
+                    new Pair<View, String>(artistImage, "transition_artist_art" + getAdapterPosition()));
         }
 
     }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -8,108 +10,108 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
->
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/collapsing_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="370dp"
-        android:background="@android:color/white"
-        app:contentScrim="@color/colorPrimary"
-        app:statusBarScrim="@color/colorPrimaryDark"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        android:theme="@style/Theme.AppCompat"
-        app:expandedTitleTextAppearance="@style/TextApperance.Album.Title">
-
-
-
-        <ImageView
-            android:layout_height="match_parent"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:scaleType="centerCrop"
-            android:id="@+id/album_art"
-            android:fitsSystemWindows="true"
-            app:layout_collapseMode="parallax"
-            android:transitionName="transition_album_art"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#22000000"/>
+            android:layout_height="370dp"
+            android:background="@android:color/white"
+            android:theme="@style/Theme.AppCompat"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleTextAppearance="@style/TextApperance.Album.Title"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="@color/colorPrimaryDark">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_gradient"
-            android:visibility="gone">
+            <ImageView
+                android:id="@+id/album_art"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:transitionName="transition_album_art"
+                app:layout_collapseMode="parallax" />
 
-            <com.naman14.timber.widgets.CircleImageView
-                android:layout_width="50dp"
-                android:id="@+id/artist_art"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:visibility="gone"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#22000000" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="18dp"
-                android:layout_marginBottom="15dp">
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_gradient"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-                <TextView
+                <com.naman14.timber.widgets.CircleImageView
+                    android:id="@+id/artist_art"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:id="@+id/album_title"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:textColor="#ffffff"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/album_details"
-                    android:textSize="16sp"
-                    android:paddingTop="3dp"
-                    android:textColor="#ffffff"/>
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/album_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="#ffffff"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/album_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="3dp"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="5dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="5dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_collapseMode="pin"
-           />
-
-    </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
 
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recyclerview"
-        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:clipToPadding="false"
+        android:paddingTop="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
+        style="@style/FabStyle"
+        android:tag="bg_tint_accent_color"
+        android:visibility="gone"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|right|end"
-        style="@style/FabStyle"/>
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

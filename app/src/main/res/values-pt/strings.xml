@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="action_settings">Definições</string>
+
+    <string name="accessibility_play">Reproduzir</string>
+    <string name="accessibility_pause">Pausa</string>
+    <string name="accessibility_next">Seguinte</string>
+    <string name="accessibility_prev">Anterior</string>
+    <string name="accessibility_shuffle">Baralhar</string>
+    <string name="accessibility_shuffle_all">Baralhar tudo</string>
+    <string name="accessibility_repeat">Repetição</string>
+    <string name="accessibility_repeat_all">Repetir uma</string>
+    <string name="accessibility_repeat_one">Repetir todas</string>
+    <string name="accessibility_queue">Abrir fila</string>
+    <string name="accessibility_browse">Explorar músicas</string>
+
+    <string name="menu_sort_by">Ordenação</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="sort_order_entry_artist">Artista</string>
+    <string name="sort_order_entry_album">Álbum</string>
+    <string name="sort_order_entry_year">Ano</string>
+    <string name="sort_order_entry_track_number">N.º da faixa</string>
+    <string name="sort_order_entry_duration">Duração</string>
+    <string name="sort_order_entry_date_added">Data de adição</string>
+    <string name="sort_order_entry_track_list">Lista de faixas</string>
+    <string name="sort_order_entry_number_of_songs">Número de faixas</string>
+    <string name="sort_order_entry_number_of_albums">Número de álbuns</string>
+    <string name="sort_order_entry_filename">Nome de ficheiro</string>
+
+    <string name="error_playing_track">Erro de reprodução</string>
+
+    <string name="playlist_last_added">Última adição</string>
+    <string name="playlist_recently_played">Reproduções recentes</string>
+    <string name="playlist_top_tracks">Faixas favoritas</string>
+
+    <string name="timber_source">Reporte os erros encontrados <u>aqui</u> </string>
+    <string name="timber_feature_request">Sugira funcionalidades na comunidade Google+ <u>aqui</u></string>
+
+    <string name="menu_show_as">Ver como</string>
+    <string name="menu_show_as_entry_list">Lista</string>
+    <string name="menu_show_as_entry_grid">Grelha</string>
+
+    <string name="light">Claro</string>
+    <string name="dark">Escuro</string>
+    <string name="black">Preto</string>
+
+    <string name="last_opened">Última opção</string>
+
+    <string name="songs">Faixas</string>
+    <string name="albums">Álbums</string>
+    <string name="artists">Artistas</string>
+    <string name="library">Coleção</string>
+    <string name="playlists">Listas de reprodução</string>
+    <string name="playing_queue">Fila de reprodução</string>
+    <string name="now_playing">Em reprodução</string>
+    <string name="settings">Definições</string>
+    <string name="about">Sobre</string>
+    <string name="help_and_feedback">Ajuda e comentários</string>
+    <string name="search">Pesquisa</string>
+    <string name="action_shuffle_all">Baralhar tudo</string>
+    <string name="action_equalizer">Equalizador</string>
+    <string name="search_library">Pesquisar na coleção</string>
+
+    <string name="select_theme">Escolher Tema</string>
+    <string name="choose_theme_throughout">Escolha o tema a utilizar na aplicação.</string>
+    <string name="choose_start_page">Escolha o ecrã a mostrar ao iniciar.</string>
+    <string name="start_page">Ecrã inicial</string>
+    <string name="artist_in_grid">Artistas em grelha</string>
+    <string name="toggle_artists_grid">Exibir artistas em grelha no formato 2x2.</string>
+    <string name="toggle_system_animations">Utilizar animações do sistema na aplicação.</string>
+    <string name="system_animations">Animações do sistema</string>
+    <string name="toggle_animations">Utilizar animações de transição na aplicação.</string>
+    <string name="animations">Animações</string>
+    <string name="now_playing_selector">Escolha o ecrã de reprodução de entre os 4 estilos disponíveis.</string>
+    <string name="personalisation">Personalização</string>
+    <string name="other">Outras</string>
+    <string name="timber_about_opensource">O Timber é um reprodutor de músicas open source, desenvolvido por Naman Dwivedi.</string>
+    <string name="summary_pause_detach">Pausa na reprodução ao remover os auscultadores.</string>
+    <string name="pause_detach">Pausa ao remover</string>
+    <string name="currently_selected">Seleção atual</string>
+
+    <string name="dark_theme">Tema Escuro</string>
+    <string name="dark_theme_summary">Aplicar um tema escuro à aplicação</string>
+
+    <string name="primary_color">Cor Primária</string>
+    <string name="primary_color_summary">Mudar a cor primária do tema</string>
+
+    <string name="accent_color">Cor Secundária</string>
+    <string name="accent_color_summary">Mudar a cor secundária do tema</string>
+
+    <string name="colored_status_bar">Colorir a barra de estado</string>
+    <string name="colored_status_bar_summary">Alternar a coloração da barra de estado</string>
+
+    <string name="colored_nav_bar">Colorir a barra de navegação</string>
+    <string name="colored_nav_bar_summary">Alternar a coloração da barra de navegação</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> faixa</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> faixas</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> álbum</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> álbuns</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistas</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> faixa adicionada à fila.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> faixas adicionadas à fila.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> faixa adicionada à lista de reprodução.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> faixas adicionadas à lista de reprodução.</string>
+
+</resources>

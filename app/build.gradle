@@ -2,15 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "naman14.timber"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 6
-        versionName "0.122b"
-        renderscriptTargetApi 23
+        versionCode 8
+        versionName "0.14b"
+        //renderscript support mode is not supported for 21+ with gradle version 2.0
+        renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
     }
     buildTypes {
@@ -18,11 +19,14 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             versionNameSuffix "-debug"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions {
+        disable 'MissingTranslation'
     }
 
 }
@@ -33,12 +37,12 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile 'com.android.support:cardview-v7:23.1.0'
-    compile 'com.android.support:palette-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
-    compile 'com.android.support:percent:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:palette-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:percent:23.1.1'
 
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'net.steamcrafted:materialiconlib:1.0.3'
@@ -46,4 +50,14 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3'
+
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
+        transitive = true
+    }
+    compile('com.github.naman14:app-theme-engine:-SNAPSHOT@aar') {
+        transitive = true
+    }
+    compile('com.github.afollestad.material-dialogs:commons:0.8.5.3@aar') {
+        transitive = true
+    }
 }

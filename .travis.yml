@@ -1,0 +1,15 @@
+language: android
+
+branches:
+  only:
+    - master
+
+script: "./gradlew clean assembleDebug"
+
+android:
+  components:
+      - platform-tools
+      - tools
+      - build-tools-23.0.2
+      - android-23
+      - extra-android-m2repository

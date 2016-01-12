@@ -29,9 +29,9 @@ import com.naman14.timber.widgets.MultiViewPager;
 public class StyleSelectorFragment extends Fragment {
 
     public String ACTION = "action";
-    private SubStyleSelectorFragment selectorFragment;
     FragmentStatePagerAdapter adapter;
     MultiViewPager pager;
+    private SubStyleSelectorFragment selectorFragment;
 
     public static StyleSelectorFragment newInstance(String what) {
         StyleSelectorFragment fragment = new StyleSelectorFragment();

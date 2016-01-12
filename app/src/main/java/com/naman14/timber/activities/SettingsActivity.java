@@ -16,19 +16,26 @@ package com.naman14.timber.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.afollestad.appthemeengine.ATE;
+import com.afollestad.appthemeengine.Config;
+import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.SettingsFragment;
 import com.naman14.timber.subfragments.StyleSelectorFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.PreferencesUtility;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseThemedActivity implements ColorChooserDialog.ColorCallback, ATEActivityThemeCustomizer {
 
     String action;
 
@@ -52,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (action.equals(Constants.SETTINGS_STYLE_SELECTOR)) {
             getSupportActionBar().setTitle(R.string.now_playing);
             String what = getIntent().getExtras().getString(Constants.SETTINGS_STYLE_SELECTOR_WHAT);
-            Fragment fragment = new StyleSelectorFragment().newInstance(what);
+            Fragment fragment = StyleSelectorFragment.newInstance(what);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
@@ -76,6 +83,28 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @StyleRes
+    @Override
+    public int getActivityTheme() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
+                R.style.AppThemeDark : R.style.AppThemeLight;
+    }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
+        final Config config = ATE.config(this, getATEKey());
+        switch (dialog.getTitle()) {
+            case R.string.primary_color:
+                config.primaryColor(selectedColor);
+                break;
+            case R.string.accent_color:
+                config.accentColor(selectedColor);
+                break;
+        }
+        config.commit();
+        recreate(); // recreation needed to reach the checkboxes in the preferences layout
     }
 
 }

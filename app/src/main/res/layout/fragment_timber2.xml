@@ -150,13 +150,10 @@
                         android:maxHeight="1dp"
                         android:progress="30"
                         app:circle_color="#33000000"
-                        app:circle_progress_color="?attr/accentColor"
                         app:circle_stroke_width="2"
                         app:layout_heightPercent="95%"
                         app:layout_widthPercent="95%"
-                        app:pointer_color="?attr/accentColor"
                         app:pointer_halo_border_width="1.5"
-                        app:pointer_halo_color="?attr/accentColor"
                         app:pointer_halo_width="0.5" />
 
 
@@ -207,7 +204,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:scaleType="centerInside"
-        app:backgroundTint="?attr/accentColor"
+        android:tag="bg_tint_accent_color"
         app:layout_anchor="@id/headerView"
         app:layout_anchorGravity="bottom|right|end" />
 

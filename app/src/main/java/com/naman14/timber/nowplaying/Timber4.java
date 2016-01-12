@@ -22,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,18 +64,9 @@ public class Timber4 extends BaseNowplayingFragment {
                     .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                     .setSizeDp(30);
 
-            int color2;
-            if (isThemeIsBlack()) {
-                color2 = Color.parseColor("#ffb701");
-            } else {
-                TypedValue typeValue = new TypedValue();
-                getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-                color2 = typeValue.data;
-            }
-
             if (MusicPlayer.getShuffleMode() == 0) {
                 builder.setColor(Color.WHITE);
-            } else builder.setColor(color2);
+            } else builder.setColor(accentColor);
 
             shuffle.setImageDrawable(builder.build());
             shuffle.setOnClickListener(new View.OnClickListener() {
@@ -97,18 +87,9 @@ public class Timber4 extends BaseNowplayingFragment {
                     .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
 
-            int color2;
-            if (isThemeIsBlack()) {
-                color2 = Color.parseColor("#ffb701");
-            } else {
-                TypedValue typeValue = new TypedValue();
-                getActivity().getTheme().resolveAttribute(R.attr.accentColor, typeValue, true);
-                color2 = typeValue.data;
-            }
-
             if (MusicPlayer.getRepeatMode() == 0) {
                 builder.setColor(Color.WHITE);
-            } else builder.setColor(color2);
+            } else builder.setColor(accentColor);
 
             repeat.setImageDrawable(builder.build());
             repeat.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +103,19 @@ public class Timber4 extends BaseNowplayingFragment {
         }
     }
 
+    @Override
+    public void doAlbumArtStuff(Bitmap loadedImage) {
+        setBlurredAlbumArt blurredAlbumArt = new setBlurredAlbumArt();
+        blurredAlbumArt.execute(loadedImage);
+    }
+
+    private void setupHorizontalQueue() {
+        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
+        horizontalRecyclerview.setAdapter(horizontalAdapter);
+        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
+    }
+
     private class setBlurredAlbumArt extends AsyncTask<Bitmap, Void, Drawable> {
 
         @Override
@@ -129,7 +123,7 @@ public class Timber4 extends BaseNowplayingFragment {
             Drawable drawable = null;
             try {
                 drawable = ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return drawable;
@@ -156,19 +150,6 @@ public class Timber4 extends BaseNowplayingFragment {
         @Override
         protected void onPreExecute() {
         }
-    }
-
-    @Override
-    public void doAlbumArtStuff(Bitmap loadedImage) {
-        setBlurredAlbumArt blurredAlbumArt = new setBlurredAlbumArt();
-        blurredAlbumArt.execute(loadedImage);
-    }
-
-    private void setupHorizontalQueue() {
-        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
-        horizontalRecyclerview.setAdapter(horizontalAdapter);
-        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
     }
 
 

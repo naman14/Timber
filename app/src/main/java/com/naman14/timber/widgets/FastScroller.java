@@ -22,11 +22,10 @@ import static android.support.v7.widget.RecyclerView.OnScrollListener;
 public class FastScroller extends LinearLayout {
     private static final int BUBBLE_ANIMATION_DURATION = 100;
     private static final int TRACK_SNAP_RANGE = 5;
-
+    private final ScrollListener scrollListener = new ScrollListener();
     private TextView bubble;
     private View handle;
     private RecyclerView recyclerView;
-    private final ScrollListener scrollListener = new ScrollListener();
     private int height;
 
     private ObjectAnimator currentAnimator = null;

@@ -200,7 +200,7 @@
                     android:layout_gravity="center"
                     android:clickable="true"
                     android:scaleType="fitCenter"
-                    app:backgroundTint="?attr/accentColor" />
+                    android:tag="bg_tint_accent_color" />
             </FrameLayout>
 
             <net.steamcrafted.materialiconlib.MaterialIconView

@@ -16,6 +16,7 @@ package com.naman14.timber.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
@@ -64,6 +66,16 @@ public class QueueFragment extends Fragment implements MusicStateListener {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
+            ATE.apply(this, "dark_theme");
+        } else {
+            ATE.apply(this, "light_theme");
+        }
+    }
+
     public void restartLoader() {
 
     }
@@ -89,7 +101,7 @@ public class QueueFragment extends Fragment implements MusicStateListener {
         protected void onPostExecute(String result) {
             recyclerView.setAdapter(mAdapter);
             DragSortRecycler dragSortRecycler = new DragSortRecycler();
-            dragSortRecycler.setViewHandleId(R.id.albumArt);
+            dragSortRecycler.setViewHandleId(R.id.reorder);
 
             dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
                 @Override

@@ -15,10 +15,11 @@
 package com.naman14.timber.activities;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.LastAddedLoader;
@@ -46,20 +48,42 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlaylistDetailActivity extends AppCompatActivity {
+public class PlaylistDetailActivity extends BaseThemedActivity implements ATEActivityThemeCustomizer {
 
-    private Activity mContext = PlaylistDetailActivity.this;
     String action;
     long playlistID;
+    HashMap<String, Runnable> playlistsMap = new HashMap<>();
+    Runnable playlistLastAdded = new Runnable() {
+        public void run() {
+            new loadLastAdded().execute("");
+        }
+    };
+    Runnable playlistRecents = new Runnable() {
+        @Override
+        public void run() {
+            new loadRecentlyPlayed().execute("");
 
+        }
+    };
+    Runnable playlistToptracks = new Runnable() {
+        @Override
+        public void run() {
+            new loadTopTracks().execute("");
+        }
+    };
+    Runnable playlistUsercreated = new Runnable() {
+        @Override
+        public void run() {
+            new loadUserCreatedPlaylist().execute("");
+
+        }
+    };
+    private AppCompatActivity mContext = PlaylistDetailActivity.this;
     private SongsListAdapter mAdapter;
     private RecyclerView recyclerView;
-
     private ImageView blurFrame;
     private TextView playlistname;
     private View foreground;
-
-    HashMap<String, Runnable> playlistsMap = new HashMap<>();
 
     @TargetApi(21)
     @Override
@@ -107,39 +131,33 @@ public class PlaylistDetailActivity extends AppCompatActivity {
         }
     }
 
-    Runnable playlistLastAdded = new Runnable() {
-        public void run() {
-            new loadLastAdded().execute("");
-        }
-    };
-
-    Runnable playlistRecents = new Runnable() {
-        @Override
-        public void run() {
-            new loadRecentlyPlayed().execute("");
-
-        }
-    };
-    Runnable playlistToptracks = new Runnable() {
-        @Override
-        public void run() {
-            new loadTopTracks().execute("");
-        }
-    };
-    Runnable playlistUsercreated = new Runnable() {
-        @Override
-        public void run() {
-            new loadUserCreatedPlaylist().execute("");
-
-        }
-    };
-
     private void loadBitmap(String uri) {
         ImageLoader.getInstance().displayImage(uri, blurFrame,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
                         .showImageOnFail(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
                         .build());
+    }
+
+    private void setRecyclerViewAapter() {
+        recyclerView.setAdapter(mAdapter);
+        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(mContext).getAnimations()) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+                }
+            }, 250);
+        } else
+            recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
+    }
+
+    @StyleRes
+    @Override
+    public int getActivityTheme() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
+
     }
 
     private class loadLastAdded extends AsyncTask<String, Void, String> {
@@ -166,7 +184,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
-            List<Song> recentsongs = SongLoader.getSongsForCursor(loader.getCursor());
+            List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
             mAdapter = new SongsListAdapter(mContext, recentsongs, true);
             return "Executed";
         }
@@ -187,7 +205,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
-            List<Song> toptracks = SongLoader.getSongsForCursor(loader.getCursor());
+            List<Song> toptracks = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
             mAdapter = new SongsListAdapter(mContext, toptracks, true);
             return "Executed";
         }
@@ -221,21 +239,6 @@ public class PlaylistDetailActivity extends AppCompatActivity {
         protected void onPreExecute() {
         }
     }
-
-    private void setRecyclerViewAapter() {
-        recyclerView.setAdapter(mAdapter);
-        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(mContext).getAnimations()) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
-                }
-            }, 250);
-        } else
-            recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
-    }
-
 
     private class EnterTransitionListener extends SimplelTransitionListener {
 

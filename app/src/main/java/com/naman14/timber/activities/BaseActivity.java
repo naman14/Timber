@@ -21,29 +21,40 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.appthemeengine.ATE;
+import com.afollestad.appthemeengine.ATEActivity;
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.listeners.MusicStateListener;
+import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
+import com.naman14.timber.subfragments.QuickControlsFragment;
+import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.TimberUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import static com.naman14.timber.MusicPlayer.mService;
 
-public class BaseActivity extends AppCompatActivity implements ServiceConnection, MusicStateListener {
-
-    private MusicPlayer.ServiceToken mToken;
-    private PlaybackStatus mPlaybackStatus;
+public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
 
     private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
-
+    private MusicPlayer.ServiceToken mToken;
+    private PlaybackStatus mPlaybackStatus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,6 +175,85 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
+            menu.removeItem(R.id.action_equalizer);
+        }
+        ATE.applyMenu(this, getATEKey(), menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            case R.id.action_settings:
+                NavigationUtils.navigateToSettings(this);
+                return true;
+            case R.id.action_shuffle:
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MusicPlayer.shuffleAll(BaseActivity.this);
+                    }
+                }, 80);
+
+                return true;
+            case R.id.action_search:
+                NavigationUtils.navigateToSearch(this);
+                return true;
+            case R.id.action_equalizer:
+                NavigationUtils.navigateToEqualizer(this);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Nullable
+    @Override
+    public String getATEKey() {
+        return Helpers.getATEKey(this);
+    }
+
+    public void setPanelSlideListeners(SlidingUpPanelLayout panelLayout) {
+        panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                View nowPlayingCard = QuickControlsFragment.topContainer;
+                nowPlayingCard.setAlpha(1 - slideOffset);
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                View nowPlayingCard = QuickControlsFragment.topContainer;
+                nowPlayingCard.setAlpha(1);
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                View nowPlayingCard = QuickControlsFragment.topContainer;
+                nowPlayingCard.setAlpha(0);
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+    }
+
     private final static class PlaybackStatus extends BroadcastReceiver {
 
         private final WeakReference<BaseActivity> mReference;
@@ -192,6 +282,32 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
                     Toast.makeText(baseActivity, errorMsg, Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+    }
+
+    public class initQuickControls extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            QuickControlsFragment fragment1 = new QuickControlsFragment();
+            FragmentManager fragmentManager1 = getSupportFragmentManager();
+            fragmentManager1.beginTransaction()
+                    .replace(R.id.quickcontrols_container, fragment1).commitAllowingStateLoss();
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavigationUtils.navigateToNowplaying(BaseActivity.this, false);
+                }
+            });
+        }
+
+        @Override
+        protected void onPreExecute() {
         }
     }
 

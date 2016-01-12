@@ -17,6 +17,7 @@ package com.naman14.timber.fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -80,28 +81,6 @@ public class SongsFragment extends Fragment implements MusicStateListener {
             mAdapter.notifyDataSetChanged();
     }
 
-    private class loadSongs extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            mAdapter = new SongsListAdapter(getActivity(), SongLoader.getAllSongs(getActivity()), false);
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            if (getActivity() != null)
-                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-    }
-
-
     private void reloadAdapter() {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -159,5 +138,27 @@ public class SongsFragment extends Fragment implements MusicStateListener {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class loadSongs extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (getActivity() != null)
+                mAdapter = new SongsListAdapter((AppCompatActivity) getActivity(), SongLoader.getAllSongs(getActivity()), false);
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            recyclerView.setAdapter(mAdapter);
+            if (getActivity() != null)
+                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
     }
 }

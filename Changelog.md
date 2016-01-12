@@ -1,4 +1,21 @@
 #Changelog
+v0.14b-
+
+* Added Theme engine
+* Performance improvements
+* Many bugs fixed
+
+v0.13b-
+
+* Create playlists and add songs to playlists
+* Go to artist, album, add to queue, play next in song popup menu
+* Pause music playback when headphones removed
+* Fixed equalizer not working
+* Fixed track numbers being wrong
+* Bluetooth controls
+* Show song duration in Timber3 now playing style
+* Added Chinese,French,German and Italian translation
+* Bug fixes and improvements
 
 v0.122b-
 * Fix crash in search activity

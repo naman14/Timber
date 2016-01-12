@@ -14,46 +14,52 @@
 
 package com.naman14.timber.adapters;
 
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.BubbleTextGetter;
+import com.naman14.timber.widgets.MusicVisualizer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.List;
 
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
+    public int currentlyPlayingPosition;
     private List<Song> arraylist;
-    private Activity mContext;
+    private AppCompatActivity mContext;
     private long[] songIDs;
     private boolean isPlaylist;
-    public int currentlyPlayingPosition;
-
     private int lastPosition = -1;
+    private String ateKey;
 
-    public SongsListAdapter(Activity context, List<Song> arraylist, boolean isPlaylistSong) {
+    public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.isPlaylist = isPlaylistSong;
         this.songIDs = getSongIds();
+        this.ateKey = Helpers.getATEKey(context);
     }
 
     @Override
@@ -78,15 +84,19 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
-            currentlyPlayingPosition = i;
+            itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));
             if (MusicPlayer.isPlaying()) {
-                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
-                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE);
-            } else {
-                itemHolder.playingIndicator.setVisibility(View.VISIBLE);
-                itemHolder.playingIndicator.setIcon(MaterialDrawableBuilder.IconValue.PLAY);
+                itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
+                itemHolder.visualizer.setVisibility(View.VISIBLE);
             }
-        } else itemHolder.playingIndicator.setVisibility(View.INVISIBLE);
+        } else {
+            if (isPlaylist)
+                itemHolder.title.setTextColor(Color.WHITE);
+            else
+                itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
+            itemHolder.visualizer.setVisibility(View.GONE);
+        }
+
 
         if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
             if (TimberUtils.isLollipop())
@@ -96,6 +106,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                     setAnimation(itemHolder.itemView, i);
             }
         }
+        setOnPopupMenuListener(itemHolder, i);
 
     }
 
@@ -104,49 +115,47 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         return (null != arraylist ? arraylist.size() : 0);
     }
 
+    private void setOnPopupMenuListener(ItemHolder itemHolder, final int position) {
 
-    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, artist;
-        protected ImageView albumArt;
-        private MaterialIconView playingIndicator;
+        itemHolder.popupMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        public ItemHolder(View view) {
-            super(view);
-            this.title = (TextView) view.findViewById(R.id.song_title);
-            this.artist = (TextView) view.findViewById(R.id.song_artist);
-            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
-            this.playingIndicator = (MaterialIconView) view.findViewById(R.id.currentlyPlayingIndicator);
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
-                    Handler handler1 = new Handler();
-                    handler1.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyItemChanged(currentlyPlayingPosition);
-                            notifyItemChanged(getAdapterPosition());
-                            Handler handler2 = new Handler();
-                            handler2.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-//                                    NavigationUtils.navigateToNowplaying(mContext, true);
-                                }
-                            }, 50);
+                final PopupMenu menu = new PopupMenu(mContext, v);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.popup_song_play:
+                                MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
+                                break;
+                            case R.id.popup_song_play_next:
+                                long[] ids = new long[1];
+                                ids[0] = arraylist.get(position).id;
+                                MusicPlayer.playNext(mContext, ids, -1, TimberUtils.IdType.NA);
+                                break;
+                            case R.id.popup_song_goto_album:
+                                NavigationUtils.goToAlbum(mContext, arraylist.get(position).albumId);
+                                break;
+                            case R.id.popup_song_goto_artist:
+                                NavigationUtils.goToArtist(mContext, arraylist.get(position).artistId);
+                                break;
+                            case R.id.popup_song_addto_queue:
+                                long[] id = new long[1];
+                                id[0] = arraylist.get(position).id;
+                                MusicPlayer.addToQueue(mContext, id, -1, TimberUtils.IdType.NA);
+                                break;
+                            case R.id.popup_song_addto_playlist:
+                                AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
+                                break;
                         }
-                    }, 50);
-                }
-            }, 100);
-
-
-        }
-
+                        return false;
+                    }
+                });
+                menu.inflate(R.menu.popup_song);
+                menu.show();
+            }
+        });
     }
 
     public long[] getSongIds() {
@@ -181,6 +190,44 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     public void updateDataSet(List<Song> arraylist) {
         this.arraylist = arraylist;
         this.songIDs = getSongIds();
+    }
+
+    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected TextView title, artist;
+        protected ImageView albumArt, popupMenu;
+        private MusicVisualizer visualizer;
+
+        public ItemHolder(View view) {
+            super(view);
+            this.title = (TextView) view.findViewById(R.id.song_title);
+            this.artist = (TextView) view.findViewById(R.id.song_artist);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
+            visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+                    Handler handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyItemChanged(currentlyPlayingPosition);
+                            notifyItemChanged(getAdapterPosition());
+                        }
+                    }, 50);
+                }
+            }, 100);
+
+
+        }
+
     }
 }
 

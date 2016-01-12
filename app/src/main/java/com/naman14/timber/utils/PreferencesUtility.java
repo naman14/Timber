@@ -37,6 +37,7 @@ public final class PreferencesUtility {
     private static final String THEME_PREFERNCE = "theme_preference";
     private static final String START_PAGE_INDEX = "start_page_index";
     private static final String START_PAGE_PREFERENCE_LASTOPENED = "start_page_preference_latopened";
+    private static final String NOW_PLAYNG_THEME_VALUE = "now_playing_theme_value";
     private static PreferencesUtility sInstance;
 
     private static SharedPreferences mPreferences;
@@ -66,7 +67,7 @@ public final class PreferencesUtility {
     }
 
     public boolean isArtistsInGrid() {
-        return mPreferences.getBoolean(TOGGLE_ARTIST_GRID, false);
+        return mPreferences.getBoolean(TOGGLE_ARTIST_GRID, true);
     }
 
     public void setArtistsInGrid(final boolean b) {
@@ -195,5 +196,15 @@ public final class PreferencesUtility {
 
     public void setSongSortOrder(final String value) {
         setSortOrder(SONG_SORT_ORDER, value);
+    }
+
+    public final boolean didNowplayingThemeChanged() {
+        return mPreferences.getBoolean(NOW_PLAYNG_THEME_VALUE, false);
+    }
+
+    public void setNowPlayingThemeChanged(final boolean value) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(NOW_PLAYNG_THEME_VALUE, value);
+        editor.apply();
     }
 }

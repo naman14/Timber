@@ -28,18 +28,17 @@ import android.widget.TextView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.PreferencesUtility;
 
 public class SubStyleSelectorFragment extends Fragment {
 
+    private static final String ARG_PAGE_NUMBER = "pageNumber";
+    private static final String WHAT = "what";
     SharedPreferences.Editor editor;
     SharedPreferences preferences;
-
     LinearLayout currentStyle;
     View foreground;
     ImageView styleImage;
-
-    private static final String ARG_PAGE_NUMBER = "pageNumber";
-    private static final String WHAT = "what";
 
     public static SubStyleSelectorFragment newInstance(int pageNumber, String what) {
         SubStyleSelectorFragment fragment = new SubStyleSelectorFragment();
@@ -110,7 +109,9 @@ public class SubStyleSelectorFragment extends Fragment {
         if (getArguments().getString(WHAT).equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)) {
             editor = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE).edit();
             editor.putString(Constants.NOWPLAYING_FRAGMENT_ID, getStyleForPageNumber());
-            editor.commit();
+            editor.apply();
+            if (getActivity() != null)
+                PreferencesUtility.getInstance(getActivity()).setNowPlayingThemeChanged(true);
             setCurrentStyle();
             ((StyleSelectorFragment) getParentFragment()).updateCurrentStyle();
         }

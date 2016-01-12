@@ -65,30 +65,9 @@ public class ArtistFragment extends Fragment {
 
         setLayoutManager();
 
-        new loadArtists().execute("");
+        if (getActivity() != null)
+            new loadArtists().execute("");
         return rootView;
-    }
-
-
-    private class loadArtists extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            if (getActivity() != null) {
-                setItemDecoration();
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
     }
 
     private void setLayoutManager() {
@@ -118,25 +97,7 @@ public class ArtistFragment extends Fragment {
         recyclerView.setAdapter(new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity())));
         layoutManager.setSpanCount(column);
         layoutManager.requestLayout();
-    }
-
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
-            outRect.top = space;
-            outRect.right = space;
-            outRect.bottom = space;
-
-        }
+        setItemDecoration();
     }
 
     private void reloadAdapter() {
@@ -190,14 +151,56 @@ public class ArtistFragment extends Fragment {
                 return true;
             case R.id.menu_show_as_list:
                 mPreferences.setArtistsInGrid(false);
+                isGrid = false;
                 updateLayoutManager(1);
                 return true;
             case R.id.menu_show_as_grid:
                 mPreferences.setArtistsInGrid(true);
+                isGrid = true;
                 updateLayoutManager(2);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class loadArtists extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (getActivity() != null)
+                mAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()));
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            recyclerView.setAdapter(mAdapter);
+            if (getActivity() != null) {
+                setItemDecoration();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            outRect.left = space;
+            outRect.top = space;
+            outRect.right = space;
+            outRect.bottom = space;
+
+        }
     }
 
 

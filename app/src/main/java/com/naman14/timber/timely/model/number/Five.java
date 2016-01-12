@@ -1,6 +1,6 @@
 package com.naman14.timber.timely.model.number;
 
-import com.naman14.timber.timely.model.core.Figure;;
+import com.naman14.timber.timely.model.core.Figure;
 
 public class Five extends Figure {
     private static final float[][] POINTS = {

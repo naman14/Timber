@@ -6,83 +6,83 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/quick_controls_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/quick_controls_frame">
+        android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/blurredAlbumart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/blurredAlbumart"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#44000000"/>
+            android:background="#44000000" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:paddingTop="20dp"
-            android:orientation="vertical">
+            android:paddingTop="20dp">
 
             <TextView
                 android:id="@+id/song_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="#ffffff"
+                android:ellipsize="end"
                 android:maxLines="2"
-                android:ellipsize="end"/>
+                android:textColor="#ffffff"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/song_artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:paddingTop="3dp"
                 android:textColor="#ffffff"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:textSize="14sp" />
 
             <SeekBar
                 android:id="@+id/song_progress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
-                android:paddingTop="18dp"
                 android:maxHeight="2dp"
+                android:paddingTop="18dp"
                 android:progress="30"
-                android:progressDrawable="?attr/progressDrawableWithBackground" />
+                android:tag="tint_accent_color" />
 
 
             <TextView
                 android:id="@+id/song_album"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/song_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/song_elapsed_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:visibility="gone" />
 
 
             <LinearLayout
@@ -107,22 +107,22 @@
                 <FrameLayout
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
-                    android:layout_alignParentRight="true"
                     android:layout_weight="1">
 
                     <com.naman14.timber.widgets.PlayPauseButton
                         android:id="@+id/playpause"
-                        android:layout_gravity="center"
                         android:layout_width="23dp"
-                        android:layout_height="23dp" />
+                        android:layout_height="23dp"
+                        android:layout_gravity="center" />
 
                     <View
                         android:id="@+id/playpausewrapper"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"/>
+                        android:background="?attr/selectableItemBackgroundBorderless" />
 
                 </FrameLayout>
 
@@ -143,7 +143,7 @@
     </FrameLayout>
 
 
-<include layout="@layout/bottom_nowplaying_card"/>
+    <include layout="@layout/bottom_nowplaying_card" />
 
 
 </FrameLayout>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="action_settings">Ayarlar</string>
+
+    <string name="accessibility_play">Oynat</string>
+    <string name="accessibility_pause">Durdur</string>
+    <string name="accessibility_next">İleri</string>
+    <string name="accessibility_prev">Geri</string>
+    <string name="accessibility_shuffle">Karıştır</string>
+    <string name="accessibility_shuffle_all">Hepsini karıştır</string>
+    <string name="accessibility_repeat">Tekrarla</string>
+    <string name="accessibility_repeat_all">Hepsini tekrar et</string>
+    <string name="accessibility_repeat_one">Tekrarla</string>
+    <string name="accessibility_queue">Sırayla oynat</string>
+    <string name="accessibility_browse">Keşfet</string>
+
+    <string name="menu_sort_by">Sırala</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="sort_order_entry_artist">Sanatçı</string>
+    <string name="sort_order_entry_album">Albüm</string>
+    <string name="sort_order_entry_year">Yıl</string>
+    <string name="sort_order_entry_track_number">Parça numarası</string>
+    <string name="sort_order_entry_duration">Süre</string>
+    <string name="sort_order_entry_date_added">Eklenme tarihi</string>
+    <string name="sort_order_entry_track_list">Parça listesi</string>
+    <string name="sort_order_entry_number_of_songs">Müziklerin sayısı</string>
+    <string name="sort_order_entry_number_of_albums">Albümlerin sayısı</string>
+    <string name="sort_order_entry_filename">Dosya adı</string>
+
+    <string name="error_playing_track">Parça oynatılırken hata oluştu</string>
+
+    <string name="playlist_last_added">Listeye eklendi</string>
+    <string name="playlist_recently_played">En son oynatılanlar</string>
+    <string name="playlist_top_tracks">En çok dinlediklerim</string>
+
+    <string name="timber_source">Hataları <u> buraya </u> bildirin. </string>
+    <string name="timber_feature_request">Herhangi bir özellik eklenmesini istiyorsan Google+ gurubumuza <u> buradan </u> ulaşabilirsin</string>
+
+    <string name="menu_show_as">Göster</string>
+    <string name="menu_show_as_entry_list">Liste</string>
+    <string name="menu_show_as_entry_grid">Izgara</string>
+
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="black">Black</string>
+
+    <string name="last_opened">En son açılan</string>
+
+    <string name="songs">Şarkılar</string>
+    <string name="albums">Albümler</string>
+    <string name="artists">Sanatçılar</string>
+    <string name="library">Kütüphane</string>
+    <string name="playlists">Oynatma listeleri</string>
+    <string name="playing_queue">Oynatma sırası</string>
+    <string name="now_playing">Şimdi Oynatılıyor</string>
+    <string name="settings">Ayarlar</string>
+    <string name="about">Hakkında</string>
+    <string name="help_and_feedback">Yardım ve Geribildirim</string>
+    <string name="search">Ayarlar</string>
+    <string name="action_shuffle_all">Hepsini karıştır</string>
+    <string name="action_equalizer">Ekolayzer</string>
+    <string name="search_library">Kütüphanede Ara</string>
+
+    <string name="select_theme">Tema seç</string>
+    <string name="choose_theme_throughout">Bir tema seçin</string>
+    <string name="choose_start_page">Açılış sayfası seçin</string>
+    <string name="start_page">Açılış sayfası</string>
+    <string name="artist_in_grid">Sanatçıların Düzeni</string>
+    <string name="toggle_artists_grid">Sanatçılar 2x2 ızgarada gösterilsin</string>
+    <string name="toggle_system_animations">Sistem animasyonları kullanılsın</string>
+    <string name="system_animations">Sistem animasyonları</string>
+    <string name="toggle_animations">Geçiş animasyonları kullanılsın</string>
+    <string name="animations">Animasyonlar</string>
+    <string name="now_playing_selector">Şimdi oynatılıyor ekranını seçiniz</string>
+    <string name="personalisation">Kişiselleştirme</string>
+    <string name="other">Diğer</string>
+    <string name="timber_about_opensource">Timber  Naman Dwivedi tarafından geliştirilen açık kaynaklı Muzik oynatıcısıdır.</string>
+    <string name="summary_pause_detach">Kulaklığı çıkardığımda çalan şarkıyı durdur</string>
+    <string name="pause_detach">Kulaklık</string>
+    <string name="currently_selected">Seçilenler</string>
+
+    <string name="dark_theme">Dark Tema</string>
+    <string name="dark_theme_summary">Dark temayı kullan</string>
+
+    <string name="primary_color">Birincil Renk</string>
+    <string name="primary_color_summary">Birincil rengi değiştir</string>
+
+    <string name="accent_color">Vurgu Rengi</string>
+    <string name="accent_color_summary">Vurgu rengini değiştir</string>
+
+    <string name="colored_status_bar">Renkli Status Bar</string>
+    <string name="colored_status_bar_summary">Toggle status bar coloring</string>
+
+    <string name="colored_nav_bar">Renkli Navigation Bar</string>
+    <string name="colored_nav_bar_summary">Toggle navigation bar coloring</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> şarkı</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> şarkılar</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> albüm</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albümler</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> sanatçı</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> sanatçılar</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> şarkı sıraya eklendi.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> şarkılar sıraya eklendi.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> şarkı oynatma listesine eklendi.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> şarkılar oynatma listesine eklendi.</string>
+
+
+    <!--do not translate these strings-->
+    <string name="app_name" translatable="false">Timber</string>
+    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
+    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
+    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
+    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
+
+</resources>
+

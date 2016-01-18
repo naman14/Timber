@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="action_settings">Настройки</string>
+
+    <string name="accessibility_play">Играть</string>
+    <string name="accessibility_pause">Пауза</string>
+    <string name="accessibility_next">Следующий</string>
+    <string name="accessibility_prev">Предыдуший</string>
+    <string name="accessibility_shuffle">Перемешать</string>
+    <string name="accessibility_shuffle_all">Перемешать все</string>
+    <string name="accessibility_repeat">Повторить</string>
+    <string name="accessibility_repeat_all">Повторить все</string>
+    <string name="accessibility_repeat_one">Повторить один</string>
+    <string name="accessibility_queue">Открыть очередь</string>
+    <string name="accessibility_browse">Посмотреть музыку</string>
+
+    <string name="menu_sort_by">Сортировать по</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="sort_order_entry_artist">Артисту</string>
+    <string name="sort_order_entry_album">Альбому</string>
+    <string name="sort_order_entry_year">Году</string>
+    <string name="sort_order_entry_track_number">Номеру трека</string>
+    <string name="sort_order_entry_duration">Длительности</string>
+    <string name="sort_order_entry_date_added">Дате добавления</string>
+    <string name="sort_order_entry_track_list">Трек-листу</string>
+    <string name="sort_order_entry_number_of_songs">Количеству песен</string>
+    <string name="sort_order_entry_number_of_albums">Количеству альбомов</string>
+    <string name="sort_order_entry_filename">Имени файла</string>
+
+    <string name="error_playing_track">Ошибка воспроизведения трека</string>
+
+    <string name="playlist_last_added">Новые</string>
+    <string name="playlist_recently_played">Недавно играли</string>
+    <string name="playlist_top_tracks">Лучшие треки</string>
+
+    <string name="timber_source">Сообщить о какой-либо ошибки <u> здесь </u> </string>
+    <string name="timber_feature_request">Уточните любые вопросы в нашей Google+ группе <u> здесь </u></string>
+
+    <string name="menu_show_as">Показывать как</string>
+    <string name="menu_show_as_entry_list">Список</string>
+    <string name="menu_show_as_entry_grid">Сетку</string>
+
+    <string name="light">Светлая</string>
+    <string name="dark">Темная</string>
+    <string name="black">Черная</string>
+
+    <string name="last_opened">Последний открытый</string>
+
+    <string name="songs">Песни</string>
+    <string name="albums">Альбомы</string>
+    <string name="artists">Артисты</string>
+    <string name="library">Библиотека</string>
+    <string name="playlists">Плей-листы</string>
+    <string name="playing_queue">Играет в очереди</string>
+    <string name="now_playing">Играет сейчас</string>
+    <string name="settings">Настройки</string>
+    <string name="about">О приложении</string>
+    <string name="help_and_feedback">Помощь и обратная связь</string>
+    <string name="search">Поиск</string>
+    <string name="action_shuffle_all">Перемешать все</string>
+    <string name="action_equalizer">Эквалайзер</string>
+    <string name="search_library">Искать в библиотеке</string>
+
+    <string name="select_theme">Выбрать тему</string>
+    <string name="choose_theme_throughout">Выбрать тему всего приложения.</string>
+    <string name="choose_start_page">Выбрать стартовую страницу, которая будет отображаться при запуске.</string>
+    <string name="start_page">Стартовая страница</string>
+    <string name="artist_in_grid">Артисты в сетке</string>
+    <string name="toggle_artists_grid">Включить отображение артисов в сетке 2x2</string>
+    <string name="toggle_system_animations">Включить системные анимации во всем приложении.</string>
+    <string name="system_animations">Системные анимации</string>
+    <string name="toggle_animations">Включить анимации в приложении.</string>
+    <string name="animations">Анимации</string>
+    <string name="now_playing_selector">Выбрать тему для экрана проигрывания из 4-х различных стилей.</string>
+    <string name="personalisation">Персонализация</string>
+    <string name="other">Прочее</string>
+    <string name="timber_about_opensource">Timber это музыкальный плеер с открытым исходным кодом который разработан Наманом Двиведи.</string>
+    <string name="summary_pause_detach">Включить автоматическую паузу при отсоединении наушников</string>
+    <string name="pause_detach">Пауза при отсоединении</string>
+    <string name="currently_selected">Сейчас выбрано</string>
+
+    <string name="dark_theme">Темная тема</string>
+    <string name="dark_theme_summary">Применить темную тему ко всему приложению</string>
+
+    <string name="primary_color">Основной цвет</string>
+    <string name="primary_color_summary">Изменить основной цвет темы</string>
+
+    <string name="accent_color">Дополнительный цвет</string>
+    <string name="accent_color_summary">Изменить дополнительный цвет темы</string>
+
+    <string name="colored_status_bar">Раскрасить статус бар</string>
+    <string name="colored_status_bar_summary">Включить раскраску статус бара</string>
+
+    <string name="colored_nav_bar">Раскрасить панель навигации</string>
+    <string name="colored_nav_bar_summary">Включить раскраску панели навигации</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> песня</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> песни</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> альбом</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> альбомы</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> артист</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> артисты</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> песня добавлена в очередь.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> песни добавлены в очередь.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> песня добавлена в плей-лист.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> песни добавлены в плей-лист.</string>
+
+
+    <!--do not translate these strings-->
+    <string name="app_name" translatable="false">Timber</string>
+    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
+    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
+    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
+    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
+
+</resources>

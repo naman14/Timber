@@ -50,6 +50,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3'
+    compile 'de.Maxr1998:track-selector-lib:1.1'
 
     compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true

@@ -43,6 +43,7 @@ import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -77,6 +78,10 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.TreeSet;
+
+import de.Maxr1998.trackselectorlib.ModNotInstalledException;
+import de.Maxr1998.trackselectorlib.NotificationHelper;
+import de.Maxr1998.trackselectorlib.TrackItem;
 
 @SuppressLint("NewApi")
 public class MusicService extends Service {
@@ -141,6 +146,10 @@ public class MusicService extends Service {
     private static final String[] ALBUM_PROJECTION = new String[]{
             MediaStore.Audio.Albums.ALBUM, MediaStore.Audio.Albums.ARTIST,
             MediaStore.Audio.Albums.LAST_YEAR
+    };
+    private static final String[] NOTIFICATION_PROJECTION = new String[]{
+            "audio._id AS _id", AudioColumns.ALBUM_ID, AudioColumns.TITLE,
+            AudioColumns.ARTIST, AudioColumns.DURATION
     };
     private static final Shuffler mShuffler = new Shuffler();
     private static final int NOTIFY_MODE_NONE = 0;
@@ -463,6 +472,11 @@ public class MusicService extends Service {
         final String command = SERVICECMD.equals(action) ? intent.getStringExtra(CMDNAME) : null;
 
         if (D) Log.d(TAG, "handleCommandIntent: action = " + action + ", command = " + command);
+
+        if (NotificationHelper.checkIntent(intent)) {
+            goToPosition(mPlayPos + NotificationHelper.getPosition(intent));
+            return;
+        }
 
         if (CMDNEXT.equals(command) || NEXT_ACTION.equals(action)) {
             gotoNext(true);
@@ -1143,8 +1157,39 @@ public class MusicService extends Service {
         }
         if (artwork != null && TimberUtils.isLollipop())
             builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
+        Notification n = builder.build();
 
-        return builder.build();
+        // Add Track Selector to notification
+        if (NotificationHelper.isSupported(n)) {
+            StringBuilder selection = new StringBuilder();
+            StringBuilder order = new StringBuilder().append("CASE _id \n");
+            for (int i = 0; i < mPlaylist.size(); i++) {
+                selection.append("_id=").append(mPlaylist.get(i).mId).append(" OR ");
+                order.append("WHEN ").append(mPlaylist.get(i).mId).append(" THEN ").append(i).append("\n");
+            }
+            order.append("END");
+            Cursor c = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, NOTIFICATION_PROJECTION, selection.substring(0, selection.length() - 3), null, order.toString());
+            if (c != null && c.getCount() != 0) {
+                c.moveToFirst();
+                ArrayList<Bundle> list = new ArrayList<>();
+                do {
+                    TrackItem t = new TrackItem()
+                            .setArt(ImageLoader.getInstance()
+                                    .loadImageSync(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))).toString()))
+                            .setTitle(c.getString(c.getColumnIndexOrThrow(AudioColumns.TITLE)))
+                            .setArtist(c.getString(c.getColumnIndexOrThrow(AudioColumns.ARTIST)))
+                            .setDuration(TimberUtils.makeShortTimeString(this, c.getInt(c.getColumnIndexOrThrow(AudioColumns.DURATION)) / 1000));
+                    list.add(t.get());
+                } while (c.moveToNext());
+                try {
+                    NotificationHelper.insertToNotification(n, list, this, getQueuePosition());
+                } catch (ModNotInstalledException e) {
+                    e.printStackTrace();
+                }
+                c.close();
+            }
+        }
+        return n;
     }
 
     private final PendingIntent retrievePlaybackAction(final String action) {
@@ -1853,6 +1898,30 @@ public class MusicService extends Service {
                 return;
             }
 
+            stop(false);
+            setAndRecordPlayPos(pos);
+            openCurrentAndNext();
+            play();
+            notifyChange(META_CHANGED);
+        }
+    }
+
+    public void goToPosition(int pos) {
+        synchronized (this) {
+            if (mPlaylist.size() <= 0) {
+                if (D) Log.d(TAG, "No play queue");
+                scheduleDelayedShutdown();
+                return;
+            }
+            if (pos < 0) {
+                return;
+            }
+            if (pos == mPlayPos) {
+                if (!isPlaying()) {
+                    play();
+                }
+                return;
+            }
             stop(false);
             setAndRecordPlayPos(pos);
             openCurrentAndNext();

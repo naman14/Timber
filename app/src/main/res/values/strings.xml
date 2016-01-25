@@ -76,10 +76,13 @@
     <string name="now_playing_selector">Choose a now playing screen from 4 different styles.</string>
     <string name="personalisation">Personalisation</string>
     <string name="other">Other</string>
+    <string name="advanced">Advanced</string>
     <string name="timber_about_opensource">Timber is a open source Music Player developed by Naman Dwivedi.</string>
     <string name="summary_pause_detach">Toggle for pausing playback when headphone is detached</string>
     <string name="pause_detach">Pause on Detach</string>
-    <string name="currently_selected">Currently Selected</string>
+    <string name="summary_xposed_trackselector">Toggle for pausing playback when headphone is detached</string>
+    <string name="xposed_trackselector">Enable playing queue support in notification</string>
+    <string name="currently_selected">Requires Xposed and XMediaNotificationTrackSelector Xposed module to be installed. This will provide access to playing queue from the notification bar itself.</string>
 
     <string name="dark_theme">Dark Theme</string>
     <string name="dark_theme_summary">Apply a dark theme throughout the app</string>

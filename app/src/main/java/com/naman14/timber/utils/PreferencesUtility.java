@@ -38,6 +38,7 @@ public final class PreferencesUtility {
     private static final String START_PAGE_INDEX = "start_page_index";
     private static final String START_PAGE_PREFERENCE_LASTOPENED = "start_page_preference_latopened";
     private static final String NOW_PLAYNG_THEME_VALUE = "now_playing_theme_value";
+    private static final String TOGGLE_XPOSED_TRACKSELECTOR = "toggle_xposed_trackselector";
     private static PreferencesUtility sInstance;
 
     private static SharedPreferences mPreferences;
@@ -206,5 +207,9 @@ public final class PreferencesUtility {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putBoolean(NOW_PLAYNG_THEME_VALUE, value);
         editor.apply();
+    }
+
+    public boolean getXPosedTrackselectorEnabled() {
+        return mPreferences.getBoolean(TOGGLE_XPOSED_TRACKSELECTOR, false);
     }
 }

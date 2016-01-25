@@ -67,6 +67,7 @@ import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.utils.TimberUtils.IdType;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -1159,7 +1160,14 @@ public class MusicService extends Service {
             builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
         Notification n = builder.build();
 
-        // Add Track Selector to notification
+        if (PreferencesUtility.getInstance(this).getXPosedTrackselectorEnabled()) {
+            addXTrackSelector(n);
+        }
+
+        return n;
+    }
+
+    private void addXTrackSelector(Notification n) {
         if (NotificationHelper.isSupported(n)) {
             StringBuilder selection = new StringBuilder();
             StringBuilder order = new StringBuilder().append("CASE _id \n");
@@ -1189,7 +1197,6 @@ public class MusicService extends Service {
                 c.close();
             }
         }
-        return n;
     }
 
     private final PendingIntent retrievePlaybackAction(final String action) {

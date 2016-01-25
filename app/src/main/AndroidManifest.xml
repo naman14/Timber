@@ -57,6 +57,14 @@
             android:label="@string/app_name"
             android:process=":main" />
 
+        <service
+            android:name=".WearBrowserService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

@@ -8,15 +8,15 @@ android {
         applicationId "naman14.timber"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 8
-        versionName "0.14b"
+        versionCode 9
+        versionName "0.15b"
         //renderscript support mode is not supported for 21+ with gradle version 2.0
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -27,6 +27,7 @@ android {
     }
     lintOptions {
         disable 'MissingTranslation'
+        disable 'ExtraTranslation'
     }
 
 }
@@ -50,6 +51,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3'
+    compile 'de.Maxr1998:track-selector-lib:1.1'
 
     compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true

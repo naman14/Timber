@@ -48,9 +48,9 @@ public class MusicVisualizer extends View {
         //set paint style, Style.FILL will fill the color, Style.STROKE will stroke the color
         paint.setStyle(Paint.Style.FILL);
 
-        canvas.drawRect(getDimensionInPixel(0), getHeight() - random.nextInt((int) (getHeight() / 1.5f)), getDimensionInPixel(7), getHeight(), paint);
-        canvas.drawRect(getDimensionInPixel(10), getHeight() - random.nextInt((int) (getHeight() / 1.5f)), getDimensionInPixel(17), getHeight(), paint);
-        canvas.drawRect(getDimensionInPixel(20), getHeight() - random.nextInt((int) (getHeight() / 1.5f)), getDimensionInPixel(27), getHeight(), paint);
+        canvas.drawRect(getDimensionInPixel(0), getHeight() - (20 + random.nextInt((int) (getHeight() / 1.5f) - 19)), getDimensionInPixel(7), getHeight(), paint);
+        canvas.drawRect(getDimensionInPixel(10), getHeight() - (20 + random.nextInt((int) (getHeight() / 1.5f) - 19)), getDimensionInPixel(17), getHeight(), paint);
+        canvas.drawRect(getDimensionInPixel(20), getHeight() - (20 + random.nextInt((int) (getHeight() / 1.5f) - 19)), getDimensionInPixel(27), getHeight(), paint);
     }
 
     public void setColor(int color) {

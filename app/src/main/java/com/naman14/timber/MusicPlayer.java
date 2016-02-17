@@ -754,6 +754,15 @@ public class MusicPlayer {
         return -1;
     }
 
+    public static final void openFile(final String path) {
+        if (mService != null) {
+            try {
+                mService.openFile(path);
+            } catch (final RemoteException ignored) {
+            }
+        }
+    }
+
     public static final class ServiceBinder implements ServiceConnection {
         private final ServiceConnection mCallback;
         private final Context mContext;

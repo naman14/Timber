@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="action_settings">Indstillinger</string>
+
+    <string name="accessibility_play">Afspil</string>
+    <string name="accessibility_pause">Pause</string>
+    <string name="accessibility_next">Næste</string>
+    <string name="accessibility_prev">Forrige</string>
+    <string name="accessibility_shuffle">Bland</string>
+    <string name="accessibility_shuffle_all">Bland alle</string>
+    <string name="accessibility_repeat">Gentag</string>
+    <string name="accessibility_repeat_all">Gentag alle</string>
+    <string name="accessibility_repeat_one">Gentag én</string>
+    <string name="accessibility_queue">Åbn kø</string>
+    <string name="accessibility_browse">Gennemse musik</string>
+
+    <string name="menu_sort_by">Sortér</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="sort_order_entry_artist">Kunstner</string>
+    <string name="sort_order_entry_album">Album</string>
+    <string name="sort_order_entry_year">År</string>
+    <string name="sort_order_entry_track_number">Nummer</string>
+    <string name="sort_order_entry_duration">Varighed</string>
+    <string name="sort_order_entry_date_added">Dato tilføjet</string>
+    <string name="sort_order_entry_track_list">Spilleliste</string>
+    <string name="sort_order_entry_number_of_songs">Antal sange</string>
+    <string name="sort_order_entry_number_of_albums">Antal albums</string>
+    <string name="sort_order_entry_filename">Filnavn</string>
+
+    <string name="error_playing_track">Fejl under afspilning</string>
+
+    <string name="playlist_last_added">Senest tilføjet</string>
+    <string name="playlist_recently_played">Afspillet for nylig</string>
+    <string name="playlist_top_tracks">Mine Top Numre</string>
+
+    <string name="timber_source">Rapportér eventuelle fejl <u> her </u> </string>
+    <string name="timber_feature_request">Bed om nye features via Google+ fællesskabet <u> her </u></string>
+
+    <string name="menu_show_as">Vis som</string>
+    <string name="menu_show_as_entry_list">Liste</string>
+    <string name="menu_show_as_entry_grid">Gitter</string>
+
+    <string name="light">Lyst</string>
+    <string name="dark">Mørkt</string>
+    <string name="black">Sort</string>
+
+    <string name="last_opened">Sidst Åbnet</string>
+
+    <string name="songs">Sange</string>
+    <string name="albums">Albums</string>
+    <string name="artists">Kunstnere</string>
+    <string name="library">Bibliotek</string>
+    <string name="playlists">Afspilningslister</string>
+    <string name="playing_queue">Afspilningskø</string>
+    <string name="now_playing">Afspilles Nu</string>
+    <string name="settings">Indstillinger</string>
+    <string name="about">Om</string>
+    <string name="help_and_feedback">Hjælp og Feedback</string>
+    <string name="search">Søg</string>
+    <string name="action_shuffle_all">Bland Alle</string>
+    <string name="action_equalizer">Equalizer</string>
+    <string name="search_library">Søg i Bibliotek</string>
+
+    <string name="select_theme">Vælg Tema</string>
+    <string name="choose_theme_throughout">Vælg et tema til appen.</string>
+    <string name="choose_start_page">Vælg en startside, der vises ved opstart.</string>
+    <string name="start_page">Startside</string>
+    <string name="artist_in_grid">Kunstnere i Gitter</string>
+    <string name="toggle_artists_grid">Vælg for visning af kunstnere i et 2x2 gitter.</string>
+    <string name="toggle_system_animations">Vælg for systemanimationer i appen.</string>
+    <string name="system_animations">Systemanimationer</string>
+    <string name="toggle_animations">Vælg for Overgangsanimation i appen.</string>
+    <string name="animations">Animationer</string>
+    <string name="now_playing_selector">Vælg en Afspilles Nu skærm blandt 4 udseender.</string>
+    <string name="personalisation">Personalisering</string>
+    <string name="other">Andet</string>
+    <string name="advanced">Avanceret</string>
+    <string name="timber_about_opensource">Timber er en open source Musikafspiller udviklet af Naman Dwivedi.</string>
+    <string name="summary_pause_detach">Vælg for at pause afspilning når hovedtelefoner frakobles</string>
+    <string name="pause_detach">Pause ved Frakobling</string>
+    <string name="summary_xposed_trackselector">Kræver Xposed og XMediaNotificationTrackSelector Xposed modul installeret. Dette giver adgang til afspilningskøen fra selve notifikationslinjen.</string>
+    <string name="xposed_trackselector">Afspilningskø understøttelse i notifikation</string>
+    <string name="currently_selected">Valgt</string>
+
+    <string name="dark_theme">Mørkt Tema</string>
+    <string name="dark_theme_summary">Anvend et mørkt tema i appen</string>
+
+    <string name="primary_color">Primær Farve</string>
+    <string name="primary_color_summary">Ændr den primære temafarve</string>
+
+    <string name="accent_color">Accent Farve</string>
+    <string name="accent_color_summary">Ændr accent temafarven</string>
+
+    <string name="colored_status_bar">Farvet Statuslinje</string>
+    <string name="colored_status_bar_summary">Vælg statuslinje farvning</string>
+
+    <string name="colored_nav_bar">Farvet Navigationslinje</string>
+    <string name="colored_nav_bar_summary">Vælg navigationslinje farvning</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> sang</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> sange</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> kunstner</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> kunstnere</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> sang tilføjet til køen.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> sange tilføjet til køen.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> sang tilføjet til afspilningslisten.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> sange tilføjet til afspilningslisten.</string>
+
+</resources>

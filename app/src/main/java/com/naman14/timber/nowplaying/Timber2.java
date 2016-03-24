@@ -121,7 +121,7 @@ public class Timber2 extends BaseNowplayingFragment {
                                     mBlurredArt.getDrawable(),
                                     result
                             });
-                    // avoid overdraw
+                  
                     td.setCrossFadeEnabled(true);
                     mBlurredArt.setImageDrawable(td);
                     td.startTransition(200);

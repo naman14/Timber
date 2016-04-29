@@ -16,6 +16,7 @@ package com.naman14.timber.activities;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -99,7 +100,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
             transaction.replace(R.id.fragment_container, fragment).commit();
-
         }
     };
     Runnable navigateQueue = new Runnable() {
@@ -197,6 +197,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             }, 350);
         }
     }
+
+    @Override
+    public int getToolbarColor() {
+        return Color.TRANSPARENT;
+    }
+
 
     private void loadEverything() {
         Runnable navigation = navigationMap.get(action);

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.naman14.timber.R;
 
@@ -30,6 +31,14 @@ public class Timber3 extends BaseNowplayingFragment {
 
         setMusicStateListener();
         setSongDetails(rootView);
+
+        ImageView ic_back = (ImageView) rootView.findViewById(R.id.ic_back);
+        ic_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         return rootView;
     }

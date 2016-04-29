@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="window_background">#FFF5F5F5</color>
+    <color name="window_background">#d9d9d9</color>
     <color name="window_background_dark">#212121</color>
     <color name="window_background_black">#000000</color>
     <color name="bt_accent">#00B8D4</color>
 
     <color name="colorPrimary">#673AB7</color>
     <color name="colorPrimaryDark">#512DA8</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#d40420</color>
 
-    <color name="colorPrimaryDarkTheme">#4a4959</color>
-    <color name="colorPrimaryDarkDarkTheme">#525065</color>
+    <color name="colorPrimaryDarkTheme">#26252e</color>
+    <color name="colorPrimaryDarkDarkTheme">#2f2d40</color>
     <color name="colorAccentDarkTheme">#ffb701</color>
 
     <color name="colorPrimaryBlack">#000000</color>

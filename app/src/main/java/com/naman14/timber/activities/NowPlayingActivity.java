@@ -46,7 +46,7 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
 
     @Override
     public int getLightToolbarMode() {
-        return Config.LIGHT_TOOLBAR_AUTO;
+        return Config.LIGHT_TOOLBAR_ON;
     }
 
     @Override

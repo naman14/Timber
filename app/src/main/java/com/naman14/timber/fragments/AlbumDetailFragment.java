@@ -162,7 +162,6 @@ public class AlbumDetailFragment extends Fragment {
     }
 
     private void setupToolbar() {
-
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);

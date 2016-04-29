@@ -118,7 +118,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
 
     private void setAlbumart() {
         playlistname.setText(getIntent().getExtras().getString(Constants.PLAYLIST_NAME));
-        foreground.setBackgroundColor(getIntent().getExtras().getInt(Constants.PLAYLIST_FOREGROUND_COLOR));
+//        foreground.setBackgroundColor(getIntent().getExtras().getInt(Constants.PLAYLIST_FOREGROUND_COLOR));
         loadBitmap(TimberUtils.getAlbumArtUri(getIntent().getExtras().getLong(Constants.ALBUM_ID)).toString());
     }
 

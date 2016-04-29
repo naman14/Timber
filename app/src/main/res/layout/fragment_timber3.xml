@@ -27,15 +27,35 @@
                 android:layout_height="match_parent"
                 android:background="#22000000" />
 
-            <android.support.v7.widget.Toolbar
+            <!--<android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
                 android:layout_marginTop="@dimen/appBarTopMargin"
-                android:background="@android:color/transparent"
-                android:theme="@style/Theme.AppCompat"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="#00FFFFFF"
+                ></android.support.v7.widget.Toolbar>-->
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/appBarTopMargin"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent">
+
+                <ImageView
+                    android:id="@+id/ic_back"
+                    android:layout_width="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_back" />
+
+            </LinearLayout>
+
+            <!--android:theme="@style/Theme.AppCompat"-->
+            <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
 
         </FrameLayout>
 

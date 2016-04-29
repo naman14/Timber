@@ -10,6 +10,7 @@
     <com.naman14.timber.widgets.SquareImageView
         android:id="@+id/album_art_nowplayingcard"
         android:layout_width="55dp"
+        android:padding="4dp"
         android:layout_height="55dp"
         android:layout_alignParentLeft="true"
         android:scaleType="centerCrop"

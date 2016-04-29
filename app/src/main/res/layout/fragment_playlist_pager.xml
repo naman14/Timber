@@ -8,28 +8,25 @@
     <FrameLayout
         android:id="@+id/vg_cover"
         android:layout_width="match_parent"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="60dp">
+        >
 
         <ImageView
             android:id="@+id/playlist_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:transitionName="transition_album_art"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/foreground"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:transitionName="transition_foreground"/>
 
         <LinearLayout

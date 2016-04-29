@@ -50,7 +50,7 @@ import java.util.ArrayList;
 
 import static com.naman14.timber.MusicPlayer.mService;
 
-public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
+public abstract class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
 
     private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
     private MusicPlayer.ServiceToken mToken;
@@ -92,6 +92,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
 
     }
+
+    public abstract int getToolbarColor();
 
     @Override
     public void onResume() {

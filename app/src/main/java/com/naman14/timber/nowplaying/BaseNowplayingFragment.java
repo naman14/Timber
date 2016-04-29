@@ -16,6 +16,7 @@ package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -236,13 +237,15 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         recyclerView = (RecyclerView) view.findViewById(R.id.queue_recyclerview);
 
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setTitle("");
-        }
+//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+//        if (toolbar != null) {
+//            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+//            final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//            ab.setDisplayHomeAsUpEnabled(true);
+//            ab.setDisplayShowTitleEnabled(false);
+//            ab.setBackgroundDrawable(getResources().getDrawable(R.drawable.md_transparent));
+//            ab.setTitle("");
+//        }
         if (mPlayPause != null && getActivity() != null) {
             mPlayPause.setColor(ContextCompat.getColor(getContext(), android.R.color.white));
         }

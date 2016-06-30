@@ -1029,6 +1029,7 @@ public class MusicService extends Service {
         intent.putExtra("album", getAlbumName());
         intent.putExtra("track", getTrackName());
         intent.putExtra("playing", isPlaying());
+        intent.putExtra("duration", duration());
 
         sendStickyBroadcast(intent);
 

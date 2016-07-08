@@ -3,11 +3,14 @@ package com.naman14.timber.activities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
@@ -45,12 +48,17 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
     }
 
     @Override
-    public int getLightToolbarMode() {
-        return Config.LIGHT_TOOLBAR_AUTO;
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
     }
 
-    public int getToolbarColor() {
-        return Color.TRANSPARENT;
+    @Override
+    public int getLightToolbarMode() {
+        return Config.LIGHT_TOOLBAR_AUTO;
     }
 
     @Override

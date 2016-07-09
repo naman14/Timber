@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_new_playlist"
         android:orderInCategory="9"
-        android:title="New playlist"
+        android:title="@string/new_playlist"
         app:showAsAction="never" />
 
 </menu>

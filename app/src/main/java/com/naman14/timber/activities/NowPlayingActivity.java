@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -44,16 +43,6 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
     @Override
     public int getActivityTheme() {
         return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
-
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
     }
 
     @Override
@@ -67,6 +56,10 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
         if (PreferencesUtility.getInstance(this).didNowplayingThemeChanged()) {
             PreferencesUtility.getInstance(this).setNowPlayingThemeChanged(false);
             recreate();
+        }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
 }

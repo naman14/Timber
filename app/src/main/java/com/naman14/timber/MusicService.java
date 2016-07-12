@@ -1029,6 +1029,9 @@ public class MusicService extends Service {
         intent.putExtra("album", getAlbumName());
         intent.putExtra("track", getTrackName());
         intent.putExtra("playing", isPlaying());
+        intent.putExtra("duration", duration());
+        intent.putExtra("package", "naman14.timber");
+        intent.putExtra("player", "Timber Music Player");
 
         sendStickyBroadcast(intent);
 

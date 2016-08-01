@@ -4,12 +4,12 @@ branches:
   only:
     - master
 
-script: "./gradlew clean assembleDebug"
+script: "./gradlew clean assembleDebug --stacktrace"
 
 android:
   components:
       - platform-tools
       - tools
-      - build-tools-23.0.2
+      - build-tools-23.0.3
       - android-23
       - extra-android-m2repository

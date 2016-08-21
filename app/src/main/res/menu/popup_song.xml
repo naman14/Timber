@@ -3,25 +3,25 @@
 
     <item
         android:id="@+id/popup_song_play"
-        android:title="Play" />
+        android:title="@string/popup_song_play" />
 
     <item
         android:id="@+id/popup_song_play_next"
-        android:title="Play next" />
+        android:title="@string/popup_song_play_next" />
 
     <item
         android:id="@+id/popup_song_addto_queue"
-        android:title="Add to queue" />
+        android:title="@string/popup_song_addto_queue" />
 
     <item
         android:id="@+id/popup_song_addto_playlist"
-        android:title="Add to playlist" />
+        android:title="@string/popup_song_addto_playlist" />
 
     <item
         android:id="@+id/popup_song_goto_album"
-        android:title="Go to album" />
+        android:title="@string/popup_song_goto_album" />
 
     <item
         android:id="@+id/popup_song_goto_artist"
-        android:title="Go to artist" />
+        android:title="@string/popup_song_goto_artist" />
 </menu>

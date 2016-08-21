@@ -111,7 +111,13 @@
     <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> song added to playlist.</string>
     <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> songs added to playlist.</string>
 
-
+    <string name="popup_song_play">Play</string>
+    <string name="popup_song_play_next">Play next</string>
+    <string name="popup_song_addto_queue">Add to queue</string>
+    <string name="popup_song_addto_playlist">Add to playlist</string>
+    <string name="popup_song_goto_album">Go to album</string>
+    <string name="popup_song_goto_artist">Go to artist</string>
+    
     <!--do not translate these strings-->
     <string name="app_name" translatable="false">Timber</string>
     <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>

@@ -3,7 +3,7 @@
 
     <string name="action_settings">Einstellungen</string>
 
-    <string name="accessibility_play">Play</string>
+    <string name="accessibility_play">Abspielen</string>
     <string name="accessibility_pause">Pause</string>
     <string name="accessibility_next">Nächstes</string>
     <string name="accessibility_prev">Vorheriges</string>
@@ -54,10 +54,10 @@
     <string name="library">Bibliothek</string>
     <string name="playlists">Playlisten</string>
     <string name="playing_queue">Warteschlange</string>
-    <string name="now_playing">Now Playing</string>
+    <string name="now_playing">Aktuelle Wiedergabe</string>
     <string name="settings">Einstellungen</string>
     <string name="about">Über</string>
-    <string name="help_and_feedback">Hifle und Feedback</string>
+    <string name="help_and_feedback">Hilfe und Feedback</string>
     <string name="search">Suchen</string>
     <string name="action_shuffle_all">Alles zufällig abspielen</string>
     <string name="action_equalizer">Equalizer</string>
@@ -65,20 +65,39 @@
 
     <string name="select_theme">Design auswählen</string>
     <string name="choose_theme_throughout">Wählen Sie ein Design welches die App nutzt.</string>
-    <string name="choose_start_page">Wählen Sie die Startseite die beim starten der App angezeigt wird.</string>
+    <string name="choose_start_page">Wählen Sie die Startseite die beim Starten der App angezeigt wird.</string>
     <string name="start_page">Startseite</string>
-    <string name="artist_in_grid">Interpreten in Raster</string>
+    <string name="artist_in_grid">Interpreten als Raster</string>
     <string name="toggle_artists_grid">Interpreten in einem 2x2 Raster anzeigen</string>
     <string name="toggle_system_animations">System-Animationen aktivieren.</string>
     <string name="system_animations">System-Animationen</string>
     <string name="toggle_animations">Übergangs-Animationen aktivieren.</string>
     <string name="animations">Animationen</string>
-    <string name="now_playing_selector">Wählen Sie einen "Now-Playing"-Screen aus 4 verschiedenen Stilen.</string>
+    <string name="now_playing_selector">Wählen Sie einen von 4 verschiedenen Wiedergabebildschirmstilen aus.</string>
     <string name="personalisation">Personifizierung</string>
     <string name="other">Anderes</string>
+    <string name="advanced">Erweitertes</string>
     <string name="timber_about_opensource">Timber ist ein offener Musik-Player entwickelt von Naman Dwivedi.</string>
     <string name="summary_pause_detach">Wiedergabe pausieren wenn Kopfhörer entfernt werden.</string>
-    <string name="pause_detach">Pause beim entfernen</string>
+    <string name="pause_detach">Pause beim Entfernen der Kopfhörer</string>
+    <string name="summary_xposed_trackselector">Benötigt die Installation von Xposed und des XMediaNotificationTrackSelector-Modules. Das ermöglicht den Zugriff auf die Warteschlange aus der Benachrichtigungsleiste heraus.</string>
+    <string name="xposed_trackselector">Verwaltung der Warteschlange in der Benachrichtung</string>
+    <string name="currently_selected">Aktuell ausgewählt</string>
+    
+    <string name="dark_theme">Dunkles Design</string>
+    <string name="dark_theme_summary">Ein dunkleres Design verwenden.</string>
+
+    <string name="primary_color">Primärfarbe</string>
+    <string name="primary_color_summary">Ändere die Primärfarbe des Designs.</string>
+
+    <string name="accent_color">Akzentfarbe</string>
+    <string name="accent_color_summary">Ändere die Akzentfarbe des Designs.</string>
+
+    <string name="colored_status_bar">Farbige Statusleiste</string>
+    <string name="colored_status_bar_summary">Das Einfärben der oberen Statusleiste aktivieren/deaktivieren.</string>
+
+    <string name="colored_nav_bar">Farbige Navigationsleiste</string>
+    <string name="colored_nav_bar_summary">Das Einfärben der Navigationsleiste ein-/ausschalten.</string>
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> Song</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> Songs</string>
@@ -87,5 +106,15 @@
     <string name="count_artist"><xliff:g id="count">%d</xliff:g> Interpret</string>
     <string name="count_artists"><xliff:g id="count">%d</xliff:g> Interpreten</string>
 
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> Song zur Warteschlange hinzugefügt.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> Songs zur Warteschlange hinzugefügt.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> Song zur Wiedergabeliste hinzugefügt.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> Songs zur Wiedergabeliste hinzugefügt.</string>
 
+    <string name="popup_song_play">Abspielen</string>
+    <string name="popup_song_play_next">Als nächstes abspielen</string>
+    <string name="popup_song_addto_queue">Zur Warteschlange hinzufügen</string>
+    <string name="popup_song_addto_playlist">Zur Playlist hinzufügen</string>
+    <string name="popup_song_goto_album">Album anzeigen</string>
+    <string name="popup_song_goto_artist">Künstler anzeigen</string>
 </resources>

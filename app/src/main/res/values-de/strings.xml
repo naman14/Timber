@@ -111,4 +111,10 @@
     <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> Song zur Wiedergabeliste hinzugefügt.</string>
     <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> Songs zur Wiedergabeliste hinzugefügt.</string>
 
+    <string name="popup_song_play">Abspielen</string>
+    <string name="popup_song_play_next">Als nächstes abspielen</string>
+    <string name="popup_song_addto_queue">Zur Warteschlange hinzufügen</string>
+    <string name="popup_song_addto_playlist">Zur Playlist hinzufügen</string>
+    <string name="popup_song_goto_album">Album anzeigen</string>
+    <string name="popup_song_goto_artist">Künstler anzeigen</string>
 </resources>

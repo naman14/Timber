@@ -2,7 +2,6 @@ package com.naman14.timber.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.StyleRes;
@@ -47,11 +46,6 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
     @Override
     public int getLightToolbarMode() {
         return Config.LIGHT_TOOLBAR_AUTO;
-    }
-
-    @Override
-    public int getToolbarColor() {
-        return Color.TRANSPARENT;
     }
 
     @Override

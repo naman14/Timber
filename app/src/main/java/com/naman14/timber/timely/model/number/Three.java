@@ -11,9 +11,9 @@ public class Three extends Figure {
             {0.312154696132597f, 0.790055248618785f}
     };
 
-    private static Three INSTANCE = new Three();
+    private static final Three INSTANCE = new Three();
 
-    protected Three() {
+    private Three() {
         super(POINTS);
     }
 

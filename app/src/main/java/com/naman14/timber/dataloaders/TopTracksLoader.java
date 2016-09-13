@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 public class TopTracksLoader extends SongLoader {
 
-    public static final int NUMBER_OF_SONGS = 99;
-    protected static QueryType mQueryType;
+    private static final int NUMBER_OF_SONGS = 99;
+    private static QueryType mQueryType;
     private static Context mContext;
 
     public TopTracksLoader(final Context context, QueryType type) {
@@ -60,7 +60,7 @@ public class TopTracksLoader extends SongLoader {
         return retCursor;
     }
 
-    public static final SortedCursor makeTopTracksCursor(final Context context) {
+    private static SortedCursor makeTopTracksCursor(final Context context) {
 
         Cursor songs = SongPlayCount.getInstance(context).getTopPlayedResults(NUMBER_OF_SONGS);
 
@@ -70,12 +70,11 @@ public class TopTracksLoader extends SongLoader {
         } finally {
             if (songs != null) {
                 songs.close();
-                songs = null;
             }
         }
     }
 
-    public static final SortedCursor makeRecentTracksCursor(final Context context) {
+    private static SortedCursor makeRecentTracksCursor(final Context context) {
 
         Cursor songs = RecentStore.getInstance(context).queryRecentIds(null);
 
@@ -85,13 +84,12 @@ public class TopTracksLoader extends SongLoader {
         } finally {
             if (songs != null) {
                 songs.close();
-                songs = null;
             }
         }
     }
 
-    public static final SortedCursor makeSortedCursor(final Context context, final Cursor cursor,
-                                                      final int idColumn) {
+    private static SortedCursor makeSortedCursor(final Context context, final Cursor cursor,
+                                                 final int idColumn) {
         if (cursor != null && cursor.moveToFirst()) {
 
             StringBuilder selection = new StringBuilder();
@@ -124,7 +122,7 @@ public class TopTracksLoader extends SongLoader {
     }
 
 
-    public enum QueryType {
+    private enum QueryType {
         TopTracks,
         RecentSongs,
     }

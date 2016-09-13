@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -57,15 +58,16 @@ public class Helpers {
 
     public static class AboutDialog extends DialogFragment {
 
-        String urlgooglelus = "https://plus.google.com/u/0/+NamanDwivedi14";
-        String urlcommunity = "https://plus.google.com/communities/111029425713454201429";
-        String urltwitter = "https://twitter.com/naman1405";
-        String urlgithub = "https://github.com/naman14";
-        String urlsource = "https://github.com/naman14/Timber/issues";
+        final String urlgooglelus = "https://plus.google.com/u/0/+NamanDwivedi14";
+        final String urlcommunity = "https://plus.google.com/communities/111029425713454201429";
+        final String urltwitter = "https://twitter.com/naman1405";
+        final String urlgithub = "https://github.com/naman14";
+        final String urlsource = "https://github.com/naman14/Timber/issues";
 
         public AboutDialog() {
         }
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -139,7 +141,7 @@ public class Helpers {
                 PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
                 String version = pInfo.versionName;
                 int versionCode = pInfo.versionCode;
-                appversion.setText("Timber " + version);
+                appversion.setText(getString(R.string.app_name) + version + " " + versionCode);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }

@@ -42,8 +42,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/song_duration"
@@ -52,8 +52,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingTop="3dp"
-                android:singleLine="true"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:maxLines="1" />
 
 
         </LinearLayout>
@@ -79,9 +79,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:foregroundTint="#434343"
             android:padding="5dp"
-            android:src="@drawable/ic_more_vert" />
+            app:srcCompat="@drawable/ic_more_vert" />
 
     </RelativeLayout>
 

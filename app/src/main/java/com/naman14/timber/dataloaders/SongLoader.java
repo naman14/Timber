@@ -30,7 +30,7 @@ public class SongLoader {
     private static final long[] sEmptyList = new long[0];
 
     public static ArrayList<Song> getSongsForCursor(Cursor cursor) {
-        ArrayList arrayList = new ArrayList();
+        ArrayList<Song> arrayList = new ArrayList<>();
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
                 long id = cursor.getLong(0);
@@ -50,7 +50,7 @@ public class SongLoader {
         return arrayList;
     }
 
-    public static Song getSongForCursor(Cursor cursor) {
+    private static Song getSongForCursor(Cursor cursor) {
         Song song = new Song();
         if ((cursor != null) && (cursor.moveToFirst())) {
             long id = cursor.getLong(0);
@@ -70,14 +70,14 @@ public class SongLoader {
         return song;
     }
 
-    public static final long[] getSongListForCursor(Cursor cursor) {
+    public static long[] getSongListForCursor(Cursor cursor) {
         if (cursor == null) {
             return sEmptyList;
         }
         final int len = cursor.getCount();
         final long[] list = new long[len];
         cursor.moveToFirst();
-        int columnIndex = -1;
+        int columnIndex;
         try {
             columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID);
         } catch (final IllegalArgumentException notaplaylist) {
@@ -88,7 +88,6 @@ public class SongLoader {
             cursor.moveToNext();
         }
         cursor.close();
-        cursor = null;
         return list;
     }
 
@@ -112,9 +111,8 @@ public class SongLoader {
         if (!TextUtils.isEmpty(selection)) {
             selectionStatement = selectionStatement + " AND " + selection;
         }
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, songSortOrder);
 
-        return cursor;
+        return context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, songSortOrder);
     }
 
 }

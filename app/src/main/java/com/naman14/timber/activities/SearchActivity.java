@@ -17,6 +17,7 @@ package com.naman14.timber.activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -38,7 +39,6 @@ import com.naman14.timber.models.Song;
 import com.naman14.timber.provider.SearchHistory;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,9 +49,8 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
     private String queryString;
 
     private SearchAdapter adapter;
-    private RecyclerView recyclerView;
 
-    private List searchResults = Collections.emptyList();
+    private List<Object> searchResults = Collections.emptyList();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,10 +61,13 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ActionBar ab = getSupportActionBar();
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -130,7 +132,7 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         }
         queryString = newText;
         if (!queryString.trim().equals("")) {
-            this.searchResults = new ArrayList();
+            this.searchResults = new ArrayList<>();
             List<Song> songList = SongLoader.searchSongs(this, queryString);
             List<Album> albumList = AlbumLoader.getAlbums(this, queryString);
             List<Artist> artistList = ArtistLoader.getArtists(this, queryString);
@@ -138,15 +140,15 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
             if (!songList.isEmpty()) {
                 searchResults.add("Songs");
             }
-            searchResults.addAll((Collection) (songList.size() < 10 ? songList : songList.subList(0, 10)));
+            searchResults.addAll(songList.size() < 10 ? songList : songList.subList(0, 10));
             if (!albumList.isEmpty()) {
                 searchResults.add("Albums");
             }
-            searchResults.addAll((Collection) (albumList.size() < 7 ? albumList : albumList.subList(0, 7)));
+            searchResults.addAll(albumList.size() < 7 ? albumList : albumList.subList(0, 7));
             if (!artistList.isEmpty()) {
                 searchResults.add("Artists");
             }
-            searchResults.addAll((Collection) (artistList.size() < 7 ? artistList : artistList.subList(0, 7)));
+            searchResults.addAll(artistList.size() < 7 ? artistList : artistList.subList(0, 7));
         } else {
             searchResults.clear();
             adapter.updateSearchResults(searchResults);

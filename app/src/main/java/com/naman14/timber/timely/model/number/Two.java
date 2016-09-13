@@ -11,9 +11,9 @@ public class Two extends Figure {
             {0.812154696132597f, 0.977900552486188f}
     };
 
-    private static Two INSTANCE = new Two();
+    private static final Two INSTANCE = new Two();
 
-    protected Two() {
+    private Two() {
         super(POINTS);
     }
 

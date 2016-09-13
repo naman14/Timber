@@ -83,7 +83,7 @@ public class MultiViewPager extends ViewPager {
         onMeasurePage(widthMeasureSpec, heightMeasureSpec);
     }
 
-    protected void onMeasurePage(int widthMeasureSpec, int heightMeasureSpec) {
+    private void onMeasurePage(int widthMeasureSpec, int heightMeasureSpec) {
         // Only measure if a measurement pass was scheduled
         if (!mNeedsMeasurePage) {
             return;
@@ -126,7 +126,7 @@ public class MultiViewPager extends ViewPager {
      *
      * @param matchChildWidthResId the child id
      */
-    public void setMatchChildWidth(int matchChildWidthResId) {
+    private void setMatchChildWidth(int matchChildWidthResId) {
         if (mMatchWidthChildResId != matchChildWidthResId) {
             mMatchWidthChildResId = matchChildWidthResId;
             mNeedsMeasurePage = true;
@@ -138,7 +138,7 @@ public class MultiViewPager extends ViewPager {
      *
      * @param width in pixels
      */
-    public void setMaxWidth(int width) {
+    private void setMaxWidth(int width) {
         mMaxWidth = width;
     }
 
@@ -147,7 +147,7 @@ public class MultiViewPager extends ViewPager {
      *
      * @param height in pixels
      */
-    public void setMaxHeight(int height) {
+    private void setMaxHeight(int height) {
         mMaxHeight = height;
     }
 

@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:id="@+id/googleplus"
-        android:text="Google+"
+        android:text="@string/google_plus"
         android:textSize="17sp"
         android:clickable="true"
         style="@style/TextAppearance.AppCompat.Body1"/>
@@ -52,7 +52,7 @@
         android:clickable="true"
         android:paddingTop="8dp"
         android:paddingLeft="10dp"
-        android:text="Twitter"
+        android:text="@string/twitter"
         android:textSize="17sp"
         style="@style/TextAppearance.AppCompat.Body1"/>
 
@@ -63,7 +63,7 @@
         android:clickable="true"
         android:paddingLeft="10dp"
         android:paddingTop="8dp"
-        android:text="Github"
+        android:text="@string/github"
         android:textSize="17sp"
         style="@style/TextAppearance.AppCompat.Body1"/>
 
@@ -95,7 +95,7 @@
             android:id="@+id/dismiss_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@string/ok"
             style="@style/TextAppearance.AppCompat.Body1"
             android:textSize="18sp"
             android:layout_gravity="right"

@@ -29,7 +29,7 @@ public class ArtistSongLoader {
 
     public static ArrayList<Song> getSongsForArtist(Context context, long artistID) {
         Cursor cursor = makeArtistSongCursor(context, artistID);
-        ArrayList songsList = new ArrayList();
+        ArrayList<Song> songsList = new ArrayList<>();
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
                 long id = cursor.getLong(0);
@@ -39,7 +39,6 @@ public class ArtistSongLoader {
                 int duration = cursor.getInt(4);
                 int trackNumber = cursor.getInt(5);
                 long albumId = cursor.getInt(6);
-                long artistId = artistID;
 
                 songsList.add(new Song(id, albumId, artistID, title, artist, album, duration, trackNumber));
             }
@@ -50,7 +49,7 @@ public class ArtistSongLoader {
     }
 
 
-    public static Cursor makeArtistSongCursor(Context context, long artistID) {
+    private static Cursor makeArtistSongCursor(Context context, long artistID) {
         ContentResolver contentResolver = context.getContentResolver();
         final String artistSongSortOrder = PreferencesUtility.getInstance(context).getArtistSongSortOrder();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;

@@ -29,8 +29,7 @@ import java.util.List;
 
 public class PlaylistLoader {
 
-    static ArrayList<Playlist> mPlaylistList;
-    private static Cursor mCursor;
+    private static ArrayList<Playlist> mPlaylistList;
 
     public static List<Playlist> getPlaylists(Context context, boolean defaultIncluded) {
 
@@ -39,7 +38,7 @@ public class PlaylistLoader {
         if (defaultIncluded)
             makeDefaultPlaylists(context);
 
-        mCursor = makePlaylistCursor(context);
+        Cursor mCursor = makePlaylistCursor(context);
 
         if (mCursor != null && mCursor.moveToFirst()) {
             do {
@@ -57,7 +56,6 @@ public class PlaylistLoader {
         }
         if (mCursor != null) {
             mCursor.close();
-            mCursor = null;
         }
         return mPlaylistList;
     }
@@ -82,7 +80,7 @@ public class PlaylistLoader {
     }
 
 
-    public static final Cursor makePlaylistCursor(final Context context) {
+    private static Cursor makePlaylistCursor(final Context context) {
         return context.getContentResolver().query(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
                 new String[]{
                         BaseColumns._ID,

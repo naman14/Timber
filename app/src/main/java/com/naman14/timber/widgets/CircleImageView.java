@@ -133,7 +133,7 @@ public class CircleImageView extends ImageView {
         return mBorderColor;
     }
 
-    public void setBorderColor(int borderColor) {
+    private void setBorderColor(int borderColor) {
         if (borderColor == mBorderColor) {
             return;
         }

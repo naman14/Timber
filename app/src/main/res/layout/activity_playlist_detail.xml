@@ -10,13 +10,12 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:id="@+id/blurFrame"
-        android:transitionName="transition_album_art"/>
+        android:contentDescription="@string/dummy"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/foreground"
-        android:transitionName="transition_foreground"/>
+        android:id="@+id/foreground"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,8 +31,7 @@
         android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:transitionName="transition_playlist_name"/>
+        android:id="@+id/name"/>
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

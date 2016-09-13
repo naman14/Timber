@@ -3,18 +3,6 @@
 
     <string name="action_settings">Ayarlar</string>
 
-    <string name="accessibility_play">Oynat</string>
-    <string name="accessibility_pause">Durdur</string>
-    <string name="accessibility_next">İleri</string>
-    <string name="accessibility_prev">Geri</string>
-    <string name="accessibility_shuffle">Karıştır</string>
-    <string name="accessibility_shuffle_all">Hepsini karıştır</string>
-    <string name="accessibility_repeat">Tekrarla</string>
-    <string name="accessibility_repeat_all">Hepsini tekrar et</string>
-    <string name="accessibility_repeat_one">Tekrarla</string>
-    <string name="accessibility_queue">Sırayla oynat</string>
-    <string name="accessibility_browse">Keşfet</string>
-
     <string name="menu_sort_by">Sırala</string>
     <string name="sort_order_entry_az">A-Z</string>
     <string name="sort_order_entry_za">Z-A</string>
@@ -23,11 +11,8 @@
     <string name="sort_order_entry_year">Yıl</string>
     <string name="sort_order_entry_track_number">Parça numarası</string>
     <string name="sort_order_entry_duration">Süre</string>
-    <string name="sort_order_entry_date_added">Eklenme tarihi</string>
-    <string name="sort_order_entry_track_list">Parça listesi</string>
     <string name="sort_order_entry_number_of_songs">Müziklerin sayısı</string>
     <string name="sort_order_entry_number_of_albums">Albümlerin sayısı</string>
-    <string name="sort_order_entry_filename">Dosya adı</string>
 
     <string name="error_playing_track">Parça oynatılırken hata oluştu</string>
 
@@ -41,10 +26,6 @@
     <string name="menu_show_as">Göster</string>
     <string name="menu_show_as_entry_list">Liste</string>
     <string name="menu_show_as_entry_grid">Izgara</string>
-
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
-    <string name="black">Black</string>
 
     <string name="last_opened">En son açılan</string>
 
@@ -63,12 +44,8 @@
     <string name="action_equalizer">Ekolayzer</string>
     <string name="search_library">Kütüphanede Ara</string>
 
-    <string name="select_theme">Tema seç</string>
-    <string name="choose_theme_throughout">Bir tema seçin</string>
     <string name="choose_start_page">Açılış sayfası seçin</string>
     <string name="start_page">Açılış sayfası</string>
-    <string name="artist_in_grid">Sanatçıların Düzeni</string>
-    <string name="toggle_artists_grid">Sanatçılar 2x2 ızgarada gösterilsin</string>
     <string name="toggle_system_animations">Sistem animasyonları kullanılsın</string>
     <string name="system_animations">Sistem animasyonları</string>
     <string name="toggle_animations">Geçiş animasyonları kullanılsın</string>
@@ -100,8 +77,6 @@
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> şarkılar</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> albüm</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> albümler</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> sanatçı</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> sanatçılar</string>
 
     <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> şarkı sıraya eklendi.</string>
     <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> şarkılar sıraya eklendi.</string>

@@ -46,18 +46,18 @@ import java.util.List;
 @TargetApi(21)
 public class WearBrowserService extends MediaBrowserService {
 
-    public static final String MEDIA_ID_ROOT = "__ROOT__";
-    public static final int TYPE_ARTIST = 0;
-    public static final int TYPE_ALBUM = 1;
-    public static final int TYPE_SONG = 2;
-    public static final int TYPE_PLAYLIST = 3;
-    public static final int TYPE_ARTIST_SONG_ALBUMS = 4;
-    public static final int TYPE_ALBUM_SONGS = 5;
-    public static final int TYPE_ARTIST_ALL_SONGS = 6;
-    public static final int TYPE_PLAYLIST_ALL_SONGS = 7;
+    private static final String MEDIA_ID_ROOT = "__ROOT__";
+    private static final int TYPE_ARTIST = 0;
+    private static final int TYPE_ALBUM = 1;
+    private static final int TYPE_SONG = 2;
+    private static final int TYPE_PLAYLIST = 3;
+    private static final int TYPE_ARTIST_SONG_ALBUMS = 4;
+    private static final int TYPE_ALBUM_SONGS = 5;
+    private static final int TYPE_ARTIST_ALL_SONGS = 6;
+    private static final int TYPE_PLAYLIST_ALL_SONGS = 7;
 
-    MediaSession mSession;
-    public static WearBrowserService sInstance;
+    private MediaSession mSession;
+    private static WearBrowserService sInstance;
 
     private Context mContext;
     private boolean mServiceStarted;

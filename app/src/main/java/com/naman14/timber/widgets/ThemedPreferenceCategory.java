@@ -14,7 +14,7 @@ import com.naman14.timber.utils.Helpers;
  */
 public class ThemedPreferenceCategory extends PreferenceCategory {
 
-    private Context context;
+    private final Context context;
 
     public ThemedPreferenceCategory(Context context) {
         super(context);

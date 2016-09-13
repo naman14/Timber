@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:transitionName="transition_artist_image" />
+                android:contentDescription="@string/dummy" />
 
             <View
                 android:layout_width="match_parent"

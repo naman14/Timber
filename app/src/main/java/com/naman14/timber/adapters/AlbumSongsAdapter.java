@@ -38,8 +38,8 @@ import java.util.List;
 public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.ItemHolder> {
 
     private List<Song> arraylist;
-    private Activity mContext;
-    private long albumID;
+    private final Activity mContext;
+    private final long albumID;
     private long[] songIDs;
 
     public AlbumSongsAdapter(Activity context, List<Song> arraylist, long albumID) {
@@ -52,9 +52,8 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_song, null);
-        ItemHolder ml = new ItemHolder(v);
-        return ml;
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_song, viewGroup, false);
+        return new ItemHolder(v);
 
 
     }
@@ -139,8 +138,10 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, duration, trackNumber;
-        protected ImageView menu;
+        final TextView title;
+        final TextView duration;
+        final TextView trackNumber;
+        final ImageView menu;
 
         public ItemHolder(View view) {
             super(view);
@@ -158,7 +159,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
                 @Override
                 public void run() {
                     MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), albumID, TimberUtils.IdType.Album, false);
-                    NavigationUtils.navigateToNowplaying(mContext, true);
+                    NavigationUtils.navigateToNowplaying(mContext);
                 }
             }, 100);
 

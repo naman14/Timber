@@ -41,9 +41,9 @@ import java.util.List;
 
 public class PlaylistFragment extends Fragment {
 
-    int playlistcount;
-    FragmentStatePagerAdapter adapter;
-    MultiViewPager pager;
+    private int playlistcount;
+    private FragmentStatePagerAdapter adapter;
+    private MultiViewPager pager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,9 +54,11 @@ public class PlaylistFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.playlists);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(R.string.playlists);
+        }
 
         final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), true);
         playlistcount = playlists.size();

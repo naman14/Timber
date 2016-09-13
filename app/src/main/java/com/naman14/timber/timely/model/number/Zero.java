@@ -11,9 +11,9 @@ public class Zero extends Figure {
             {0.24585635359116f, 0.552486187845304f}
     };
 
-    private static Zero INSTANCE = new Zero();
+    private static final Zero INSTANCE = new Zero();
 
-    protected Zero() {
+    private Zero() {
         super(POINTS);
     }
 

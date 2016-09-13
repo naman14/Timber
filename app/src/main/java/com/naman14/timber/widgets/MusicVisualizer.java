@@ -14,10 +14,10 @@ import java.util.Random;
  */
 public class MusicVisualizer extends View {
 
-    Random random = new Random();
+    private final Random random = new Random();
 
-    Paint paint = new Paint();
-    private Runnable animateView = new Runnable() {
+    private final Paint paint = new Paint();
+    private final Runnable animateView = new Runnable() {
         @Override
         public void run() {
 

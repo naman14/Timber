@@ -3,18 +3,6 @@
 
     <string name="action_settings">Paramètres</string>
 
-    <string name="accessibility_play">Lecture</string>
-    <string name="accessibility_pause">Pause</string>
-    <string name="accessibility_next">Suivant</string>
-    <string name="accessibility_prev">Précédent</string>
-    <string name="accessibility_shuffle">Aléatoire</string>
-    <string name="accessibility_shuffle_all">Tout aléatoire</string>
-    <string name="accessibility_repeat">Répéter</string>
-    <string name="accessibility_repeat_all">Tout répéter</string>
-    <string name="accessibility_repeat_one">Répéter une chanson</string>
-    <string name="accessibility_queue">Ouvrir la file de lecture</string>
-    <string name="accessibility_browse">Parcourir la musique</string>
-
     <string name="menu_sort_by">Trier par</string>
     <string name="sort_order_entry_az">A-Z</string>
     <string name="sort_order_entry_za">Z-A</string>
@@ -23,11 +11,8 @@
     <string name="sort_order_entry_year">Année</string>
     <string name="sort_order_entry_track_number">Numéro de piste</string>
     <string name="sort_order_entry_duration">Durée</string>
-    <string name="sort_order_entry_date_added">Date d\'ajout</string>
-    <string name="sort_order_entry_track_list">Liste des pistes</string>
     <string name="sort_order_entry_number_of_songs">Nombre de chansons</string>
     <string name="sort_order_entry_number_of_albums">Nombre d\'albums</string>
-    <string name="sort_order_entry_filename">Nom de fichier</string>
 
     <string name="error_playing_track">Erreur lors de la lecture de la piste</string>
 
@@ -41,10 +26,6 @@
     <string name="menu_show_as">Affichage</string>
     <string name="menu_show_as_entry_list">Liste</string>
     <string name="menu_show_as_entry_grid">Grille</string>
-
-    <string name="light">Clair</string>
-    <string name="dark">Sombre</string>
-    <string name="black">Noir</string>
 
     <string name="last_opened">Derniers ouverts</string>
 
@@ -63,12 +44,8 @@
     <string name="action_equalizer">Égaliseur</string>
     <string name="search_library">Rechercher dans la bibliothèque</string>
 
-    <string name="select_theme">Sélectionner un thème</string>
-    <string name="choose_theme_throughout">Choisir un thème qui sera utilisé dans l\'interface</string>
     <string name="choose_start_page">Choisir un écran d\'accueil qui sera affiché au lancement</string>
     <string name="start_page">Écran d\'accueil</string>
-    <string name="artist_in_grid">Artistes dans la grille</string>
-    <string name="toggle_artists_grid">Afficher les artistes dans une grille 2x2</string>
     <string name="toggle_system_animations">Activer les animations système dans l\'interface</string>
     <string name="system_animations">Animations système</string>
     <string name="toggle_animations">Activer les animations de transition dans l\'interface</string>
@@ -100,9 +77,7 @@
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> chansons</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artiste</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistes</string>
-    
+
     <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> chanson ajoutée à la file de lecture.</string>
     <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> chansons ajoutées à la file de lecture.</string>
     <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> chanson ajoutée à la liste de lecture.</string>

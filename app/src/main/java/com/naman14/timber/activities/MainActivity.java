@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -58,15 +59,16 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
 
     private static MainActivity sMainActivity;
-    SlidingUpPanelLayout panelLayout;
-    NavigationView navigationView;
-    TextView songtitle, songartist;
-    ImageView albumart;
-    String action;
-    Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
-    Handler navDrawerRunnable = new Handler();
-    Runnable runnable;
-    Runnable navigateLibrary = new Runnable() {
+    private SlidingUpPanelLayout panelLayout;
+    private NavigationView navigationView;
+    private TextView songtitle;
+    private TextView songartist;
+    private ImageView albumart;
+    private String action;
+    private final Map<String, Runnable> navigationMap = new HashMap<>();
+    private final Handler navDrawerRunnable = new Handler();
+    private Runnable runnable;
+    private final Runnable navigateLibrary = new Runnable() {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
             Fragment fragment = new MainFragment();
@@ -75,13 +77,13 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         }
     };
-    Runnable navigateNowplaying = new Runnable() {
+    private final Runnable navigateNowplaying = new Runnable() {
         public void run() {
             navigateLibrary.run();
             startActivity(new Intent(MainActivity.this, NowPlayingActivity.class));
         }
     };
-    final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
+    private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
             loadEverything();
@@ -92,7 +94,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             finish();
         }
     };
-    Runnable navigatePlaylist = new Runnable() {
+    private final Runnable navigatePlaylist = new Runnable() {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
             Fragment fragment = new PlaylistFragment();
@@ -102,7 +104,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         }
     };
-    Runnable navigateQueue = new Runnable() {
+    private final Runnable navigateQueue = new Runnable() {
         public void run() {
             navigationView.getMenu().findItem(R.id.nav_queue).setChecked(true);
             Fragment fragment = new QueueFragment();
@@ -112,7 +114,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         }
     };
-    Runnable navigateAlbum = new Runnable() {
+    private final Runnable navigateAlbum = new Runnable() {
         public void run() {
             long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
             Fragment fragment = AlbumDetailFragment.newInstance(albumID, false, null);
@@ -121,7 +123,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                     .replace(R.id.fragment_container, fragment).commit();
         }
     };
-    Runnable navigateArtist = new Runnable() {
+    private final Runnable navigateArtist = new Runnable() {
         public void run() {
             long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
             Fragment fragment = ArtistDetailFragment.newInstance(artistID, false, null);
@@ -263,7 +265,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
                         updatePosition(menuItem);
                         return true;
 
@@ -310,7 +312,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
                 break;
             case R.id.nav_nowplaying:
-                NavigationUtils.navigateToNowplaying(MainActivity.this, false);
+                NavigationUtils.navigateToNowplaying(MainActivity.this);
                 break;
             case R.id.nav_queue:
                 runnable = navigateQueue;
@@ -380,7 +382,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     @Override
     public void onRequestPermissionsResult(
-            int requestCode, String[] permissions, int[] grantResults) {
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

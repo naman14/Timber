@@ -33,12 +33,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
-public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.ItemHolder> {
+class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.ItemHolder> {
 
-    private List<Album> arraylist;
-    private Activity mContext;
+    private final List<Album> arraylist;
+    private final Activity mContext;
 
-    public ArtistAlbumAdapter(Activity context, List<Album> arraylist) {
+    ArtistAlbumAdapter(Activity context, List<Album> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
 
@@ -46,9 +46,8 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist_album, null);
-        ItemHolder ml = new ItemHolder(v);
-        return ml;
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist_album, viewGroup, false);
+        return new ItemHolder(v);
     }
 
     @Override
@@ -78,9 +77,10 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
 
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, details;
-        protected ImageView albumArt;
-        protected CardView rootView;
+        final TextView title;
+        final TextView details;
+        final ImageView albumArt;
+        final CardView rootView;
 
         public ItemHolder(View view) {
             super(view);

@@ -35,9 +35,9 @@ import java.util.List;
 
 public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapter.ItemHolder> {
 
-    public static int currentlyPlayingPosition;
-    private List<Song> arraylist;
-    private Activity mContext;
+    private static int currentlyPlayingPosition;
+    private final List<Song> arraylist;
+    private final Activity mContext;
     private int lastPosition = -1;
 
     public Timber4QueueAdapter(Activity context, List<Song> arraylist) {
@@ -48,9 +48,8 @@ public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapte
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_queue_timber4_bottom, null);
-        ItemHolder ml = new ItemHolder(v);
-        return ml;
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_queue_timber4_bottom, viewGroup, false);
+        return new ItemHolder(v);
     }
 
     @Override
@@ -87,7 +86,7 @@ public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapte
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected ImageView albumArt;
+        final ImageView albumArt;
 
         public ItemHolder(View view) {
             super(view);

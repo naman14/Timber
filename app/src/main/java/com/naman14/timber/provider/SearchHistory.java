@@ -31,11 +31,11 @@ public class SearchHistory {
 
     private MusicDB mMusicDatabase = null;
 
-    public SearchHistory(final Context context) {
+    private SearchHistory(final Context context) {
         mMusicDatabase = MusicDB.getInstance(context);
     }
 
-    public static final synchronized SearchHistory getInstance(final Context context) {
+    public static synchronized SearchHistory getInstance(final Context context) {
         if (sInstance == null) {
             sInstance = new SearchHistory(context.getApplicationContext());
         }
@@ -48,10 +48,10 @@ public class SearchHistory {
                 + SearchHistoryColumns.TIMESEARCHED + " LONG NOT NULL);");
     }
 
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
+    void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
     }
 
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + SearchHistoryColumns.NAME);
         onCreate(db);
     }
@@ -99,7 +99,6 @@ public class SearchHistory {
             } finally {
                 if (oldest != null) {
                     oldest.close();
-                    oldest = null;
                 }
             }
         } finally {
@@ -109,7 +108,7 @@ public class SearchHistory {
     }
 
 
-    public Cursor queryRecentSearches(final String limit) {
+    private Cursor queryRecentSearches(final String limit) {
         final SQLiteDatabase database = mMusicDatabase.getReadableDatabase();
         return database.query(SearchHistoryColumns.NAME,
                 new String[]{SearchHistoryColumns.SEARCHSTRING}, null, null, null, null,
@@ -132,14 +131,13 @@ public class SearchHistory {
         } finally {
             if (searches != null) {
                 searches.close();
-                searches = null;
             }
         }
 
         return results;
     }
 
-    public interface SearchHistoryColumns {
+    interface SearchHistoryColumns {
         /* Table name */
         String NAME = "searchhistory";
 

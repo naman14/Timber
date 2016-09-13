@@ -11,9 +11,9 @@ public class Five extends Figure {
             {0.248618784530387f, 0.850828729281768f}
     };
 
-    private static Five INSTANCE = new Five();
+    private static final Five INSTANCE = new Five();
 
-    protected Five() {
+    private Five() {
         super(POINTS);
     }
 

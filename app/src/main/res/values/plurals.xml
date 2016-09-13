@@ -4,11 +4,6 @@
 
     <!--Nothing to be translated here-->
 
-    <plurals name="Nartists">
-        <item quantity="one">@string/count_artist</item>
-        <item quantity="other">@string/count_artists</item>
-    </plurals>
-
 
     <plurals name="Nalbums">
         <item quantity="one">@string/count_album</item>

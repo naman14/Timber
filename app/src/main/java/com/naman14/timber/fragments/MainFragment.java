@@ -40,8 +40,8 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    PreferencesUtility mPreferences;
-    ViewPager viewPager;
+    private PreferencesUtility mPreferences;
+    private ViewPager viewPager;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -58,8 +58,10 @@ public class MainFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
 
         viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
@@ -110,11 +112,6 @@ public class MainFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
@@ -123,7 +120,7 @@ public class MainFragment extends Fragment {
             super(fm);
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
             mFragmentTitles.add(title);
         }

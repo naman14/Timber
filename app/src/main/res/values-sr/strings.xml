@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="about">O aplikaciji</string>
     <string name="accent_color">Akcentna boja</string>
     <string name="accent_color_summary">Izmeni akcentnu boju</string>
-    <string name="accessibility_browse">Istraži muziku</string>
-    <string name="accessibility_next">Sledeće</string>
-    <string name="accessibility_pause">Pauza</string>
-    <string name="accessibility_play">Pusti</string>
-    <string name="accessibility_prev">Prethodno</string>
-    <string name="accessibility_queue">Otvori red</string>
-    <string name="accessibility_repeat">Ponavljanje</string>
-    <string name="accessibility_repeat_all">Ponovi sve</string>
-    <string name="accessibility_repeat_one">Ponavljaj jednu</string>
-    <string name="accessibility_shuffle">Mešaj</string>
-    <string name="accessibility_shuffle_all">Mešaj sve</string>
     <string name="action_equalizer">Ekvilajzer</string>
     <string name="action_settings">Podešavanja</string>
     <string name="action_shuffle_all">Mešaj sve</string>
     <string name="advanced">Napredno</string>
     <string name="albums">Albumi</string>
     <string name="animations">Animacije</string>
-    <string name="artist_in_grid">Izvođači tabelarno</string>
     <string name="artists">Izvođači</string>
-    <string name="black">Crno</string>
     <string name="choose_start_page">Izaberite početnu stranicu koja će se prikazivati prilikom pokretanja.</string>
-    <string name="choose_theme_throughout">Izaberite temu aplikacije.</string>
     <string name="colored_nav_bar">Obojeni navigacioni bar</string>
     <string name="colored_nav_bar_summary">Prekidač za bojenje navigacionog bara</string>
     <string name="colored_status_bar">Obojeni statusni bar</string>
     <string name="colored_status_bar_summary">Prekidač za bojenje statusnog bara</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> albumi</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> izvođač</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> izvođači</string>
     <string name="count_song"><xliff:g id="count">%d</xliff:g> numera</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> numere</string>
     <string name="currently_selected">Trenutno odabrano</string>
-    <string name="dark">Tamno</string>
     <string name="dark_theme">Tamna tema</string>
     <string name="dark_theme_summary">Primeni tamnu temu na celu aplikaciju</string>
     <string name="error_playing_track">Greška pri puštanju</string>
     <string name="help_and_feedback">Pomoć i sugestije</string>
     <string name="last_opened">Zadnje otvarano</string>
     <string name="library">Biblioteka</string>
-    <string name="light">Svetlo</string>
     <string name="menu_show_as">Pogledaj kao</string>
     <string name="menu_show_as_entry_grid">Mreža</string>
     <string name="menu_show_as_entry_list">Lista</string>
@@ -66,18 +48,14 @@
     <string name="primary_color_summary">Promeni primarnu boju teme</string>
     <string name="search">Pretraga</string>
     <string name="search_library">Traži po biblioteci</string>
-    <string name="select_theme">Odaberi temu</string>
     <string name="settings">Podešavanja</string>
     <string name="songs">Numere</string>
     <string name="sort_order_entry_album">Album</string>
     <string name="sort_order_entry_artist">Izvođač</string>
     <string name="sort_order_entry_az">A-Z</string>
-    <string name="sort_order_entry_date_added">Datum dodavanja</string>
     <string name="sort_order_entry_duration">Trajanje</string>
-    <string name="sort_order_entry_filename">Ime fajla</string>
     <string name="sort_order_entry_number_of_albums">Broj albuma</string>
     <string name="sort_order_entry_number_of_songs">Broj numera</string>
-    <string name="sort_order_entry_track_list">Lista numera</string>
     <string name="sort_order_entry_track_number">Broj numere</string>
     <string name="sort_order_entry_year">Godina</string>
     <string name="sort_order_entry_za">Z-A</string>
@@ -89,7 +67,6 @@
     <string name="timber_feature_request">Ako želite neku funkcionalnost, možete tražiti na Google+ zajednici <u> ovde </u></string>
     <string name="timber_source">Prijavite bagove <u> ovde </u></string>
     <string name="toggle_animations">Prekidač tranzicionih animacija u aplikaciji.</string>
-    <string name="toggle_artists_grid">Prekidač za prikazivanje izvođeča u 2x2 mreži.</string>
     <string name="toggle_system_animations">Prekidač za sistemske animacije u aplikaciji.</string>
     <string name="xposed_trackselector">Podrška reda puštanja u notifikacijama</string>
 </resources>

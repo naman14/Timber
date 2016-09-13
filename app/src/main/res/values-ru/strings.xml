@@ -3,18 +3,6 @@
 
     <string name="action_settings">Настройки</string>
 
-    <string name="accessibility_play">Играть</string>
-    <string name="accessibility_pause">Пауза</string>
-    <string name="accessibility_next">Следующий</string>
-    <string name="accessibility_prev">Предыдуший</string>
-    <string name="accessibility_shuffle">Перемешать</string>
-    <string name="accessibility_shuffle_all">Перемешать все</string>
-    <string name="accessibility_repeat">Повторить</string>
-    <string name="accessibility_repeat_all">Повторить все</string>
-    <string name="accessibility_repeat_one">Повторить один</string>
-    <string name="accessibility_queue">Открыть очередь</string>
-    <string name="accessibility_browse">Посмотреть музыку</string>
-
     <string name="menu_sort_by">Сортировать по</string>
     <string name="sort_order_entry_az">A-Z</string>
     <string name="sort_order_entry_za">Z-A</string>
@@ -23,11 +11,8 @@
     <string name="sort_order_entry_year">Году</string>
     <string name="sort_order_entry_track_number">Номеру трека</string>
     <string name="sort_order_entry_duration">Длительности</string>
-    <string name="sort_order_entry_date_added">Дате добавления</string>
-    <string name="sort_order_entry_track_list">Трек-листу</string>
     <string name="sort_order_entry_number_of_songs">Количеству песен</string>
     <string name="sort_order_entry_number_of_albums">Количеству альбомов</string>
-    <string name="sort_order_entry_filename">Имени файла</string>
 
     <string name="error_playing_track">Ошибка воспроизведения трека</string>
 
@@ -41,10 +26,6 @@
     <string name="menu_show_as">Показывать как</string>
     <string name="menu_show_as_entry_list">Список</string>
     <string name="menu_show_as_entry_grid">Сетку</string>
-
-    <string name="light">Светлая</string>
-    <string name="dark">Темная</string>
-    <string name="black">Черная</string>
 
     <string name="last_opened">Последний открытый</string>
 
@@ -63,12 +44,8 @@
     <string name="action_equalizer">Эквалайзер</string>
     <string name="search_library">Искать в библиотеке</string>
 
-    <string name="select_theme">Выбрать тему</string>
-    <string name="choose_theme_throughout">Выбрать тему всего приложения.</string>
     <string name="choose_start_page">Выбрать стартовую страницу, которая будет отображаться при запуске.</string>
     <string name="start_page">Стартовая страница</string>
-    <string name="artist_in_grid">Артисты в сетке</string>
-    <string name="toggle_artists_grid">Включить отображение артисов в сетке 2x2</string>
     <string name="toggle_system_animations">Включить системные анимации во всем приложении.</string>
     <string name="system_animations">Системные анимации</string>
     <string name="toggle_animations">Включить анимации в приложении.</string>
@@ -100,8 +77,6 @@
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> песни</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> альбом</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> альбомы</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> артист</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> артисты</string>
 
     <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> песня добавлена в очередь.</string>
     <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> песни добавлены в очередь.</string>

@@ -53,7 +53,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     public static View topContainer;
     private ProgressBar mProgress;
     private SeekBar mSeekBar;
-    public Runnable mUpdateProgress = new Runnable() {
+    private final Runnable mUpdateProgress = new Runnable() {
 
         @Override
         public void run() {
@@ -73,8 +73,6 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     private TextView mArtist, mArtistExpanded;
     private ImageView mAlbumArt, mBlurredArt;
     private View rootView;
-    private View playPauseWrapper, playPauseWrapperExpanded;
-    private MaterialIconView previous, next;
     private boolean duetoplaypause = false;
     private final View.OnClickListener mPlayPauseListener = new View.OnClickListener() {
         @Override
@@ -127,8 +125,8 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
 
         mPlayPause = (PlayPauseButton) rootView.findViewById(R.id.play_pause);
         mPlayPauseExpanded = (PlayPauseButton) rootView.findViewById(R.id.playpause);
-        playPauseWrapper = rootView.findViewById(R.id.play_pause_wrapper);
-        playPauseWrapperExpanded = rootView.findViewById(R.id.playpausewrapper);
+        View playPauseWrapper = rootView.findViewById(R.id.play_pause_wrapper);
+        View playPauseWrapperExpanded = rootView.findViewById(R.id.playpausewrapper);
         playPauseWrapper.setOnClickListener(mPlayPauseListener);
         playPauseWrapperExpanded.setOnClickListener(mPlayPauseExpandedListener);
         mProgress = (ProgressBar) rootView.findViewById(R.id.song_progress_normal);
@@ -139,8 +137,8 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         mArtistExpanded = (TextView) rootView.findViewById(R.id.song_artist);
         mAlbumArt = (ImageView) rootView.findViewById(R.id.album_art_nowplayingcard);
         mBlurredArt = (ImageView) rootView.findViewById(R.id.blurredAlbumart);
-        next = (MaterialIconView) rootView.findViewById(R.id.next);
-        previous = (MaterialIconView) rootView.findViewById(R.id.previous);
+        MaterialIconView next = (MaterialIconView) rootView.findViewById(R.id.next);
+        MaterialIconView previous = (MaterialIconView) rootView.findViewById(R.id.previous);
         topContainer = rootView.findViewById(R.id.topContainer);
 
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mProgress.getLayoutParams();
@@ -202,7 +200,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         return rootView;
     }
 
-    public void updateNowplayingCard() {
+    private void updateNowplayingCard() {
         mTitle.setText(MusicPlayer.getTrackName());
         mArtist.setText(MusicPlayer.getArtistName());
         mTitleExpanded.setText(MusicPlayer.getTrackName());
@@ -245,25 +243,13 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         topContainer = rootView.findViewById(R.id.topContainer);
 
     }
 
-    public void updateState() {
+    private void updateState() {
         if (MusicPlayer.isPlaying()) {
             if (!mPlayPause.isPlayed()) {
                 mPlayPause.setPlayed(true);

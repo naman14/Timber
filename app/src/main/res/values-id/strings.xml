@@ -3,18 +3,6 @@
 
     <string name="action_settings">Pengaturan</string>
 
-    <string name="accessibility_play">Main</string>
-    <string name="accessibility_pause">Jeda</string>
-    <string name="accessibility_next">Berikutnya</string>
-    <string name="accessibility_prev">Sebelumnya</string>
-    <string name="accessibility_shuffle">Acak</string>
-    <string name="accessibility_shuffle_all">Acak semua</string>
-    <string name="accessibility_repeat">Ulangi</string>
-    <string name="accessibility_repeat_all">Ulangi semua</string>
-    <string name="accessibility_repeat_one">Ulangi satu kali</string>
-    <string name="accessibility_queue">Buka antrian</string>
-    <string name="accessibility_browse">Telusuri musik</string>
-
     <string name="menu_sort_by">Urutkan berdasarkan</string>
     <string name="sort_order_entry_az">A-Z</string>
     <string name="sort_order_entry_za">Z-A</string>
@@ -23,11 +11,8 @@
     <string name="sort_order_entry_year">Tahun</string>
     <string name="sort_order_entry_track_number">Nomor Lagu</string>
     <string name="sort_order_entry_duration">Durasi</string>
-    <string name="sort_order_entry_date_added">Tanggal Ditambahkan</string>
-    <string name="sort_order_entry_track_list">Daftar Lagu</string>
     <string name="sort_order_entry_number_of_songs">Jumlah Lagu</string>
     <string name="sort_order_entry_number_of_albums">Jumlah Album</string>
-    <string name="sort_order_entry_filename">Nama File</string>
 
     <string name="error_playing_track">Kesalahan Saat Memutar lagu</string>
 
@@ -41,10 +26,6 @@
     <string name="menu_show_as">Lihat Sebagai</string>
     <string name="menu_show_as_entry_list">Daftar</string>
     <string name="menu_show_as_entry_grid">Grid</string>
-
-    <string name="light">Terang</string>
-    <string name="dark">Gelap</string>
-    <string name="black">Hitam</string>
 
     <string name="last_opened">Terakhir Dibuka</string>
 
@@ -66,14 +47,8 @@
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> songs</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artist</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artists</string>
-    <string name="select_theme">Pilih Tema</string>
-    <string name="choose_theme_throughout">Pilih tema yang akan digunakan di seluruh aplikasi.</string>
     <string name="choose_start_page">Pilih halaman awal yang akan ditampilkan pada saat peluncuran.</string>
     <string name="start_page">Halaman awal</string>
-    <string name="artist_in_grid">Artis dalam Grid</string>
-    <string name="toggle_artists_grid">Toggle untuk menampilkan artis dalam grid 2x2.</string>
     <string name="toggle_system_animations">Toggle untuk untuk animasi sistem di seluruh aplikasi.</string>
     <string name="system_animations">Animasi Sistem</string>
     <string name="toggle_animations">Toggle untuk animasi transisi di seluruh aplikasi.on throughout the app.</string>

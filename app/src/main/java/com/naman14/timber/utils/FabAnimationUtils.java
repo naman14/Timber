@@ -34,7 +34,7 @@ public class FabAnimationUtils {
         scaleIn(fab, DEFAULT_DURATION, null);
     }
 
-    public static void scaleIn(final View fab, long duration, final ScaleCallback callback) {
+    private static void scaleIn(final View fab, long duration, final ScaleCallback callback) {
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             ViewCompat.animate(fab)
@@ -132,7 +132,7 @@ public class FabAnimationUtils {
         }
     }
 
-    public interface ScaleCallback {
+    interface ScaleCallback {
         void onAnimationStart();
 
         void onAnimationEnd();

@@ -66,11 +66,11 @@ public class PlayTransition extends Transition {
         a.recycle();
     }
 
-    public void setColor(int color) {
+    private void setColor(int color) {
         mColor = color;
     }
 
-    public int getColor() {
+    private int getColor() {
         return mColor;
     }
 
@@ -249,23 +249,22 @@ public class PlayTransition extends Transition {
         return new NoPauseAnimator(reveal);
     }
 
-    static float calculateMaxRadius(View view) {
+    private static float calculateMaxRadius(View view) {
         float widthSquared = view.getWidth() * view.getWidth();
         float heightSquared = view.getHeight() * view.getHeight();
-        float radius = (float) Math.sqrt(widthSquared + heightSquared) / 2;
-        return radius;
+        return (float) Math.sqrt(widthSquared + heightSquared) / 2;
     }
 
-    static int calculateMinRadius(View view) {
+    private static int calculateMinRadius(View view) {
         return Math.min(view.getWidth() / 2, view.getHeight() / 2);
     }
 
     private static class NoPauseAnimator extends Animator {
         private final Animator mAnimator;
         private final ArrayMap<AnimatorListener, AnimatorListener> mListeners =
-                new ArrayMap<AnimatorListener, AnimatorListener>();
+                new ArrayMap<>();
 
-        public NoPauseAnimator(Animator animator) {
+        NoPauseAnimator(Animator animator) {
             mAnimator = animator;
         }
 
@@ -300,7 +299,7 @@ public class PlayTransition extends Transition {
 
         @Override
         public ArrayList<AnimatorListener> getListeners() {
-            return new ArrayList<AnimatorListener>(mListeners.keySet());
+            return new ArrayList<>(mListeners.keySet());
         }
 
         @Override
@@ -379,7 +378,7 @@ public class PlayTransition extends Transition {
         private final Animator mAnimator;
         private final Animator.AnimatorListener mListener;
 
-        public AnimatorListenerWrapper(Animator animator, Animator.AnimatorListener listener) {
+        AnimatorListenerWrapper(Animator animator, Animator.AnimatorListener listener) {
             mAnimator = animator;
             mListener = listener;
         }

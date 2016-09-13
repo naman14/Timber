@@ -33,7 +33,7 @@ import com.naman14.timber.R;
 
 public class TimberUtils {
 
-    public static final String MUSIC_ONLY_SELECTION = MediaStore.Audio.AudioColumns.IS_MUSIC + "=1"
+    private static final String MUSIC_ONLY_SELECTION = MediaStore.Audio.AudioColumns.IS_MUSIC + "=1"
             + " AND " + MediaStore.Audio.AudioColumns.TITLE + " != ''";
 
     public static boolean isMarshmallow() {
@@ -61,18 +61,18 @@ public class TimberUtils {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), paramInt);
     }
 
-    public static final String makeCombinedString(final Context context, final String first,
-                                                  final String second) {
+    public static String makeCombinedString(final Context context, final String first,
+                                            final String second) {
         final String formatter = context.getResources().getString(R.string.combine_two_strings);
         return String.format(formatter, first, second);
     }
 
-    public static final String makeLabel(final Context context, final int pluralInt,
-                                         final int number) {
+    public static String makeLabel(final Context context, final int pluralInt,
+                                   final int number) {
         return context.getResources().getQuantityString(pluralInt, number, number);
     }
 
-    public static final String makeShortTimeString(final Context context, long secs) {
+    public static String makeShortTimeString(final Context context, long secs) {
         long hours, mins;
 
         hours = secs / 3600;
@@ -96,7 +96,7 @@ public class TimberUtils {
         return mActionBarHeight;
     }
 
-    public static final int getSongCountForPlaylist(final Context context, final long playlistId) {
+    public static int getSongCountForPlaylist(final Context context, final long playlistId) {
         Cursor c = context.getContentResolver().query(
                 MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId),
                 new String[]{BaseColumns._ID}, MUSIC_ONLY_SELECTION, null, null);
@@ -107,7 +107,6 @@ public class TimberUtils {
                 count = c.getCount();
             }
             c.close();
-            c = null;
             return count;
         }
 
@@ -120,7 +119,7 @@ public class TimberUtils {
                 PackageManager.MATCH_DEFAULT_ONLY) != null;
     }
 
-    public static Intent createEffectsIntent() {
+    static Intent createEffectsIntent() {
         final Intent effects = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
         effects.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MusicPlayer.getAudioSessionId());
         return effects;
@@ -161,8 +160,8 @@ public class TimberUtils {
         RecentlyPlayed(-2, R.string.playlist_recently_played),
         TopTracks(-3, R.string.playlist_top_tracks);
 
-        public long mId;
-        public int mTitleId;
+        public final long mId;
+        public final int mTitleId;
 
         PlaylistType(long id, int titleId) {
             mId = id;

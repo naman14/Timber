@@ -14,9 +14,6 @@ import com.naman14.timber.models.Song;
 
 import java.util.List;
 
-/**
- * Created by naman on 20/12/15.
- */
 public class AddPlaylistDialog extends DialogFragment {
 
     public static AddPlaylistDialog newInstance(Song song) {
@@ -25,7 +22,7 @@ public class AddPlaylistDialog extends DialogFragment {
         return newInstance(songs);
     }
 
-    public static AddPlaylistDialog newInstance(long[] songList) {
+    private static AddPlaylistDialog newInstance(long[] songList) {
         AddPlaylistDialog dialog = new AddPlaylistDialog();
         Bundle bundle = new Bundle();
         bundle.putLongArray("songs", songList);

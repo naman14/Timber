@@ -50,35 +50,34 @@ import java.util.List;
 
 public class PlaylistDetailActivity extends BaseThemedActivity implements ATEActivityThemeCustomizer {
 
-    String action;
-    long playlistID;
-    HashMap<String, Runnable> playlistsMap = new HashMap<>();
-    Runnable playlistLastAdded = new Runnable() {
+    private String action;
+    private final HashMap<String, Runnable> playlistsMap = new HashMap<>();
+    private final Runnable playlistLastAdded = new Runnable() {
         public void run() {
             new loadLastAdded().execute("");
         }
     };
-    Runnable playlistRecents = new Runnable() {
+    private final Runnable playlistRecents = new Runnable() {
         @Override
         public void run() {
             new loadRecentlyPlayed().execute("");
 
         }
     };
-    Runnable playlistToptracks = new Runnable() {
+    private final Runnable playlistToptracks = new Runnable() {
         @Override
         public void run() {
             new loadTopTracks().execute("");
         }
     };
-    Runnable playlistUsercreated = new Runnable() {
+    private final Runnable playlistUsercreated = new Runnable() {
         @Override
         public void run() {
             new loadUserCreatedPlaylist().execute("");
 
         }
     };
-    private AppCompatActivity mContext = PlaylistDetailActivity.this;
+    private final AppCompatActivity mContext = PlaylistDetailActivity.this;
     private SongsListAdapter mAdapter;
     private RecyclerView recyclerView;
     private ImageView blurFrame;
@@ -183,7 +182,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
 
         @Override
         protected String doInBackground(String... params) {
-            TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
+//            TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
             List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
             mAdapter = new SongsListAdapter(mContext, recentsongs, true);
             return "Executed";
@@ -204,7 +203,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
 
         @Override
         protected String doInBackground(String... params) {
-            TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
+//            TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
             List<Song> toptracks = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
             mAdapter = new SongsListAdapter(mContext, toptracks, true);
             return "Executed";
@@ -224,7 +223,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
 
         @Override
         protected String doInBackground(String... params) {
-            playlistID = getIntent().getExtras().getLong(Constants.PLAYLIST_ID);
+            long playlistID = getIntent().getExtras().getLong(Constants.PLAYLIST_ID);
             List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(mContext, playlistID);
             mAdapter = new SongsListAdapter(mContext, playlistsongs, true);
             return "Executed";

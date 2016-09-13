@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
 
     <application
+        android:fullBackupContent="true"
         android:name=".TimberApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -96,6 +97,9 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="d89ae088b2672fcdcfddbe98ad7e338886bf8997" />
     </application>
 
 </manifest>

@@ -25,14 +25,12 @@ import java.util.List;
 public class QueueLoader {
 
 
-    private static NowPlayingCursor mCursor;
-
     public static List<Song> getQueueSongs(Context context) {
 
         final ArrayList<Song> mSongList = new ArrayList<>();
-        mCursor = new NowPlayingCursor(context);
+        NowPlayingCursor mCursor = new NowPlayingCursor(context);
 
-        if (mCursor != null && mCursor.moveToFirst()) {
+        if (mCursor.moveToFirst()) {
             do {
 
                 final long id = mCursor.getLong(0);
@@ -56,10 +54,7 @@ public class QueueLoader {
                 mSongList.add(song);
             } while (mCursor.moveToNext());
         }
-        if (mCursor != null) {
-            mCursor.close();
-            mCursor = null;
-        }
+        mCursor.close();
         return mSongList;
     }
 

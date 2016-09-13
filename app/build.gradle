@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.21.7'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 24
@@ -13,6 +23,7 @@ android {
         //renderscript support mode is not supported for 21+ with gradle version 2.0
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -34,6 +45,7 @@ android {
 
 repositories {
     jcenter()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -53,13 +65,13 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'de.Maxr1998:track-selector-lib:1.1'
 
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
+    compile ('com.github.naman14:app-theme-engine:0.5.1@aar') {
         transitive = true
     }
-    compile('com.github.naman14:app-theme-engine:0.5.1@aar') {
+    compile('com.github.afollestad.material-dialogs:commons:0.9.0.1@aar') {
         transitive = true
     }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.3@aar') {
-        transitive = true
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
     }
 }

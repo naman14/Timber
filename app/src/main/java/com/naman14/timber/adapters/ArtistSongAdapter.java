@@ -43,10 +43,10 @@ import java.util.List;
 
 public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.ItemHolder> {
 
-    private List<Song> arraylist;
-    private Activity mContext;
-    private long artistID;
-    private long[] songIDs;
+    private final List<Song> arraylist;
+    private final Activity mContext;
+    private final long artistID;
+    private final long[] songIDs;
 
     public ArtistSongAdapter(Activity context, List<Song> arraylist, long artistID) {
         this.arraylist = arraylist;
@@ -58,13 +58,11 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if (viewType == 0) {
-            View v0 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.artist_detail_albums_header, null);
-            ItemHolder ml = new ItemHolder(v0);
-            return ml;
+            View v0 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.artist_detail_albums_header, viewGroup, false);
+            return new ItemHolder(v0);
         } else {
-            View v2 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist_song, null);
-            ItemHolder ml = new ItemHolder(v2);
-            return ml;
+            View v2 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist_song, viewGroup, false);
+            return new ItemHolder(v2);
         }
     }
 
@@ -163,8 +161,8 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
     }
 
-    public long[] getSongIds() {
-        List<Song> actualArraylist = new ArrayList<Song>(arraylist);
+    private long[] getSongIds() {
+        List<Song> actualArraylist = new ArrayList<>(arraylist);
         actualArraylist.remove(0);
         long[] ret = new long[actualArraylist.size()];
         for (int i = 0; i < actualArraylist.size(); i++) {
@@ -183,9 +181,11 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, album;
-        protected ImageView albumArt, menu;
-        protected RecyclerView albumsRecyclerView;
+        final TextView title;
+        final TextView album;
+        final ImageView albumArt;
+        final ImageView menu;
+        final RecyclerView albumsRecyclerView;
 
         public ItemHolder(View view) {
             super(view);
@@ -208,7 +208,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
                 @Override
                 public void run() {
                     MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
-                    NavigationUtils.navigateToNowplaying(mContext, true);
+                    NavigationUtils.navigateToNowplaying(mContext);
                 }
             }, 100);
 
@@ -216,10 +216,10 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
     }
 
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
+    private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private final int space;
 
-        public SpacesItemDecoration(int space) {
+        SpacesItemDecoration(int space) {
             this.space = space;
         }
 

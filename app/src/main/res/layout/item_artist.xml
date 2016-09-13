@@ -19,7 +19,6 @@
             android:id="@+id/artistImage"
             android:padding="1dp"
             android:layout_alignParentLeft="true"
-            android:transitionName="transition_artist_image"
             />
 
         <LinearLayout
@@ -39,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                style="@style/TextAppearance.AppCompat.Body1"/>
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/album_song_count"
@@ -49,8 +48,8 @@
                 android:paddingTop="3dp"
                 android:textSize="13sp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"/>
+                style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
+                android:maxLines="1" />
 
 
 

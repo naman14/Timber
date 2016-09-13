@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -37,8 +38,6 @@ import com.naman14.timber.utils.PreferencesUtility;
 
 public class SettingsActivity extends BaseThemedActivity implements ColorChooserDialog.ColorCallback, ATEActivityThemeCustomizer {
 
-    String action;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -51,10 +50,12 @@ public class SettingsActivity extends BaseThemedActivity implements ColorChooser
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        action = getIntent().getAction();
+        String action = getIntent().getAction();
 
         if (action.equals(Constants.SETTINGS_STYLE_SELECTOR)) {
             getSupportActionBar().setTitle(R.string.now_playing);

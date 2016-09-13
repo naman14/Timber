@@ -44,15 +44,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
+import static com.naman14.timber.R.anim.abc_slide_in_bottom;
+
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
-    public int currentlyPlayingPosition;
+    private int currentlyPlayingPosition;
     private List<Song> arraylist;
-    private AppCompatActivity mContext;
+    private final AppCompatActivity mContext;
     private long[] songIDs;
-    private boolean isPlaylist;
+    private final boolean isPlaylist;
     private int lastPosition = -1;
-    private String ateKey;
+    private final String ateKey;
 
     public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong) {
         this.arraylist = arraylist;
@@ -65,13 +67,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (isPlaylist) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song_playlist, null);
-            ItemHolder ml = new ItemHolder(v);
-            return ml;
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song_playlist, viewGroup, false);
+            return new ItemHolder(v);
         } else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
-            ItemHolder ml = new ItemHolder(v);
-            return ml;
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, viewGroup, false);
+            return new ItemHolder(v);
         }
     }
 
@@ -158,7 +158,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         });
     }
 
-    public long[] getSongIds() {
+    private long[] getSongIds() {
         long[] ret = new long[getItemCount()];
         for (int i = 0; i < getItemCount(); i++) {
             ret[i] = arraylist.get(i).id;
@@ -181,7 +181,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.abc_slide_in_bottom);
+            Animation animation = AnimationUtils.loadAnimation(mContext, abc_slide_in_bottom);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
@@ -192,10 +192,16 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         this.songIDs = getSongIds();
     }
 
+    public void setCurrentlyPlayingPosition(int currentlyPlayingPosition) {
+        this.currentlyPlayingPosition = currentlyPlayingPosition;
+    }
+
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, artist;
-        protected ImageView albumArt, popupMenu;
-        private MusicVisualizer visualizer;
+        final TextView title;
+        final TextView artist;
+        final ImageView albumArt;
+        final ImageView popupMenu;
+        private final MusicVisualizer visualizer;
 
         public ItemHolder(View view) {
             super(view);

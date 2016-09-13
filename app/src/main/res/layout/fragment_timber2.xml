@@ -20,7 +20,8 @@
                 android:id="@+id/album_art_blurred"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/dummy" />
 
             <View
                 android:layout_width="match_parent"
@@ -91,7 +92,6 @@
                             android:id="@+id/album_art"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:background="@android:color/transparent"
                             android:scaleType="centerCrop" />
@@ -99,7 +99,6 @@
                         <com.naman14.timber.widgets.CircleImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
                             android:src="@color/black_translucent" />

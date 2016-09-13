@@ -29,11 +29,11 @@ public class RecentStore {
 
     private MusicDB mMusicDatabase = null;
 
-    public RecentStore(final Context context) {
+    private RecentStore(final Context context) {
         mMusicDatabase = MusicDB.getInstance(context);
     }
 
-    public static final synchronized RecentStore getInstance(final Context context) {
+    public static synchronized RecentStore getInstance(final Context context) {
         if (sInstance == null) {
             sInstance = new RecentStore(context.getApplicationContext());
         }
@@ -46,10 +46,10 @@ public class RecentStore {
                 + " LONG NOT NULL);");
     }
 
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
+    void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
     }
 
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + RecentStoreColumns.NAME);
         onCreate(db);
     }
@@ -71,7 +71,6 @@ public class RecentStore {
             } finally {
                 if (mostRecentItem != null) {
                     mostRecentItem.close();
-                    mostRecentItem = null;
                 }
             }
 
@@ -99,7 +98,6 @@ public class RecentStore {
             } finally {
                 if (oldest != null) {
                     oldest.close();
-                    oldest = null;
                 }
             }
         } finally {
@@ -130,7 +128,7 @@ public class RecentStore {
                 RecentStoreColumns.TIMEPLAYED + " DESC", limit);
     }
 
-    public interface RecentStoreColumns {
+    interface RecentStoreColumns {
         /* Table name */
         String NAME = "recenthistory";
 

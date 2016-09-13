@@ -38,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                style="@style/TextAppearance.AppCompat.Body1"/>
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/song_album"
@@ -48,8 +48,8 @@
                 android:paddingTop="3dp"
                 android:textSize="12sp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"/>
+                style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
+                android:maxLines="1" />
 
 
 
@@ -75,9 +75,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:foregroundTint="#434343"
             android:padding="5dp"
-            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
+            app:srcCompat="@drawable/ic_more_vert" />
 
     </RelativeLayout>
 

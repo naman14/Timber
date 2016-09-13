@@ -20,7 +20,8 @@
                 android:id="@+id/album_art"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/dummy" />
 
             <View
                 android:layout_width="match_parent"
@@ -40,7 +41,6 @@
         </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/detailView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/headerView"
@@ -95,7 +95,8 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:scaleType="center" />
+                        android:scaleType="center"
+                        android:contentDescription="@string/dummy" />
 
                     <ImageView
                         android:id="@+id/repeat"
@@ -103,7 +104,8 @@
                         android:layout_height="48dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:paddingLeft="5dp"
-                        android:scaleType="center" />
+                        android:scaleType="center"
+                        android:contentDescription="@string/dummy" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -167,8 +169,6 @@
                 <FrameLayout
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1">
 

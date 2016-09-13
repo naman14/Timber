@@ -28,7 +28,7 @@ import java.util.List;
  * contents of the cursor. It wraps the Cursor and simulates the internal cursor being sorted
  * by moving the point to the appropriate spot
  */
-public class SortedCursor extends AbstractCursor {
+class SortedCursor extends AbstractCursor {
     // cursor to wrap
     private final Cursor mCursor;
     // the map of external indices to internal indices
@@ -45,8 +45,8 @@ public class SortedCursor extends AbstractCursor {
      * @param order      the list of unique ids in sorted order to display
      * @param columnName the column name of the id to look up in the internal cursor
      */
-    public SortedCursor(final Cursor cursor, final long[] order, final String columnName,
-                        final List<? extends Object> extraData) {
+    SortedCursor(final Cursor cursor, final long[] order, final String columnName,
+                 final List<?> extraData) {
         if (cursor == null) {
             throw new IllegalArgumentException("Non-null cursor is needed");
         }
@@ -64,13 +64,13 @@ public class SortedCursor extends AbstractCursor {
      * @return returns the ids that aren't found in the underlying cursor
      */
     private ArrayList<Long> buildCursorPositionMapping(final long[] order,
-                                                       final String columnName, final List<? extends Object> extraData) {
-        ArrayList<Long> missingIds = new ArrayList<Long>();
+                                                       final String columnName, final List<?> extraData) {
+        ArrayList<Long> missingIds = new ArrayList<>();
 
-        mOrderedPositions = new ArrayList<Integer>(mCursor.getCount());
-        mExtraData = new ArrayList<Object>();
+        mOrderedPositions = new ArrayList<>(mCursor.getCount());
+        mExtraData = new ArrayList<>();
 
-        mMapCursorPositions = new HashMap<Long, Integer>(mCursor.getCount());
+        mMapCursorPositions = new HashMap<>(mCursor.getCount());
         final int idPosition = mCursor.getColumnIndex(columnName);
 
         if (mCursor.moveToFirst()) {
@@ -103,7 +103,7 @@ public class SortedCursor extends AbstractCursor {
     /**
      * @return the list of ids that weren't found in the underlying cursor
      */
-    public ArrayList<Long> getMissingIds() {
+    ArrayList<Long> getMissingIds() {
         return mMissingIds;
     }
 

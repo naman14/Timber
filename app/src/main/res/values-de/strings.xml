@@ -3,18 +3,6 @@
 
     <string name="action_settings">Einstellungen</string>
 
-    <string name="accessibility_play">Play</string>
-    <string name="accessibility_pause">Pause</string>
-    <string name="accessibility_next">Nächstes</string>
-    <string name="accessibility_prev">Vorheriges</string>
-    <string name="accessibility_shuffle">Zufall</string>
-    <string name="accessibility_shuffle_all">Alles zufällig abspielen</string>
-    <string name="accessibility_repeat">Wiederholen</string>
-    <string name="accessibility_repeat_all">Alle wiederholen</string>
-    <string name="accessibility_repeat_one">Aktuelles wiederholen</string>
-    <string name="accessibility_queue">Warteschlange öffnen</string>
-    <string name="accessibility_browse">Musik durchsuchen</string>
-
     <string name="menu_sort_by">Sortieren nach</string>
     <string name="sort_order_entry_az">A-Z</string>
     <string name="sort_order_entry_za">Z-A</string>
@@ -23,11 +11,8 @@
     <string name="sort_order_entry_year">Jahr</string>
     <string name="sort_order_entry_track_number">Titelnummer</string>
     <string name="sort_order_entry_duration">Länge</string>
-    <string name="sort_order_entry_date_added">Hinzufügedatum</string>
-    <string name="sort_order_entry_track_list">Tracklist</string>
     <string name="sort_order_entry_number_of_songs">Anzahl an Lieder</string>
     <string name="sort_order_entry_number_of_albums">Anzahl an Alben</string>
-    <string name="sort_order_entry_filename">Dateiname</string>
 
     <string name="error_playing_track">Fehler bei der Wiedergabe des Songs</string>
 
@@ -41,10 +26,6 @@
     <string name="menu_show_as">Ansicht</string>
     <string name="menu_show_as_entry_list">Liste</string>
     <string name="menu_show_as_entry_grid">Raster</string>
-
-    <string name="light">Hell</string>
-    <string name="dark">Dunkel</string>
-    <string name="black">Schwarz</string>
 
     <string name="last_opened">Zuletzt geöffnet</string>
 
@@ -63,12 +44,8 @@
     <string name="action_equalizer">Equalizer</string>
     <string name="search_library">Bibliothek durchsuchen</string>
 
-    <string name="select_theme">Design auswählen</string>
-    <string name="choose_theme_throughout">Wählen Sie ein Design welches die App nutzt.</string>
     <string name="choose_start_page">Wählen Sie die Startseite die beim starten der App angezeigt wird.</string>
     <string name="start_page">Startseite</string>
-    <string name="artist_in_grid">Interpreten in Raster</string>
-    <string name="toggle_artists_grid">Interpreten in einem 2x2 Raster anzeigen</string>
     <string name="toggle_system_animations">System-Animationen aktivieren.</string>
     <string name="system_animations">System-Animationen</string>
     <string name="toggle_animations">Übergangs-Animationen aktivieren.</string>
@@ -84,8 +61,6 @@
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> Songs</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> Album</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> Alben</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> Interpret</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> Interpreten</string>
 
 
 </resources>

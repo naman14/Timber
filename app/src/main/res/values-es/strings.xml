@@ -3,18 +3,6 @@
 
     <string name="action_settings">Ajustes</string>
 
-    <string name="accessibility_play">Reproducir</string>
-    <string name="accessibility_pause">Pausa</string>
-    <string name="accessibility_next">Siguiente</string>
-    <string name="accessibility_prev">Anterior</string>
-    <string name="accessibility_shuffle">Barajar</string>
-    <string name="accessibility_shuffle_all">Barajar Todo</string>
-    <string name="accessibility_repeat">Repetir</string>
-    <string name="accessibility_repeat_all">Repetir Todo</string>
-    <string name="accessibility_repeat_one">Repetir Uno</string>
-    <string name="accessibility_queue">Abrir Cola</string>
-    <string name="accessibility_browse">Buscar Música</string>
-
     <string name="menu_sort_by">Ordenar Por</string>
     <string name="sort_order_entry_az">A-Z</string>
     <string name="sort_order_entry_za">Z-A</string>
@@ -23,11 +11,8 @@
     <string name="sort_order_entry_year">Año</string>
     <string name="sort_order_entry_track_number">Número de Canción</string>
     <string name="sort_order_entry_duration">Duración</string>
-    <string name="sort_order_entry_date_added">Fecha Añadido</string>
-    <string name="sort_order_entry_track_list">Lista de Pistas</string>
     <string name="sort_order_entry_number_of_songs">Número de Caciones</string>
     <string name="sort_order_entry_number_of_albums">Número de Álbumes</string>
-    <string name="sort_order_entry_filename">Nombre del Archivo</string>
 
     <string name="error_playing_track">Error al Reproducir la Pista</string>
 
@@ -36,15 +21,11 @@
     <string name="playlist_top_tracks">Mis Mejores Pistas</string>
 
     <string name="timber_source">Reportar cualquier problema <u> aquí </u> </string>
-    <string name="timber_feature_request">Especifique cualquier caracteristica nueva en la comnunidad de Google+ <u> aquí </u></string>
+    <string name="timber_feature_request">Especifique cualquier característica nueva en la comnunidad de Google+ <u> aquí </u></string>
 
     <string name="menu_show_as">Ver Como</string>
     <string name="menu_show_as_entry_list">Lista</string>
     <string name="menu_show_as_entry_grid">Cuadrícula</string>
-
-    <string name="light">Claro</string>
-    <string name="dark">Oscuro</string>
-    <string name="black">Negro</string>
 
     <string name="last_opened">Últimos Abiertos</string>
 
@@ -63,12 +44,8 @@
     <string name="action_equalizer">Ecualizador</string>
     <string name="search_library">Buscar en la Librería</string>
 
-    <string name="select_theme">Seleccionar Tema</string>
-    <string name="choose_theme_throughout">Elija el tema que se utilizará en toda la aplicación.</string>
     <string name="choose_start_page">Elija la página de inicio que se mostrará en el lanzamiento.</string>
     <string name="start_page">Pagína de Inicio</string>
-    <string name="artist_in_grid">Artistas en Cuadrícula</string>
-    <string name="toggle_artists_grid">Toque para vizualizar los artistas en un cuadrícula de 2x2.</string>
     <string name="toggle_system_animations">Tque para usar las animaciones del sistema en toda la aplicación.</string>
     <string name="system_animations">Animaciones del Sistema</string>
     <string name="toggle_animations">Toque para usar animaciones de transición en toda la aplicación.</string>
@@ -100,8 +77,6 @@
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> canciones</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> álbum</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> álbumes</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artista</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artistas</string>
 
     <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> canción agregada a la cola.</string>
     <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> canciones agregada a la cola.</string>
@@ -110,10 +85,5 @@
 
 
     <!--do not translate these strings-->
-    <string name="app_name" translatable="false">Timber</string>
-    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
-    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
-    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
-    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
 
 </resources>

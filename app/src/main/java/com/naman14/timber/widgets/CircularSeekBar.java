@@ -134,7 +134,7 @@ public class CircularSeekBar extends View {
     /**
      * {@code RectF} that represents the circle (or ellipse) of the seekbar.
      */
-    private RectF mCircleRectF = new RectF();
+    private final RectF mCircleRectF = new RectF();
 
     /**
      * Holds the color value for {@code mPointerPaint} before the {@code Paint} instance is created.
@@ -320,7 +320,7 @@ public class CircularSeekBar extends View {
     /**
      * Pointer position in terms of X and Y coordinates.
      */
-    private float[] mPointerPositionXY = new float[2];
+    private final float[] mPointerPositionXY = new float[2];
 
     /**
      * Listener.
@@ -570,8 +570,7 @@ public class CircularSeekBar extends View {
      * @return The progress of the CircularSeekBar.
      */
     public int getProgress() {
-        int progress = Math.round((float) mMax * mProgressDegrees / mTotalCircleDegrees);
-        return progress;
+        return Math.round((float) mMax * mProgressDegrees / mTotalCircleDegrees);
     }
 
     /**
@@ -765,10 +764,10 @@ public class CircularSeekBar extends View {
                     if (lockAtEnd && !mIsMovingCW) {
                         lockAtEnd = false;
                     }
-                    if (lockAtStart && !mIsMovingCW && (ccwDistanceFromStart > 90)) {
+                    if (lockAtStart && ccwDistanceFromStart > 90) {
                         lockAtStart = false;
                     }
-                    if (lockAtEnd && mIsMovingCW && (cwDistanceFromEnd > 90)) {
+                    if (lockAtEnd && cwDistanceFromEnd > 90) {
                         lockAtEnd = false;
                     }
                     // Fix for passing the end of a semi-circle quickly

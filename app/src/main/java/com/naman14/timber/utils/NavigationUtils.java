@@ -104,7 +104,7 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
-    public static void navigateToNowplaying(Activity context, boolean withAnimations) {
+    public static void navigateToNowplaying(Activity context) {
 
         final Intent intent = new Intent(context, NowPlayingActivity.class);
         if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {

@@ -22,10 +22,10 @@ public class AlbumQuery {
     private static final String ARTIST_NAME = "artist";
 
     @SerializedName(ALBUM_NAME)
-    public String mALbum;
+    public final String mALbum;
 
     @SerializedName(ARTIST_NAME)
-    public String mArtist;
+    public final String mArtist;
 
     public AlbumQuery(String album, String artist) {
         this.mALbum = album;

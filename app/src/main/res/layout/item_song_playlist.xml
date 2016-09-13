@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="6dp"
@@ -36,9 +36,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:singleLine="true"
                 android:textColor="#ffffff"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/song_artist"
@@ -46,9 +46,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingTop="3dp"
-                android:singleLine="true"
                 android:textColor="#99ffffff"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:maxLines="1" />
 
 
         </LinearLayout>
@@ -71,10 +71,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:foregroundTint="#434343"
             android:padding="5dp"
-            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat"
+            app:srcCompat="@drawable/ic_more_vert" />
 
 
     </RelativeLayout>

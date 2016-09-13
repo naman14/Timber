@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -49,15 +50,14 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 public class ArtistDetailFragment extends Fragment {
 
-    long artistID = -1;
+    private long artistID = -1;
 
-    ImageView artistArt;
+    private ImageView artistArt;
 
-    Toolbar toolbar;
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    AppBarLayout appBarLayout;
-    boolean largeImageLoaded = false;
-    int primaryColor = -1;
+    private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private boolean largeImageLoaded = false;
+    private int primaryColor = -1;
 
     public static ArtistDetailFragment newInstance(long id, boolean useTransition, String transitionName) {
         ArtistDetailFragment fragment = new ArtistDetailFragment();
@@ -87,10 +87,12 @@ public class ArtistDetailFragment extends Fragment {
         artistArt = (ImageView) rootView.findViewById(R.id.artist_art);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
-        appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
+        AppBarLayout appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
 
         if (getArguments().getBoolean("transition")) {
-            artistArt.setTransitionName(getArguments().getString("transition_name"));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                artistArt.setTransitionName(getArguments().getString("transition_name"));
+            }
         }
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -108,8 +110,10 @@ public class ArtistDetailFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setDisplayShowTitleEnabled(false);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayShowTitleEnabled(false);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void setUpArtistDetails() {

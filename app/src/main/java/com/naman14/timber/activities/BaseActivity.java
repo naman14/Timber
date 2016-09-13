@@ -87,13 +87,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         onMetaChanged();
@@ -123,7 +116,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
         try {
             unregisterReceiver(mPlaybackStatus);
-        } catch (final Throwable e) {
+        } catch (final Throwable ignored) {
         }
         mMusicStateListener.clear();
 
@@ -221,7 +214,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         return Helpers.getATEKey(this);
     }
 
-    public void setPanelSlideListeners(SlidingUpPanelLayout panelLayout) {
+    void setPanelSlideListeners(SlidingUpPanelLayout panelLayout) {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -260,7 +253,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
 
         public PlaybackStatus(final BaseActivity activity) {
-            mReference = new WeakReference<BaseActivity>(activity);
+            mReference = new WeakReference<>(activity);
         }
 
         @Override
@@ -268,24 +261,30 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             final String action = intent.getAction();
             BaseActivity baseActivity = mReference.get();
             if (baseActivity != null) {
-                if (action.equals(MusicService.META_CHANGED)) {
-                    baseActivity.onMetaChanged();
-                } else if (action.equals(MusicService.PLAYSTATE_CHANGED)) {
+                switch (action) {
+                    case MusicService.META_CHANGED:
+                        baseActivity.onMetaChanged();
+                        break;
+                    case MusicService.PLAYSTATE_CHANGED:
 //                    baseActivity.mPlayPauseProgressButton.getPlayPauseButton().updateState();
-                } else if (action.equals(MusicService.REFRESH)) {
-                    baseActivity.restartLoader();
-                } else if (action.equals(MusicService.PLAYLIST_CHANGED)) {
-                    baseActivity.onPlaylistChanged();
-                } else if (action.equals(MusicService.TRACK_ERROR)) {
-                    final String errorMsg = context.getString(R.string.error_playing_track,
-                            intent.getStringExtra(MusicService.TrackErrorExtra.TRACK_NAME));
-                    Toast.makeText(baseActivity, errorMsg, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MusicService.REFRESH:
+                        baseActivity.restartLoader();
+                        break;
+                    case MusicService.PLAYLIST_CHANGED:
+                        baseActivity.onPlaylistChanged();
+                        break;
+                    case MusicService.TRACK_ERROR:
+//                    final String errorMsg = context.getString(R.string.error_playing_track, intent.getStringExtra(MusicService.TrackErrorExtra.TRACK_NAME));
+                        final String errorMsg = context.getString(R.string.error_playing_track);
+                        Toast.makeText(baseActivity, errorMsg, Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
         }
     }
 
-    public class initQuickControls extends AsyncTask<String, Void, String> {
+    class initQuickControls extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -301,7 +300,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NavigationUtils.navigateToNowplaying(BaseActivity.this, false);
+                    NavigationUtils.navigateToNowplaying(BaseActivity.this);
                 }
             });
         }

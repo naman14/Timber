@@ -42,7 +42,7 @@
             android:layout_marginRight="42dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Demons"
+            android:text="@string/dummy"
             android:textSize="15sp" />
 
         <TextView
@@ -54,7 +54,7 @@
             android:ellipsize="end"
             android:maxLength="20"
             android:maxLines="1"
-            android:text="John Doe and Band"
+            android:text="@string/dummy"
             android:textSize="13sp" />
 
     </LinearLayout>

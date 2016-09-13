@@ -26,7 +26,7 @@ public class ArtistAlbumLoader {
 
     public static ArrayList<Album> getAlbumsForArtist(Context context, long artistID) {
 
-        ArrayList albumList = new ArrayList();
+        ArrayList<Album> albumList = new ArrayList<>();
         Cursor cursor = makeAlbumForArtistCursor(context, artistID);
 
         if (cursor != null) {
@@ -45,14 +45,12 @@ public class ArtistAlbumLoader {
     }
 
 
-    public static Cursor makeAlbumForArtistCursor(Context context, long artistID) {
+    private static Cursor makeAlbumForArtistCursor(Context context, long artistID) {
 
         if (artistID == -1)
             return null;
 
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Artists.Albums.getContentUri("external", artistID), new String[]{"_id", "album", "artist", "numsongs", "minyear"}, null, null, MediaStore.Audio.Albums.DEFAULT_SORT_ORDER);
-
-        return cursor;
+        return context.getContentResolver().query(MediaStore.Audio.Artists.Albums.getContentUri("external", artistID), new String[]{"_id", "album", "artist", "numsongs", "minyear"}, null, null, MediaStore.Audio.Albums.DEFAULT_SORT_ORDER);
     }
 
 }

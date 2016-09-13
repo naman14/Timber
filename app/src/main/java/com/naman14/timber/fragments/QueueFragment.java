@@ -52,9 +52,11 @@ public class QueueFragment extends Fragment implements MusicStateListener {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.playing_queue);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(R.string.playing_queue);
+        }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -37,9 +37,8 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class Timber4 extends BaseNowplayingFragment {
 
-    ImageView mBlurredArt;
-    RecyclerView horizontalRecyclerview;
-    Timber4QueueAdapter horizontalAdapter;
+    private ImageView mBlurredArt;
+    private RecyclerView horizontalRecyclerview;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class Timber4 extends BaseNowplayingFragment {
 
     private void setupHorizontalQueue() {
         horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
+        Timber4QueueAdapter horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
         horizontalRecyclerview.setAdapter(horizontalAdapter);
         horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
     }

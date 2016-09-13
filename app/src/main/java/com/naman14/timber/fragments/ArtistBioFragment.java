@@ -34,7 +34,7 @@ import com.naman14.timber.widgets.MultiViewPager;
 
 public class ArtistBioFragment extends Fragment {
 
-    long artistID = -1;
+    private long artistID = -1;
 
     public static ArtistBioFragment newInstance(long id) {
         ArtistBioFragment fragment = new ArtistBioFragment();

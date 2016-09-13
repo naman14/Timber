@@ -3,18 +3,6 @@
 
     <!--Nothing to be translated here-->
 
-    <string-array name="pref_theme_entries">
-        <item>@string/light</item>
-        <item>@string/dark</item>
-        <item>@string/black</item>
-    </string-array>
-
-    <string-array name="pref_theme_values">
-        <item>light</item>
-        <item>dark</item>
-        <item>black</item>
-    </string-array>
-
 
     <string-array name="pref_startpage_entries">
         <item>@string/last_opened</item>

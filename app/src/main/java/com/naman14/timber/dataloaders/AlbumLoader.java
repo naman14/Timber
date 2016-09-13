@@ -27,7 +27,7 @@ import java.util.List;
 public class AlbumLoader {
 
 
-    public static Album getAlbum(Cursor cursor) {
+    private static Album getAlbum(Cursor cursor) {
         Album album = new Album();
         if (cursor != null) {
             if (cursor.moveToFirst())
@@ -39,8 +39,8 @@ public class AlbumLoader {
     }
 
 
-    public static List<Album> getAlbumsForCursor(Cursor cursor) {
-        ArrayList arrayList = new ArrayList();
+    private static List<Album> getAlbumsForCursor(Cursor cursor) {
+        ArrayList<Album> arrayList = new ArrayList<>();
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
                 arrayList.add(new Album(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4), cursor.getInt(5)));
@@ -64,10 +64,9 @@ public class AlbumLoader {
     }
 
 
-    public static Cursor makeAlbumCursor(Context context, String selection, String[] paramArrayOfString) {
+    private static Cursor makeAlbumCursor(Context context, String selection, String[] paramArrayOfString) {
         final String albumSortOrder = PreferencesUtility.getInstance(context).getAlbumSortOrder();
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"}, selection, paramArrayOfString, albumSortOrder);
 
-        return cursor;
+        return context.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"}, selection, paramArrayOfString, albumSortOrder);
     }
 }

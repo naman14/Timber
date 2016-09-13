@@ -49,7 +49,7 @@ public class MediaButtonIntentReceiver extends WakefulBroadcastReceiver {
     private static boolean mDown = false;
     private static boolean mLaunched = false;
 
-    private static Handler mHandler = new Handler() {
+    private static final Handler mHandler = new Handler() {
 
         /**
          * {@inheritDoc}

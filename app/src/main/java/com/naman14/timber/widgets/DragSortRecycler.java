@@ -14,21 +14,18 @@ import android.view.View;
 
 public class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerView.OnItemTouchListener {
 
-    final String TAG = "DragSortRecycler";
+    private final String TAG = "DragSortRecycler";
 
-    final boolean DEBUG = false;
-    OnItemMovedListener moveInterface;
+    private final boolean DEBUG = false;
+    private OnItemMovedListener moveInterface;
     @Nullable
+    private
     OnDragStateChangedListener dragStateChangedListener;
-    Paint bgColor = new Paint();
+    private final Paint bgColor = new Paint();
     private int dragHandleWidth = 0;
     private int selectedDragItemPos = -1;
     private int fingerAnchorY;
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
+    private final RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -107,7 +104,7 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
             int itemPos = rv.getChildLayoutPosition(view);
             debugLog("itemPos =" + itemPos);
 
-            if (!canDragOver(itemPos)) {
+            if (!canDragOver()) {
                 return;
             }
 
@@ -365,10 +362,9 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
     }
 
     /**
-     * @param position
      * @return True if we can drag the item over this position, False if not.
      */
-    protected boolean canDragOver(int position) {
+    private boolean canDragOver() {
         return true;
     }
 

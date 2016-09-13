@@ -29,7 +29,7 @@ import java.util.Arrays;
 import static com.naman14.timber.MusicPlayer.mService;
 
 
-public class NowPlayingCursor extends AbstractCursor {
+class NowPlayingCursor extends AbstractCursor {
 
     private static final String[] PROJECTION = new String[]{
 
@@ -65,7 +65,7 @@ public class NowPlayingCursor extends AbstractCursor {
     private Cursor mQueueCursor;
 
 
-    public NowPlayingCursor(final Context context) {
+    NowPlayingCursor(final Context context) {
         mContext = context;
         makeNowPlayingCursor();
     }
@@ -184,7 +184,7 @@ public class NowPlayingCursor extends AbstractCursor {
                 mQueueCursor.close();
                 mQueueCursor = null;
             }
-        } catch (final Exception close) {
+        } catch (final Exception ignored) {
         }
         super.close();
     }
@@ -193,7 +193,7 @@ public class NowPlayingCursor extends AbstractCursor {
     private void makeNowPlayingCursor() {
         mQueueCursor = null;
         mNowPlaying = MusicPlayer.getQueue();
-        Log.d("lol1", mNowPlaying.toString() + "   " + mNowPlaying.length);
+        Log.d("lol1", Arrays.toString(mNowPlaying) + "   " + mNowPlaying.length);
         mSize = mNowPlaying.length;
         if (mSize == 0) {
             return;
@@ -242,7 +242,6 @@ public class NowPlayingCursor extends AbstractCursor {
             mSize = mNowPlaying.length;
             if (mSize == 0) {
                 mCursorIndexes = null;
-                return;
             }
         }
     }

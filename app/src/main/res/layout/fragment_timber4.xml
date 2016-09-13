@@ -8,7 +8,8 @@
         android:id="@+id/album_art_blurred"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/dummy" />
 
     <View
         android:layout_width="match_parent"
@@ -44,9 +45,9 @@
                     android:layout_marginRight="50dp"
                     android:ellipsize="marquee"
                     android:scrollHorizontally="true"
-                    android:singleLine="true"
                     android:textColor="#ffffff"
-                    android:textSize="23sp" />
+                    android:textSize="23sp"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/song_artist"
@@ -78,7 +79,6 @@
                             android:id="@+id/album_art"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:background="@android:color/transparent"
                             android:scaleType="centerCrop" />
@@ -86,7 +86,6 @@
                         <com.naman14.timber.widgets.CircleImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
                             android:src="@color/black_translucent" />
@@ -115,7 +114,8 @@
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:scaleType="center" />
+                                    android:scaleType="center"
+                                    android:contentDescription="@string/dummy" />
 
                                 <ImageView
                                     android:id="@+id/repeat"
@@ -123,7 +123,8 @@
                                     android:layout_height="48dp"
                                     android:background="?attr/selectableItemBackgroundBorderless"
                                     android:paddingLeft="5dp"
-                                    android:scaleType="center" />
+                                    android:scaleType="center"
+                                    android:contentDescription="@string/dummy" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -187,8 +188,6 @@
             <FrameLayout
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1">
 

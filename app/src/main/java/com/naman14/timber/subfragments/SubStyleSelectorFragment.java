@@ -34,11 +34,8 @@ public class SubStyleSelectorFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
     private static final String WHAT = "what";
-    SharedPreferences.Editor editor;
-    SharedPreferences preferences;
-    LinearLayout currentStyle;
-    View foreground;
-    ImageView styleImage;
+    private LinearLayout currentStyle;
+    private View foreground;
 
     public static SubStyleSelectorFragment newInstance(int pageNumber, String what) {
         SubStyleSelectorFragment fragment = new SubStyleSelectorFragment();
@@ -57,7 +54,7 @@ public class SubStyleSelectorFragment extends Fragment {
         TextView styleName = (TextView) rootView.findViewById(R.id.style_name);
         styleName.setText(String.valueOf(getArguments().getInt(ARG_PAGE_NUMBER) + 1));
 
-        styleImage = (ImageView) rootView.findViewById(R.id.style_image);
+        ImageView styleImage = (ImageView) rootView.findViewById(R.id.style_image);
         styleImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,8 +85,8 @@ public class SubStyleSelectorFragment extends Fragment {
         return rootView;
     }
 
-    public void setCurrentStyle() {
-        preferences = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
+    private void setCurrentStyle() {
+        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
         String fragmentID = preferences.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
         ((StyleSelectorFragment) getParentFragment()).scrollToCurrentStyle(getIntForCurrentNowplaying(fragmentID));
@@ -107,7 +104,7 @@ public class SubStyleSelectorFragment extends Fragment {
     private void setPreferences() {
 
         if (getArguments().getString(WHAT).equals(Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING)) {
-            editor = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE).edit();
             editor.putString(Constants.NOWPLAYING_FRAGMENT_ID, getStyleForPageNumber());
             editor.apply();
             if (getActivity() != null)

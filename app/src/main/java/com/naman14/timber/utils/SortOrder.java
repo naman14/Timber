@@ -125,7 +125,7 @@ public final class SortOrder {
     /**
      * Artist song sort order entries.
      */
-    public interface ArtistSongSortOrder {
+    interface ArtistSongSortOrder {
         /* Artist song sort order A-Z */
         String SONG_A_Z = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
 
@@ -151,7 +151,7 @@ public final class SortOrder {
     /**
      * Artist album sort order entries.
      */
-    public interface ArtistAlbumSortOrder {
+    interface ArtistAlbumSortOrder {
         /* Artist album sort order A-Z */
         String ALBUM_A_Z = MediaStore.Audio.Albums.DEFAULT_SORT_ORDER;
 

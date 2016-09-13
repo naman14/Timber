@@ -25,7 +25,7 @@ import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 
-public class RestServiceFactory {
+class RestServiceFactory {
     private static final String TAG_OK_HTTP = "OkHttp";
     private static final long CACHE_SIZE = 1024 * 1024;
 

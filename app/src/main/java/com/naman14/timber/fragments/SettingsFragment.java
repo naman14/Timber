@@ -43,10 +43,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String TOGGLE_ANIMATIONS = "toggle_animations";
     private static final String TOGGLE_SYSTEM_ANIMATIONS = "toggle_system_animations";
     private static final String KEY_START_PAGE = "start_page_preference";
-    Preference nowPlayingSelector;
     SwitchPreference toggleAnimations;
-    ListPreference themePreference, startPagePreference;
-    PreferencesUtility mPreferences;
+    ListPreference themePreference;
+    private ListPreference startPagePreference;
+    private PreferencesUtility mPreferences;
     private String mAteKey;
 
     @Override
@@ -57,7 +57,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         mPreferences = PreferencesUtility.getInstance(getActivity());
 
-        nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
+        Preference nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
 //        themePreference = (ListPreference) findPreference(KEY_THEME);
         startPagePreference = (ListPreference) findPreference(KEY_START_PAGE);
 
@@ -117,7 +117,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         ATE.apply(view, mAteKey);
     }
 
-    public void invalidateSettings() {
+    private void invalidateSettings() {
         mAteKey = ((SettingsActivity) getActivity()).getATEKey();
 
         ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");

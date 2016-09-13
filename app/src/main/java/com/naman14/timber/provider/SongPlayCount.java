@@ -24,7 +24,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * This database tracks the number of play counts for an individual song.  This is used to drive
@@ -35,16 +34,16 @@ public class SongPlayCount {
     private static final int NUM_WEEKS = 52;
     private static SongPlayCount sInstance = null;
     // interpolator curve applied for measuring the curve
-    private static Interpolator sInterpolator = new AccelerateInterpolator(1.5f);
+    private static final Interpolator sInterpolator = new AccelerateInterpolator(1.5f);
     // how high to multiply the interpolation curve
-    private static int INTERPOLATOR_HEIGHT = 50;
+    private static final int INTERPOLATOR_HEIGHT = 50;
     // how high the base value is. The ratio of the Height to Base is what really matters
-    private static int INTERPOLATOR_BASE = 25;
-    private static int ONE_WEEK_IN_MS = 1000 * 60 * 60 * 24 * 7;
-    private static String WHERE_ID_EQUALS = SongPlayCountColumns.ID + "=?";
+    private static final int INTERPOLATOR_BASE = 25;
+    private static final int ONE_WEEK_IN_MS = 1000 * 60 * 60 * 24 * 7;
+    private static final String WHERE_ID_EQUALS = SongPlayCountColumns.ID + "=?";
     private MusicDB mMusicDatabase = null;
     // number of weeks since epoch time
-    private int mNumberOfWeeksSinceEpoch;
+    private final int mNumberOfWeeksSinceEpoch;
 
     // used to track if we've walkd through the db and updated all the rows
     private boolean mDatabaseUpdated;
@@ -54,7 +53,7 @@ public class SongPlayCount {
      *
      * @param context The {@link android.content.Context} to use
      */
-    public SongPlayCount(final Context context) {
+    private SongPlayCount(final Context context) {
         mMusicDatabase = MusicDB.getInstance(context);
 
         long msSinceEpoch = System.currentTimeMillis();
@@ -67,7 +66,7 @@ public class SongPlayCount {
      * @param context The {@link android.content.Context} to use
      * @return A new instance of this class.
      */
-    public static final synchronized SongPlayCount getInstance(final Context context) {
+    public static synchronized SongPlayCount getInstance(final Context context) {
         if (sInstance == null) {
             sInstance = new SongPlayCount(context.getApplicationContext());
         }
@@ -152,11 +151,11 @@ public class SongPlayCount {
         db.execSQL(builder.toString());
     }
 
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
+    void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         // No upgrade path needed yet
     }
 
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // If we ever have downgrade, drop the table to be safe
         db.execSQL("DROP TABLE IF EXISTS " + SongPlayCountColumns.NAME);
         onCreate(db);
@@ -389,14 +388,12 @@ public class SongPlayCount {
         } finally {
             if (topSongsCursor != null) {
                 topSongsCursor.close();
-                topSongsCursor = null;
             }
         }
 
         // append the remaining items - these are songs that haven't been played recently
-        Iterator<Long> iter = uniqueIds.iterator();
-        while (iter.hasNext()) {
-            sortedList[idx++] = iter.next();
+        for (Long uniqueId : uniqueIds) {
+            sortedList[idx++] = uniqueId;
         }
 
         return sortedList;
@@ -432,7 +429,6 @@ public class SongPlayCount {
             } while (cursor.moveToNext());
 
             cursor.close();
-            cursor = null;
         }
 
         mDatabaseUpdated = true;

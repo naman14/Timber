@@ -29,7 +29,7 @@ import retrofit.client.Response;
 
 public class LastFmClient {
 
-    public static final String BASE_API_URL = "http://ws.audioscrobbler.com/2.0";
+    private static final String BASE_API_URL = "http://ws.audioscrobbler.com/2.0";
 
     private static LastFmClient sInstance;
     private LastFmRestService mRestService;

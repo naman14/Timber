@@ -27,17 +27,17 @@ package com.naman14.timber.permissions;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PermissionRequest {
+class PermissionRequest {
     private static Random random;
     private ArrayList<String> permissions;
-    private int requestCode;
+    private final int requestCode;
     private PermissionCallback permissionCallback;
 
-    public PermissionRequest(int requestCode) {
+    PermissionRequest(int requestCode) {
         this.requestCode = requestCode;
     }
 
-    public PermissionRequest(ArrayList<String> permissions, PermissionCallback permissionCallback) {
+    PermissionRequest(ArrayList<String> permissions, PermissionCallback permissionCallback) {
         this.permissions = permissions;
         this.permissionCallback = permissionCallback;
         if (random == null) {
@@ -50,22 +50,16 @@ public class PermissionRequest {
         return permissions;
     }
 
-    public int getRequestCode() {
+    int getRequestCode() {
         return requestCode;
     }
 
-    public PermissionCallback getPermissionCallback() {
+    PermissionCallback getPermissionCallback() {
         return permissionCallback;
     }
 
     public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (object instanceof PermissionRequest) {
-            return ((PermissionRequest) object).requestCode == this.requestCode;
-        }
-        return false;
+        return object != null && object instanceof PermissionRequest && ((PermissionRequest) object).requestCode == this.requestCode;
     }
 
     @Override

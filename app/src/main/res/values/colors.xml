@@ -4,7 +4,6 @@
     <color name="window_background">#FFF5F5F5</color>
     <color name="window_background_dark">#212121</color>
     <color name="window_background_black">#000000</color>
-    <color name="bt_accent">#00B8D4</color>
 
     <color name="colorPrimary">#673AB7</color>
     <color name="colorPrimaryDark">#512DA8</color>
@@ -17,8 +16,6 @@
     <color name="colorPrimaryBlack">#000000</color>
     <color name="colorPrimaryDarkBlack">#000000</color>
     <color name="colorAccentBlack">#ffffff</color>
-
-    <color name="colorSelectableItemWhite">#77ffffff</color>
 
     <color name="pink_transparent">#44700d39</color>
     <color name="green_transparent">#44375a1f</color>

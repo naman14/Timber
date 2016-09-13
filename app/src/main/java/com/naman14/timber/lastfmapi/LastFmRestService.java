@@ -22,7 +22,7 @@ import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.Query;
 
-public interface LastFmRestService {
+interface LastFmRestService {
 
     String BASE_PARAMETERS_ALBUM = "/?method=album.getinfo&api_key=fdb3a51437d4281d4d64964d333531d4&format=json";
     String BASE_PARAMETERS_ARTIST = "/?method=artist.getinfo&api_key=fdb3a51437d4281d4d64964d333531d4&format=json";

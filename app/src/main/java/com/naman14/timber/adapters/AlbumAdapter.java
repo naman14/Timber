@@ -43,8 +43,8 @@ import java.util.List;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> {
 
     private List<Album> arraylist;
-    private Activity mContext;
-    private boolean isGrid;
+    private final Activity mContext;
+    private final boolean isGrid;
 
     public AlbumAdapter(Activity context, List<Album> arraylist) {
         this.arraylist = arraylist;
@@ -56,13 +56,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (isGrid) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_grid, null);
-            ItemHolder ml = new ItemHolder(v);
-            return ml;
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_grid, viewGroup, false);
+            return new ItemHolder(v);
         } else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_list, null);
-            ItemHolder ml = new ItemHolder(v);
-            return ml;
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album_list, viewGroup, false);
+            return new ItemHolder(v);
         }
     }
 
@@ -138,9 +136,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, artist;
-        protected ImageView albumArt;
-        protected View footer;
+        final TextView title;
+        final TextView artist;
+        final ImageView albumArt;
+        final View footer;
 
         public ItemHolder(View view) {
             super(view);

@@ -18,8 +18,7 @@
             android:layout_width="104dp"
             android:layout_height="104dp"
             android:layout_alignParentTop="true"
-            android:scaleType="centerCrop"
-            android:transitionName="transition_album_art"/>
+            android:scaleType="centerCrop"/>
 
 
         <LinearLayout
@@ -38,19 +37,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:ellipsize="end"
-                android:singleLine="true"
                 android:textSize="14sp"
-                style="@style/TextAppearance.AppCompat.Body1"/>
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/album_details"
                 android:layout_width="104dp"
                 android:ellipsize="end"
-                android:singleLine="true"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
-                />
+                android:maxLines="1" />
 
         </LinearLayout>
 

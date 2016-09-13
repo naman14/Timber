@@ -45,7 +45,7 @@ public class Nammu {
     private static final String KEY_IGNORED_PERMISSIONS = "ignored_permissions";
     private static Context context;
     private static SharedPreferences sharedPreferences;
-    private static ArrayList<PermissionRequest> permissionRequests = new ArrayList<PermissionRequest>();
+    private static final ArrayList<PermissionRequest> permissionRequests = new ArrayList<PermissionRequest>();
 
     public static void init(Context context) {
         sharedPreferences = context.getSharedPreferences("pl.tajchert.runtimepermissionhelper", Context.MODE_PRIVATE);
@@ -56,7 +56,7 @@ public class Nammu {
      * Check that all given permissions have been granted by verifying that each entry in the
      * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
      */
-    public static boolean verifyPermissions(int[] grantResults) {
+    private static boolean verifyPermissions(int[] grantResults) {
         for (int result : grantResults) {
             if (result != PackageManager.PERMISSION_GRANTED) {
                 return false;
@@ -69,16 +69,21 @@ public class Nammu {
      * Returns true if the Activity has access to given permissions.
      */
     public static boolean hasPermission(Activity activity, String permission) {
-        return activity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return activity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
     }
 
     /**
      * Returns true if the Activity has access to a all given permission.
      */
-    public static boolean hasPermission(Activity activity, String[] permissions) {
+    private static boolean hasPermission(Activity activity, String[] permissions) {
         for (String permission : permissions) {
-            if (activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                return false;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
             }
         }
         return true;
@@ -89,14 +94,17 @@ public class Nammu {
      * Returns true if we should show explanation why we need this permission.
      */
     public static boolean shouldShowRequestPermissionRationale(Activity activity, String permissions) {
-        return activity.shouldShowRequestPermissionRationale(permissions);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return activity.shouldShowRequestPermissionRationale(permissions);
+        }
+        return true;
     }
 
     public static void askForPermission(Activity activity, String permission, PermissionCallback permissionCallback) {
         askForPermission(activity, new String[]{permission}, permissionCallback);
     }
 
-    public static void askForPermission(Activity activity, String[] permissions, PermissionCallback permissionCallback) {
+    private static void askForPermission(Activity activity, String[] permissions, PermissionCallback permissionCallback) {
         if (permissionCallback == null) {
             return;
         }
@@ -107,7 +115,9 @@ public class Nammu {
         PermissionRequest permissionRequest = new PermissionRequest(new ArrayList<String>(Arrays.asList(permissions)), permissionCallback);
         permissionRequests.add(permissionRequest);
 
-        activity.requestPermissions(permissions, permissionRequest.getRequestCode());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.requestPermissions(permissions, permissionRequest.getRequestCode());
+        }
     }
 
     public static void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -134,7 +144,7 @@ public class Nammu {
      *
      * @return currently granted permissions
      */
-    public static ArrayList<String> getGrantedPermissions() {
+    private static ArrayList<String> getGrantedPermissions() {
         if (context == null) {
             throw new RuntimeException("Must call init() earlier");
         }
@@ -182,8 +192,10 @@ public class Nammu {
         }
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         for (String permission : permissions) {
-            if (context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
-                permissionsGranted.add(permission);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+                    permissionsGranted.add(permission);
+                }
             }
         }
         return permissionsGranted;
@@ -192,7 +204,7 @@ public class Nammu {
     /**
      * Refresh currently granted permission list, and save it for later comparing using @permissionCompare()
      */
-    public static void refreshMonitoredList() {
+    private static void refreshMonitoredList() {
         ArrayList<String> permissions = getGrantedPermissions();
         Set<String> set = new HashSet<String>();
         for (String perm : permissions) {
@@ -205,13 +217,13 @@ public class Nammu {
      * Get list of previous Permissions, from last refreshMonitoredList() call and they may be outdated,
      * use getGrantedPermissions() to get current
      */
-    public static ArrayList<String> getPreviousPermissions() {
+    private static ArrayList<String> getPreviousPermissions() {
         ArrayList<String> prevPermissions = new ArrayList<String>();
         prevPermissions.addAll(sharedPreferences.getStringSet(KEY_PREV_PERMISSIONS, new HashSet<String>()));
         return prevPermissions;
     }
 
-    public static ArrayList<String> getIgnoredPermissions() {
+    private static ArrayList<String> getIgnoredPermissions() {
         ArrayList<String> ignoredPermissions = new ArrayList<String>();
         ignoredPermissions.addAll(sharedPreferences.getStringSet(KEY_IGNORED_PERMISSIONS, new HashSet<String>()));
         return ignoredPermissions;
@@ -220,11 +232,8 @@ public class Nammu {
     /**
      * Lets see if we already ignore this permission
      */
-    public static boolean isIgnoredPermission(String permission) {
-        if (permission == null) {
-            return false;
-        }
-        return getIgnoredPermissions().contains(permission);
+    private static boolean isIgnoredPermission(String permission) {
+        return permission != null && getIgnoredPermissions().contains(permission);
     }
 
     /**
@@ -268,7 +277,9 @@ public class Nammu {
                 }
             }
         }
+        assert currentPermissions != null;
         for (String permission : currentPermissions) {
+            assert previouslyGranted != null;
             if (previouslyGranted.contains(permission)) {
                 //All is fine, was granted and still is
                 previouslyGranted.remove(permission);
@@ -299,6 +310,9 @@ public class Nammu {
         if (context == null) {
             throw new RuntimeException("Before comparing permissions you need to call Nammu.init(context)");
         }
-        return PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(permissionName);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(permissionName);
+        }
+        return true;
     }
 }

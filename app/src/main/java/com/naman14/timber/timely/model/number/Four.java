@@ -12,9 +12,9 @@ public class Four extends Figure {
 
     };
 
-    private static Four INSTANCE = new Four();
+    private static final Four INSTANCE = new Four();
 
-    protected Four() {
+    private Four() {
         super(POINTS);
     }
 

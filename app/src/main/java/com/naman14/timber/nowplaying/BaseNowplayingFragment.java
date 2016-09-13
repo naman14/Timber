@@ -62,22 +62,27 @@ import java.security.InvalidParameterException;
 
 public class BaseNowplayingFragment extends Fragment implements MusicStateListener {
 
-    ImageView albumart;
+    private ImageView albumart;
     ImageView shuffle;
     ImageView repeat;
-    MaterialIconView previous, next;
-    PlayPauseButton mPlayPause;
-    PlayPauseDrawable playPauseDrawable = new PlayPauseDrawable();
-    FloatingActionButton playPauseFloating;
-    View playPauseWrapper;
+    private MaterialIconView previous;
+    private MaterialIconView next;
+    private PlayPauseButton mPlayPause;
+    private final PlayPauseDrawable playPauseDrawable = new PlayPauseDrawable();
+    private FloatingActionButton playPauseFloating;
+    private View playPauseWrapper;
 
-    String ateKey;
+    private String ateKey;
     int accentColor;
 
-    TextView songtitle, songalbum, songartist, songduration, elapsedtime;
-    SeekBar mProgress;
+    private TextView songtitle;
+    private TextView songalbum;
+    private TextView songartist;
+    private TextView songduration;
+    private TextView elapsedtime;
+    private SeekBar mProgress;
     //seekbar
-    public Runnable mUpdateProgress = new Runnable() {
+    private final Runnable mUpdateProgress = new Runnable() {
 
         @Override
         public void run() {
@@ -95,9 +100,9 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
-    CircularSeekBar mCircularProgress;
+    private CircularSeekBar mCircularProgress;
     //circular seekbar
-    public Runnable mUpdateCircularProgress = new Runnable() {
+    private final Runnable mUpdateCircularProgress = new Runnable() {
 
         @Override
         public void run() {
@@ -118,12 +123,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     };
 
     RecyclerView recyclerView;
-    BaseQueueAdapter mAdapter;
-    TimelyView timelyView11, timelyView12, timelyView13, timelyView14, timelyView15;
-    TextView hourColon;
-    int[] timeArr = new int[]{0, 0, 0, 0, 0};
-    Handler mElapsedTimeHandler;
-    public Runnable mUpdateElapsedTime = new Runnable() {
+    private BaseQueueAdapter mAdapter;
+    private TimelyView timelyView11;
+    private TimelyView timelyView12;
+    private TimelyView timelyView13;
+    private TimelyView timelyView14;
+    private TimelyView timelyView15;
+    private TextView hourColon;
+    private final int[] timeArr = new int[]{0, 0, 0, 0, 0};
+    private Handler mElapsedTimeHandler;
+    private final Runnable mUpdateElapsedTime = new Runnable() {
         @Override
         public void run() {
             if (getActivity() != null) {
@@ -207,7 +216,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         accentColor = Config.accentColor(getActivity(), ateKey);
     }
 
-    public void setSongDetails(View view) {
+    void setSongDetails(View view) {
 
         albumart = (ImageView) view.findViewById(R.id.album_art);
         shuffle = (ImageView) view.findViewById(R.id.shuffle);
@@ -240,8 +249,10 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (toolbar != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setTitle("");
+            if (ab != null) {
+                ab.setDisplayHomeAsUpEnabled(true);
+                ab.setTitle("");
+            }
         }
         if (mPlayPause != null && getActivity() != null) {
             mPlayPause.setColor(ContextCompat.getColor(getContext(), android.R.color.white));
@@ -355,7 +366,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     }
 
-    public void updateShuffleState() {
+    void updateShuffleState() {
         if (shuffle != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
@@ -379,7 +390,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    public void updateRepeatState() {
+    void updateRepeatState() {
         if (repeat != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
                     .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
@@ -443,7 +454,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    public void updateSongDetails() {
+    private void updateSongDetails() {
         //do not reload image if it was a play/pause change
         if (!duetoplaypause) {
             if (albumart != null) {
@@ -489,16 +500,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         if (mProgress != null) {
             mProgress.setMax((int) MusicPlayer.duration());
-            if (mUpdateProgress != null) {
-                mProgress.removeCallbacks(mUpdateProgress);
-            }
+            mProgress.removeCallbacks(mUpdateProgress);
             mProgress.postDelayed(mUpdateProgress, 10);
         }
         if (mCircularProgress != null) {
             mCircularProgress.setMax((int) MusicPlayer.duration());
-            if (mUpdateCircularProgress != null) {
-                mCircularProgress.removeCallbacks(mUpdateCircularProgress);
-            }
+            mCircularProgress.removeCallbacks(mUpdateCircularProgress);
             mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
         }
 
@@ -508,7 +515,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    public void setQueueSongs() {
+    private void setQueueSongs() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //load queue songs in asynctask
         if (getActivity() != null)
@@ -516,7 +523,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     }
 
-    public void updatePlayPauseButton() {
+    private void updatePlayPauseButton() {
         if (MusicPlayer.isPlaying()) {
             if (!mPlayPause.isPlayed()) {
                 mPlayPause.setPlayed(true);
@@ -530,7 +537,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    public void updatePlayPauseFloatingButton() {
+    private void updatePlayPauseFloatingButton() {
         if (MusicPlayer.isPlaying()) {
             playPauseDrawable.transformToPause(false);
         } else {
@@ -538,9 +545,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    public void notifyPlayingDrawableChange() {
-        int position = MusicPlayer.getQueuePosition();
-        BaseQueueAdapter.currentlyPlayingPosition = position;
+    private void notifyPlayingDrawableChange() {
+        BaseQueueAdapter.currentlyPlayingPosition = MusicPlayer.getQueuePosition();
     }
 
     public void restartLoader() {
@@ -558,21 +564,21 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             recyclerView.getAdapter().notifyDataSetChanged();
     }
 
-    public void setMusicStateListener() {
+    void setMusicStateListener() {
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
     }
 
-    public void doAlbumArtStuff(Bitmap loadedImage) {
+    void doAlbumArtStuff(Bitmap loadedImage) {
 
     }
 
-    public void changeDigit(TimelyView tv, int end) {
+    private void changeDigit(TimelyView tv, int end) {
         ObjectAnimator obja = tv.animate(end);
         obja.setDuration(400);
         obja.start();
     }
 
-    public void changeDigit(TimelyView tv, int start, int end) {
+    private void changeDigit(TimelyView tv, int start, int end) {
         try {
             ObjectAnimator obja = tv.animate(start, end);
             obja.setDuration(400);
@@ -582,35 +588,35 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     }
 
-    public void tv11(int a) {
+    private void tv11(int a) {
         if (a != timeArr[0]) {
             changeDigit(timelyView11, timeArr[0], a);
             timeArr[0] = a;
         }
     }
 
-    public void tv12(int a) {
+    private void tv12(int a) {
         if (a != timeArr[1]) {
             changeDigit(timelyView12, timeArr[1], a);
             timeArr[1] = a;
         }
     }
 
-    public void tv13(int a) {
+    private void tv13(int a) {
         if (a != timeArr[2]) {
             changeDigit(timelyView13, timeArr[2], a);
             timeArr[2] = a;
         }
     }
 
-    public void tv14(int a) {
+    private void tv14(int a) {
         if (a != timeArr[3]) {
             changeDigit(timelyView14, timeArr[3], a);
             timeArr[3] = a;
         }
     }
 
-    public void tv15(int a) {
+    private void tv15(int a) {
         if (a != timeArr[4]) {
             changeDigit(timelyView15, timeArr[4], a);
             timeArr[4] = a;

@@ -14,7 +14,7 @@ public class Null extends Figure {
 
     private static final Null INSTANCE = new Null();
 
-    protected Null() {
+    private Null() {
         super(POINTS);
     }
 

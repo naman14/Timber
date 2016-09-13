@@ -20,7 +20,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -69,23 +68,21 @@ import java.util.List;
 
 public class AlbumDetailFragment extends Fragment {
 
-    long albumID = -1;
+    private long albumID = -1;
 
-    ImageView albumArt, artistArt;
-    TextView albumTitle, albumDetails;
+    private ImageView albumArt;
+    private TextView albumTitle;
+    private TextView albumDetails;
 
-    RecyclerView recyclerView;
-    AlbumSongsAdapter mAdapter;
+    private RecyclerView recyclerView;
+    private AlbumSongsAdapter mAdapter;
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    Album album;
+    private Album album;
 
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    AppBarLayout appBarLayout;
-    FloatingActionButton fab;
-
-    private boolean loadFailed = false;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private FloatingActionButton fab;
 
     private PreferencesUtility mPreferences;
     private Context context;
@@ -119,7 +116,7 @@ public class AlbumDetailFragment extends Fragment {
                 R.layout.fragment_album_detail, container, false);
 
         albumArt = (ImageView) rootView.findViewById(R.id.album_art);
-        artistArt = (ImageView) rootView.findViewById(R.id.artist_art);
+        //ImageView artistArt = (ImageView) rootView.findViewById(R.id.artist_art);
         albumTitle = (TextView) rootView.findViewById(R.id.album_title);
         albumDetails = (TextView) rootView.findViewById(R.id.album_details);
 
@@ -132,7 +129,7 @@ public class AlbumDetailFragment extends Fragment {
         }
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
-        appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
+        //AppBarLayout appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
         recyclerView.setEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -152,7 +149,7 @@ public class AlbumDetailFragment extends Fragment {
                     public void run() {
                         AlbumSongsAdapter adapter = (AlbumSongsAdapter) recyclerView.getAdapter();
                         MusicPlayer.playAll(getActivity(), adapter.getSongIds(), 0, albumID, TimberUtils.IdType.Album, true);
-                        NavigationUtils.navigateToNowplaying(getActivity(), false);
+                        NavigationUtils.navigateToNowplaying(getActivity());
                     }
                 }, 150);
             }
@@ -165,7 +162,9 @@ public class AlbumDetailFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
         collapsingToolbarLayout.setTitle(album.title);
 
     }
@@ -182,7 +181,6 @@ public class AlbumDetailFragment extends Fragment {
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        loadFailed = true;
                         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(context)
                                 .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
                                 .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));

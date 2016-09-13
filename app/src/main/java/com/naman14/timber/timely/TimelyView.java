@@ -60,6 +60,7 @@ public class TimelyView extends View {
         super(context, attrs);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TimelyView);
         textColor = typedArray.getColor(R.styleable.TimelyView_text_color, Color.BLACK);
+        typedArray.recycle();
         init();
     }
 
@@ -68,11 +69,11 @@ public class TimelyView extends View {
         init();
     }
 
-    public float[][] getControlPoints() {
+    private float[][] getControlPoints() {
         return controlPoints;
     }
 
-    public void setControlPoints(float[][] controlPoints) {
+    private void setControlPoints(float[][] controlPoints) {
         this.controlPoints = controlPoints;
         invalidate();
     }

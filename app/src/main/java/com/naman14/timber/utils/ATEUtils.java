@@ -85,7 +85,7 @@ public class ATEUtils {
         }
     }
 
-    public static int getStatusBarColor(int primaryColor) {
+    private static int getStatusBarColor(int primaryColor) {
         float[] arrayOfFloat = new float[3];
         Color.colorToHSV(primaryColor, arrayOfFloat);
         arrayOfFloat[2] *= 0.9F;

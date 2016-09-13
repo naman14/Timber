@@ -50,8 +50,8 @@ import java.util.List;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder> implements BubbleTextGetter {
 
     private List<Artist> arraylist;
-    private Activity mContext;
-    private boolean isGrid;
+    private final Activity mContext;
+    private final boolean isGrid;
 
     public ArtistAdapter(Activity context, List<Artist> arraylist) {
         this.arraylist = arraylist;
@@ -59,20 +59,18 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         this.isGrid = PreferencesUtility.getInstance(mContext).isArtistsInGrid();
     }
 
-    public static int getOpaqueColor(@ColorInt int paramInt) {
+    private static int getOpaqueColor(@ColorInt int paramInt) {
         return 0xFF000000 | paramInt;
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (isGrid) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist_grid, null);
-            ItemHolder ml = new ItemHolder(v);
-            return ml;
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist_grid, viewGroup, false);
+            return new ItemHolder(v);
         } else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, null);
-            ItemHolder ml = new ItemHolder(v);
-            return ml;
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, viewGroup, false);
+            return new ItemHolder(v);
         }
     }
 
@@ -100,7 +98,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                                         .build(), new SimpleImageLoadingListener() {
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        if (isGrid && loadedImage != null) {
+                                        if (loadedImage != null) {
                                             new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
                                                 @Override
                                                 public void onGenerated(Palette palette) {
@@ -122,13 +120,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                        if (isGrid) {
-                                            itemHolder.footer.setBackgroundColor(0);
-                                            if (mContext != null) {
-                                                int textColorPrimary = Config.textColorPrimary(mContext, Helpers.getATEKey(mContext));
-                                                itemHolder.name.setTextColor(textColorPrimary);
-                                                itemHolder.albums.setTextColor(textColorPrimary);
-                                            }
+                                        itemHolder.footer.setBackgroundColor(0);
+                                        if (mContext != null) {
+                                            int textColorPrimary = Config.textColorPrimary(mContext, Helpers.getATEKey(mContext));
+                                            itemHolder.name.setTextColor(textColorPrimary);
+                                            itemHolder.albums.setTextColor(textColorPrimary);
                                         }
                                     }
                                 });
@@ -172,9 +168,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView name, albums;
-        protected ImageView artistImage;
-        protected View footer;
+        final TextView name;
+        final TextView albums;
+        final ImageView artistImage;
+        final View footer;
 
         public ItemHolder(View view) {
             super(view);

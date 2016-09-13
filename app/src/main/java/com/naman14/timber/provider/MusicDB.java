@@ -20,21 +20,21 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class MusicDB extends SQLiteOpenHelper {
+class MusicDB extends SQLiteOpenHelper {
 
-    public static final String DATABASENAME = "musicdb.db";
+    private static final String DATABASENAME = "musicdb.db";
     private static final int VERSION = 4;
     private static MusicDB sInstance = null;
 
     private final Context mContext;
 
-    public MusicDB(final Context context) {
+    private MusicDB(final Context context) {
         super(context, DATABASENAME, null, VERSION);
 
         mContext = context;
     }
 
-    public static final synchronized MusicDB getInstance(final Context context) {
+    public static synchronized MusicDB getInstance(final Context context) {
         if (sInstance == null) {
             sInstance = new MusicDB(context.getApplicationContext());
         }

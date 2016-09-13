@@ -33,9 +33,8 @@ import java.util.ArrayList;
 
 public class ArtistMusicFragment extends Fragment {
 
-    public static RecyclerView songsRecyclerview;
-    long artistID = -1;
-    ArtistSongAdapter mSongAdapter;
+    private RecyclerView songsRecyclerview;
+    private long artistID = -1;
 
     public static ArtistMusicFragment newInstance(long id) {
         ArtistMusicFragment fragment = new ArtistMusicFragment();
@@ -77,7 +76,7 @@ public class ArtistMusicFragment extends Fragment {
         //there will be albums header at this position in recyclerview
         songList.add(0, new Song(-1, -1, -1, "dummy", "dummy", "dummy", -1, -1));
 
-        mSongAdapter = new ArtistSongAdapter(getActivity(), songList, artistID);
+        ArtistSongAdapter mSongAdapter = new ArtistSongAdapter(getActivity(), songList, artistID);
         songsRecyclerview.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         songsRecyclerview.setAdapter(mSongAdapter);
     }

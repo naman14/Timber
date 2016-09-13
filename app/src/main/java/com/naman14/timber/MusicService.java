@@ -88,24 +88,24 @@ import de.Maxr1998.trackselectorlib.TrackItem;
 @SuppressLint("NewApi")
 public class MusicService extends Service {
     public static final String PLAYSTATE_CHANGED = "com.naman14.timber.playstatechanged";
-    public static final String POSITION_CHANGED = "com.naman14.timber.positionchanged";
+    private static final String POSITION_CHANGED = "com.naman14.timber.positionchanged";
     public static final String META_CHANGED = "com.naman14.timber.metachanged";
-    public static final String QUEUE_CHANGED = "com.naman14.timber.queuechanged";
+    private static final String QUEUE_CHANGED = "com.naman14.timber.queuechanged";
     public static final String PLAYLIST_CHANGED = "com.naman14.timber.playlistchanged";
-    public static final String REPEATMODE_CHANGED = "com.naman14.timber.repeatmodechanged";
-    public static final String SHUFFLEMODE_CHANGED = "com.naman14.timber.shufflemodechanged";
+    private static final String REPEATMODE_CHANGED = "com.naman14.timber.repeatmodechanged";
+    private static final String SHUFFLEMODE_CHANGED = "com.naman14.timber.shufflemodechanged";
     public static final String TRACK_ERROR = "com.naman14.timber.trackerror";
-    public static final String TIMBER_PACKAGE_NAME = "com.naman14.timber";
-    public static final String MUSIC_PACKAGE_NAME = "com.android.music";
+    private static final String TIMBER_PACKAGE_NAME = "com.naman14.timber";
+    private static final String MUSIC_PACKAGE_NAME = "com.android.music";
     public static final String SERVICECMD = "com.naman14.timber.musicservicecommand";
-    public static final String TOGGLEPAUSE_ACTION = "com.naman14.timber.togglepause";
-    public static final String PAUSE_ACTION = "com.naman14.timber.pause";
-    public static final String STOP_ACTION = "com.naman14.timber.stop";
+    private static final String TOGGLEPAUSE_ACTION = "com.naman14.timber.togglepause";
+    private static final String PAUSE_ACTION = "com.naman14.timber.pause";
+    private static final String STOP_ACTION = "com.naman14.timber.stop";
     public static final String PREVIOUS_ACTION = "com.naman14.timber.previous";
     public static final String PREVIOUS_FORCE_ACTION = "com.naman14.timber.previous.force";
     public static final String NEXT_ACTION = "fcom.naman14.timber.next";
-    public static final String REPEAT_ACTION = "com.naman14.timber.repeat";
-    public static final String SHUFFLE_ACTION = "com.naman14.timber.shuffle";
+    private static final String REPEAT_ACTION = "com.naman14.timber.repeat";
+    private static final String SHUFFLE_ACTION = "com.naman14.timber.shuffle";
     public static final String FROM_MEDIA_BUTTON = "frommediabutton";
     public static final String REFRESH = "com.naman14.timber.refresh";
     public static final String UPDATE_LOCKSCREEN = "com.naman14.timber.updatelockscreen";
@@ -125,7 +125,7 @@ public class MusicService extends Service {
     public static final int REPEAT_NONE = 0;
     public static final int REPEAT_CURRENT = 1;
     public static final int REPEAT_ALL = 2;
-    public static final int MAX_HISTORY_SIZE = 1000;
+    private static final int MAX_HISTORY_SIZE = 1000;
     private static final String TAG = "MusicPlaybackService";
     private static final boolean D = false;
     private static final String SHUTDOWN = "com.naman14.timber.shutdown";
@@ -525,7 +525,7 @@ public class MusicService extends Service {
                 if (TimberUtils.isLollipop())
                     stopForeground(newNotifyMode == NOTIFY_MODE_NONE);
                 else
-                    stopForeground(newNotifyMode == NOTIFY_MODE_NONE || newNotifyMode == NOTIFY_MODE_BACKGROUND);
+                    stopForeground(true);
             } else if (newNotifyMode == NOTIFY_MODE_NONE) {
                 mNotificationManager.cancel(notificationId);
                 mNotificationPostTime = 0;
@@ -1200,7 +1200,7 @@ public class MusicService extends Service {
         }
     }
 
-    private final PendingIntent retrievePlaybackAction(final String action) {
+    private PendingIntent retrievePlaybackAction(final String action) {
         final ComponentName serviceName = new ComponentName(this, MusicService.class);
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
@@ -2248,8 +2248,8 @@ public class MusicService extends Service {
     }
 
     private static final class TrackErrorInfo {
-        public long mId;
-        public String mTrackName;
+        public final long mId;
+        public final String mTrackName;
 
         public TrackErrorInfo(long id, String trackName) {
             mId = id;
@@ -2691,7 +2691,7 @@ public class MusicService extends Service {
     private class MediaStoreObserver extends ContentObserver implements Runnable {
 
         private static final long REFRESH_DELAY = 500;
-        private Handler mHandler;
+        private final Handler mHandler;
 
         public MediaStoreObserver(Handler handler) {
             super(handler);

@@ -33,7 +33,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class Timber2 extends BaseNowplayingFragment {
 
-    ImageView mBlurredArt;
+    private ImageView mBlurredArt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

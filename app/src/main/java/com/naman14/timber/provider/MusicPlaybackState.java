@@ -36,11 +36,11 @@ public class MusicPlaybackState {
 
     private MusicDB mMusicDatabase = null;
 
-    public MusicPlaybackState(final Context context) {
+    private MusicPlaybackState(final Context context) {
         mMusicDatabase = MusicDB.getInstance(context);
     }
 
-    public static final synchronized MusicPlaybackState getInstance(final Context context) {
+    public static synchronized MusicPlaybackState getInstance(final Context context) {
         if (sInstance == null) {
             sInstance = new MusicPlaybackState(context.getApplicationContext());
         }
@@ -78,14 +78,14 @@ public class MusicPlaybackState {
         db.execSQL(builder.toString());
     }
 
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
+    void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         // this table was created in version 2 so call the onCreate method if we hit that scenario
         if (oldVersion < 2 && newVersion >= 2) {
             onCreate(db);
         }
     }
 
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS " + PlaybackQueueColumns.NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PlaybackHistoryColumns.NAME);
@@ -169,7 +169,6 @@ public class MusicPlaybackState {
         } finally {
             if (cursor != null) {
                 cursor.close();
-                cursor = null;
             }
         }
     }
@@ -195,24 +194,23 @@ public class MusicPlaybackState {
         } finally {
             if (cursor != null) {
                 cursor.close();
-                cursor = null;
             }
         }
     }
 
-    public class PlaybackQueueColumns {
+    private class PlaybackQueueColumns {
 
-        public static final String NAME = "playbackqueue";
-        public static final String TRACK_ID = "trackid";
-        public static final String SOURCE_ID = "sourceid";
-        public static final String SOURCE_TYPE = "sourcetype";
-        public static final String SOURCE_POSITION = "sourceposition";
+        static final String NAME = "playbackqueue";
+        static final String TRACK_ID = "trackid";
+        static final String SOURCE_ID = "sourceid";
+        static final String SOURCE_TYPE = "sourcetype";
+        static final String SOURCE_POSITION = "sourceposition";
     }
 
-    public class PlaybackHistoryColumns {
+    private class PlaybackHistoryColumns {
 
-        public static final String NAME = "playbackhistory";
+        static final String NAME = "playbackhistory";
 
-        public static final String POSITION = "position";
+        static final String POSITION = "position";
     }
 }

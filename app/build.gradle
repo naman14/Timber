@@ -1,18 +1,29 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.21.7'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "naman14.timber"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 9
         versionName "0.15b"
         //renderscript support mode is not supported for 21+ with gradle version 2.0
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -34,32 +45,33 @@ android {
 
 repositories {
     jcenter()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
-    compile 'com.android.support:palette-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:percent:23.3.0'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:cardview-v7:24.2.0'
+    compile 'com.android.support:palette-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:percent:24.2.0'
 
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'net.steamcrafted:materialiconlib:1.0.3'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'de.Maxr1998:track-selector-lib:1.1'
 
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
+    compile ('com.github.naman14:app-theme-engine:0.5.1@aar') {
         transitive = true
     }
-    compile('com.github.naman14:app-theme-engine:0.5.1@aar') {
+    compile('com.github.afollestad.material-dialogs:commons:0.9.0.1@aar') {
         transitive = true
     }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.3@aar') {
-        transitive = true
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
     }
 }

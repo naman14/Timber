@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ArtistLoader {
 
-    public static Artist getArtist(Cursor cursor) {
+    private static Artist getArtist(Cursor cursor) {
         Artist artist = new Artist();
         if (cursor != null) {
             if (cursor.moveToFirst())
@@ -37,8 +37,8 @@ public class ArtistLoader {
         return artist;
     }
 
-    public static List<Artist> getArtistsForCursor(Cursor cursor) {
-        ArrayList arrayList = new ArrayList();
+    private static List<Artist> getArtistsForCursor(Cursor cursor) {
+        ArrayList<Artist> arrayList = new ArrayList<>();
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
                 arrayList.add(new Artist(cursor.getLong(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3)));
@@ -62,9 +62,8 @@ public class ArtistLoader {
     }
 
 
-    public static Cursor makeArtistCursor(Context context, String selection, String[] paramArrayOfString) {
+    private static Cursor makeArtistCursor(Context context, String selection, String[] paramArrayOfString) {
         final String artistSortOrder = PreferencesUtility.getInstance(context).getArtistSortOrder();
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, new String[]{"_id", "artist", "number_of_albums", "number_of_tracks"}, selection, paramArrayOfString, artistSortOrder);
-        return cursor;
+        return context.getContentResolver().query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, new String[]{"_id", "artist", "number_of_albums", "number_of_tracks"}, selection, paramArrayOfString, artistSortOrder);
     }
 }

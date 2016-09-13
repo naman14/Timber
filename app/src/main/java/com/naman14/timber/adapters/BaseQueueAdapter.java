@@ -42,9 +42,9 @@ import java.util.List;
 public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.ItemHolder> {
 
     public static int currentlyPlayingPosition;
-    private List<Song> arraylist;
-    private AppCompatActivity mContext;
-    private String ateKey;
+    private final List<Song> arraylist;
+    private final AppCompatActivity mContext;
+    private final String ateKey;
 
     public BaseQueueAdapter(AppCompatActivity context, List<Song> arraylist) {
         this.arraylist = arraylist;
@@ -55,9 +55,8 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song_timber1, null);
-        ItemHolder ml = new ItemHolder(v);
-        return ml;
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song_timber1, viewGroup, false);
+        return new ItemHolder(v);
     }
 
     @Override
@@ -129,7 +128,7 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
         });
     }
 
-    public long[] getSongIds() {
+    private long[] getSongIds() {
         long[] ret = new long[getItemCount()];
         for (int i = 0; i < getItemCount(); i++) {
             ret[i] = arraylist.get(i).id;
@@ -139,9 +138,11 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, artist;
-        protected ImageView albumArt, popupMenu;
-        private MusicVisualizer visualizer;
+        final TextView title;
+        final TextView artist;
+        final ImageView albumArt;
+        final ImageView popupMenu;
+        private final MusicVisualizer visualizer;
 
         public ItemHolder(View view) {
             super(view);

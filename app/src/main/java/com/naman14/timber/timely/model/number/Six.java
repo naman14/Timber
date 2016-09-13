@@ -11,9 +11,9 @@ public class Six extends Figure {
             {0.295580110497238f, 0.552486187845304f}
     };
 
-    private static Six INSTANCE = new Six();
+    private static final Six INSTANCE = new Six();
 
-    protected Six() {
+    private Six() {
         super(POINTS);
     }
 

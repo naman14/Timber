@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="160dp"
     android:layout_margin="2.0dip"
-    android:elevation="3dp"
     android:background="?attr/selectableItemBackground">
 
     <FrameLayout
@@ -22,8 +21,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_empty_music2"
-                android:transitionName="transition_artist_image" />
+                android:src="@drawable/ic_empty_music2" />
 
             <LinearLayout
                 android:id="@+id/footer"
@@ -39,16 +37,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:singleLine="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/album_song_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:singleLine="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:maxLines="1" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

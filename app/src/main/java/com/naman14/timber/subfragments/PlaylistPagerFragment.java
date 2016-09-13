@@ -49,7 +49,7 @@ import java.util.Random;
 public class PlaylistPagerFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
-    int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent, R.color.blue_transparent, R.color.red_transparent, R.color.purple_transparent};
+    private final int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent, R.color.blue_transparent, R.color.red_transparent, R.color.purple_transparent};
     private int pageNumber, songCountInt;
     private int foregroundColor;
     private long firstAlbumID = -1;
@@ -160,7 +160,7 @@ public class PlaylistPagerFragment extends Fragment {
                             return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
                         } else return "nosongs";
                     case 1:
-                        TopTracksLoader recentloader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.RecentSongs);
+                        //TopTracksLoader recentloader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.RecentSongs);
                         List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
                         songCountInt = recentsongs.size();
 
@@ -169,7 +169,7 @@ public class PlaylistPagerFragment extends Fragment {
                             return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
                         } else return "nosongs";
                     case 2:
-                        TopTracksLoader topTracksLoader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.TopTracks);
+                        //TopTracksLoader topTracksLoader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.TopTracks);
                         List<Song> topsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
                         songCountInt = topsongs.size();
 

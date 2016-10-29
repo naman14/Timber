@@ -9,3 +9,6 @@
 /app/app-release.apk
 app/app.iml
 app/manifest-merger-release-report.txt
+
+secret.xml
+google-services.json

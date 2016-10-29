@@ -17,10 +17,13 @@ package com.naman14.timber;
 import android.app.Application;
 
 import com.afollestad.appthemeengine.ATE;
+import com.crashlytics.android.Crashlytics;
 import com.naman14.timber.permissions.Nammu;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.L;
+
+import io.fabric.sdk.android.Fabric;
 
 public class TimberApp extends Application {
 
@@ -35,6 +38,7 @@ public class TimberApp extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        Fabric.with(this, new Crashlytics());
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(localImageLoaderConfiguration);
         L.writeLogs(false);

@@ -41,8 +41,8 @@
     <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
     <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
     <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
-    <string name="timber_source">Laporkan bug <u> di sini </ u></string>
-    <string name="timber_feature_request">Spesifikasikan permintaan fitur dalam komunitas Google+ <u> di sini </ u></string>
+    <string name="timber_source">Laporkan bug <u> di sini </u></string>
+    <string name="timber_feature_request">Spesifikasikan permintaan fitur dalam komunitas Google+ <u> di sini </u></string>
 
     <string name="menu_show_as">Lihat Sebagai</string>
     <string name="menu_show_as_entry_list">Daftar</string>

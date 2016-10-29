@@ -67,7 +67,7 @@
             android:visibility="invisible"
             android:layout_toLeftOf="@+id/popup_menu"/>
 
-        <ImageView
+        <com.naman14.timber.widgets.PopupImageView
             android:id="@+id/popup_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:foregroundTint="#434343"
             android:padding="5dp"
-            android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
+            android:src="@drawable/ic_more_vert_black_24dp" />
 
     </RelativeLayout>
 

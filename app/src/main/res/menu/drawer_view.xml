@@ -40,6 +40,10 @@
 
             android:id="@+id/nav_help"
             android:title="@string/help_and_feedback" />
+
+        <item
+            android:id="@+id/nav_donate"
+            android:title="Donate" />
     </group>
 
 </menu>

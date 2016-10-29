@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.anjlab.android.iab.v3.BillingProcessor;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.AlbumDetailFragment;
@@ -196,6 +197,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 }
             }, 350);
         }
+
+        if(!BillingProcessor.isIabServiceAvailable(this)) {
+            navigationView.getMenu().removeItem(R.id.nav_donate);
+        }
     }
 
     private void loadEverything() {
@@ -335,6 +340,9 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                     }
                 }, 350);
 
+                break;
+            case R.id.nav_donate:
+                startActivity(new Intent(MainActivity.this, DonateActivity.class));
                 break;
         }
 

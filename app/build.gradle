@@ -9,8 +9,8 @@ android {
         applicationId "naman14.timber"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 9
-        versionName "0.15b"
+        versionCode 10
+        versionName "0.16b"
         //renderscript support mode is not supported for 21+ with gradle version 2.0
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
@@ -65,5 +65,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+    compile 'com.anjlab.android.iab.v3:library:1.0.+'
+
 
 }

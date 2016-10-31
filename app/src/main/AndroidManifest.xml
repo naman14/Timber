@@ -104,6 +104,16 @@
             </intent-filter>
         </service>
 
+        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.naman14.timber.metachanged" />
+                <action android:name="com.naman14.timber.playstatechanged" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_standard" />
+        </receiver>
+
     </application>
 
 </manifest>

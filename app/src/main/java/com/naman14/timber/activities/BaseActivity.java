@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.media.AudioManager;
+import android.media.session.MediaSessionManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,7 +65,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         mToken = MusicPlayer.bindToService(this, this);
 
         mPlaybackStatus = new PlaybackStatus(this);
-
+        //make volume keys change multimedia volume even if music is not playing now
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
     @Override
@@ -126,7 +129,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         } catch (final Throwable e) {
         }
         mMusicStateListener.clear();
-
     }
 
     @Override

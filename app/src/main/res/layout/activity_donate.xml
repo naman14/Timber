@@ -22,7 +22,6 @@
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:visibility="gone"
             android:text="Show your appreciation and support the development of Timber by donating some dollars to me "/>
 
 

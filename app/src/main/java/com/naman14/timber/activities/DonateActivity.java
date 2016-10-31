@@ -109,7 +109,6 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
             protected void onPostExecute(Boolean b) {
                 super.onPostExecute(b);
                 if (b) {
-                    status.setVisibility(View.VISIBLE);
                     status.setText("Thanks for your donation!");
                 }
             }

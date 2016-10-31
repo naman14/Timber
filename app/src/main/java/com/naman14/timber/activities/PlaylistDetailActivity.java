@@ -15,6 +15,9 @@
 package com.naman14.timber.activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,7 +36,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.R;
@@ -55,7 +60,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlaylistDetailActivity extends BaseThemedActivity implements ATEActivityThemeCustomizer {
+public class PlaylistDetailActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
 
     String action;
     long playlistID;
@@ -307,6 +312,8 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         PlaylistLoader.deletePlaylists(PlaylistDetailActivity.this, playlistID);
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
                 })
@@ -319,5 +326,13 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
                 .show();
     }
 
+    @Override
+    public int getToolbarColor() {
+        return Color.TRANSPARENT;
+    }
 
+    @Override
+    public int getLightToolbarMode() {
+        return Config.LIGHT_TOOLBAR_AUTO;
+    }
 }

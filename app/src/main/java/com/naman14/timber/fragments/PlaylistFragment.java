@@ -14,6 +14,8 @@
 
 package com.naman14.timber.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -254,7 +256,7 @@ public class PlaylistFragment extends Fragment {
                     showAuto = true;
                     mPreferences.setToggleShowAutoPlaylist(true);
                 }
-                updatePlaylists(-1);
+                reloadPlaylists();
                 getActivity().invalidateOptionsMenu();
                 break;
 
@@ -283,15 +285,33 @@ public class PlaylistFragment extends Fragment {
                     }
                 }, 200);
             }
+
         } else {
             mAdapter.updateDataSet(playlists);
         }
     }
 
+    public void reloadPlaylists() {
+        playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
+        playlistcount = playlists.size();
+
+        if (isDefault) {
+            initPager();
+        } else {
+            initRecyclerView();
+        }
+    }
+
     @Override
-    public void onResume() {
-        super.onResume();
-        updatePlaylists(-1);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.ACTION_DELETE_PLAYLIST) {
+            if (resultCode == Activity.RESULT_OK) {
+                reloadPlaylists();
+            }
+
+        }
     }
 }
 

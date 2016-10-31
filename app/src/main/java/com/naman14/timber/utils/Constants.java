@@ -59,6 +59,8 @@ public class Constants {
     public static final int PLAYLIST_VIEW_GRID = 2;
 
     public static final int PLAYLIST_ALBUM_ART_TAG = 888;
+    public static final int ACTION_DELETE_PLAYLIST = 111;
+
 
     public static final String ACTIVITY_TRANSITION = "activity_transition";
 

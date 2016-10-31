@@ -30,19 +30,18 @@
             android:layout_gravity="top"
             android:layout_marginTop="@dimen/appBarTopMargin"
             android:background="@android:color/transparent"
-            android:theme="@style/Theme.AppCompat"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="60dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="#ffffff"
             android:textSize="28sp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:transitionName="transition_playlist_name" />
 
 

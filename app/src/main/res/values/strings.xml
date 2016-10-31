@@ -41,6 +41,7 @@
     <string name="menu_show_as">View As</string>
     <string name="menu_show_as_entry_list">List</string>
     <string name="menu_show_as_entry_grid">Grid</string>
+    <string name="menu_show_as_entry_default">Default</string>
 
     <string name="light">Light</string>
     <string name="dark">Dark</string>

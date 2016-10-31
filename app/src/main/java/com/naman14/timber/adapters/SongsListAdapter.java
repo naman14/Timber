@@ -51,15 +51,17 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private AppCompatActivity mContext;
     private long[] songIDs;
     private boolean isPlaylist;
+    private boolean animate;
     private int lastPosition = -1;
     private String ateKey;
 
-    public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong) {
+    public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong, boolean animate) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.isPlaylist = isPlaylistSong;
         this.songIDs = getSongIds();
         this.ateKey = Helpers.getATEKey(context);
+        this.animate = animate;
     }
 
     @Override
@@ -98,7 +100,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         }
 
 
-        if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
+        if (animate && isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
             if (TimberUtils.isLollipop())
                 setAnimation(itemHolder.itemView, i);
             else {

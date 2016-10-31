@@ -84,6 +84,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
     private ImageView blurFrame;
     private TextView playlistname;
     private View foreground;
+    private boolean animate;
 
     @TargetApi(21)
     @Override
@@ -108,7 +109,8 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
 
         setAlbumart();
 
-        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(this).getAnimations()) {
+        animate = getIntent().getBooleanExtra(Constants.ACTIVITY_TRANSITION, false);
+        if (animate && TimberUtils.isLollipop() && PreferencesUtility.getInstance(this).getAnimations()) {
             getWindow().getEnterTransition().addListener(new EnterTransitionListener());
         } else {
             setUpSongs();
@@ -141,7 +143,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
 
     private void setRecyclerViewAapter() {
         recyclerView.setAdapter(mAdapter);
-        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(mContext).getAnimations()) {
+        if (animate && TimberUtils.isLollipop() && PreferencesUtility.getInstance(mContext).getAnimations()) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -165,7 +167,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
         @Override
         protected String doInBackground(String... params) {
             List<Song> lastadded = LastAddedLoader.getLastAddedSongs(mContext);
-            mAdapter = new SongsListAdapter(mContext, lastadded, true);
+            mAdapter = new SongsListAdapter(mContext, lastadded, true, animate);
             return "Executed";
         }
 
@@ -185,7 +187,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
         protected String doInBackground(String... params) {
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
             List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-            mAdapter = new SongsListAdapter(mContext, recentsongs, true);
+            mAdapter = new SongsListAdapter(mContext, recentsongs, true, animate);
             return "Executed";
         }
 
@@ -206,7 +208,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
         protected String doInBackground(String... params) {
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
             List<Song> toptracks = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-            mAdapter = new SongsListAdapter(mContext, toptracks, true);
+            mAdapter = new SongsListAdapter(mContext, toptracks, true, animate);
             return "Executed";
         }
 
@@ -226,7 +228,7 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
         protected String doInBackground(String... params) {
             playlistID = getIntent().getExtras().getLong(Constants.PLAYLIST_ID);
             List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(mContext, playlistID);
-            mAdapter = new SongsListAdapter(mContext, playlistsongs, true);
+            mAdapter = new SongsListAdapter(mContext, playlistsongs, true, animate);
             return "Executed";
         }
 

@@ -33,6 +33,8 @@ public final class PreferencesUtility {
     private static final String TOGGLE_SYSTEM_ANIMATIONS = "toggle_system_animations";
     private static final String TOGGLE_ARTIST_GRID = "toggle_artist_grid";
     private static final String TOGGLE_ALBUM_GRID = "toggle_album_grid";
+    private static final String TOGGLE_PLAYLIST_VIEW = "toggle_playlist_view";
+
     private static final String TOGGLE_HEADPHONE_PAUSE = "toggle_headphone_pause";
     private static final String THEME_PREFERNCE = "theme_preference";
     private static final String START_PAGE_INDEX = "start_page_index";
@@ -211,5 +213,16 @@ public final class PreferencesUtility {
 
     public boolean getXPosedTrackselectorEnabled() {
         return mPreferences.getBoolean(TOGGLE_XPOSED_TRACKSELECTOR, false);
+    }
+
+    public int getPlaylistView() {
+        return mPreferences.getInt(TOGGLE_PLAYLIST_VIEW ,0);
+    }
+
+    public void setPlaylistView(final int i) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(TOGGLE_PLAYLIST_VIEW, i);
+        editor.apply();
+
     }
 }

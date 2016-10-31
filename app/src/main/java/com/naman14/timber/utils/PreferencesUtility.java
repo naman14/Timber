@@ -74,16 +74,9 @@ public final class PreferencesUtility {
     }
 
     public void setArtistsInGrid(final boolean b) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(final Void... unused) {
-                final SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putBoolean(TOGGLE_ARTIST_GRID, b);
-                editor.apply();
-                return null;
-            }
-        }.execute();
-
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(TOGGLE_ARTIST_GRID, b);
+        editor.apply();
     }
 
     public boolean isAlbumsInGrid() {
@@ -91,16 +84,9 @@ public final class PreferencesUtility {
     }
 
     public void setAlbumsInGrid(final boolean b) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(final Void... unused) {
-                final SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putBoolean(TOGGLE_ALBUM_GRID, b);
-                editor.apply();
-                return null;
-            }
-        }.execute();
-
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(TOGGLE_ALBUM_GRID, b);
+        editor.apply();
     }
 
     public boolean pauseEnabledOnDetach() {
@@ -116,15 +102,9 @@ public final class PreferencesUtility {
     }
 
     public void setStartPageIndex(final int index) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(final Void... unused) {
-                final SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putInt(START_PAGE_INDEX, index);
-                editor.apply();
-                return null;
-            }
-        }.execute();
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(START_PAGE_INDEX, index);
+        editor.apply();
     }
 
     public void setLastOpenedAsStartPagePreference(boolean preference) {
@@ -138,16 +118,9 @@ public final class PreferencesUtility {
     }
 
     private void setSortOrder(final String key, final String value) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(final Void... unused) {
-                final SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putString(key, value);
-                editor.apply();
-
-                return null;
-            }
-        }.execute();
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(key, value);
+        editor.apply();
     }
 
     public final String getArtistSortOrder() {
@@ -226,3 +199,4 @@ public final class PreferencesUtility {
 
     }
 }
+

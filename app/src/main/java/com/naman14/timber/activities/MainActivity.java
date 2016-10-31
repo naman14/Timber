@@ -198,9 +198,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             }, 350);
         }
 
-        if(!BillingProcessor.isIabServiceAvailable(this)) {
-            navigationView.getMenu().removeItem(R.id.nav_donate);
-        }
     }
 
     private void loadEverything() {
@@ -300,6 +297,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle_white);
             navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information_white);
             navigationView.getMenu().findItem(R.id.nav_donate).setIcon(R.drawable.payment_white);
+        }
+
+        if(!BillingProcessor.isIabServiceAvailable(this)) {
+            navigationView.getMenu().removeItem(R.id.nav_donate);
         }
 
     }

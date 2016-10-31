@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 24
@@ -36,7 +35,6 @@ android {
 
 repositories {
     jcenter()
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -61,9 +59,6 @@ dependencies {
 
     compile('com.github.naman14:app-theme-engine:0.5.2@aar') {
         transitive = true
-    }
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
     }
     compile 'com.anjlab.android.iab.v3:library:1.0.+'
 

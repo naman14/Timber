@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.AudioColumns;
 
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class LastAddedLoader {
     public static final Cursor makeLastAddedCursor(final Context context) {
         //four weeks ago
         long fourWeeksAgo = (System.currentTimeMillis() / 1000) - (4 * 3600 * 24 * 7);
-        long cutoff = 0L;
+        long cutoff = PreferencesUtility.getInstance(context).getLastAddedCutoff();
         // use the most recent of the two timestamps
         if (cutoff < fourWeeksAgo) {
             cutoff = fourWeeksAgo;

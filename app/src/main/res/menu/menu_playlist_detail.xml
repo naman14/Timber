@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_clear_auto_playlist"
+        android:orderInCategory="9"
+        android:title="Clear"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_delete_playlist"
         android:orderInCategory="9"
         android:title="Delete playlist"
         app:showAsAction="never" />
+
 
 </menu>

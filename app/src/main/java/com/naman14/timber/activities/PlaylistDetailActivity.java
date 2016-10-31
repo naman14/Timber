@@ -41,6 +41,7 @@ import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.LastAddedLoader;
@@ -54,6 +55,7 @@ import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
+import com.naman14.timber.widgets.DragSortRecycler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -146,6 +148,26 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         Runnable navigation = playlistsMap.get(action);
         if (navigation != null) {
             navigation.run();
+
+            DragSortRecycler dragSortRecycler = new DragSortRecycler();
+            dragSortRecycler.setViewHandleId(R.id.reorder);
+
+            dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
+                @Override
+                public void onItemMoved(int from, int to) {
+                    Log.d("playlist", "onItemMoved " + from + " to " + to);
+                    Song song = mAdapter.getSongAt(from);
+                    mAdapter.removeSongAt(from);
+                    mAdapter.addSongTo(to, song);
+                    mAdapter.notifyDataSetChanged();
+                    MusicPlayer.moveQueueItem(from, to);
+                }
+            });
+
+            recyclerView.addItemDecoration(dragSortRecycler);
+            recyclerView.addOnItemTouchListener(dragSortRecycler);
+            recyclerView.addOnScrollListener(dragSortRecycler.getScrollListener());
+
         } else {
             Log.d("PlaylistDetail", "mo action specified");
         }
@@ -186,6 +208,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         protected String doInBackground(String... params) {
             List<Song> lastadded = LastAddedLoader.getLastAddedSongs(mContext);
             mAdapter = new SongsListAdapter(mContext, lastadded, true, animate);
+            mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }
 
@@ -206,6 +229,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
             List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
             mAdapter = new SongsListAdapter(mContext, recentsongs, true, animate);
+            mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }
 
@@ -227,6 +251,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
             List<Song> toptracks = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
             mAdapter = new SongsListAdapter(mContext, toptracks, true, animate);
+            mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }
 
@@ -247,6 +272,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             playlistID = getIntent().getExtras().getLong(Constants.PLAYLIST_ID);
             List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(mContext, playlistID);
             mAdapter = new SongsListAdapter(mContext, playlistsongs, true, animate);
+            mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }
 
@@ -283,7 +309,12 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (action.equals(Constants.NAVIGATE_PLAYLIST_USERCREATED)) {
             menu.findItem(R.id.action_delete_playlist).setVisible(true);
-        } else menu.findItem(R.id.action_delete_playlist).setVisible(false);
+            menu.findItem(R.id.action_clear_auto_playlist).setVisible(false);
+        } else {
+            menu.findItem(R.id.action_delete_playlist).setVisible(false);
+            menu.findItem(R.id.action_clear_auto_playlist).setTitle("Clear" + playlistname);
+        }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -295,6 +326,9 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
                 return true;
             case R.id.action_delete_playlist:
                 showDeletePlaylistDialog();
+                break;
+            case R.id.action_clear_auto_playlist:
+                clearAutoPlaylists();
                 break;
             default:
                 break;
@@ -324,6 +358,20 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
                     }
                 })
                 .show();
+    }
+
+    private void clearAutoPlaylists() {
+        switch (action) {
+            case Constants.NAVIGATE_PLAYLIST_LASTADDED:
+                TimberUtils.clearLastAdded(this);
+                break;
+            case Constants.NAVIGATE_PLAYLIST_RECENT:
+                TimberUtils.clearRecent(this);
+                break;
+            case Constants.NAVIGATE_PLAYLIST_TOPTRACKS:
+                TimberUtils.clearTopTracks(this);
+                break;
+        }
     }
 
     @Override

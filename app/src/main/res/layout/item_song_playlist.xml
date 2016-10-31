@@ -13,12 +13,24 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/reorder"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="center"
+            app:materialIcon="drag_vertical"
+            app:materialIconColor="@android:color/white"
+            app:materialIconSize="30dp" />
+
         <ImageView
             android:id="@+id/albumArt"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_alignParentLeft="true"
-            android:padding="1dp" />
+            android:padding="1dp"
+            android:layout_toRightOf="@+id/reorder"/>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -54,6 +54,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private boolean animate;
     private int lastPosition = -1;
     private String ateKey;
+    private long playlistId;
 
     public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong, boolean animate) {
         this.arraylist = arraylist;
@@ -108,8 +109,14 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                     setAnimation(itemHolder.itemView, i);
             }
         }
+
+
         setOnPopupMenuListener(itemHolder, i);
 
+    }
+
+    public void setPlaylistId(long playlistId) {
+        this.playlistId = playlistId;
     }
 
     @Override
@@ -124,10 +131,15 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             public void onClick(View v) {
 
                 final PopupMenu menu = new PopupMenu(mContext, v);
+                if (isPlaylist)
+                    menu.getMenu().findItem(R.id.popup_song_remove_playlist).setVisible(true);
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
+                            case R.id.popup_song_remove_playlist:
+                                TimberUtils.removeFromPlaylist(mContext,arraylist.get(position).id, playlistId);
+                                break;
                             case R.id.popup_song_play:
                                 MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
                                 break;
@@ -230,6 +242,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
         }
 
+    }
+
+    public Song getSongAt(int i) {
+        return arraylist.get(i);
+    }
+
+    public void addSongTo(int i, Song song) {
+        arraylist.add(i, song);
+    }
+
+    public void removeSongAt(int i) {
+        arraylist.remove(i);
     }
 }
 

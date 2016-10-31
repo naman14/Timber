@@ -15,6 +15,7 @@
 package com.naman14.timber.utils;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,8 @@ import android.util.TypedValue;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.provider.RecentStore;
+import com.naman14.timber.provider.SongPlayCount;
 
 public class TimberUtils {
 
@@ -178,6 +181,28 @@ public class TimberUtils {
 
             return null;
         }
+    }
+
+    public static void removeFromPlaylist(final Context context, final long id,
+                                          final long playlistId) {
+        final Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
+        final ContentResolver resolver = context.getContentResolver();
+        resolver.delete(uri, MediaStore.Audio.Playlists.Members.AUDIO_ID + " = ? ", new String[] {
+                Long.toString(id)
+        });
+    }
+
+    public static void clearTopTracks(Context context) {
+        SongPlayCount.getInstance(context).deleteAll();
+    }
+
+    public static void clearRecent(Context context) {
+        RecentStore.getInstance(context).deleteAll();
+    }
+
+    public static void clearLastAdded(Context context) {
+        PreferencesUtility.getInstance(context)
+                .setLastAddedCutoff(System.currentTimeMillis());
     }
 
 

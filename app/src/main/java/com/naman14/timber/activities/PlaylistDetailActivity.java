@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,6 @@ import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.LastAddedLoader;
@@ -160,7 +160,8 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
                     mAdapter.removeSongAt(from);
                     mAdapter.addSongTo(to, song);
                     mAdapter.notifyDataSetChanged();
-                    MusicPlayer.moveQueueItem(from, to);
+                    MediaStore.Audio.Playlists.Members.moveItem(getContentResolver(),
+                            playlistID, from, to);
                 }
             });
 
@@ -312,7 +313,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             menu.findItem(R.id.action_clear_auto_playlist).setVisible(false);
         } else {
             menu.findItem(R.id.action_delete_playlist).setVisible(false);
-            menu.findItem(R.id.action_clear_auto_playlist).setTitle("Clear" + playlistname);
+            menu.findItem(R.id.action_clear_auto_playlist).setTitle("Clear " + playlistname.getText().toString());
         }
 
         return super.onPrepareOptionsMenu(menu);
@@ -372,6 +373,9 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
                 TimberUtils.clearTopTracks(this);
                 break;
         }
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
     @Override

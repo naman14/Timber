@@ -131,14 +131,15 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             public void onClick(View v) {
 
                 final PopupMenu menu = new PopupMenu(mContext, v);
-                if (isPlaylist)
-                    menu.getMenu().findItem(R.id.popup_song_remove_playlist).setVisible(true);
+
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.popup_song_remove_playlist:
                                 TimberUtils.removeFromPlaylist(mContext, arraylist.get(position).id, playlistId);
+                                removeSongAt(position);
+                                notifyItemRemoved(position);
                                 break;
                             case R.id.popup_song_play:
                                 MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
@@ -164,8 +165,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                                 break;
                             case R.id.popup_song_delete:
                                 long[] deleteIds = {arraylist.get(position).id};
-                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds);
-                                notifyItemRemoved(position);
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, SongsListAdapter.this, position);
                                 break;
                         }
                         return false;
@@ -173,6 +173,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                 });
                 menu.inflate(R.menu.popup_song);
                 menu.show();
+                if (isPlaylist)
+                    menu.getMenu().findItem(R.id.popup_song_remove_playlist).setVisible(true);
             }
         });
     }

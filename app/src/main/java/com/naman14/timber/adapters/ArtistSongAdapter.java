@@ -133,8 +133,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
                                 break;
                             case R.id.popup_song_delete:
                                 long[] deleteIds = {arraylist.get(position).id};
-                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds);
-                                notifyItemRemoved(position);
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, ArtistSongAdapter.this, position);
                                 break;
                         }
                         return false;

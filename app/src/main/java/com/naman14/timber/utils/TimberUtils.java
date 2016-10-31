@@ -28,6 +28,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -212,7 +213,7 @@ public class TimberUtils {
                 .setLastAddedCutoff(System.currentTimeMillis());
     }
 
-    public static void showDeleteDialog(final Context context,final String name, final long[] list) {
+    public static void showDeleteDialog(final Context context, final String name, final long[] list, final RecyclerView.Adapter adapter, final int pos) {
 
         new MaterialDialog.Builder(context)
                 .title("Delete song?")
@@ -223,6 +224,7 @@ public class TimberUtils {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         TimberUtils.deleteTracks(context, list);
+                        adapter.notifyItemRemoved(pos);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

@@ -60,6 +60,7 @@ public class PlaylistFragment extends Fragment {
     private PreferencesUtility mPreferences;
     private boolean isGrid;
     private boolean isDefault;
+    private boolean showAuto;
     private PlaylistAdapter mAdapter;
 
     private List<Playlist> playlists = new ArrayList<>();
@@ -70,6 +71,7 @@ public class PlaylistFragment extends Fragment {
         mPreferences = PreferencesUtility.getInstance(getActivity());
         isGrid = mPreferences.getPlaylistView() == Constants.PLAYLIST_VIEW_GRID;
         isDefault = mPreferences.getPlaylistView() == Constants.PLAYLIST_VIEW_DEFAULT;
+        showAuto = mPreferences.showAutoPlaylist();
 
     }
 
@@ -90,7 +92,7 @@ public class PlaylistFragment extends Fragment {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle(R.string.playlists);
 
-        playlists = PlaylistLoader.getPlaylists(getActivity(), true);
+        playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
         playlistcount = playlists.size();
 
         if (isDefault) {
@@ -129,7 +131,7 @@ public class PlaylistFragment extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         pager.setVisibility(View.GONE);
         setLayoutManager();
-        mAdapter = new PlaylistAdapter(getActivity(),  playlists);
+        mAdapter = new PlaylistAdapter(getActivity(), playlists);
 
         recyclerView.setAdapter(mAdapter);
         //to add spacing between cards
@@ -160,7 +162,7 @@ public class PlaylistFragment extends Fragment {
 
     private void updateLayoutManager(int column) {
         recyclerView.removeItemDecoration(itemDecoration);
-        recyclerView.setAdapter(new PlaylistAdapter(getActivity(), PlaylistLoader.getPlaylists(getActivity(), true)));
+        recyclerView.setAdapter(new PlaylistAdapter(getActivity(), PlaylistLoader.getPlaylists(getActivity(), showAuto)));
         layoutManager.setSpanCount(column);
         layoutManager.requestLayout();
         setItemDecoration();
@@ -212,6 +214,14 @@ public class PlaylistFragment extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (showAuto) {
+            menu.findItem(R.id.action_view_auto_playlists).setTitle("Hide auto playlists");
+        } else menu.findItem(R.id.action_view_auto_playlists).setTitle("Show auto playlists");
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_new_playlist:
@@ -236,29 +246,52 @@ public class PlaylistFragment extends Fragment {
                 isDefault = true;
                 initPager();
                 return true;
+            case R.id.action_view_auto_playlists:
+                if (showAuto) {
+                    showAuto = false;
+                    mPreferences.setToggleShowAutoPlaylist(false);
+                } else {
+                    showAuto = true;
+                    mPreferences.setToggleShowAutoPlaylist(true);
+                }
+                updatePlaylists(-1);
+                getActivity().invalidateOptionsMenu();
+                break;
 
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void updatePlaylists(final long id) {
-        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), true);
+        playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
         playlistcount = playlists.size();
-        adapter.notifyDataSetChanged();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < playlists.size(); i++) {
-                    long playlistid = playlists.get(i).id;
-                    if (playlistid == id) {
-                        pager.setCurrentItem(i);
-                        break;
-                    }
-                }
-            }
-        }, 200);
 
+        if (isDefault) {
+            adapter.notifyDataSetChanged();
+            if (id != -1) {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < playlists.size(); i++) {
+                            long playlistid = playlists.get(i).id;
+                            if (playlistid == id) {
+                                pager.setCurrentItem(i);
+                                break;
+                            }
+                        }
+                    }
+                }, 200);
+            }
+        } else {
+            mAdapter.updateDataSet(playlists);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updatePlaylists(-1);
     }
 }
 

@@ -17,7 +17,6 @@ package com.naman14.timber.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 public final class PreferencesUtility {
@@ -34,6 +33,7 @@ public final class PreferencesUtility {
     private static final String TOGGLE_ARTIST_GRID = "toggle_artist_grid";
     private static final String TOGGLE_ALBUM_GRID = "toggle_album_grid";
     private static final String TOGGLE_PLAYLIST_VIEW = "toggle_playlist_view";
+    private static final String TOGGLE_SHOW_AUTO_PLAYLIST = "toggle_show_auto_playlist";
 
     private static final String TOGGLE_HEADPHONE_PAUSE = "toggle_headphone_pause";
     private static final String THEME_PREFERNCE = "theme_preference";
@@ -196,7 +196,16 @@ public final class PreferencesUtility {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putInt(TOGGLE_PLAYLIST_VIEW, i);
         editor.apply();
+    }
 
+    public boolean showAutoPlaylist() {
+        return mPreferences.getBoolean(TOGGLE_SHOW_AUTO_PLAYLIST, true);
+    }
+
+    public void setToggleShowAutoPlaylist(final boolean b) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(TOGGLE_SHOW_AUTO_PLAYLIST, b);
+        editor.apply();
     }
 }
 

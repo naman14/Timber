@@ -17,6 +17,7 @@ package com.naman14.timber.dataloaders;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.PlaylistsColumns;
@@ -88,5 +89,14 @@ public class PlaylistLoader {
                         BaseColumns._ID,
                         PlaylistsColumns.NAME
                 }, null, null, MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER);
+    }
+
+    public static void deletePlaylists(Context context, long playlistId) {
+        Uri localUri = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI;
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append("_id IN (");
+        localStringBuilder.append((playlistId));
+        localStringBuilder.append(")");
+        context.getContentResolver().delete(localUri, localStringBuilder.toString(), null);
     }
 }

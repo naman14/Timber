@@ -2,7 +2,6 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,7 +48,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ItemHo
     public PlaylistAdapter(Activity context, List<Playlist> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
-        this.isGrid = PreferencesUtility.getInstance(mContext).getPlaylistView()== Constants.PLAYLIST_VIEW_GRID;
+        this.isGrid = PreferencesUtility.getInstance(mContext).getPlaylistView() == Constants.PLAYLIST_VIEW_GRID;
         Random random = new Random();
         int rndInt = random.nextInt(foregroundColors.length);
         foregroundColor = foregroundColors[rndInt];
@@ -75,110 +74,104 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ItemHo
 
         itemHolder.title.setText(localItem.name);
 
-        new AsyncTask<Integer, Void, String>() {
-            @Override
-            protected String doInBackground(Integer... integers) {
-                if (mContext != null) {
-                    switch (integers[0]) {
-                        case 0:
-                            List<Song> lastAddedSongs = LastAddedLoader.getLastAddedSongs(mContext);
-                            songCountInt = lastAddedSongs.size();
+        String s = getAlbumArtUri(i, localItem.id);
+        itemHolder.albumArt.setTag(firstAlbumID);
+        ImageLoader.getInstance().displayImage(s, itemHolder.albumArt,
+                new DisplayImageOptions.Builder().cacheInMemory(true)
+                        .showImageOnFail(R.drawable.ic_empty_music2)
+                        .resetViewBeforeLoading(true)
+                        .displayer(new FadeInBitmapDisplayer(400))
+                        .build(), new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if (isGrid) {
+                            new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                                    if (swatch != null) {
+                                        int color = swatch.getRgb();
+                                        itemHolder.footer.setBackgroundColor(color);
+                                        int textColor = TimberUtils.getBlackWhiteColor(swatch.getTitleTextColor());
+                                        itemHolder.title.setTextColor(textColor);
+                                        itemHolder.artist.setTextColor(textColor);
+                                    } else {
+                                        Palette.Swatch mutedSwatch = palette.getMutedSwatch();
+                                        if (mutedSwatch != null) {
+                                            int color = mutedSwatch.getRgb();
+                                            itemHolder.footer.setBackgroundColor(color);
+                                            int textColor = TimberUtils.getBlackWhiteColor(mutedSwatch.getTitleTextColor());
+                                            itemHolder.title.setTextColor(textColor);
+                                            itemHolder.artist.setTextColor(textColor);
+                                        }
+                                    }
 
-                            if (songCountInt != 0) {
-                                firstAlbumID = lastAddedSongs.get(0).albumId;
-                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                            } else return "nosongs";
-                        case 1:
-                            TopTracksLoader recentloader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
-                            List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-                            songCountInt = recentsongs.size();
 
-                            if (songCountInt != 0) {
-                                firstAlbumID = recentsongs.get(0).albumId;
-                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                            } else return "nosongs";
-                        case 2:
-                            TopTracksLoader topTracksLoader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
-                            List<Song> topsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-                            songCountInt = topsongs.size();
-
-                            if (songCountInt != 0) {
-                                firstAlbumID = topsongs.get(0).albumId;
-                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                            } else return "nosongs";
-                        default:
-                            List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(mContext, localItem.id);
-                            songCountInt = playlistsongs.size();
-
-                            if (songCountInt != 0) {
-                                firstAlbumID = playlistsongs.get(0).albumId;
-                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                            } else return "nosongs";
+                                }
+                            });
+                        }
 
                     }
-                } else return "context is null";
 
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                itemHolder.albumArt.setTag(firstAlbumID);
-                ImageLoader.getInstance().displayImage(s, itemHolder.albumArt,
-                        new DisplayImageOptions.Builder().cacheInMemory(true)
-                                .showImageOnFail(R.drawable.ic_empty_music2)
-                                .resetViewBeforeLoading(true)
-                                .displayer(new FadeInBitmapDisplayer(400))
-                                .build(), new SimpleImageLoadingListener() {
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                if (isGrid) {
-                                    new Palette.Builder(loadedImage).generate(new Palette.PaletteAsyncListener() {
-                                        @Override
-                                        public void onGenerated(Palette palette) {
-                                            Palette.Swatch swatch = palette.getVibrantSwatch();
-                                            if (swatch != null) {
-                                                int color = swatch.getRgb();
-                                                itemHolder.footer.setBackgroundColor(color);
-                                                int textColor = TimberUtils.getBlackWhiteColor(swatch.getTitleTextColor());
-                                                itemHolder.title.setTextColor(textColor);
-                                                itemHolder.artist.setTextColor(textColor);
-                                            } else {
-                                                Palette.Swatch mutedSwatch = palette.getMutedSwatch();
-                                                if (mutedSwatch != null) {
-                                                    int color = mutedSwatch.getRgb();
-                                                    itemHolder.footer.setBackgroundColor(color);
-                                                    int textColor = TimberUtils.getBlackWhiteColor(mutedSwatch.getTitleTextColor());
-                                                    itemHolder.title.setTextColor(textColor);
-                                                    itemHolder.artist.setTextColor(textColor);
-                                                }
-                                            }
-
-
-                                        }
-                                    });
-                                }
-
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        if (isGrid) {
+                            itemHolder.footer.setBackgroundColor(0);
+                            if (mContext != null) {
+                                int textColorPrimary = Config.textColorPrimary(mContext, Helpers.getATEKey(mContext));
+                                itemHolder.title.setTextColor(textColorPrimary);
+                                itemHolder.artist.setTextColor(textColorPrimary);
                             }
+                        }
+                    }
+                });
+        itemHolder.artist.setText(" " + String.valueOf(songCountInt) + " " + mContext.getString(R.string.songs));
 
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                if (isGrid) {
-                                    itemHolder.footer.setBackgroundColor(0);
-                                    if (mContext != null) {
-                                        int textColorPrimary = Config.textColorPrimary(mContext, Helpers.getATEKey(mContext));
-                                        itemHolder.title.setTextColor(textColorPrimary);
-                                        itemHolder.artist.setTextColor(textColorPrimary);
-                                    }
-                                }
-                            }
-                        });
-                itemHolder.artist.setText(" " + String.valueOf(songCountInt) + " " + mContext.getString(R.string.songs));
-            }
-        }.execute(i);
         if (TimberUtils.isLollipop())
             itemHolder.albumArt.setTransitionName("transition_album_art" + i);
 
+    }
+
+    private String getAlbumArtUri(int position, long id) {
+        if (mContext != null) {
+            switch (position) {
+                case 0:
+                    List<Song> lastAddedSongs = LastAddedLoader.getLastAddedSongs(mContext);
+                    songCountInt = lastAddedSongs.size();
+
+                    if (songCountInt != 0) {
+                        firstAlbumID = lastAddedSongs.get(0).albumId;
+                        return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                    } else return "nosongs";
+                case 1:
+                    TopTracksLoader recentloader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
+                    List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
+                    songCountInt = recentsongs.size();
+
+                    if (songCountInt != 0) {
+                        firstAlbumID = recentsongs.get(0).albumId;
+                        return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                    } else return "nosongs";
+                case 2:
+                    TopTracksLoader topTracksLoader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
+                    List<Song> topsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
+                    songCountInt = topsongs.size();
+
+                    if (songCountInt != 0) {
+                        firstAlbumID = topsongs.get(0).albumId;
+                        return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                    } else return "nosongs";
+                default:
+                    List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(mContext, id);
+                    songCountInt = playlistsongs.size();
+
+                    if (songCountInt != 0) {
+                        firstAlbumID = playlistsongs.get(0).albumId;
+                        return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                    } else return "nosongs";
+
+            }
+        } return null;
     }
 
     @Override
@@ -188,6 +181,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ItemHo
 
     public void updateDataSet(List<Playlist> arraylist) {
         this.arraylist = arraylist;
+        notifyDataSetChanged();
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

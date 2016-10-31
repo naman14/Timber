@@ -19,20 +19,27 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.LastAddedLoader;
+import com.naman14.timber.dataloaders.PlaylistLoader;
 import com.naman14.timber.dataloaders.PlaylistSongLoader;
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.dataloaders.TopTracksLoader;
@@ -94,6 +101,12 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
         setContentView(R.layout.activity_playlist_detail);
 
         action = getIntent().getAction();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         playlistsMap.put(Constants.NAVIGATE_PLAYLIST_LASTADDED, playlistLastAdded);
         playlistsMap.put(Constants.NAVIGATE_PLAYLIST_RECENT, playlistRecents);
@@ -252,6 +265,58 @@ public class PlaylistDetailActivity extends BaseThemedActivity implements ATEAct
         public void onTransitionStart(Transition paramTransition) {
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_playlist_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (action.equals(Constants.NAVIGATE_PLAYLIST_USERCREATED)) {
+            menu.findItem(R.id.action_delete_playlist).setVisible(true);
+        } else menu.findItem(R.id.action_delete_playlist).setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            case R.id.action_delete_playlist:
+                showDeletePlaylistDialog();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeletePlaylistDialog() {
+        new MaterialDialog.Builder(this)
+                .title("Delete playlist?")
+                .content("Are you sure you want to delete playlist " + playlistname.getText().toString() + " ?")
+                .positiveText("Delete")
+                .negativeText("Cancel")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        PlaylistLoader.deletePlaylists(PlaylistDetailActivity.this, playlistID);
+                        finish();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
 

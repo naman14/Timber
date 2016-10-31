@@ -9,6 +9,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_view_auto_playlists"
+        android:orderInCategory="9"
+        android:title="Hide auto playlists"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_show_as"
         android:showAsAction="never"
         android:orderInCategory="40"

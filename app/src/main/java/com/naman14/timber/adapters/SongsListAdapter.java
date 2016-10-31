@@ -138,7 +138,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.popup_song_remove_playlist:
-                                TimberUtils.removeFromPlaylist(mContext,arraylist.get(position).id, playlistId);
+                                TimberUtils.removeFromPlaylist(mContext, arraylist.get(position).id, playlistId);
                                 break;
                             case R.id.popup_song_play:
                                 MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
@@ -161,6 +161,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                                 break;
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
+                                break;
+                            case R.id.popup_song_delete:
+                                long[] deleteIds = {arraylist.get(position).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds);
+                                notifyItemRemoved(position);
                                 break;
                         }
                         return false;

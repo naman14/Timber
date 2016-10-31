@@ -29,4 +29,8 @@
     <item
         android:id="@+id/popup_song_goto_artist"
         android:title="Go to artist" />
+
+    <item
+        android:id="@+id/popup_song_delete"
+        android:title="Delete from device" />
 </menu>

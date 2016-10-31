@@ -27,12 +27,19 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.TypedValue;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
+
+import java.io.File;
 
 public class TimberUtils {
 
@@ -187,7 +194,7 @@ public class TimberUtils {
                                           final long playlistId) {
         final Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
         final ContentResolver resolver = context.getContentResolver();
-        resolver.delete(uri, MediaStore.Audio.Playlists.Members.AUDIO_ID + " = ? ", new String[] {
+        resolver.delete(uri, MediaStore.Audio.Playlists.Members.AUDIO_ID + " = ? ", new String[]{
                 Long.toString(id)
         });
     }
@@ -203,6 +210,91 @@ public class TimberUtils {
     public static void clearLastAdded(Context context) {
         PreferencesUtility.getInstance(context)
                 .setLastAddedCutoff(System.currentTimeMillis());
+    }
+
+    public static void showDeleteDialog(final Context context,final String name, final long[] list) {
+
+        new MaterialDialog.Builder(context)
+                .title("Delete song?")
+                .content("Are you sure you want to delete " + name + " ?")
+                .positiveText("Delete")
+                .negativeText("Cancel")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        TimberUtils.deleteTracks(context, list);
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
+
+
+    }
+    public static void deleteTracks(final Context context, final long[] list) {
+        final String[] projection = new String[]{
+                BaseColumns._ID, MediaStore.MediaColumns.DATA, MediaStore.Audio.AudioColumns.ALBUM_ID
+        };
+        final StringBuilder selection = new StringBuilder();
+        selection.append(BaseColumns._ID + " IN (");
+        for (int i = 0; i < list.length; i++) {
+            selection.append(list[i]);
+            if (i < list.length - 1) {
+                selection.append(",");
+            }
+        }
+        selection.append(")");
+        final Cursor c = context.getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection.toString(),
+                null, null);
+        if (c != null) {
+            // Step 1: Remove selected tracks from the current playlist, as well
+            // as from the album art cache
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                // Remove from current playlist
+                final long id = c.getLong(0);
+                MusicPlayer.removeTrack(id);
+                // Remove the track from the play count
+                SongPlayCount.getInstance(context).removeItem(id);
+                // Remove any items in the recents database
+                RecentStore.getInstance(context).removeItem(id);
+                c.moveToNext();
+            }
+
+            // Step 2: Remove selected tracks from the database
+            context.getContentResolver().delete(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    selection.toString(), null);
+
+            // Step 3: Remove files from card
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                final String name = c.getString(1);
+                final File f = new File(name);
+                try { // File.delete can throw a security exception
+                    if (!f.delete()) {
+                        // I'm not sure if we'd ever get here (deletion would
+                        // have to fail, but no exception thrown)
+                        Log.e("MusicUtils", "Failed to delete file " + name);
+                    }
+                    c.moveToNext();
+                } catch (final SecurityException ex) {
+                    c.moveToNext();
+                }
+            }
+            c.close();
+        }
+
+        final String message = makeLabel(context, R.plurals.NNNtracksdeleted, list.length);
+
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        context.getContentResolver().notifyChange(Uri.parse("content://media"), null);
+        MusicPlayer.refresh();
     }
 
 

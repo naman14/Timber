@@ -49,7 +49,7 @@ public class NowPlayingCursor extends AbstractCursor {
 
             AudioColumns.ARTIST_ID,
 
-            AudioColumns.TRACK,
+            AudioColumns.TRACK,     //why?
     };
 
     private final Context mContext;

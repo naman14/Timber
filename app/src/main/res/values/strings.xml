@@ -100,6 +100,9 @@
     <string name="colored_nav_bar">Colored Navigation Bar</string>
     <string name="colored_nav_bar_summary">Toggle navigation bar coloring</string>
 
+    <string name="gestures">Gestures</string>
+    <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>
+
     <string name="count_song"><xliff:g id="count">%d</xliff:g> song</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> songs</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>

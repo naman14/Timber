@@ -96,6 +96,9 @@
     <string name="colored_nav_bar">Раскрасить панель навигации</string>
     <string name="colored_nav_bar_summary">Включить раскраску панели навигации</string>
 
+    <string name="gestures">Жесты</string>
+    <string name="switching_tracks_by_gestures">Переключение дорожек с помощью жестов</string>
+
     <string name="count_song"><xliff:g id="count">%d</xliff:g> песня</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> песни</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> альбом</string>

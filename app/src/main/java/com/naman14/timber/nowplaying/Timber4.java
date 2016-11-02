@@ -32,6 +32,7 @@ import com.naman14.timber.R;
 import com.naman14.timber.adapters.Timber4QueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.utils.ImageUtils;
+import com.naman14.timber.utils.SlideTrackSwitcher;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -53,6 +54,7 @@ public class Timber4 extends BaseNowplayingFragment {
         horizontalRecyclerview = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
 
         setupHorizontalQueue();
+        new SlideTrackSwitcher().attach(mBlurredArt);
 
         return rootView;
     }

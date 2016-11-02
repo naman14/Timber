@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.ImageUtils;
+import com.naman14.timber.utils.SlideTrackSwitcher;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -43,6 +44,8 @@ public class Timber2 extends BaseNowplayingFragment {
         setMusicStateListener();
         setSongDetails(rootView);
         mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
+
+        new SlideTrackSwitcher().attach(mBlurredArt);
 
         return rootView;
     }

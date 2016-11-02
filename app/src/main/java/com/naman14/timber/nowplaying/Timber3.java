@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.R;
-import com.naman14.timber.utils.SlideTrackSwitcher;
 
 public class Timber3 extends BaseNowplayingFragment {
 
@@ -31,7 +30,8 @@ public class Timber3 extends BaseNowplayingFragment {
 
         setMusicStateListener();
         setSongDetails(rootView);
-        new SlideTrackSwitcher().attach(rootView.findViewById(R.id.album_art));
+
+        initGestures(rootView.findViewById(R.id.album_art));
 
         return rootView;
     }

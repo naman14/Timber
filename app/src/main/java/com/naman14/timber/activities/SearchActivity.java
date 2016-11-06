@@ -38,7 +38,6 @@ import com.naman14.timber.models.Song;
 import com.naman14.timber.provider.SearchHistory;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
     private SearchAdapter adapter;
     private RecyclerView recyclerView;
 
-    private List searchResults = Collections.emptyList();
+    private List<Object> searchResults = Collections.emptyList();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,23 +129,23 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         }
         queryString = newText;
         if (!queryString.trim().equals("")) {
-            this.searchResults = new ArrayList();
-            List<Song> songList = SongLoader.searchSongs(this, queryString);
-            List<Album> albumList = AlbumLoader.getAlbums(this, queryString);
-            List<Artist> artistList = ArtistLoader.getArtists(this, queryString);
+            this.searchResults = new ArrayList<>();
+            List<Song> songList = SongLoader.searchSongs(this, queryString, 10);
+            List<Album> albumList = AlbumLoader.getAlbums(this, queryString, 7);
+            List<Artist> artistList = ArtistLoader.getArtists(this, queryString, 7);
 
             if (!songList.isEmpty()) {
-                searchResults.add("Songs");
+                searchResults.add(getString(R.string.songs));
+                searchResults.addAll(songList);
             }
-            searchResults.addAll((Collection) (songList.size() < 10 ? songList : songList.subList(0, 10)));
             if (!albumList.isEmpty()) {
-                searchResults.add("Albums");
+                searchResults.add(getString(R.string.albums));
+                searchResults.addAll(albumList);
             }
-            searchResults.addAll((Collection) (albumList.size() < 7 ? albumList : albumList.subList(0, 7)));
             if (!artistList.isEmpty()) {
-                searchResults.add("Artists");
+                searchResults.add(getString(R.string.artists));
+                searchResults.addAll(artistList);
             }
-            searchResults.addAll((Collection) (artistList.size() < 7 ? artistList : artistList.subList(0, 7)));
         } else {
             searchResults.clear();
             adapter.updateSearchResults(searchResults);

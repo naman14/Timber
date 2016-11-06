@@ -24,6 +24,7 @@ import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SongLoader {
 
@@ -100,8 +101,12 @@ public class SongLoader {
         return getSongForCursor(makeSongCursor(context, "_id=" + String.valueOf(id), null));
     }
 
-    public static ArrayList<Song> searchSongs(Context context, String searchString) {
-        return getSongsForCursor(makeSongCursor(context, "title LIKE ?", new String[]{"%" + searchString + "%"}));
+    public static List<Song> searchSongs(Context context, String searchString, int limit) {
+        ArrayList<Song> result = getSongsForCursor(makeSongCursor(context, "title LIKE ?", new String[]{searchString + "%"}));
+        if (result.size() < limit) {
+            result.addAll(getSongsForCursor(makeSongCursor(context, "title LIKE ?", new String[]{"%" + searchString + "%"})));
+        }
+        return result.size() < limit ? result : result.subList(0, limit);
     }
 
 

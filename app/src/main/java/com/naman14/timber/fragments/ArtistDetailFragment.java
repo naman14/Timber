@@ -210,6 +210,8 @@ public class ArtistDetailFragment extends Fragment {
         if (primaryColor != -1 && getActivity() != null) {
             if (collapsingToolbarLayout != null) {
                 collapsingToolbarLayout.setContentScrimColor(primaryColor);
+            } else {
+                DrawableCompat.setTint(toolbar.getBackground(), primaryColor);
             }
             String ateKey = Helpers.getATEKey(getActivity());
             ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);

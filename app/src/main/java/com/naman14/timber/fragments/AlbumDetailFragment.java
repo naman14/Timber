@@ -20,10 +20,12 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -81,6 +83,7 @@ public class AlbumDetailFragment extends Fragment {
 
     Album album;
 
+    @Nullable
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayout;
     FloatingActionButton fab;
@@ -166,7 +169,11 @@ public class AlbumDetailFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        collapsingToolbarLayout.setTitle(album.title);
+        if (collapsingToolbarLayout != null) {
+            collapsingToolbarLayout.setTitle(album.title);
+        } else {
+            toolbar.setTitle(album.title);
+        }
 
     }
 
@@ -200,14 +207,22 @@ public class AlbumDetailFragment extends Fragment {
                                                                               Palette.Swatch swatch = palette.getVibrantSwatch();
                                                                               if (swatch != null) {
                                                                                   primaryColor = swatch.getRgb();
-                                                                                  collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                                                  if (collapsingToolbarLayout != null) {
+                                                                                      collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                                                  } else {
+                                                                                      DrawableCompat.setTint(toolbar.getBackground(), primaryColor);
+                                                                                  }
                                                                                   if (getActivity() != null)
                                                                                       ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
                                                                               } else {
                                                                                   Palette.Swatch swatchMuted = palette.getMutedSwatch();
                                                                                   if (swatchMuted != null) {
                                                                                       primaryColor = swatchMuted.getRgb();
-                                                                                      collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                                                      if (collapsingToolbarLayout != null) {
+                                                                                          collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                                                      } else {
+                                                                                          DrawableCompat.setTint(toolbar.getBackground(), primaryColor);
+                                                                                      }
                                                                                       if (getActivity() != null)
                                                                                           ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
                                                                                   }
@@ -336,7 +351,11 @@ public class AlbumDetailFragment extends Fragment {
         super.onResume();
         toolbar.setBackgroundColor(Color.TRANSPARENT);
         if (primaryColor != -1 && getActivity() != null) {
-            collapsingToolbarLayout.setContentScrimColor(primaryColor);
+            if (collapsingToolbarLayout != null) {
+                collapsingToolbarLayout.setContentScrimColor(primaryColor);
+            } else {
+                DrawableCompat.setTint(toolbar.getBackground(), primaryColor);
+            }
             ATEUtils.setFabBackgroundTint(fab, primaryColor);
             String ateKey = Helpers.getATEKey(getActivity());
             ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);

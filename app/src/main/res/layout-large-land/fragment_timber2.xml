@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/headerView"
+            android:layout_width="match_parent"
+            app:layout_heightPercent="60%">
+
+            <ImageView
+                android:id="@+id/album_art_blurred"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#77000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/appBarTopMargin"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/song_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:ellipsize="end"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/song_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:paddingTop="3dp"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
+
+                <android.support.percent.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <net.steamcrafted.materialiconlib.MaterialIconView
+                        android:id="@+id/previous"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:scaleType="center"
+                        app:materialIcon="skip_previous"
+                        app:materialIconColor="#fff"
+                        app:materialIconSize="35dp" />
+
+                    <FrameLayout
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        app:layout_heightPercent="80%"
+                        app:layout_widthPercent="80%">
+
+                        <com.naman14.timber.widgets.CircleImageView
+                            android:id="@+id/album_art"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:scaleType="centerCrop" />
+
+                        <com.naman14.timber.widgets.CircleImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:scaleType="centerCrop"
+                            android:src="@color/black_translucent" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <include
+                                layout="@layout/song_elapsedtime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingTop="10dp">
+
+                                <ImageView
+                                    android:id="@+id/shuffle"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:scaleType="center" />
+
+                                <ImageView
+                                    android:id="@+id/repeat"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:paddingLeft="5dp"
+                                    android:scaleType="center" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <com.naman14.timber.widgets.CircularSeekBar
+                        android:id="@+id/song_progress_circular"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:maxHeight="1dp"
+                        android:progress="30"
+                        app:circle_color="#33000000"
+                        app:circle_stroke_width="2"
+                        app:layout_heightPercent="95%"
+                        app:layout_widthPercent="95%"
+                        app:pointer_halo_border_width="1.5"
+                        app:pointer_halo_width="0.5" />
+
+
+                    <net.steamcrafted.materialiconlib.MaterialIconView
+                        android:id="@+id/next"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:scaleType="center"
+                        app:materialIcon="skip_next"
+                        app:materialIconColor="#fff"
+                        app:materialIconSize="35dp" />
+                </android.support.percent.PercentRelativeLayout>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/appBarTopMargin"
+                android:background="@android:color/transparent"
+                android:theme="@style/Theme.AppCompat"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+        </FrameLayout>
+
+
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/queue_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/headerView"
+            android:clipToPadding="false"
+            android:paddingTop="18dp" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/playpausefloating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:tag="bg_tint_accent_color"
+        app:layout_anchor="@id/headerView"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>

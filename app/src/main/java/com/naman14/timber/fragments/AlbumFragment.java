@@ -33,6 +33,7 @@ import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
+import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
@@ -72,7 +73,7 @@ public class AlbumFragment extends Fragment {
 
     private void setLayoutManager() {
         if (isGrid) {
-            layoutManager = new GridLayoutManager(getActivity(), 2);
+            layoutManager = new GridLayoutManager(getActivity(), TimberUtils.isTabletLandscape(getResources()) ? 4 : 2);
             fastScroller.setVisibility(View.GONE);
         } else {
             layoutManager = new GridLayoutManager(getActivity(), 1);

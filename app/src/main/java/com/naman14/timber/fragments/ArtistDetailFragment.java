@@ -20,9 +20,11 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -54,6 +56,7 @@ public class ArtistDetailFragment extends Fragment {
     ImageView artistArt;
 
     Toolbar toolbar;
+    @Nullable
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayout;
     boolean largeImageLoaded = false;
@@ -116,7 +119,11 @@ public class ArtistDetailFragment extends Fragment {
 
         final Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
 
-        collapsingToolbarLayout.setTitle(artist.name);
+        if (collapsingToolbarLayout != null) {
+            collapsingToolbarLayout.setTitle(artist.name);
+        } else {
+            toolbar.setTitle(artist.name);
+        }
 
         LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
             @Override
@@ -138,14 +145,22 @@ public class ArtistDetailFragment extends Fragment {
                                                 Palette.Swatch swatch = palette.getVibrantSwatch();
                                                 if (swatch != null) {
                                                     primaryColor = swatch.getRgb();
-                                                    collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                    if (collapsingToolbarLayout != null) {
+                                                        collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                    } else {
+                                                        DrawableCompat.setTint(toolbar.getBackground(), primaryColor);
+                                                    }
                                                     if (getActivity() != null)
                                                         ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
                                                 } else {
                                                     Palette.Swatch swatchMuted = palette.getMutedSwatch();
                                                     if (swatchMuted != null) {
                                                         primaryColor = swatchMuted.getRgb();
-                                                        collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                        if (collapsingToolbarLayout != null) {
+                                                            collapsingToolbarLayout.setContentScrimColor(primaryColor);
+                                                        } else {
+                                                            DrawableCompat.setTint(toolbar.getBackground(), primaryColor);
+                                                        }
                                                         if (getActivity() != null)
                                                             ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
                                                     }
@@ -193,7 +208,9 @@ public class ArtistDetailFragment extends Fragment {
         super.onResume();
         toolbar.setBackgroundColor(Color.TRANSPARENT);
         if (primaryColor != -1 && getActivity() != null) {
-            collapsingToolbarLayout.setContentScrimColor(primaryColor);
+            if (collapsingToolbarLayout != null) {
+                collapsingToolbarLayout.setContentScrimColor(primaryColor);
+            }
             String ateKey = Helpers.getATEKey(getActivity());
             ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
         }

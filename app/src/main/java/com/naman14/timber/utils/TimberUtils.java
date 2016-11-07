@@ -20,6 +20,8 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.media.audiofx.AudioEffect;
@@ -66,6 +68,18 @@ public class TimberUtils {
 
     public static boolean isJellyBeanMR1() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+    }
+
+    public static boolean isTablet(Resources resources) {
+        return resources.getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE);
+    }
+
+    public static boolean isLandscape(Resources resources) {
+        return resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    public static boolean isTabletLandscape(Resources resources) {
+        return isTablet(resources) && isLandscape(resources);
     }
 
     public static Uri getAlbumArtUri(long paramInt) {

@@ -78,15 +78,11 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
                 android:fitsSystemWindows="true"
                 android:minHeight="?attr/actionBarSize"
-                android:title="@string/playing_queue"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            </android.support.v7.widget.Toolbar>
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
             <LinearLayout
                 android:id="@+id/detailView"

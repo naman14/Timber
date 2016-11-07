@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
@@ -16,6 +17,7 @@ import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.TimberUtils;
 
 /**
  * Created by naman on 01/01/16.
@@ -50,7 +52,7 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
 
     @Override
     public int getToolbarColor() {
-        return Color.TRANSPARENT;
+        return TimberUtils.isTabletLandscape(getResources()) ? ContextCompat.getColor(this, R.color.black_translucent) : Color.TRANSPARENT;
     }
 
     @Override

@@ -59,8 +59,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginTop="10dp"
-                android:padding="16dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <net.steamcrafted.materialiconlib.MaterialIconView
                     android:id="@+id/previous"
@@ -176,8 +176,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -185,7 +184,6 @@
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 android:minHeight="?attr/actionBarSize"
-                android:title="@string/playing_queue"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

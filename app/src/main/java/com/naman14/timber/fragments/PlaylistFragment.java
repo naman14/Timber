@@ -44,6 +44,7 @@ import com.naman14.timber.models.Playlist;
 import com.naman14.timber.subfragments.PlaylistPagerFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.MultiViewPager;
 
@@ -145,7 +146,7 @@ public class PlaylistFragment extends Fragment {
 
     private void setLayoutManager() {
         if (isGrid) {
-            layoutManager = new GridLayoutManager(getActivity(), 2);
+            layoutManager = new GridLayoutManager(getActivity(), TimberUtils.isTabletLandscape(getResources()) ? 4 : 2);
         } else {
             layoutManager = new GridLayoutManager(getActivity(), 1);
         }

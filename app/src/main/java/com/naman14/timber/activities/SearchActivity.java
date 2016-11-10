@@ -15,7 +15,9 @@
 package com.naman14.timber.activities;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,8 +42,14 @@ import com.naman14.timber.provider.SearchHistory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class SearchActivity extends BaseThemedActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
+
+    private final Executor mSearchExecutor = Executors.newSingleThreadExecutor();
+    @Nullable
+    private AsyncTask mSearchTask = null;
 
     private SearchView mSearchView;
     private InputMethodManager mImm;
@@ -127,33 +135,18 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         if (newText.equals(queryString)) {
             return true;
         }
+        if (mSearchTask != null) {
+            mSearchTask.cancel(false);
+            mSearchTask = null;
+        }
         queryString = newText;
-        if (!queryString.trim().equals("")) {
-            this.searchResults = new ArrayList<>(27);
-            List<Song> songList = SongLoader.searchSongs(this, queryString, 10);
-            List<Album> albumList = AlbumLoader.getAlbums(this, queryString, 7);
-            List<Artist> artistList = ArtistLoader.getArtists(this, queryString, 7);
-
-            if (!songList.isEmpty()) {
-                searchResults.add(getString(R.string.songs));
-                searchResults.addAll(songList);
-            }
-            if (!albumList.isEmpty()) {
-                searchResults.add(getString(R.string.albums));
-                searchResults.addAll(albumList);
-            }
-            if (!artistList.isEmpty()) {
-                searchResults.add(getString(R.string.artists));
-                searchResults.addAll(artistList);
-            }
-        } else {
+        if (queryString.trim().equals("")) {
             searchResults.clear();
             adapter.updateSearchResults(searchResults);
             adapter.notifyDataSetChanged();
+        } else {
+            mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
         }
-
-        adapter.updateSearchResults(searchResults);
-        adapter.notifyDataSetChanged();
 
         return true;
     }
@@ -164,6 +157,14 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         return false;
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mSearchTask != null && mSearchTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mSearchTask.cancel(false);
+        }
+        super.onDestroy();
+    }
+
     public void hideInputManager() {
         if (mSearchView != null) {
             if (mImm != null) {
@@ -172,6 +173,48 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
             mSearchView.clearFocus();
 
             SearchHistory.getInstance(this).addSearchString(queryString);
+        }
+    }
+
+    private class SearchTask extends AsyncTask<String,Void,ArrayList<Object>> {
+
+        @Override
+        protected ArrayList<Object> doInBackground(String... params) {
+            ArrayList<Object> results = new ArrayList<>(27);
+            List<Song> songList = SongLoader.searchSongs(SearchActivity.this, params[0], 10);
+            if (!songList.isEmpty()) {
+                results.add(getString(R.string.songs));
+                results.addAll(songList);
+            }
+
+            if (isCancelled()) {
+                return null;
+            }
+            List<Album> albumList = AlbumLoader.getAlbums(SearchActivity.this, params[0], 7);
+            if (!albumList.isEmpty()) {
+                results.add(getString(R.string.albums));
+                results.addAll(albumList);
+            }
+
+            if (isCancelled()) {
+                return null;
+            }
+            List<Artist> artistList = ArtistLoader.getArtists(SearchActivity.this, params[0], 7);
+            if (!artistList.isEmpty()) {
+                results.add(getString(R.string.artists));
+                results.addAll(artistList);
+            }
+            return results;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Object> objects) {
+            super.onPostExecute(objects);
+            mSearchTask = null;
+            if (objects != null) {
+                adapter.updateSearchResults(objects);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 }

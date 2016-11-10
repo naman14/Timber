@@ -129,7 +129,7 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         }
         queryString = newText;
         if (!queryString.trim().equals("")) {
-            this.searchResults = new ArrayList<>();
+            this.searchResults = new ArrayList<>(27);
             List<Song> songList = SongLoader.searchSongs(this, queryString, 10);
             List<Album> albumList = AlbumLoader.getAlbums(this, queryString, 7);
             List<Artist> artistList = ArtistLoader.getArtists(this, queryString, 7);

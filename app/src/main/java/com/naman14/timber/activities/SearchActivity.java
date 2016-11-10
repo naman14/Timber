@@ -204,6 +204,9 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
                 results.add(getString(R.string.artists));
                 results.addAll(artistList);
             }
+            if (results.size() == 0) {
+                results.add(getString(R.string.nothing_found));
+            }
             return results;
         }
 

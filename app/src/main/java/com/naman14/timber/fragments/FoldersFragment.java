@@ -1,9 +1,9 @@
 package com.naman14.timber.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -21,7 +21,10 @@ import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumAdapter;
 import com.naman14.timber.adapters.FolderAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.widgets.DividerItemDecoration;
+
+import java.io.File;
 
 /**
  * Created by nv95 on 10.11.16.
@@ -109,8 +112,9 @@ public class FoldersFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            if (getActivity() != null) {
-                mAdapter = new FolderAdapter(getActivity(), Environment.getExternalStorageDirectory());
+            Activity activity = getActivity();
+            if (activity != null) {
+                mAdapter = new FolderAdapter(activity, new File(PreferencesUtility.getInstance(activity).getLastFolder()));
                 updateTheme();
             }
             return "Executed";

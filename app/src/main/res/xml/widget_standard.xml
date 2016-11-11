@@ -3,4 +3,5 @@
     android:minWidth="250dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="86400000"
+    android:previewImage="@drawable/widget_standard"
     android:initialLayout="@layout/widget_standard" />

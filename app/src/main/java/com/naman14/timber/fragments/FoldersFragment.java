@@ -1,5 +1,6 @@
 package com.naman14.timber.fragments;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -58,10 +59,15 @@ public class FoldersFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
+        boolean dark = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false);
+        if (dark) {
             ATE.apply(this, "dark_theme");
         } else {
             ATE.apply(this, "light_theme");
+        }
+        if (mAdapter != null) {
+            mAdapter.applyTheme(dark);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -83,12 +89,30 @@ public class FoldersFragment extends Fragment {
         //setHasOptionsMenu(true);
     }
 
+    public boolean onBackPressed() {
+        if (mAdapter != null && mAdapter.goUpAsync()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void updateTheme() {
+        Context context = getActivity();
+        if (context != null) {
+            boolean dark = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dark_theme", false);
+            mAdapter.applyTheme(dark);
+        }
+    }
+
     private class loadFolders extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
-            if (getActivity() != null)
+            if (getActivity() != null) {
                 mAdapter = new FolderAdapter(getActivity(), Environment.getExternalStorageDirectory());
+                updateTheme();
+            }
             return "Executed";
         }
 

@@ -4,7 +4,6 @@ import android.text.TextUtils;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,11 +48,13 @@ public class FolderLoader {
     }
 
     private static boolean checkDir(File dir) {
-        return dir.exists() && dir.canRead() && !".".equals(dir.getName()) && dir.list(new FilenameFilter() {
+        return dir.exists() && dir.canRead() && !".".equals(dir.getName()) && dir.listFiles(new FileFilter() {
             @Override
-            public boolean accept(File dir, String name) {
-                return !".".equals(name) && !"..".equals(name) && dir.canRead() && (dir.isDirectory()  || (dir.isFile() && checkFileExt(name)));
+            public boolean accept(File pathname) {
+                String name = pathname.getName();
+                return !".".equals(name) && !"..".equals(name) && pathname.canRead() && (pathname.isDirectory()  || (pathname.isFile() && checkFileExt(name)));
             }
+
         }).length != 0;
     }
 

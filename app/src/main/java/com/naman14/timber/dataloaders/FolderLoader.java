@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public class FolderLoader {
     public static List<File> getMediaFiles(File dir, final boolean acceptDirs) {
         ArrayList<File> list = new ArrayList<>();
         list.add(new File(dir, ".."));
-        list.addAll(Arrays.asList(dir.listFiles(new FileFilter() {
+        List<File> files = Arrays.asList(dir.listFiles(new FileFilter() {
 
             @Override
             public boolean accept(File file) {
@@ -38,7 +40,10 @@ public class FolderLoader {
                 } else
                     return false;
             }
-        })));
+        }));
+        Collections.sort(files, new FilenameComparator());
+        Collections.sort(files, new DirFirstComparator());
+        list.addAll(files);
 
         return list;
     }
@@ -75,4 +80,22 @@ public class FolderLoader {
         return false;
     }
 
+    private static class FilenameComparator implements Comparator<File> {
+        @Override
+        public int compare(File f1, File f2) {
+            return f1.getName().compareTo(f2.getName());
+        }
+    }
+
+    private static class DirFirstComparator implements Comparator<File> {
+        @Override
+        public int compare(File f1, File f2) {
+            if (f1.isDirectory() == f2.isDirectory())
+                return 0;
+            else if (f1.isDirectory() && !f2.isDirectory())
+                return -1;
+            else
+                return 1;
+        }
+    }
 }

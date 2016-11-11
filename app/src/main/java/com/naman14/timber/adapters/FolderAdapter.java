@@ -23,6 +23,7 @@ import com.naman14.timber.dataloaders.FolderLoader;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
+import com.naman14.timber.widgets.BubbleTextGetter;
 
 import java.io.File;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  * Created by nv95 on 10.11.16.
  */
 
-public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder> {
+public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder> implements BubbleTextGetter {
 
     @NonNull
     private List<File> mFileSet;
@@ -138,6 +139,22 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
         }
         mRoot = newRoot;
         new NavigateTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mRoot);
+    }
+
+    @Override
+    public String getTextToShowInBubble(int pos) {
+        if (mBusy || mFileSet.size() == 0)
+            return "";
+        try {
+            File f = mFileSet.get(pos);
+            if (f.isDirectory()) {
+                return "[" + f.getName().charAt(0) + "]";
+            } else {
+                return Character.toString(f.getName().charAt(0));
+            }
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     private class NavigateTask extends AsyncTask<File,Void,List<File>> {

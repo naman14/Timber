@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,11 +17,10 @@ import android.view.ViewGroup;
 
 import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.R;
-import com.naman14.timber.adapters.AlbumAdapter;
 import com.naman14.timber.adapters.FolderAdapter;
-import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.widgets.DividerItemDecoration;
+import com.naman14.timber.widgets.FastScroller;
 
 import java.io.File;
 
@@ -34,13 +32,12 @@ public class FoldersFragment extends Fragment {
 
     private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
-    private GridLayoutManager layoutManager;
-    private RecyclerView.ItemDecoration itemDecoration;
+    private FastScroller fastScroller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
-                R.layout.fragment_queue, container, false);
+                R.layout.fragment_folders, container, false);
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -51,8 +48,11 @@ public class FoldersFragment extends Fragment {
         ab.setTitle(R.string.folders);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        fastScroller.setVisibility(View.VISIBLE);
+        fastScroller.setRecyclerView(recyclerView);
 
         if (getActivity() != null)
             new loadFolders().execute("");
@@ -76,14 +76,6 @@ public class FoldersFragment extends Fragment {
 
     private void setItemDecoration() {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-    }
-
-    private void updateLayoutManager(int column) {
-        recyclerView.removeItemDecoration(itemDecoration);
-        recyclerView.setAdapter(new AlbumAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity())));
-        layoutManager.setSpanCount(column);
-        layoutManager.requestLayout();
-        setItemDecoration();
     }
 
     @Override

@@ -103,6 +103,7 @@
     <string name="widget_standard">Timber standard widget</string>
     <string name="widget_small">Timber small widget</string>
     <string name="tap_to_start">Tap to start Timber</string>
+    <string name="widget_white">Timber light widget</string>
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> song</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> songs</string>

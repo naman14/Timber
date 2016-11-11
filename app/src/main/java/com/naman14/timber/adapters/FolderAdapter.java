@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +17,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.FolderLoader;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 
@@ -177,12 +180,20 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
             if (mBusy) {
                 return;
             }
-            File f = mFileSet.get(getAdapterPosition());
+            final File f = mFileSet.get(getAdapterPosition());
             if (f.isDirectory()) {
                 albumArt.setImageDrawable(mIcons[3]);
                 updateDataSetAsync(f);
-            } else if (f.isFile()) {
-                // TODO: 11.11.16 play file
+            } else if (f.isFile()) {Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MusicPlayer.clearQueue();
+                        MusicPlayer.openFile(f.getPath());
+                        MusicPlayer.playOrPause();
+                        NavigationUtils.navigateToNowplaying(mContext, true);
+                    }
+                }, 350);
             }
         }
 

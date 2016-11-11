@@ -39,6 +39,18 @@
         android:layout_alignBottom="@id/recyclerview"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/recyclerview" />
+        android:layout_alignTop="@id/recyclerview"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        android:id="@id/progressBar"
+        style="?android:progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="?attr/actionBarSize"
+        android:tag="tint_accent_color" />
 
 </RelativeLayout>

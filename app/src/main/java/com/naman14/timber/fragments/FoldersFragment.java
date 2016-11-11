@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.R;
@@ -33,6 +34,7 @@ public class FoldersFragment extends Fragment {
     private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
     private FastScroller fastScroller;
+    private ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,10 +51,9 @@ public class FoldersFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        fastScroller.setVisibility(View.VISIBLE);
-        fastScroller.setRecyclerView(recyclerView);
 
         if (getActivity() != null)
             new loadFolders().execute("");
@@ -112,6 +113,9 @@ public class FoldersFragment extends Fragment {
                 setItemDecoration();
             }
             mAdapter.notifyDataSetChanged();
+            mProgressBar.setVisibility(View.GONE);
+            fastScroller.setVisibility(View.VISIBLE);
+            fastScroller.setRecyclerView(recyclerView);
         }
 
         @Override

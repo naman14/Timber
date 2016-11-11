@@ -268,10 +268,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         } else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            if (f == null || !(f instanceof FoldersFragment) || !((FoldersFragment) f).onBackPressed()) {
-                super.onBackPressed();
-            }
+            super.onBackPressed();
         }
     }
 

@@ -92,14 +92,6 @@ public class FoldersFragment extends Fragment {
         //setHasOptionsMenu(true);
     }
 
-    public boolean onBackPressed() {
-        if (mAdapter != null && mAdapter.goUpAsync()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void updateTheme() {
         Context context = getActivity();
         if (context != null) {

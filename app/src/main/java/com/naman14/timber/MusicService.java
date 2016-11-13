@@ -447,7 +447,7 @@ public class MusicService extends Service {
             MediaButtonIntentReceiver.completeWakefulIntent(intent);
         }
 
-        return START_STICKY;
+        return START_NOT_STICKY; //no sense to use START_STICKY with using startForeground
     }
 
     private void releaseServiceUiAndStop() {

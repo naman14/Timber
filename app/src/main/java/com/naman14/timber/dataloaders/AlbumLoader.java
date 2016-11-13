@@ -59,8 +59,12 @@ public class AlbumLoader {
         return getAlbum(makeAlbumCursor(context, "_id=?", new String[]{String.valueOf(id)}));
     }
 
-    public static List<Album> getAlbums(Context context, String paramString) {
-        return getAlbumsForCursor(makeAlbumCursor(context, "album LIKE ?", new String[]{"%" + paramString + "%"}));
+    public static List<Album> getAlbums(Context context, String paramString, int limit) {
+        List<Album> result = getAlbumsForCursor(makeAlbumCursor(context, "album LIKE ?", new String[]{paramString + "%"}));
+        if (result.size() < limit) {
+            result.addAll(getAlbumsForCursor(makeAlbumCursor(context, "album LIKE ?", new String[]{"%_" + paramString + "%"})));
+        }
+        return result.size() < limit ? result : result.subList(0, limit);
     }
 
 

@@ -31,6 +31,8 @@ public class Timber3 extends BaseNowplayingFragment {
         setMusicStateListener();
         setSongDetails(rootView);
 
+        initGestures(rootView.findViewById(R.id.album_art));
+
         return rootView;
     }
 

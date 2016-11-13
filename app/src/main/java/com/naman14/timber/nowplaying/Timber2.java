@@ -44,6 +44,8 @@ public class Timber2 extends BaseNowplayingFragment {
         setSongDetails(rootView);
         mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
 
+        initGestures(mBlurredArt);
+
         return rootView;
     }
 

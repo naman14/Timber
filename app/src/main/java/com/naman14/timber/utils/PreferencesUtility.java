@@ -42,6 +42,7 @@ public final class PreferencesUtility {
     private static final String NOW_PLAYNG_THEME_VALUE = "now_playing_theme_value";
     private static final String TOGGLE_XPOSED_TRACKSELECTOR = "toggle_xposed_trackselector";
     public static final String LAST_ADDED_CUTOFF = "last_added_cutoff";
+    public static final String GESTURES = "gestures";
 
     private static PreferencesUtility sInstance;
 
@@ -217,6 +218,10 @@ public final class PreferencesUtility {
 
     public long getLastAddedCutoff() {
         return mPreferences.getLong(LAST_ADDED_CUTOFF, 0L);
+    }
+
+    public boolean isGesturesEnabled() {
+        return mPreferences.getBoolean(GESTURES, true);
     }
 }
 

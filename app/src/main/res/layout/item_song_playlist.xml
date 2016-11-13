@@ -5,7 +5,6 @@
     android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="6dp"
-    android:paddingLeft="5dp"
     android:paddingTop="6dp">
 
     <RelativeLayout
@@ -13,12 +12,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/reorder"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="center"
+            app:materialIcon="drag_vertical"
+            app:materialIconColor="@android:color/white"
+            app:materialIconSize="30dp" />
+
         <ImageView
             android:id="@+id/albumArt"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_alignParentLeft="true"
-            android:padding="1dp" />
+            android:padding="1dp"
+            android:layout_toRightOf="@+id/reorder"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +73,7 @@
             android:layout_toLeftOf="@+id/popup_menu"
             android:visibility="gone" />
 
-        <com.naman14.timber.widgets.PopupImageView
+        <ImageView
             android:id="@+id/popup_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +83,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:foregroundTint="#434343"
             android:padding="5dp"
-            android:src="@drawable/ic_more_vert_black_24dp"
+            android:src="@drawable/ic_more_vert_white_24dp"
             android:theme="@style/Theme.AppCompat" />
 
 

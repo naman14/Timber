@@ -51,15 +51,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private AppCompatActivity mContext;
     private long[] songIDs;
     private boolean isPlaylist;
+    private boolean animate;
     private int lastPosition = -1;
     private String ateKey;
+    private long playlistId;
 
-    public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong) {
+    public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong, boolean animate) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.isPlaylist = isPlaylistSong;
         this.songIDs = getSongIds();
         this.ateKey = Helpers.getATEKey(context);
+        this.animate = animate;
     }
 
     @Override
@@ -98,7 +101,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         }
 
 
-        if (isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
+        if (animate && isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
             if (TimberUtils.isLollipop())
                 setAnimation(itemHolder.itemView, i);
             else {
@@ -106,8 +109,14 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                     setAnimation(itemHolder.itemView, i);
             }
         }
+
+
         setOnPopupMenuListener(itemHolder, i);
 
+    }
+
+    public void setPlaylistId(long playlistId) {
+        this.playlistId = playlistId;
     }
 
     @Override
@@ -122,10 +131,16 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             public void onClick(View v) {
 
                 final PopupMenu menu = new PopupMenu(mContext, v);
+
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
+                            case R.id.popup_song_remove_playlist:
+                                TimberUtils.removeFromPlaylist(mContext, arraylist.get(position).id, playlistId);
+                                removeSongAt(position);
+                                notifyItemRemoved(position);
+                                break;
                             case R.id.popup_song_play:
                                 MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
                                 break;
@@ -148,12 +163,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
+                            case R.id.popup_song_delete:
+                                long[] deleteIds = {arraylist.get(position).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, SongsListAdapter.this, position);
+                                break;
                         }
                         return false;
                     }
                 });
                 menu.inflate(R.menu.popup_song);
                 menu.show();
+                if (isPlaylist)
+                    menu.getMenu().findItem(R.id.popup_song_remove_playlist).setVisible(true);
             }
         });
     }
@@ -228,6 +249,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
         }
 
+    }
+
+    public Song getSongAt(int i) {
+        return arraylist.get(i);
+    }
+
+    public void addSongTo(int i, Song song) {
+        arraylist.add(i, song);
+    }
+
+    public void removeSongAt(int i) {
+        arraylist.remove(i);
     }
 }
 

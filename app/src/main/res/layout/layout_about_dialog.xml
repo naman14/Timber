@@ -95,7 +95,7 @@
             android:id="@+id/dismiss_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@android:string/ok"
             style="@style/TextAppearance.AppCompat.Body1"
             android:textSize="18sp"
             android:layout_gravity="right"

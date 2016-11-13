@@ -96,6 +96,9 @@
     <string name="colored_nav_bar">Раскрасить панель навигации</string>
     <string name="colored_nav_bar_summary">Включить раскраску панели навигации</string>
 
+    <string name="gestures">Жесты</string>
+    <string name="switching_tracks_by_gestures">Переключение дорожек с помощью жестов</string>
+
     <string name="count_song"><xliff:g id="count">%d</xliff:g> песня</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> песни</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> альбом</string>
@@ -108,12 +111,13 @@
     <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> песня добавлена в плей-лист.</string>
     <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> песни добавлены в плей-лист.</string>
 
-
-    <!--do not translate these strings-->
-    <string name="app_name" translatable="false">Timber</string>
-    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
-    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
-    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
-    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
+    <string name="add_to_playlist">Добавить в список</string>
+    <string name="add_to_queue">В очередь</string>
+    <string name="advanced">Дополнительно</string>
+    <string name="go_to_album">Альбом</string>
+    <string name="go_to_artist">Исполнитель</string>
+    <string name="new_playlist">Новый плейлист</string>
+    <string name="play">Воспроизвести</string>
+    <string name="play_next">Воспр. следующим</string>
 
 </resources>

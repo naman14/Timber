@@ -38,6 +38,9 @@ import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.ImageUtils;
+import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.SlideTrackSwitcher;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.PlayPauseButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -198,6 +201,16 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
 
 
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
+
+        if (PreferencesUtility.getInstance(getActivity()).isGesturesEnabled()) {
+            new SlideTrackSwitcher(){
+                @Override
+                public void onClick() {
+                    NavigationUtils.navigateToNowplaying(getActivity(),false);
+                }
+            }.attach(rootView.findViewById(R.id.root_view));
+        }
+
 
         return rootView;
     }

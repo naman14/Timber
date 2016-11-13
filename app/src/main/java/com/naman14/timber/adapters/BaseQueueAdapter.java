@@ -119,6 +119,10 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
+                            case R.id.popup_song_delete:
+                                long[] deleteIds = {arraylist.get(position).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, BaseQueueAdapter.this, position);
+                                break;
                         }
                         return false;
                     }

@@ -388,6 +388,15 @@ public class MusicPlayer {
         }
     }
 
+    public static void refresh() {
+        try {
+            if (mService != null) {
+                mService.refresh();
+            }
+        } catch (final RemoteException ignored) {
+        }
+    }
+
     public static final int getQueueHistorySize() {
         if (mService != null) {
             try {

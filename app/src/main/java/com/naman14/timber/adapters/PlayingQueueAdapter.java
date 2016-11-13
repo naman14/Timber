@@ -105,6 +105,10 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
+                            case R.id.popup_song_delete:
+                                long[] deleteIds = {arraylist.get(position).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, PlayingQueueAdapter.this,position);
+                                break;
                         }
                         return false;
                     }

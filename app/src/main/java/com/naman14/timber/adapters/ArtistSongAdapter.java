@@ -131,6 +131,10 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position + 1)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
+                            case R.id.popup_song_delete:
+                                long[] deleteIds = {arraylist.get(position).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, ArtistSongAdapter.this, position);
+                                break;
                         }
                         return false;
                     }

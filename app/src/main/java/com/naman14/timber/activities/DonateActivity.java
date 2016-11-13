@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -108,7 +109,6 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
             protected void onPostExecute(Boolean b) {
                 super.onPostExecute(b);
                 if (b) {
-                    status.setVisibility(View.VISIBLE);
                     status.setText("Thanks for your donation!");
                 }
             }
@@ -170,6 +170,18 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
                 progressBar.setVisibility(View.GONE);
             }
         }.execute();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

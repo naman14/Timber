@@ -148,12 +148,13 @@ public class NavigationUtils {
         intent.putExtra(Constants.PLAYLIST_FOREGROUND_COLOR, foregroundcolor);
         intent.putExtra(Constants.ALBUM_ID, firstAlbumID);
         intent.putExtra(Constants.PLAYLIST_NAME, playlistName);
+        intent.putExtra(Constants.ACTIVITY_TRANSITION, transitionViews != null);
 
-        if (TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
+        if (transitionViews != null && TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0), transitionViews.get(1), transitionViews.get(2));
-            context.startActivity(intent, options.toBundle());
+            context.startActivityForResult(intent, Constants.ACTION_DELETE_PLAYLIST, options.toBundle());
         } else {
-            context.startActivity(intent);
+            context.startActivityForResult(intent, Constants.ACTION_DELETE_PLAYLIST);
         }
     }
 

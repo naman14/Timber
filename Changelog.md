@@ -1,4 +1,13 @@
 #Changelog
+
+v0.21b-
+
+* Add Homescreen widget
+* View playlists in list, grid and default
+* Delete playlists, clear auto playlists and hide auto playlists
+* Remove songs from playlists, reorder playlists
+* Delete songs from device
+
 v0.14b-
 
 * Added Theme engine

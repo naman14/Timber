@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_translucent"
+    android:background="@color/white_translucent"
     android:padding="4dp">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_toRightOf="@id/imageView_cover"
         android:lines="1"
         android:text="@string/tap_to_start"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textStyle="bold" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_toEndOf="@id/imageView_cover"
         android:layout_toRightOf="@id/imageView_cover"
         android:lines="1"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/black" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -60,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selectable_item_background"
+            android:tint="@android:color/black"
             android:src="@drawable/ic_skip_previous_white_36dp" />
 
         <TextView
@@ -72,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selectable_item_background"
+            android:tint="@android:color/black"
             android:src="@drawable/ic_play_white_36dp" />
 
         <TextView
@@ -84,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selectable_item_background"
+            android:tint="@android:color/black"
             android:src="@drawable/ic_skip_next_white_36dp" />
 
         <TextView

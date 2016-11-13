@@ -102,6 +102,10 @@
 
     <string name="gestures">Gestures</string>
     <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>
+    <string name="widget_standard">Timber standard widget</string>
+    <string name="widget_small">Timber small widget</string>
+    <string name="tap_to_start">Tap to start Timber</string>
+    <string name="widget_white">Timber light widget</string>
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> song</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> songs</string>
@@ -122,7 +126,7 @@
     <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
     <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
     <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
-    <string name="widget_standard">Timber standard widget</string>
+
     <string name="play">Play</string>
     <string name="add_to_playlist">Add to playlist</string>
     <string name="go_to_album">Go to album</string>
@@ -130,5 +134,6 @@
     <string name="add_to_queue">Add to queue</string>
     <string name="play_next">Play next</string>
     <string name="new_playlist">New playlist</string>
+
 
 </resources>

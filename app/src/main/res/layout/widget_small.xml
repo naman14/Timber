@@ -12,6 +12,15 @@
         android:layout_width="100dp"
         android:layout_height="100dp" />
 
+    <ImageView
+        android:id="@+id/image_playpause"
+        android:layout_margin="25dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="center"
+        android:background="@drawable/selectable_item_background"
+        android:src="@drawable/ic_play_white_36dp" />
+
     <TextView
         android:id="@+id/textView_title"
         android:layout_width="wrap_content"
@@ -21,6 +30,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/imageView_cover"
         android:layout_toRightOf="@id/imageView_cover"
+        android:ellipsize="end"
         android:lines="1"
         android:text="@string/tap_to_start"
         android:textColor="@android:color/white"
@@ -55,29 +65,6 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <ImageView
-            android:id="@+id/image_prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selectable_item_background"
-            android:src="@drawable/ic_skip_previous_white_36dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/image_playpause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selectable_item_background"
-            android:src="@drawable/ic_play_white_36dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/image_next"

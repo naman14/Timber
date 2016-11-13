@@ -9,13 +9,6 @@
             android:summary="@string/now_playing_selector"
             android:title="@string/now_playing" />
 
-        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
-            android:defaultValue="true"
-            android:key="gestures"
-            android:summary="@string/switching_tracks_by_gestures"
-            android:title="@string/gestures"
-            app:ateKey_pref_checkBox="?ate_key" />
-
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
     <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/personalisation">
@@ -98,6 +91,13 @@
             android:key="start_page_preference"
             android:summary="@string/choose_start_page"
             android:title="@string/start_page"
+            app:ateKey_pref_checkBox="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="true"
+            android:key="gestures"
+            android:summary="@string/switching_tracks_by_gestures"
+            android:title="@string/gestures"
             app:ateKey_pref_checkBox="?ate_key" />
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference

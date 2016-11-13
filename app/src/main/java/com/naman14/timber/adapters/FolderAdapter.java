@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.FolderLoader;
-import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.BubbleTextGetter;
@@ -40,10 +40,12 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
     private Activity mContext;
     private final Drawable[] mIcons;
     private boolean mBusy = false;
+    private long[] songIDs;
+
 
     public FolderAdapter(Activity context, File root) {
         mContext = context;
-        mIcons = new Drawable[] {
+        mIcons = new Drawable[]{
                 ContextCompat.getDrawable(context, R.drawable.ic_folder_open_black_24dp),
                 ContextCompat.getDrawable(context, R.drawable.ic_folder_parent_dark),
                 ContextCompat.getDrawable(context, R.drawable.ic_file_music_dark),
@@ -99,6 +101,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
             return;
         }
         mRoot = newRoot;
+        songIDs = SongLoader.getSongListInFolder(mContext, newRoot.getAbsolutePath());
         mFileSet = FolderLoader.getMediaFiles(newRoot, true);
     }
 
@@ -148,7 +151,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
         try {
             File f = mFileSet.get(pos);
             if (f.isDirectory()) {
-                return "[" + f.getName().charAt(0) + "]";
+                return String.valueOf(f.getName().charAt(0));
             } else {
                 return Character.toString(f.getName().charAt(0));
             }
@@ -157,7 +160,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
         }
     }
 
-    private class NavigateTask extends AsyncTask<File,Void,List<File>> {
+    private class NavigateTask extends AsyncTask<File, Void, List<File>> {
 
         @Override
         protected void onPreExecute() {
@@ -167,6 +170,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
 
         @Override
         protected List<File> doInBackground(File... params) {
+            songIDs = SongLoader.getSongListInFolder(mContext, params[0].getAbsolutePath());
             return FolderLoader.getMediaFiles(params[0], true);
         }
 
@@ -198,19 +202,21 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
                 return;
             }
             final File f = mFileSet.get(getAdapterPosition());
+
             if (f.isDirectory()) {
                 albumArt.setImageDrawable(mIcons[3]);
                 updateDataSetAsync(f);
-            } else if (f.isFile()) {Handler handler = new Handler();
+            } else if (f.isFile()) {
+
+                final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        MusicPlayer.clearQueue();
-                        MusicPlayer.openFile(f.getPath());
-                        MusicPlayer.playOrPause();
-                        NavigationUtils.navigateToNowplaying(mContext, true);
+                        MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, -1, TimberUtils.IdType.NA, false);
                     }
-                }, 350);
+                }, 100);
+
+
             }
         }
 

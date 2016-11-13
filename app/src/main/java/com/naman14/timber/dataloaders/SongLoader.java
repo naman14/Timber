@@ -97,6 +97,11 @@ public class SongLoader {
         return getSongsForCursor(makeSongCursor(context, null, null));
     }
 
+    public static long[] getSongListInFolder(Context context, String path) {
+        String[] whereArgs = new String[]{path + "%"};
+        return getSongListForCursor(makeSongCursor(context, MediaStore.Audio.Media.DATA + " LIKE ?", whereArgs, null));
+    }
+
     public static Song getSongForID(Context context, long id) {
         return getSongForCursor(makeSongCursor(context, "_id=" + String.valueOf(id), null));
     }
@@ -111,15 +116,19 @@ public class SongLoader {
 
 
     public static Cursor makeSongCursor(Context context, String selection, String[] paramArrayOfString) {
-        String selectionStatement = "is_music=1 AND title != ''";
         final String songSortOrder = PreferencesUtility.getInstance(context).getSongSortOrder();
+        return makeSongCursor(context, selection, paramArrayOfString, songSortOrder);
+    }
+
+    private static Cursor makeSongCursor(Context context, String selection, String[] paramArrayOfString, String sortOrder) {
+        String selectionStatement = "is_music=1 AND title != ''";
 
         if (!TextUtils.isEmpty(selection)) {
             selectionStatement = selectionStatement + " AND " + selection;
         }
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, songSortOrder);
+        return  context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, sortOrder);
 
-        return cursor;
     }
+
 
 }

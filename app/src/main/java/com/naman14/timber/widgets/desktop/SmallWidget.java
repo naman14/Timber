@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 import android.widget.RemoteViews;
 
 import com.naman14.timber.MusicPlayer;
@@ -16,14 +15,14 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
- * Created by nv95 on 08.07.16.
+ * Created by nv95 on 02.11.16.
  */
 
-public class StandardWidget extends BaseWidget {
+public class SmallWidget extends BaseWidget {
 
     @Override
     int getLayoutRes() {
-        return R.layout.widget_standard;
+        return R.layout.widget_small;
     }
 
     @Override
@@ -33,14 +32,6 @@ public class StandardWidget extends BaseWidget {
                 REQUEST_NEXT,
                 new Intent(context, MusicService.class)
                         .setAction(MusicService.NEXT_ACTION)
-                        .setComponent(serviceName),
-                0
-        ));
-        remoteViews.setOnClickPendingIntent(R.id.image_prev, PendingIntent.getService(
-                context,
-                REQUEST_PREV,
-                new Intent(context, MusicService.class)
-                        .setAction(MusicService.PREVIOUS_ACTION)
                         .setComponent(serviceName),
                 0
         ));
@@ -58,10 +49,6 @@ public class StandardWidget extends BaseWidget {
         }
         t = MusicPlayer.getArtistName();
         if (t != null) {
-            String album = MusicPlayer.getAlbumName();
-            if (!TextUtils.isEmpty(album)) {
-                t += " - " + album;
-            }
             remoteViews.setTextViewText(R.id.textView_subtitle, t);
         }
         remoteViews.setImageViewResource(R.id.image_playpause,
@@ -75,7 +62,7 @@ public class StandardWidget extends BaseWidget {
             }
             remoteViews.setImageViewBitmap(R.id.imageView_cover, artwork);
         }
-        remoteViews.setOnClickPendingIntent(R.id.imageView_cover, PendingIntent.getActivity(
+        remoteViews.setOnClickPendingIntent(R.id.textView_title, PendingIntent.getActivity(
                 context,
                 0,
                 NavigationUtils.getNowPlayingIntent(context),

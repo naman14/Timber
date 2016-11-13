@@ -27,6 +27,7 @@
     <color name="purple_transparent">#44432677</color>
 
     <color name="black_translucent">#66000000</color>
+    <color name="white_translucent">#c8ffffff</color>
 
     <color name="progressBackgroundColorLight">#33000000</color>
     <color name="progressBackgroundColorDark">#33ffffff</color>

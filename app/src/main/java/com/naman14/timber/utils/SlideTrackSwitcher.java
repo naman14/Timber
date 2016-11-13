@@ -77,6 +77,12 @@ public class SlideTrackSwitcher implements View.OnTouchListener {
             MusicPlayer.playOrPause();
             return true;
         }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            onClick();
+            return super.onSingleTapConfirmed(e);
+        }
     }
 
     public void onSwipeRight() {
@@ -91,5 +97,9 @@ public class SlideTrackSwitcher implements View.OnTouchListener {
     }
 
     public void onSwipeBottom() {
+    }
+
+    public void onClick() {
+
     }
 }

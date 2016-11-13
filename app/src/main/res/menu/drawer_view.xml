@@ -14,6 +14,10 @@
 
             android:title="@string/playlists" />
         <item
+            android:id="@+id/nav_folders"
+
+            android:title="@string/folders" />
+        <item
             android:id="@+id/nav_queue"
 
             android:title="@string/playing_queue" />

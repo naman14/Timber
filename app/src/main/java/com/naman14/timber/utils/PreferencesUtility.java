@@ -17,6 +17,7 @@ package com.naman14.timber.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 
 public final class PreferencesUtility {
@@ -34,6 +35,7 @@ public final class PreferencesUtility {
     private static final String TOGGLE_ALBUM_GRID = "toggle_album_grid";
     private static final String TOGGLE_PLAYLIST_VIEW = "toggle_playlist_view";
     private static final String TOGGLE_SHOW_AUTO_PLAYLIST = "toggle_show_auto_playlist";
+    private static final String LAST_FOLDER = "last_folder";
 
     private static final String TOGGLE_HEADPHONE_PAUSE = "toggle_headphone_pause";
     private static final String THEME_PREFERNCE = "theme_preference";
@@ -222,6 +224,16 @@ public final class PreferencesUtility {
 
     public boolean isGesturesEnabled() {
         return mPreferences.getBoolean(GESTURES, true);
+    }
+
+    public void storeLastFolder(String path) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(LAST_FOLDER, path);
+        editor.apply();
+    }
+
+    public String getLastFolder() {
+        return mPreferences.getString(LAST_FOLDER, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
     }
 }
 

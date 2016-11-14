@@ -14,8 +14,10 @@
 
 package com.naman14.timber.dataloaders;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -93,6 +95,25 @@ public class SongLoader {
         return list;
     }
 
+    public static Song getSongFromPath(String songPath, Context context) {
+        ContentResolver cr = context.getContentResolver();
+
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.DATA;
+        String[] selectionArgs = {songPath};
+        String[] projection = new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"};
+        String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
+
+        Cursor cursor = cr.query(uri, projection, selection + "=?", selectionArgs, sortOrder);
+
+        if (cursor != null && cursor.getCount() > 0) {
+            Song song = getSongForCursor(cursor);
+            cursor.close();
+            return song;
+        }
+        else return new Song();
+    }
+
     public static ArrayList<Song> getAllSongs(Context context) {
         return getSongsForCursor(makeSongCursor(context, null, null));
     }
@@ -126,7 +147,7 @@ public class SongLoader {
         if (!TextUtils.isEmpty(selection)) {
             selectionStatement = selectionStatement + " AND " + selection;
         }
-        return  context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, sortOrder);
+        return context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, sortOrder);
 
     }
 

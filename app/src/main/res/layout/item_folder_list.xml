@@ -12,8 +12,7 @@
         android:id="@+id/album_art"
         android:layout_width="46dp"
         android:layout_height="46dp"
-        android:padding="4dp"
-        android:transitionName="transition_album_art" />
+        android:padding="4dp" />
 
     <TextView
         android:id="@+id/folder_title"

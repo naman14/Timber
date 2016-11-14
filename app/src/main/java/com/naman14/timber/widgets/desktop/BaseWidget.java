@@ -24,8 +24,12 @@ public abstract class BaseWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         ComponentName serviceName = new ComponentName(context, MusicService.class);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getLayoutRes());
-        onViewsUpdate(context, remoteViews, serviceName);
-        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+        try {
+            onViewsUpdate(context, remoteViews, serviceName);
+            appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

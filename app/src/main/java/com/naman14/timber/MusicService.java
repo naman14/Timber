@@ -2290,9 +2290,13 @@ public class MusicService extends Service {
 
 
         public void setDataSource(final String path) {
-            mIsInitialized = setDataSourceImpl(mCurrentMediaPlayer, path);
-            if (mIsInitialized) {
-                setNextDataSource(null);
+            try {
+                mIsInitialized = setDataSourceImpl(mCurrentMediaPlayer, path);
+                if (mIsInitialized) {
+                    setNextDataSource(null);
+                }
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
             }
         }
 
@@ -2342,14 +2346,18 @@ public class MusicService extends Service {
             mNextMediaPlayer = new MediaPlayer();
             mNextMediaPlayer.setWakeMode(mService.get(), PowerManager.PARTIAL_WAKE_LOCK);
             mNextMediaPlayer.setAudioSessionId(getAudioSessionId());
-            if (setDataSourceImpl(mNextMediaPlayer, path)) {
-                mNextMediaPath = path;
-                mCurrentMediaPlayer.setNextMediaPlayer(mNextMediaPlayer);
-            } else {
-                if (mNextMediaPlayer != null) {
-                    mNextMediaPlayer.release();
-                    mNextMediaPlayer = null;
+            try {
+                if (setDataSourceImpl(mNextMediaPlayer, path)) {
+                    mNextMediaPath = path;
+                    mCurrentMediaPlayer.setNextMediaPlayer(mNextMediaPlayer);
+                } else {
+                    if (mNextMediaPlayer != null) {
+                        mNextMediaPlayer.release();
+                        mNextMediaPlayer = null;
+                    }
                 }
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
             }
         }
 
@@ -2402,7 +2410,11 @@ public class MusicService extends Service {
 
 
         public void setVolume(final float vol) {
-            mCurrentMediaPlayer.setVolume(vol, vol);
+            try {
+                mCurrentMediaPlayer.setVolume(vol, vol);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
         }
 
         public int getAudioSessionId() {

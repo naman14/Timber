@@ -21,11 +21,15 @@ import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.FolderLoader;
 import com.naman14.timber.dataloaders.SongLoader;
+import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.BubbleTextGetter;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,11 +40,11 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
 
     @NonNull
     private List<File> mFileSet;
+    private List<Song> mSongs;
     private File mRoot;
     private Activity mContext;
     private final Drawable[] mIcons;
     private boolean mBusy = false;
-    private long[] songIDs;
 
 
     public FolderAdapter(Activity context, File root) {
@@ -51,6 +55,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
                 ContextCompat.getDrawable(context, R.drawable.ic_file_music_dark),
                 ContextCompat.getDrawable(context, R.drawable.ic_timer_wait)
         };
+        mSongs = new ArrayList<>();
         updateDataSet(root);
     }
 
@@ -74,16 +79,17 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
     @Override
     public void onBindViewHolder(final FolderAdapter.ItemHolder itemHolder, int i) {
         File localItem = mFileSet.get(i);
-
+        Song song = mSongs.get(i);
         itemHolder.title.setText(localItem.getName());
         if (localItem.isDirectory()) {
             itemHolder.albumArt.setImageDrawable("..".equals(localItem.getName()) ? mIcons[1] : mIcons[0]);
         } else {
-            itemHolder.albumArt.setImageDrawable(mIcons[2]);
+            ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(song.albumId).toString(),
+                    itemHolder.albumArt,
+                    new DisplayImageOptions.Builder().
+                            cacheInMemory(true).showImageOnFail(mIcons[2])
+                            .resetViewBeforeLoading(true).build());
         }
-
-        if (TimberUtils.isLollipop())
-            itemHolder.albumArt.setTransitionName("transition_album_art" + i);
     }
 
     @Override
@@ -101,8 +107,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
             return;
         }
         mRoot = newRoot;
-        songIDs = SongLoader.getSongListInFolder(mContext, newRoot.getAbsolutePath());
         mFileSet = FolderLoader.getMediaFiles(newRoot, true);
+        getSongsForFiles(mFileSet);
     }
 
     @Deprecated
@@ -160,6 +166,14 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
         }
     }
 
+    private void getSongsForFiles(List<File> files) {
+        mSongs.clear();
+        for (File file : files) {
+            mSongs.add(SongLoader.getSongFromPath(file.getAbsolutePath(), mContext));
+        }
+    }
+
+
     private class NavigateTask extends AsyncTask<File, Void, List<File>> {
 
         @Override
@@ -170,8 +184,9 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
 
         @Override
         protected List<File> doInBackground(File... params) {
-            songIDs = SongLoader.getSongListInFolder(mContext, params[0].getAbsolutePath());
-            return FolderLoader.getMediaFiles(params[0], true);
+            List<File> files = FolderLoader.getMediaFiles(params[0], true);
+            getSongsForFiles(files);
+            return files;
         }
 
         @Override
@@ -212,7 +227,26 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, -1, TimberUtils.IdType.NA, false);
+                        int current =-1;
+                        long songId = SongLoader.getSongFromPath(mFileSet.get(getAdapterPosition()).getAbsolutePath(),mContext).id;
+                        int count = 0;
+                        for (Song song : mSongs) {
+                            if (song.id != -1) {
+                                count++;
+                            }
+                        }
+                        long[] ret = new long[count];
+                        int j = 0;
+                        for (int i = 0; i < getItemCount(); i++) {
+                            if (mSongs.get(i).id != -1) {
+                                ret[j] = mSongs.get(i).id;
+                                if (mSongs.get(i).id == songId) {
+                                    current = j;
+                                }
+                                j++;
+                            }
+                        }
+                        MusicPlayer.playAll(mContext, ret, current, -1, TimberUtils.IdType.NA, false);
                     }
                 }, 100);
 

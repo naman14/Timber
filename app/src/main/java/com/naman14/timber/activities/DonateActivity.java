@@ -70,12 +70,22 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
     @Override
     public void onProductPurchased(String productId, TransactionDetails details) {
         checkStatus();
-        Toast.makeText(DonateActivity.this, "Thanks for your donation!", Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(DonateActivity.this, "Thanks for your donation!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onBillingError(int errorCode, Throwable error) {
-        Toast.makeText(DonateActivity.this, "Unable to process purchase", Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(DonateActivity.this, "Unable to process purchase", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -136,6 +146,9 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
             @Override
             protected void onPostExecute(List<SkuDetails> productList) {
                 super.onPostExecute(productList);
+
+                if (productList == null)
+                    return;
 
                 Collections.sort(productList, new Comparator<SkuDetails>() {
                     @Override

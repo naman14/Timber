@@ -17,10 +17,16 @@ package com.naman14.timber.lastfmapi;
 import android.content.Context;
 
 import com.squareup.okhttp.Cache;
+import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
+import okio.BufferedSink;
+import okio.DeflaterSink;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -29,7 +35,7 @@ public class RestServiceFactory {
     private static final String TAG_OK_HTTP = "OkHttp";
     private static final long CACHE_SIZE = 1024 * 1024;
 
-    public static <T> T create(final Context context, String baseUrl, Class<T> clazz) {
+    public static <T> T createStatic(final Context context, String baseUrl, Class<T> clazz) {
         final OkHttpClient okHttpClient = new OkHttpClient();
 
         okHttpClient.setCache(new Cache(context.getApplicationContext().getCacheDir(),
@@ -49,6 +55,17 @@ public class RestServiceFactory {
                 .setEndpoint(baseUrl)
                 .setRequestInterceptor(interceptor)
                 .setClient(new OkClient(okHttpClient));
+
+        return builder
+                .build()
+                .create(clazz);
+
+    }
+
+    public static <T> T create(final Context context, String baseUrl, Class<T> clazz) {
+
+        RestAdapter.Builder builder = new RestAdapter.Builder()
+                .setEndpoint(baseUrl);
 
         return builder
                 .build()

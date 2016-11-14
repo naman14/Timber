@@ -32,7 +32,7 @@ public class LastfmUserSession {
             editor.putString(TOKEN, this.mToken);
             editor.putString(USERNAME, this.mUsername);
         }
-        editor.commit();
+        editor.apply();
     }
 
     @SerializedName(USERNAME)

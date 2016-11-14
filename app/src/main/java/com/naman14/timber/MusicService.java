@@ -64,6 +64,7 @@ import android.util.Log;
 import com.naman14.timber.helpers.MediaButtonIntentReceiver;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.lastfmapi.LastFmClient;
+import com.naman14.timber.lastfmapi.models.LastfmUserSession;
 import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
 import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.provider.MusicPlaybackState;
@@ -453,8 +454,10 @@ public class MusicService extends Service {
     }
 
     void scrobble() {
-        Log.d("Scrobble","to LastFM");
-        LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(),getTrackName(),(System.currentTimeMillis()-duration())/1000));
+        if (LastfmUserSession.getSession(this) != null) {
+            Log.d("Scrobble", "to LastFM");
+            LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(), getTrackName(), (System.currentTimeMillis() - duration()) / 1000));
+        }
     }
 
     private void releaseServiceUiAndStop() {

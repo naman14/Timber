@@ -30,7 +30,6 @@ import com.naman14.timber.lastfmapi.models.UserLoginInfo;
 import com.naman14.timber.lastfmapi.models.UserLoginQuery;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -40,6 +39,7 @@ import retrofit.client.Response;
 
 public class LastFmClient {
 
+    //TODO update the api keys
     public static final String API_KEY = "62ac1851456e4558bef1c41747b1aec2";
     public static final String API_SECRET = "b4ae8965723d67fb18e35d207014d6f3";
 
@@ -71,7 +71,7 @@ public class LastFmClient {
         }
     }
 
-    static String generateMD5(String in) {
+    private static String generateMD5(String in) {
         byte[] bytesOfMessage = new byte[0];
         try {
             bytesOfMessage = in.getBytes("UTF-8");
@@ -114,7 +114,6 @@ public class LastFmClient {
             @Override
             public void failure(RetrofitError error) {
                 listener.artistInfoFailed();
-                Log.d("lol", "failed");
                 error.printStackTrace();
             }
         });

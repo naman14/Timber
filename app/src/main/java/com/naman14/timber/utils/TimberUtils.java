@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Build;
@@ -68,8 +69,14 @@ public class TimberUtils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     }
 
-    public static Uri getAlbumArtUri(long paramInt) {
-        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), paramInt);
+    public static Uri getAlbumArtUri(long albumId) {
+        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
+    }
+    public static String getAlbumArtForFile(String filePath) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(filePath);
+
+        return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
     }
 
     public static final String makeCombinedString(final Context context, final String first,

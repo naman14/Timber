@@ -18,10 +18,20 @@ import android.content.Context;
 import android.util.Log;
 
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
+import com.naman14.timber.lastfmapi.callbacks.UserListener;
 import com.naman14.timber.lastfmapi.models.AlbumInfo;
 import com.naman14.timber.lastfmapi.models.AlbumQuery;
 import com.naman14.timber.lastfmapi.models.ArtistInfo;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
+import com.naman14.timber.lastfmapi.models.LastfmUserSession;
+import com.naman14.timber.lastfmapi.models.ScrobbleInfo;
+import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
+import com.naman14.timber.lastfmapi.models.UserLoginInfo;
+import com.naman14.timber.lastfmapi.models.UserLoginQuery;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -29,21 +39,54 @@ import retrofit.client.Response;
 
 public class LastFmClient {
 
+    //TODO update the api keys
+    public static final String API_KEY = "62ac1851456e4558bef1c41747b1aec2";
+    public static final String API_SECRET = "b4ae8965723d67fb18e35d207014d6f3";
+
+    public static final String JSON = "json";
+
     public static final String BASE_API_URL = "http://ws.audioscrobbler.com/2.0";
+    public static final String BASE_SECURE_API_URL = "https://ws.audioscrobbler.com/2.0";
 
     private static LastFmClient sInstance;
     private LastFmRestService mRestService;
+    private LastFmUserRestService mUserRestService;
 
+    private Context context;
+
+    private LastfmUserSession mUserSession;
     private static final Object sLock = new Object();
 
     public static LastFmClient getInstance(Context context) {
         synchronized (sLock) {
             if (sInstance == null) {
                 sInstance = new LastFmClient();
-                sInstance.mRestService = RestServiceFactory.create(context, BASE_API_URL, LastFmRestService.class);
+                sInstance.context = context;
+                sInstance.mRestService = RestServiceFactory.createStatic(context, BASE_API_URL, LastFmRestService.class);
+                sInstance.mUserRestService = RestServiceFactory.create(context, BASE_SECURE_API_URL, LastFmUserRestService.class);
+                sInstance.mUserSession = LastfmUserSession.getSession(context);
+              
             }
             return sInstance;
         }
+    }
+
+    private static String generateMD5(String in) {
+        byte[] bytesOfMessage = new byte[0];
+        try {
+            bytesOfMessage = in.getBytes("UTF-8");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(bytesOfMessage);
+            String out = "";
+            for (byte symbol : digest) {
+                out += String.format("%02X", symbol);
+            }
+            return out;
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException ignored) {
+            return null;
+        }
+
+
     }
 
     public void getAlbumInfo(AlbumQuery albumQuery) {
@@ -71,9 +114,49 @@ public class LastFmClient {
             @Override
             public void failure(RetrofitError error) {
                 listener.artistInfoFailed();
-                Log.d("lol", "failed");
                 error.printStackTrace();
             }
         });
+    }
+
+    public void getUserLoginInfo(UserLoginQuery userLoginQuery, final UserListener listener) {
+        mUserRestService.getUserLoginInfo(UserLoginQuery.Method, JSON, API_KEY, generateMD5(userLoginQuery.getSignature()), userLoginQuery.mUsername, userLoginQuery.mPassword, new Callback<UserLoginInfo>() {
+            @Override
+            public void success(UserLoginInfo userLoginInfo, Response response) {
+                Log.d("Logedin", userLoginInfo.mSession.mToken + " " + userLoginInfo.mSession.mUsername);
+                mUserSession = userLoginInfo.mSession;
+                mUserSession.update(context);
+                listener.userSuccess();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listener.userInfoFailed();
+            }
+        });
+    }
+
+    public void Scrobble(ScrobbleQuery scrobbleQuery) {
+        mUserRestService.getScrobbleInfo(ScrobbleQuery.Method,  API_KEY, generateMD5(scrobbleQuery.getSignature(mUserSession.mToken)), mUserSession.mToken, scrobbleQuery.mArtist, scrobbleQuery.mTrack, scrobbleQuery.mTimestamp, new Callback<ScrobbleInfo>() {
+            @Override
+            public void success(ScrobbleInfo scrobbleInfo, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
+    public void logout(){
+        this.mUserSession.mToken = null;
+        this.mUserSession.mUsername = null;
+        this.mUserSession.update(context);
+    }
+    public String getUsername(){
+        if(mUserSession!=null)return mUserSession.mUsername;
+        return null;
     }
 }

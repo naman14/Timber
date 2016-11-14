@@ -1,8 +1,6 @@
 package com.naman14.timber.widgets.desktop;
 
 import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,16 +19,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * Created by nv95 on 08.07.16.
  */
 
-public class StandardWidget extends AppWidgetProvider {
-
-    private static final int REQUEST_NEXT = 1;
-    private static final int REQUEST_PREV = 2;
-    private static final int REQUEST_PLAYPAUSE = 3;
+public class StandardWidget extends BaseWidget {
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        ComponentName serviceName = new ComponentName(context, MusicService.class);
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_standard);
+    int getLayoutRes() {
+        return R.layout.widget_standard;
+    }
+
+    @Override
+    void onViewsUpdate(Context context, RemoteViews remoteViews, ComponentName serviceName) {
         remoteViews.setOnClickPendingIntent(R.id.image_next, PendingIntent.getService(
                 context,
                 REQUEST_NEXT,
@@ -69,31 +66,20 @@ public class StandardWidget extends AppWidgetProvider {
         }
         remoteViews.setImageViewResource(R.id.image_playpause,
                 MusicPlayer.isPlaying() ? R.drawable.ic_pause_white_36dp : R.drawable.ic_play_white_36dp);
-        Bitmap artwork;
-        artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString());
-        if (artwork == null) {
-            artwork = ImageLoader.getInstance().loadImageSync("drawable://" + R.drawable.ic_empty_music2);
+        long albumId = MusicPlayer.getCurrentAlbumId();
+        if (albumId != -1) {
+            Bitmap artwork;
+            artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(albumId).toString());
+            if (artwork == null) {
+                artwork = ImageLoader.getInstance().loadImageSync("drawable://" + R.drawable.ic_empty_music2);
+            }
+            remoteViews.setImageViewBitmap(R.id.imageView_cover, artwork);
         }
-        remoteViews.setImageViewBitmap(R.id.imageView_cover, artwork);
         remoteViews.setOnClickPendingIntent(R.id.imageView_cover, PendingIntent.getActivity(
                 context,
                 0,
                 NavigationUtils.getNowPlayingIntent(context),
                 PendingIntent.FLAG_UPDATE_CURRENT
         ));
-        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        if (action != null && action.startsWith("com.naman14.timber.")) {
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            ComponentName thisAppWidget = new ComponentName(context.getPackageName(), this.getClass().getName());
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
-            onUpdate(context, appWidgetManager, appWidgetIds);
-        } else {
-            super.onReceive(context, intent);
-        }
     }
 }

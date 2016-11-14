@@ -14,8 +14,10 @@
 
 package com.naman14.timber.dataloaders;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -24,6 +26,7 @@ import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SongLoader {
 
@@ -92,29 +95,61 @@ public class SongLoader {
         return list;
     }
 
+    public static Song getSongFromPath(String songPath, Context context) {
+        ContentResolver cr = context.getContentResolver();
+
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.DATA;
+        String[] selectionArgs = {songPath};
+        String[] projection = new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"};
+        String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
+
+        Cursor cursor = cr.query(uri, projection, selection + "=?", selectionArgs, sortOrder);
+
+        if (cursor != null && cursor.getCount() > 0) {
+            Song song = getSongForCursor(cursor);
+            cursor.close();
+            return song;
+        }
+        else return new Song();
+    }
+
     public static ArrayList<Song> getAllSongs(Context context) {
         return getSongsForCursor(makeSongCursor(context, null, null));
+    }
+
+    public static long[] getSongListInFolder(Context context, String path) {
+        String[] whereArgs = new String[]{path + "%"};
+        return getSongListForCursor(makeSongCursor(context, MediaStore.Audio.Media.DATA + " LIKE ?", whereArgs, null));
     }
 
     public static Song getSongForID(Context context, long id) {
         return getSongForCursor(makeSongCursor(context, "_id=" + String.valueOf(id), null));
     }
 
-    public static ArrayList<Song> searchSongs(Context context, String searchString) {
-        return getSongsForCursor(makeSongCursor(context, "title LIKE ?", new String[]{"%" + searchString + "%"}));
+    public static List<Song> searchSongs(Context context, String searchString, int limit) {
+        ArrayList<Song> result = getSongsForCursor(makeSongCursor(context, "title LIKE ?", new String[]{searchString + "%"}));
+        if (result.size() < limit) {
+            result.addAll(getSongsForCursor(makeSongCursor(context, "title LIKE ?", new String[]{"%_" + searchString + "%"})));
+        }
+        return result.size() < limit ? result : result.subList(0, limit);
     }
 
 
     public static Cursor makeSongCursor(Context context, String selection, String[] paramArrayOfString) {
-        String selectionStatement = "is_music=1 AND title != ''";
         final String songSortOrder = PreferencesUtility.getInstance(context).getSongSortOrder();
+        return makeSongCursor(context, selection, paramArrayOfString, songSortOrder);
+    }
+
+    private static Cursor makeSongCursor(Context context, String selection, String[] paramArrayOfString, String sortOrder) {
+        String selectionStatement = "is_music=1 AND title != ''";
 
         if (!TextUtils.isEmpty(selection)) {
             selectionStatement = selectionStatement + " AND " + selection;
         }
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, songSortOrder);
+        return context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, sortOrder);
 
-        return cursor;
     }
+
 
 }

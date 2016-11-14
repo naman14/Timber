@@ -22,6 +22,7 @@
         android:layout_toEndOf="@id/imageView_cover"
         android:layout_toRightOf="@id/imageView_cover"
         android:lines="1"
+        android:text="@string/tap_to_start"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 

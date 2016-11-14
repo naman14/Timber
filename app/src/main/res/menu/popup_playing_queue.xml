@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/popup_song_play"
-        android:title="Play" />
+        android:title="@string/play" />
 
     <item
         android:id="@+id/popup_song_addto_playlist"
-        android:title="Add to playlist" />
+        android:title="@string/add_to_playlist" />
 
     <item
         android:id="@+id/popup_song_goto_album"
-        android:title="Go to album" />
+        android:title="@string/go_to_album" />
 
     <item
         android:id="@+id/popup_song_goto_artist"
-        android:title="Go to artist" />
+        android:title="@string/go_to_artist" />
 </menu>

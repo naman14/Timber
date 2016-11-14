@@ -53,6 +53,7 @@ public class Timber4 extends BaseNowplayingFragment {
         horizontalRecyclerview = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
 
         setupHorizontalQueue();
+        initGestures(mBlurredArt);
 
         return rootView;
     }

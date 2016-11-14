@@ -95,10 +95,27 @@
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="true"
+            android:key="gestures"
+            android:summary="@string/switching_tracks_by_gestures"
+            android:title="@string/gestures"
+            app:ateKey_pref_checkBox="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="true"
             android:key="toggle_headphone_pause"
             android:summary="@string/summary_pause_detach"
             android:title="@string/pause_detach"
             app:ateKey_pref_checkBox="?ate_key" />
+
+    </com.naman14.timber.widgets.ThemedPreferenceCategory>
+
+    <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="LastFM">
+
+        <Preference
+            android:key="lastfm_login"
+            android:summary="Login to LastFM to scrobble"
+            android:title="Login" />
+
 
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
@@ -112,4 +129,6 @@
             app:ateKey_pref_checkBox="?ate_key" />
 
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
+
+
 </PreferenceScreen>

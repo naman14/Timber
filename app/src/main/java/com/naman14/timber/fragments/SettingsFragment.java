@@ -30,6 +30,8 @@ import com.afollestad.appthemeengine.prefs.ATEColorPreference;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.SettingsActivity;
+import com.naman14.timber.dialogs.LastFmLoginDialog;
+import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -37,13 +39,16 @@ import com.naman14.timber.utils.PreferencesUtility;
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String NOW_PLAYING_SELECTOR = "now_playing_selector";
+    private static final String LASTFM_LOGIN = "lastfm_login";
     private static final String KEY_ABOUT = "preference_about";
     private static final String KEY_SOURCE = "preference_source";
     private static final String KEY_THEME = "theme_preference";
     private static final String TOGGLE_ANIMATIONS = "toggle_animations";
     private static final String TOGGLE_SYSTEM_ANIMATIONS = "toggle_system_animations";
     private static final String KEY_START_PAGE = "start_page_preference";
+    private boolean lastFMlogedin;
     Preference nowPlayingSelector;
+    Preference lastFMlogin;
     SwitchPreference toggleAnimations;
     ListPreference themePreference, startPagePreference;
     PreferencesUtility mPreferences;
@@ -58,10 +63,27 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         mPreferences = PreferencesUtility.getInstance(getActivity());
 
         nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
+        lastFMlogin = findPreference(LASTFM_LOGIN);
+        updateLastFM();
 //        themePreference = (ListPreference) findPreference(KEY_THEME);
         startPagePreference = (ListPreference) findPreference(KEY_START_PAGE);
 
         nowPlayingSelector.setIntent(NavigationUtils.getNavigateToStyleSelectorIntent(getActivity(), Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING));
+        lastFMlogin.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (lastFMlogedin) {
+                    LastFmClient.getInstance(getActivity()).logout();
+                    updateLastFM();
+                } else {
+                    LastFmLoginDialog lastFmLoginDialog = new LastFmLoginDialog();
+                    lastFmLoginDialog.setTargetFragment(SettingsFragment.this, 0);
+                    lastFmLoginDialog.show(getFragmentManager(), LastFmLoginDialog.FRAGMENT_NAME);
+
+                }
+                return true;
+            }
+        });
 
         PreferencesUtility.getInstance(getActivity()).setOnSharedPreferenceChangeListener(this);
         setPreferenceClickListeners();
@@ -187,4 +209,16 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
 
+    public void updateLastFM() {
+        String username = LastFmClient.getInstance(getActivity()).getUsername();
+        if (username != null) {
+            lastFMlogedin = true;
+            lastFMlogin.setTitle("Logout");
+            lastFMlogin.setSummary("Logged in as " + username);
+        } else {
+            lastFMlogedin = false;
+            lastFMlogin.setTitle("Login");
+            lastFMlogin.setSummary("Login to LastFM to scrobble");
+        }
+    }
 }

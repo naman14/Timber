@@ -15,6 +15,7 @@
 package com.naman14.timber.lastfmapi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
@@ -65,7 +66,7 @@ public class LastFmClient {
                 sInstance.mRestService = RestServiceFactory.createStatic(context, BASE_API_URL, LastFmRestService.class);
                 sInstance.mUserRestService = RestServiceFactory.create(context, BASE_SECURE_API_URL, LastFmUserRestService.class);
                 sInstance.mUserSession = LastfmUserSession.getSession(context);
-              
+
             }
             return sInstance;
         }
@@ -137,26 +138,34 @@ public class LastFmClient {
     }
 
     public void Scrobble(ScrobbleQuery scrobbleQuery) {
-        mUserRestService.getScrobbleInfo(ScrobbleQuery.Method,  API_KEY, generateMD5(scrobbleQuery.getSignature(mUserSession.mToken)), mUserSession.mToken, scrobbleQuery.mArtist, scrobbleQuery.mTrack, scrobbleQuery.mTimestamp, new Callback<ScrobbleInfo>() {
-            @Override
-            public void success(ScrobbleInfo scrobbleInfo, Response response) {
+        try {
+            mUserRestService.getScrobbleInfo(ScrobbleQuery.Method, API_KEY, generateMD5(scrobbleQuery.getSignature(mUserSession.mToken)), mUserSession.mToken, scrobbleQuery.mArtist, scrobbleQuery.mTrack, scrobbleQuery.mTimestamp, new Callback<ScrobbleInfo>() {
+                @Override
+                public void success(ScrobbleInfo scrobbleInfo, Response response) {
 
-            }
+                }
 
-            @Override
-            public void failure(RetrofitError error) {
+                @Override
+                public void failure(RetrofitError error) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void logout(){
+    public void logout() {
         this.mUserSession.mToken = null;
         this.mUserSession.mUsername = null;
-        this.mUserSession.update(context);
+        SharedPreferences preferences = context.getSharedPreferences("Lastfm", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
     }
-    public String getUsername(){
-        if(mUserSession!=null)return mUserSession.mUsername;
+
+    public String getUsername() {
+        if (mUserSession != null) return mUserSession.mUsername;
         return null;
     }
 }

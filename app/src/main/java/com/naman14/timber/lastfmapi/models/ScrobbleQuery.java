@@ -27,8 +27,4 @@ public class ScrobbleQuery {
         this.mTrack = track;
         this.mTimestamp = timestamp;
     }
-
-    public String getSignature(String token) {
-        return "api_key" + LastFmClient.API_KEY + ARTIST_NAME + this.mArtist + "method" + Method + "sk" + token + TIMESTAMP_NAME + this.mTimestamp + TRACK_NAME + this.mTrack + LastFmClient.API_SECRET;
-    }
 }

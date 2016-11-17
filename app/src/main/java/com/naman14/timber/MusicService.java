@@ -1901,6 +1901,9 @@ public class MusicService extends Service {
     public void gotoNext(final boolean force) {
         if (D) Log.d(TAG, "Going to next track");
         synchronized (this) {
+            if(this.position()>=this.duration()/2) {
+                scrobble();
+            }
             if (mPlaylist.size() <= 0) {
                 if (D) Log.d(TAG, "No play queue");
                 scheduleDelayedShutdown();
@@ -1964,7 +1967,9 @@ public class MusicService extends Service {
 
     public void prev(boolean forcePrevious) {
         synchronized (this) {
-
+            if(this.position()>=this.duration()/2) {
+                scrobble();
+            }
 
             boolean goPrevious = getRepeatMode() != REPEAT_CURRENT &&
                     (position() < REWIND_INSTEAD_PREVIOUS_THRESHOLD || forcePrevious);
@@ -2172,10 +2177,10 @@ public class MusicService extends Service {
                         service.updateNotification();
                         break;
                     case TRACK_ENDED:
-                        mService.get().scrobble();
                         if (service.mRepeatMode == REPEAT_CURRENT) {
                             service.seek(0);
                             service.play();
+                            mService.get().scrobble();
                         } else {
                             service.gotoNext(false);
                         }

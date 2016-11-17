@@ -31,8 +31,14 @@ import com.naman14.timber.lastfmapi.models.UserLoginInfo;
 import com.naman14.timber.lastfmapi.models.UserLoginQuery;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -48,6 +54,9 @@ public class LastFmClient {
 
     public static final String BASE_API_URL = "http://ws.audioscrobbler.com/2.0";
     public static final String BASE_SECURE_API_URL = "https://ws.audioscrobbler.com/2.0";
+
+    public static final String PREFERENCES_NAME = "Lastfm";
+    static final String PREFERENCE_CACHE_NAME = "Cache";
 
     private static LastFmClient sInstance;
     private LastFmRestService mRestService;
@@ -137,28 +146,77 @@ public class LastFmClient {
         });
     }
 
-    public void Scrobble(ScrobbleQuery scrobbleQuery) {
+    public void Scrobble(final ScrobbleQuery scrobbleQuery) {
         try {
-            mUserRestService.getScrobbleInfo(ScrobbleQuery.Method, API_KEY, generateMD5(scrobbleQuery.getSignature(mUserSession.mToken)), mUserSession.mToken, scrobbleQuery.mArtist, scrobbleQuery.mTrack, scrobbleQuery.mTimestamp, new Callback<ScrobbleInfo>() {
+            TreeMap<String,String> fields = new TreeMap<>();
+            fields.put("method",ScrobbleQuery.Method);
+            fields.put("api_key", API_KEY);
+            fields.put("sk", mUserSession.mToken);
+            fields.put("artist[0]",scrobbleQuery.mArtist);
+            fields.put("track[0]",scrobbleQuery.mTrack);
+            fields.put("timestamp[0]",Long.toString(scrobbleQuery.mTimestamp));
+            final ScrobbleQuery[] queries = getScrobbleCache();
+            for(int i = 0; i<queries.length;i++){
+                fields.put("artist["+(i+1)+']',queries[i].mArtist);
+                fields.put("track["+(i+1)+']',queries[i].mTrack);
+                fields.put("timestamp["+(i+1)+']',Long.toString(queries[i].mTimestamp));
+            }
+            String sig = "";
+            for(Map.Entry<String,String> ent: fields.entrySet()){
+                sig += ent.getKey()+ent.getValue();
+            }
+            sig += API_SECRET;
+            mUserRestService.getScrobbleInfo(generateMD5(sig), fields, new Callback<ScrobbleInfo>() {
                 @Override
                 public void success(ScrobbleInfo scrobbleInfo, Response response) {
-
+                    if(queries.length>0){
+                        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putStringSet(PREFERENCE_CACHE_NAME,null);
+                        editor.commit();
+                    }
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                    putScrobbleCache(scrobbleQuery);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+        getScrobbleCache();
+    }
+
+    private void putScrobbleCache(ScrobbleQuery query){
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        Set<String>  cache = preferences.getStringSet(PREFERENCE_CACHE_NAME,new HashSet<String>());
+        SharedPreferences.Editor editor = preferences.edit();
+        try {
+            cache.add(URLEncoder.encode(query.mArtist,"UTF-8")+','+URLEncoder.encode(query.mTrack,"UTF-8")+','+URLEncoder.encode(Long.toHexString(query.mTimestamp),"UTF-8"));
+        } catch (UnsupportedEncodingException ignored) { }
+        editor.putStringSet(PREFERENCE_CACHE_NAME,cache);
+        editor.commit();
+    }
+
+    private ScrobbleQuery[] getScrobbleCache(){
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        Set<String> cache = preferences.getStringSet(PREFERENCE_CACHE_NAME,new HashSet<String>());
+        ScrobbleQuery[] queries = new ScrobbleQuery[cache.size()];
+        int i = 0;
+        for(String str: cache){
+            String[] arr = str.split(",");
+            try {
+                queries[i++] = new ScrobbleQuery(URLDecoder.decode(arr[0],"UTF-8"),URLDecoder.decode(arr[1],"UTF-8"),Long.parseLong(URLDecoder.decode(arr[2],"UTF-8"),16));
+            } catch (UnsupportedEncodingException ignored) { }
+        }
+        return queries;
     }
 
     public void logout() {
         this.mUserSession.mToken = null;
         this.mUserSession.mUsername = null;
-        SharedPreferences preferences = context.getSharedPreferences("Lastfm", Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.apply();

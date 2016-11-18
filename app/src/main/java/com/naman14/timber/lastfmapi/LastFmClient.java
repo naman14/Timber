@@ -152,14 +152,14 @@ public class LastFmClient {
             fields.put("method",ScrobbleQuery.Method);
             fields.put("api_key", API_KEY);
             fields.put("sk", mUserSession.mToken);
-            fields.put("artist[0]",scrobbleQuery.mArtist);
-            fields.put("track[0]",scrobbleQuery.mTrack);
-            fields.put("timestamp[0]",Long.toString(scrobbleQuery.mTimestamp));
+
             final ScrobbleQuery[] queries = getScrobbleCache();
+            queries[queries.length-1]= scrobbleQuery;
             for(int i = 0; i<queries.length;i++){
-                fields.put("artist["+(i+1)+']',queries[i].mArtist);
-                fields.put("track["+(i+1)+']',queries[i].mTrack);
-                fields.put("timestamp["+(i+1)+']',Long.toString(queries[i].mTimestamp));
+                if(queries[i]==null)break;
+                fields.put("artist[" + i + ']',queries[i].mArtist);
+                fields.put("track[" + i +']', queries[i].mTrack);
+                fields.put("timestamp[" + i + ']',Long.toString(queries[i].mTimestamp));
             }
             String sig = "";
             for(Map.Entry<String,String> ent: fields.entrySet()){
@@ -179,7 +179,8 @@ public class LastFmClient {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    putScrobbleCache(scrobbleQuery);
+                    if(scrobbleQuery!=null)
+                        putScrobbleCache(scrobbleQuery);
                 }
             });
         } catch (Exception e) {
@@ -189,12 +190,24 @@ public class LastFmClient {
     }
 
     private void putScrobbleCache(ScrobbleQuery query){
+        //Migrate to SQLlite MusicDB ?
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        Set<String>  cache = preferences.getStringSet(PREFERENCE_CACHE_NAME,new HashSet<String>());
+        Set<String>  cachein = preferences.getStringSet(PREFERENCE_CACHE_NAME,new HashSet<String>());
         SharedPreferences.Editor editor = preferences.edit();
+        HashSet<String> cache = new HashSet<>();
+        int i = 0;
+        for(String in: cachein) {
+            cache.add(in);
+            i++;
+            //max 50 items in Cache
+            if(i==49)
+                break;
+        }
+
         try {
-            cache.add(URLEncoder.encode(query.mArtist,"UTF-8")+','+URLEncoder.encode(query.mTrack,"UTF-8")+','+URLEncoder.encode(Long.toHexString(query.mTimestamp),"UTF-8"));
+            cache.add(URLEncoder.encode(query.mArtist,"UTF-8")+','+URLEncoder.encode(query.mTrack,"UTF-8")+','+Long.toHexString(query.mTimestamp));
         } catch (UnsupportedEncodingException ignored) { }
+
         editor.putStringSet(PREFERENCE_CACHE_NAME,cache);
         editor.commit();
     }
@@ -202,12 +215,12 @@ public class LastFmClient {
     private ScrobbleQuery[] getScrobbleCache(){
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         Set<String> cache = preferences.getStringSet(PREFERENCE_CACHE_NAME,new HashSet<String>());
-        ScrobbleQuery[] queries = new ScrobbleQuery[cache.size()];
+        ScrobbleQuery[] queries = new ScrobbleQuery[cache.size()+1];
         int i = 0;
         for(String str: cache){
             String[] arr = str.split(",");
             try {
-                queries[i++] = new ScrobbleQuery(URLDecoder.decode(arr[0],"UTF-8"),URLDecoder.decode(arr[1],"UTF-8"),Long.parseLong(URLDecoder.decode(arr[2],"UTF-8"),16));
+                queries[i++] = new ScrobbleQuery(URLDecoder.decode(arr[0],"UTF-8"),URLDecoder.decode(arr[1],"UTF-8"),Long.parseLong(arr[2],16));
             } catch (UnsupportedEncodingException ignored) { }
         }
         return queries;

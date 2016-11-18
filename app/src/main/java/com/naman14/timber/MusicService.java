@@ -345,6 +345,10 @@ public class MusicService extends Service {
         reloadQueueAfterPermissionCheck();
         notifyChange(QUEUE_CHANGED);
         notifyChange(META_CHANGED);
+        //Try to push LastFMCache
+        if (LastfmUserSession.getSession(this) != null) {
+            LastFmClient.getInstance(this).Scrobble(null);
+        }
     }
 
     private void setUpMediaSession() {
@@ -391,6 +395,10 @@ public class MusicService extends Service {
     public void onDestroy() {
         if (D) Log.d(TAG, "Destroying service");
         super.onDestroy();
+        //Try to push LastFMCache
+        if (LastfmUserSession.getSession(this) != null) {
+            LastFmClient.getInstance(this).Scrobble(null);
+        }
         // Remove any sound effects
         final Intent audioEffectsIntent = new Intent(
                 AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
@@ -456,7 +464,7 @@ public class MusicService extends Service {
     void scrobble() {
         if (LastfmUserSession.getSession(this) != null) {
             Log.d("Scrobble", "to LastFM");
-            LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(), getTrackName(), (System.currentTimeMillis() - duration()) / 1000));
+            LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(), getTrackName(), System.currentTimeMillis() / 1000));
         }
     }
 

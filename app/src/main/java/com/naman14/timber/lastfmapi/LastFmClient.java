@@ -62,6 +62,9 @@ public class LastFmClient {
     private LastFmRestService mRestService;
     private LastFmUserRestService mUserRestService;
 
+    private HashSet<String> queries;
+    private boolean isUploading = false;
+
     private Context context;
 
     private LastfmUserSession mUserSession;
@@ -82,9 +85,8 @@ public class LastFmClient {
     }
 
     private static String generateMD5(String in) {
-        byte[] bytesOfMessage = new byte[0];
         try {
-            bytesOfMessage = in.getBytes("UTF-8");
+            byte[] bytesOfMessage = in.getBytes("UTF-8");
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] digest = md.digest(bytesOfMessage);
             String out = "";
@@ -147,83 +149,115 @@ public class LastFmClient {
     }
 
     public void Scrobble(final ScrobbleQuery scrobbleQuery) {
-        try {
-            TreeMap<String,String> fields = new TreeMap<>();
-            fields.put("method",ScrobbleQuery.Method);
-            fields.put("api_key", API_KEY);
-            fields.put("sk", mUserSession.mToken);
+        if (mUserSession != null)
+            new ScrobbleUploader(scrobbleQuery);
+    }
 
-            final ScrobbleQuery[] queries = getScrobbleCache();
-            queries[queries.length-1]= scrobbleQuery;
-            for(int i = 0; i<queries.length;i++){
-                if(queries[i]==null)break;
-                fields.put("artist[" + i + ']',queries[i].mArtist);
-                fields.put("track[" + i +']', queries[i].mTrack);
-                fields.put("timestamp[" + i + ']',Long.toString(queries[i].mTimestamp));
+    private class ScrobbleUploader {
+        boolean cachedirty = false;
+        ScrobbleQuery newquery;
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        ScrobbleUploader(ScrobbleQuery query) {
+            if (queries == null) {
+                queries = new HashSet<>();
+                queries.addAll(preferences.getStringSet(PREFERENCE_CACHE_NAME, new HashSet<String>()));
             }
-            String sig = "";
-            for(Map.Entry<String,String> ent: fields.entrySet()){
-                sig += ent.getKey()+ent.getValue();
-            }
-            sig += API_SECRET;
-            mUserRestService.getScrobbleInfo(generateMD5(sig), fields, new Callback<ScrobbleInfo>() {
-                @Override
-                public void success(ScrobbleInfo scrobbleInfo, Response response) {
-                    if(queries.length>0){
-                        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putStringSet(PREFERENCE_CACHE_NAME,null);
-                        editor.commit();
+            if (query != null) {
+                synchronized (queries) {
+                    if (isUploading) {
+                        queries.add(query.toString());
+                        save();
+                        return;
                     }
                 }
+                cachedirty = true;
+                newquery = query;
+            }
+            upload();
+        }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    if(scrobbleQuery!=null)
-                        putScrobbleCache(scrobbleQuery);
+        void upload() {
+            synchronized (queries) {
+                isUploading = true;
+                int size = queries.size();
+                if (size == 0 && newquery == null) return;
+                //Max 50 Scrobbles per Request (restriction by LastFM)
+                if (size > 50) size = 50;
+                if (newquery != null && size > 49) size = 49;
+                final String currentqueries[] = new String[size];
+                int n = 0;
+                for (String t : queries) {
+                    currentqueries[n++] = t;
+                    if (n >= size) break;
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+
+                TreeMap<String, String> fields = new TreeMap<>();
+                fields.put("method", ScrobbleQuery.Method);
+                fields.put("api_key", API_KEY);
+                fields.put("sk", mUserSession.mToken);
+
+                int i = 0;
+                for (String squery : currentqueries) {
+                    ScrobbleQuery query = new ScrobbleQuery(squery);
+                    fields.put("artist[" + i + ']', query.mArtist);
+                    fields.put("track[" + i + ']', query.mTrack);
+                    fields.put("timestamp[" + i + ']', Long.toString(query.mTimestamp));
+                    i++;
+                }
+                if (newquery != null) {
+                    fields.put("artist[" + i + ']', newquery.mArtist);
+                    fields.put("track[" + i + ']', newquery.mTrack);
+                    fields.put("timestamp[" + i + ']', Long.toString(newquery.mTimestamp));
+                }
+                String sig = "";
+                for (Map.Entry<String, String> ent : fields.entrySet()) {
+                    sig += ent.getKey() + ent.getValue();
+                }
+                sig += API_SECRET;
+                mUserRestService.getScrobbleInfo(generateMD5(sig), JSON, fields, new Callback<ScrobbleInfo>() {
+                    @Override
+                    public void success(ScrobbleInfo scrobbleInfo, Response response) {
+                        synchronized (queries) {
+                            cachedirty = true;
+                            if (newquery != null) newquery = null;
+
+                            for (String squery : currentqueries) {
+                                queries.remove(squery);
+                            }
+                            if (queries.size() > 0)
+                                upload();
+                            else
+                                save();
+                            isUploading = false;
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        synchronized (queries) {
+                            //Max 500 scrobbles in Cache
+                            if (newquery != null && queries.size() <= 500)
+                                queries.add(newquery.toString());
+
+                            if (cachedirty)
+                                save();
+                            isUploading = false;
+                        }
+                    }
+                });
+            }
+
+
         }
-        getScrobbleCache();
-    }
 
-    private void putScrobbleCache(ScrobbleQuery query){
-        //Migrate to SQLlite MusicDB ?
-        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        Set<String>  cachein = preferences.getStringSet(PREFERENCE_CACHE_NAME,new HashSet<String>());
-        SharedPreferences.Editor editor = preferences.edit();
-        HashSet<String> cache = new HashSet<>();
-        int i = 0;
-        for(String in: cachein) {
-            cache.add(in);
-            i++;
-            //max 50 items in Cache
-            if(i==49)
-                break;
+        void save() {
+            if (!cachedirty) return;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putStringSet(PREFERENCE_CACHE_NAME, queries);
+            editor.apply();
         }
 
-        try {
-            cache.add(URLEncoder.encode(query.mArtist,"UTF-8")+','+URLEncoder.encode(query.mTrack,"UTF-8")+','+Long.toHexString(query.mTimestamp));
-        } catch (UnsupportedEncodingException ignored) { }
-
-        editor.putStringSet(PREFERENCE_CACHE_NAME,cache);
-        editor.commit();
-    }
-
-    private ScrobbleQuery[] getScrobbleCache(){
-        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        Set<String> cache = preferences.getStringSet(PREFERENCE_CACHE_NAME,new HashSet<String>());
-        ScrobbleQuery[] queries = new ScrobbleQuery[cache.size()+1];
-        int i = 0;
-        for(String str: cache){
-            String[] arr = str.split(",");
-            try {
-                queries[i++] = new ScrobbleQuery(URLDecoder.decode(arr[0],"UTF-8"),URLDecoder.decode(arr[1],"UTF-8"),Long.parseLong(arr[2],16));
-            } catch (UnsupportedEncodingException ignored) { }
-        }
-        return queries;
     }
 
     public void logout() {

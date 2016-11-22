@@ -56,6 +56,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     public static View topContainer;
     private ProgressBar mProgress;
     private SeekBar mSeekBar;
+    int overflowcounter = 0;
     public Runnable mUpdateProgress = new Runnable() {
 
         @Override
@@ -66,7 +67,11 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
             mSeekBar.setProgress((int) position);
 
             if (MusicPlayer.isPlaying()) {
-                mProgress.postDelayed(mUpdateProgress, 50);
+                int delay = (int) (1000 - (position % 1000)) + 500;
+                if(overflowcounter<0) {
+                    overflowcounter++;
+                    mProgress.postDelayed(mUpdateProgress, delay);
+                }
             } else mProgress.removeCallbacks(this);
 
         }

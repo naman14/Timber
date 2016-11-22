@@ -24,6 +24,6 @@ public interface LastFmUserRestService {
 
     @POST(BASE)
     @FormUrlEncoded
-    void getScrobbleInfo(@Field("api_sig") String apisig,@FieldMap Map<String, String> fields, Callback<ScrobbleInfo> callback);
+    void getScrobbleInfo(@Field("api_sig") String apisig, @Field("format") String format, @FieldMap Map<String, String> fields, Callback<ScrobbleInfo> callback);
 
 }

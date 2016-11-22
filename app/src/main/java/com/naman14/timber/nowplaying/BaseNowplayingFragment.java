@@ -30,6 +30,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -75,7 +76,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     String ateKey;
     int accentColor;
-
+    int overflowcounter = 0;
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
     //seekbar
@@ -84,15 +85,19 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         @Override
         public void run() {
 
+            long position = MusicPlayer.position();
             if (mProgress != null) {
-                long position = MusicPlayer.position();
                 mProgress.setProgress((int) position);
                 if (elapsedtime != null && getActivity() != null)
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
             }
-
+            overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                mProgress.postDelayed(mUpdateProgress, 50);
+                int delay = (int) (1000 - (position % 1000)) + 500;
+                if(overflowcounter<0) {
+                    overflowcounter++;
+                    mProgress.postDelayed(mUpdateProgress, delay);
+                }
             }
 
         }
@@ -103,17 +108,20 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         @Override
         public void run() {
-
+            long position = MusicPlayer.position();
             if (mCircularProgress != null) {
-                long position = MusicPlayer.position();
                 mCircularProgress.setProgress((int) position);
                 if (elapsedtime != null && getActivity() != null)
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
 
             }
-
+            overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                mCircularProgress.postDelayed(mUpdateCircularProgress, 50);
+                int delay = (int) (1000 - (position % 1000)) + 500;
+                if(overflowcounter<0) {
+                    overflowcounter++;
+                    mCircularProgress.postDelayed(mUpdateCircularProgress, delay);
+                }
             }
 
         }

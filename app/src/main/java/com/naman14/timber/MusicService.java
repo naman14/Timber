@@ -17,6 +17,7 @@ package com.naman14.timber;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -35,7 +36,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
+import android.media.MediaMetadataEditor;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.media.RemoteControlClient;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Build;
@@ -188,6 +192,7 @@ public class MusicService extends Service {
     private boolean mPausedByTransientLossOfFocus = false;
 
     private MediaSessionCompat mSession;
+    @SuppressWarnings("deprecation") private RemoteControlClient mRemoteControlClient;
 
     private ComponentName mMediaButtonReceiverComponent;
 
@@ -299,6 +304,8 @@ public class MusicService extends Service {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             setUpMediaSession();
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            setUpRemoteControlClient();
 
         mPreferences = getSharedPreferences("Service", 0);
         mCardId = getCardId();
@@ -349,6 +356,28 @@ public class MusicService extends Service {
         if (LastfmUserSession.getSession(this) != null) {
             LastFmClient.getInstance(this).Scrobble(null);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setUpRemoteControlClient(){
+        //Legacy for ICS
+        if (mRemoteControlClient == null) {
+            Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+            mediaButtonIntent.setComponent(mMediaButtonReceiverComponent);
+            PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
+
+            // create and register the remote control client
+            mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
+            mAudioManager.registerRemoteControlClient(mRemoteControlClient);
+        }
+
+        mRemoteControlClient.setTransportControlFlags(
+                RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
+                        RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
+                        RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
+                        RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
+                        RemoteControlClient.FLAG_KEY_MEDIA_STOP);
     }
 
     private void setUpMediaSession() {
@@ -464,7 +493,9 @@ public class MusicService extends Service {
     void scrobble() {
         if (LastfmUserSession.getSession(this) != null) {
             Log.d("Scrobble", "to LastFM");
-            LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(), getTrackName(), System.currentTimeMillis() / 1000));
+            String trackname = getTrackName();
+            if(trackname!=null)
+                LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(), trackname, System.currentTimeMillis() / 1000));
         }
     }
 
@@ -642,6 +673,11 @@ public class MusicService extends Service {
 
     private void stop(final boolean goToIdle) {
         if (D) Log.d(TAG, "Stopping playback, goToIdle = " + goToIdle);
+
+        if(this.position()>=this.duration()/2) {
+            scrobble();
+        }
+
         if (mPlayer.isInitialized()) {
             mPlayer.stop();
         }
@@ -1036,6 +1072,8 @@ public class MusicService extends Service {
         // Update the lockscreen controls
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             updateMediaSession(what);
+        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            updateRemoteControlClient(what);
 
         if (what.equals(POSITION_CHANGED)) {
             return;
@@ -1079,6 +1117,37 @@ public class MusicService extends Service {
         }
 
     }
+
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void updateRemoteControlClient(final String what){
+        //Legacy for ICS
+        if (mRemoteControlClient != null) {
+            int playState = mIsSupposedToBePlaying
+                    ? RemoteControlClient.PLAYSTATE_PLAYING
+                    : RemoteControlClient.PLAYSTATE_PAUSED;
+            if (what.equals(META_CHANGED) || what.equals(QUEUE_CHANGED)) {
+                Bitmap albumArt = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
+                if (albumArt != null) {
+
+                    Bitmap.Config config = albumArt.getConfig();
+                    if (config == null) {
+                        config = Bitmap.Config.ARGB_8888;
+                    }
+                    albumArt = albumArt.copy(config, false);
+                }
+                RemoteControlClient.MetadataEditor editor = mRemoteControlClient.editMetadata(true);
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, getAlbumName());
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, getArtistName());
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, getTrackName());
+                editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, duration());
+                editor.putBitmap(MediaMetadataEditor.BITMAP_KEY_ARTWORK, mShowAlbumArtOnLockscreen ? albumArt : null);
+                editor.apply();
+            }
+            mRemoteControlClient.setPlaybackState(playState);
+        }
+    }
+
 
     private void updateMediaSession(final String what) {
         int playState = mIsSupposedToBePlaying
@@ -1909,9 +1978,6 @@ public class MusicService extends Service {
     public void gotoNext(final boolean force) {
         if (D) Log.d(TAG, "Going to next track");
         synchronized (this) {
-            if(this.position()>=this.duration()/2) {
-                scrobble();
-            }
             if (mPlaylist.size() <= 0) {
                 if (D) Log.d(TAG, "No play queue");
                 scheduleDelayedShutdown();
@@ -1975,10 +2041,6 @@ public class MusicService extends Service {
 
     public void prev(boolean forcePrevious) {
         synchronized (this) {
-            if(this.position()>=this.duration()/2) {
-                scrobble();
-            }
-
             boolean goPrevious = getRepeatMode() != REPEAT_CURRENT &&
                     (position() < REWIND_INSTEAD_PREVIOUS_THRESHOLD || forcePrevious);
 
@@ -2173,7 +2235,6 @@ public class MusicService extends Service {
                         }
                         break;
                     case TRACK_WENT_TO_NEXT:
-                        mService.get().scrobble();
                         service.setAndRecordPlayPos(service.mNextPlayPos);
                         service.setNextTrack();
                         if (service.mCursor != null) {
@@ -2188,7 +2249,6 @@ public class MusicService extends Service {
                         if (service.mRepeatMode == REPEAT_CURRENT) {
                             service.seek(0);
                             service.play();
-                            mService.get().scrobble();
                         } else {
                             service.gotoNext(false);
                         }

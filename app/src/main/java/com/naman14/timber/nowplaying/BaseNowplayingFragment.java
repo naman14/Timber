@@ -79,6 +79,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     int overflowcounter = 0;
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
+    boolean fragmentPaused = false;
+
     //seekbar
     public Runnable mUpdateProgress = new Runnable() {
 
@@ -93,8 +95,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             }
             overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                int delay = (int) (1000 - (position % 1000)) + 500;
-                if(overflowcounter<0) {
+                int delay = (int) (1500 - (position % 1000));
+                if (overflowcounter < 0 && !fragmentPaused) {
                     overflowcounter++;
                     mProgress.postDelayed(mUpdateProgress, delay);
                 }
@@ -117,8 +119,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             }
             overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                int delay = (int) (1000 - (position % 1000)) + 500;
-                if(overflowcounter<0) {
+                int delay = (int) (1500 - (position % 1000));
+                if (overflowcounter < 0 && !fragmentPaused) {
                     overflowcounter++;
                     mCircularProgress.postDelayed(mUpdateCircularProgress, delay);
                 }
@@ -215,6 +217,23 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         super.onCreate(savedInstanceState);
         ateKey = Helpers.getATEKey(getActivity());
         accentColor = Config.accentColor(getActivity(), ateKey);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fragmentPaused = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fragmentPaused = false;
+        if (mProgress != null)
+            mProgress.postDelayed(mUpdateProgress, 10);
+
+        if (mCircularProgress != null)
+            mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
     }
 
     public void setSongDetails(View view) {

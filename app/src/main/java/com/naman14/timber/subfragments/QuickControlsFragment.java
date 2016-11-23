@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,9 +67,10 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
             mProgress.setProgress((int) position);
             mSeekBar.setProgress((int) position);
 
+            overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                int delay = (int) (1000 - (position % 1000)) + 500;
-                if(overflowcounter<0) {
+                int delay = (int) (1500 - (position % 1000));
+                if (overflowcounter < 0 && !fragmentPaused) {
                     overflowcounter++;
                     mProgress.postDelayed(mUpdateProgress, delay);
                 }
@@ -84,6 +86,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     private View playPauseWrapper, playPauseWrapperExpanded;
     private MaterialIconView previous, next;
     private boolean duetoplaypause = false;
+    private boolean fragmentPaused = false;
     private final View.OnClickListener mPlayPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -208,16 +211,22 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
 
         if (PreferencesUtility.getInstance(getActivity()).isGesturesEnabled()) {
-            new SlideTrackSwitcher(){
+            new SlideTrackSwitcher() {
                 @Override
                 public void onClick() {
-                    NavigationUtils.navigateToNowplaying(getActivity(),false);
+                    NavigationUtils.navigateToNowplaying(getActivity(), false);
                 }
             }.attach(rootView.findViewById(R.id.root_view));
         }
 
 
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fragmentPaused = true;
     }
 
     public void updateNowplayingCard() {
@@ -278,6 +287,9 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     public void onResume() {
         super.onResume();
         topContainer = rootView.findViewById(R.id.topContainer);
+        fragmentPaused = false;
+        if (mProgress != null)
+            mProgress.postDelayed(mUpdateProgress, 10);
 
     }
 

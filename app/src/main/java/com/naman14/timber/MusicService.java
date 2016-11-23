@@ -2235,6 +2235,7 @@ public class MusicService extends Service {
                         }
                         break;
                     case TRACK_WENT_TO_NEXT:
+                        mService.get().scrobble();
                         service.setAndRecordPlayPos(service.mNextPlayPos);
                         service.setNextTrack();
                         if (service.mCursor != null) {

@@ -40,6 +40,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private static final String NOW_PLAYING_SELECTOR = "now_playing_selector";
     private static final String LASTFM_LOGIN = "lastfm_login";
+    private static final String LOCKSCREEN = "show_albumart_lockscreen";
     private static final String KEY_ABOUT = "preference_about";
     private static final String KEY_SOURCE = "preference_source";
     private static final String KEY_THEME = "theme_preference";
@@ -49,6 +50,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private boolean lastFMlogedin;
     Preference nowPlayingSelector;
     Preference lastFMlogin;
+    Preference lockscreen;
     SwitchPreference toggleAnimations;
     ListPreference themePreference, startPagePreference;
     PreferencesUtility mPreferences;
@@ -62,6 +64,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         mPreferences = PreferencesUtility.getInstance(getActivity());
 
+        lockscreen = findPreference(LOCKSCREEN);
         nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
         lastFMlogin = findPreference(LASTFM_LOGIN);
         updateLastFM();
@@ -74,6 +77,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             public boolean onPreferenceClick(Preference preference) {
                 if (lastFMlogedin) {
                     LastFmClient.getInstance(getActivity()).logout();
+                    Bundle extras = new Bundle();
+                    extras.putString("lf_token","logout");
+                    extras.putString("lf_user",null);
+                    mPreferences.updateService(extras);
                     updateLastFM();
                 } else {
                     LastFmLoginDialog lastFmLoginDialog = new LastFmLoginDialog();
@@ -127,6 +134,16 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         mPreferences.setStartPageIndex(2);
                         break;
                 }
+                return true;
+            }
+        });
+
+        lockscreen.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Bundle extras = new Bundle();
+                extras.putBoolean("lockscreen",(boolean)newValue);
+                mPreferences.updateService(extras);
                 return true;
             }
         });
@@ -214,11 +231,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (username != null) {
             lastFMlogedin = true;
             lastFMlogin.setTitle("Logout");
-            lastFMlogin.setSummary("Logged in as " + username);
+            lastFMlogin.setSummary(String.format(getString(R.string.lastfm_loged_in),username));
         } else {
             lastFMlogedin = false;
             lastFMlogin.setTitle("Login");
-            lastFMlogin.setSummary("Login to LastFM to scrobble");
+            lastFMlogin.setSummary(getString(R.string.lastfm_pref));
         }
     }
 }

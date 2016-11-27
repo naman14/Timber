@@ -100,6 +100,9 @@
     <string name="colored_nav_bar">Colored Navigation Bar</string>
     <string name="colored_nav_bar_summary">Toggle navigation bar coloring</string>
 
+    <string name="albumart_lockscreen">Lockscreen</string>
+    <string name="albumart_lockscreen_summary">Show Albumcover in Lockscreen</string>
+
     <string name="gestures">Gestures</string>
     <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>
     <string name="widget_standard">Timber standard widget</string>
@@ -138,5 +141,12 @@
 
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
+
+    <string name="lastfm_pref">Login to LastFM to scrobble</string>
+    <string name="lastfm_login_failture">Failed to Login</string>
+    <string name="lastfm_login">Login to LastFM</string>
+    <string name="lastfm_loged_in">Logged in as %s</string>
+
+    <string name="cancel">Cancel</string>
 
 </resources>

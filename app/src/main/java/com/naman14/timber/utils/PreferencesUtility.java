@@ -15,10 +15,14 @@
 package com.naman14.timber.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+
+import com.naman14.timber.MusicService;
 
 public final class PreferencesUtility {
 
@@ -45,12 +49,15 @@ public final class PreferencesUtility {
     private static final String TOGGLE_XPOSED_TRACKSELECTOR = "toggle_xposed_trackselector";
     public static final String LAST_ADDED_CUTOFF = "last_added_cutoff";
     public static final String GESTURES = "gestures";
+    private static final String SHOW_LOCKSCREEN_ALBUMART = "show_albumart_lockscreen";
 
     private static PreferencesUtility sInstance;
 
     private static SharedPreferences mPreferences;
+    private static Context context;
 
     public PreferencesUtility(final Context context) {
+        this.context = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -234,6 +241,17 @@ public final class PreferencesUtility {
 
     public String getLastFolder() {
         return mPreferences.getString(LAST_FOLDER, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+    }
+
+    public boolean getSetAlbumartLockscreen(){
+        return mPreferences.getBoolean(SHOW_LOCKSCREEN_ALBUMART, true);
+    }
+
+    public void updateService(Bundle extras){
+        final Intent intent = new Intent(context, MusicService.class);
+        intent.setAction(MusicService.UPDATE_PREFERENCES);
+        intent.putExtras(extras);
+        context.startService(intent);
     }
 }
 

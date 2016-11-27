@@ -12,16 +12,20 @@ import com.naman14.timber.lastfmapi.LastFmClient;
 public class LastfmUserSession {
     private static final String USERNAME = "name";
     private static final String TOKEN = "key";
-
+    private static LastfmUserSession session;
 
 
     public static LastfmUserSession getSession(Context context) {
+        if (session != null) return session;
         SharedPreferences preferences = context.getSharedPreferences(LastFmClient.PREFERENCES_NAME, Context.MODE_PRIVATE);
-        LastfmUserSession session = new LastfmUserSession();
+        session = new LastfmUserSession();
         session.mToken = preferences.getString(TOKEN, null);
         session.mUsername = preferences.getString(USERNAME, null);
-        if (session.mToken == null || session.mUsername == null) return null;
         return session;
+    }
+
+    public boolean isLogedin(){
+        return session.mToken != null && session.mUsername != null;
     }
 
     public void update(Context context) {

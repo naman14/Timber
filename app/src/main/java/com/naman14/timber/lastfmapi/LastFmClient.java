@@ -16,6 +16,7 @@ package com.naman14.timber.lastfmapi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
@@ -29,6 +30,7 @@ import com.naman14.timber.lastfmapi.models.ScrobbleInfo;
 import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
 import com.naman14.timber.lastfmapi.models.UserLoginInfo;
 import com.naman14.timber.lastfmapi.models.UserLoginQuery;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -136,6 +138,10 @@ public class LastFmClient {
             @Override
             public void success(UserLoginInfo userLoginInfo, Response response) {
                 Log.d("Logedin", userLoginInfo.mSession.mToken + " " + userLoginInfo.mSession.mUsername);
+                Bundle extras = new Bundle();
+                extras.putString("lf_token",userLoginInfo.mSession.mToken);
+                extras.putString("lf_user",userLoginInfo.mSession.mUsername);
+                PreferencesUtility.getInstance(context).updateService(extras);
                 mUserSession = userLoginInfo.mSession;
                 mUserSession.update(context);
                 listener.userSuccess();
@@ -149,7 +155,7 @@ public class LastFmClient {
     }
 
     public void Scrobble(final ScrobbleQuery scrobbleQuery) {
-        if (mUserSession != null)
+        if (mUserSession.isLogedin())
             new ScrobbleUploader(scrobbleQuery);
     }
 

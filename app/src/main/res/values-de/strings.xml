@@ -81,6 +81,10 @@
     <string name="pause_detach">Pause beim entfernen</string>
     <string name="albumart_lockscreen">Sperrbildschirm</string>
     <string name="albumart_lockscreen_summary">Albumcover im Sperrbildschirm anzeigen.</string>
+    <string name="load_artist_image">Interpretenbilder</string>
+    <string name="load_artist_image_summary">Lade Interpretenbilder aus dem Internet.</string>
+    <string name="load_artist_image_mobile">Mobiledaten</string>
+    <string name="load_artist_image_mobile_summary">Interpretenbilder auch ohne Wifi laden.</string>
 
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> Song</string>

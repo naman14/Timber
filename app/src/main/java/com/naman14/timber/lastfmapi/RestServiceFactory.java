@@ -16,6 +16,7 @@ package com.naman14.timber.lastfmapi;
 
 import android.content.Context;
 
+import com.naman14.timber.utils.PreferencesUtility;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -43,10 +44,12 @@ public class RestServiceFactory {
         okHttpClient.setConnectTimeout(40, TimeUnit.SECONDS);
 
         RequestInterceptor interceptor = new RequestInterceptor() {
+            PreferencesUtility prefs = PreferencesUtility.getInstance(context);
+
             @Override
             public void intercept(RequestFacade request) {
                 //7-days cache
-                request.addHeader("Cache-Control", String.format("max-age=%d,max-stale=%d", Integer.valueOf(60 * 60 * 24 * 7), Integer.valueOf(31536000)));
+                request.addHeader("Cache-Control", String.format("max-age=%d,%smax-stale=%d", Integer.valueOf(60 * 60 * 24 * 7), prefs.loadArtistImages() ? "" : "only-if-cached,", Integer.valueOf(31536000)));
                 request.addHeader("Connection", "keep-alive");
             }
         };

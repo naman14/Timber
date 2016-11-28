@@ -123,6 +123,20 @@
             android:summary="@string/lastfm_pref"
             android:title="Login" />
 
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="true"
+            android:key="artist_image"
+            android:summary="@string/load_artist_image_summary"
+            android:title="@string/load_artist_image"
+            app:ateKey_pref_checkBox="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:dependency="artist_image"
+            android:defaultValue="false"
+            android:key="artist_image_mobile"
+            android:summary="@string/load_artist_image_mobile_summary"
+            android:title="@string/load_artist_image_mobile"
+            app:ateKey_pref_checkBox="?ate_key" />
 
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
 

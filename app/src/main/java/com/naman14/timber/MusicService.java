@@ -230,6 +230,7 @@ public class MusicService extends Service {
     private BroadcastReceiver mUnmountReceiver = null;
     private MusicPlaybackState mPlaybackStateStore;
     private boolean mShowAlbumArtOnLockscreen;
+    private boolean mActivateXTrackSelector;
     private SongPlayCount mSongPlayCount;
     private RecentStore mRecentStore;
     private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
@@ -358,7 +359,9 @@ public class MusicService extends Service {
         if (LastfmUserSession.getSession(this) != null) {
             LastFmClient.getInstance(this).Scrobble(null);
         }
-        mShowAlbumArtOnLockscreen = PreferencesUtility.getInstance(this).getSetAlbumartLockscreen();
+        PreferencesUtility pref = PreferencesUtility.getInstance(this);
+        mShowAlbumArtOnLockscreen = pref.getSetAlbumartLockscreen();
+        mActivateXTrackSelector = pref.getXPosedTrackselectorEnabled();
     }
 
     @SuppressWarnings("deprecation")
@@ -565,6 +568,7 @@ public class MusicService extends Service {
 
     private void onPreferencesUpdate(Bundle extras) {
         mShowAlbumArtOnLockscreen = extras.getBoolean("lockscreen", mShowAlbumArtOnLockscreen);
+        mActivateXTrackSelector = extras.getBoolean("xtrack",mActivateXTrackSelector);
         LastfmUserSession session = LastfmUserSession.getSession(this);
         session.mToken = extras.getString("lf_token", session.mToken);
         session.mUsername = extras.getString("lf_user", session.mUsername);
@@ -572,10 +576,7 @@ public class MusicService extends Service {
             session.mToken = null;
             session.mUsername = null;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            updateMediaSession(META_CHANGED);
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-            updateRemoteControlClient(META_CHANGED);
+        notifyChange(META_CHANGED);
 
     }
 
@@ -1277,7 +1278,7 @@ public class MusicService extends Service {
             builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
         Notification n = builder.build();
 
-        if (PreferencesUtility.getInstance(this).getXPosedTrackselectorEnabled()) {
+        if (mActivateXTrackSelector) {
             addXTrackSelector(n);
         }
 
@@ -2202,11 +2203,6 @@ public class MusicService extends Service {
 
     public void playlistChanged() {
         notifyChange(PLAYLIST_CHANGED);
-    }
-
-    public void setLockscreenAlbumArt(boolean enabled) {
-        mShowAlbumArtOnLockscreen = enabled;
-        notifyChange(META_CHANGED);
     }
 
     public interface TrackErrorExtra {

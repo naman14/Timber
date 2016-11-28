@@ -103,6 +103,12 @@
     <string name="albumart_lockscreen">Lockscreen</string>
     <string name="albumart_lockscreen_summary">Show Albumcover in Lockscreen</string>
 
+    <string name="load_artist_image">Artistimages</string>
+    <string name="load_artist_image_summary">Load Artistimages from Web</string>
+
+    <string name="load_artist_image_mobile">Mobiledata</string>
+    <string name="load_artist_image_mobile_summary">Load Artistimages even if there is no wifi</string>
+
     <string name="gestures">Gestures</string>
     <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>
     <string name="widget_standard">Timber standard widget</string>

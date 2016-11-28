@@ -10,7 +10,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.dataloaders.PlaylistLoader;
 import com.naman14.timber.models.Playlist;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 
 import java.util.List;
 

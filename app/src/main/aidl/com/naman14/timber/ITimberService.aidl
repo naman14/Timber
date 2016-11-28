@@ -1,6 +1,10 @@
 package com.naman14.timber;
 
 import com.naman14.timber.helpers.MusicPlaybackTrack;
+import java.util.List;
+import com.naman14.timber.helpers.Song;
+
+
 
 interface ITimberService
 {
@@ -49,5 +53,6 @@ interface ITimberService
     int getMediaMountedCount();
     int getAudioSessionId();
     void setLockscreenAlbumArt(boolean enabled);
+    void playAllUrls(in List<Song> songs, int position);
 }
 

@@ -50,7 +50,7 @@ import com.naman14.timber.dataloaders.PlaylistSongLoader;
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.dataloaders.TopTracksLoader;
 import com.naman14.timber.listeners.SimplelTransitionListener;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;

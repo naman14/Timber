@@ -32,12 +32,13 @@ import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.listeners.MusicStateListener;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongsFragment extends Fragment implements MusicStateListener {
@@ -45,6 +46,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
     private SongsListAdapter mAdapter;
     private RecyclerView recyclerView;
     private PreferencesUtility mPreferences;
+    List<Song> songList;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -62,7 +64,18 @@ public class SongsFragment extends Fragment implements MusicStateListener {
         FastScroller fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
         fastScroller.setRecyclerView(recyclerView);
 
-        new loadSongs().execute("");
+//        new loadSongs().execute("");
+
+        songList = new ArrayList<Song>();
+        songList.add(new Song("Tu Hi Hai","http://mp3khan.top/music/indian_movies/Dear%20Zindagi%20(2016)/02%20-%20Tu%20Hi%20Hai%20-%20Dear%20Zindagi%20[DJMaza.Cool].mp3",1000));
+        songList.add(new Song("Love you Zindagi","http://mp3khan.top/music/indian_movies/Dear%20Zindagi%20(2016)/01%20-%20Love%20You%20Zindagi%20-%20Dear%20Zindagi%20[DJMaza.Cool].mp3",10001));
+        songList.add(new Song("Ae Zindagi","http://mp3khan.top/music/indian_movies/Dear%20Zindagi%20(2016)/07%20-%20Ae%20Zindagi%20Gale%20Laga%20Le%20(Take%201)%20-%20Dear%20Zindagi%20[DJMaza.Cool].mp3",10002));
+        songList.add(new Song("Let's Breakup","http://mp3khan.top/music/indian_movies/Dear%20Zindagi%20(2016)/04%20-%20Lets%20Break%20Up%20-%20Dear%20Zindagi%20[DJMaza.Cool].mp3",10003));
+
+        mAdapter = new SongsListAdapter((AppCompatActivity) getActivity(), songList, false, false);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
 
         return rootView;

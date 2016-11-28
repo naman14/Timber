@@ -35,7 +35,7 @@ import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.adapters.PlayingQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 import com.naman14.timber.widgets.DragSortRecycler;
 
 public class QueueFragment extends Fragment implements MusicStateListener {

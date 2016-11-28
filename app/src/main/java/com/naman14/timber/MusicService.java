@@ -66,6 +66,7 @@ import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.models.LastfmUserSession;
 import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
+import com.naman14.timber.helpers.Song;
 import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
@@ -80,6 +81,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.TreeSet;
@@ -208,6 +210,8 @@ public class MusicService extends Service {
     private int mServiceStartId = -1;
 
     private ArrayList<MusicPlaybackTrack> mPlaylist = new ArrayList<MusicPlaybackTrack>(100);
+
+    private ArrayList<String> mSongsUrls = new ArrayList<String>(100);
 
     private long[] mAutoShuffleList = null;
 
@@ -1282,7 +1286,7 @@ public class MusicService extends Service {
             seek(seekpos >= 0 && seekpos < duration() ? seekpos : 0);
 
             if (D) {
-                Log.d(TAG, "restored queue, currently at position "
+                Log.d(TAG, "restored queue, currently at mPosition "
                         + position() + "/" + duration()
                         + " (requested " + seekpos + ")");
             }
@@ -1307,6 +1311,10 @@ public class MusicService extends Service {
             }
             mShuffleMode = shufmode;
         }
+    }
+
+    public void playAllUrls(List<Song> songs, int position){
+        mPlayer.setDataSource(songs, position);
     }
 
     public boolean openFile(final String path) {
@@ -2270,7 +2278,7 @@ public class MusicService extends Service {
     }
 
     private static final class MultiPlayer implements MediaPlayer.OnErrorListener,
-            MediaPlayer.OnCompletionListener {
+            MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
 
         private final WeakReference<MusicService> mService;
 
@@ -2283,6 +2291,10 @@ public class MusicService extends Service {
         private boolean mIsInitialized = false;
 
         private String mNextMediaPath;
+
+        private  List<Song> mSongs;
+
+        private int mPosition;
 
 
         public MultiPlayer(final MusicService service) {
@@ -2303,19 +2315,52 @@ public class MusicService extends Service {
             }
         }
 
+        public void setDataSource(List<Song> songs, int position) {
+            try {
+                mSongs = songs;
+                mPosition = position;
+                mIsInitialized = setDataSourceImpl(mCurrentMediaPlayer);
+                if (mIsInitialized) {
+                    setNextDataSource(null);
+                }
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         private boolean setDataSourceImpl(final MediaPlayer player, final String path) {
             try {
                 player.reset();
-                player.setOnPreparedListener(null);
+                player.setOnPreparedListener(this);
                 if (path.startsWith("content://")) {
+                    player.setDataSource(path);
                     player.setDataSource(mService.get(), Uri.parse(path));
                 } else {
                     player.setDataSource(path);
                 }
                 player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                player.setDataSource(path);
+                player.prepareAsync();
+            } catch (final IOException todo) {
 
-                player.prepare();
+                return false;
+            } catch (final IllegalArgumentException todo) {
+
+                return false;
+            }
+            player.setOnCompletionListener(this);
+            player.setOnErrorListener(this);
+            return true;
+        }
+
+        private boolean setDataSourceImpl(final MediaPlayer player) {
+            try {
+                player.reset();
+                player.setOnPreparedListener(this);
+                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                player.setDataSource(mSongs.get(mPosition).url);
+                player.prepareAsync();
             } catch (final IOException todo) {
 
                 return false;
@@ -2453,6 +2498,23 @@ public class MusicService extends Service {
 
         @Override
         public void onCompletion(final MediaPlayer mp) {
+                try {
+                    if(mPosition == (mSongs.size()-1)){
+                        mPosition = -1;
+                    }
+                    mPosition++;
+                    mp.reset();
+                    mp.setDataSource(mSongs.get(mPosition).url);
+                    mp.prepareAsync();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+        }
+
+      /*  @Override
+        public void onCompletion(final MediaPlayer mp) {
             if (mp == mCurrentMediaPlayer && mNextMediaPlayer != null) {
                 mCurrentMediaPlayer.release();
                 mCurrentMediaPlayer = mNextMediaPlayer;
@@ -2464,6 +2526,11 @@ public class MusicService extends Service {
                 mHandler.sendEmptyMessage(TRACK_ENDED);
                 mHandler.sendEmptyMessage(RELEASE_WAKELOCK);
             }
+        }*/
+
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            mp.start();
         }
     }
 
@@ -2708,6 +2775,12 @@ public class MusicService extends Service {
         @Override
         public void setLockscreenAlbumArt(boolean enabled) {
             mService.get().setLockscreenAlbumArt(enabled);
+        }
+
+        @Override
+        public void playAllUrls(List<Song> songs, int position) throws RemoteException {
+            mService.get().playAllUrls(songs, position);
+
         }
 
     }

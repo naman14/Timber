@@ -34,9 +34,11 @@ import android.widget.Toast;
 
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
+import com.naman14.timber.helpers.Song;
 import com.naman14.timber.utils.TimberUtils.IdType;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.WeakHashMap;
 
 public class MusicPlayer {
@@ -497,6 +499,15 @@ public class MusicPlayer {
             mService.play();
         } catch (final RemoteException ignored) {
         } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playAllUrls(final Context context,  List<Song> songs, int position) {
+        try {
+            mService.playAllUrls(songs, position);
+        }
+        catch (RemoteException e) {
             e.printStackTrace();
         }
     }

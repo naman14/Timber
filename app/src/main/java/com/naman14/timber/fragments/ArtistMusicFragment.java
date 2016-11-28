@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ArtistSongAdapter;
 import com.naman14.timber.dataloaders.ArtistSongLoader;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.widgets.DividerItemDecoration;
 

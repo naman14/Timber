@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.fragments.PlaylistFragment;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 
 /**
  * Created by naman on 20/12/15.

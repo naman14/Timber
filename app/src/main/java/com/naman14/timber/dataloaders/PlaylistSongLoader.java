@@ -24,7 +24,7 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.AudioColumns;
 import android.provider.MediaStore.Audio.Playlists;
 
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 
 import java.util.ArrayList;
 import java.util.List;

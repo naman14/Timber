@@ -32,7 +32,7 @@ import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dialogs.AddPlaylistDialog;
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -55,6 +55,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private int lastPosition = -1;
     private String ateKey;
     private long playlistId;
+    private List<Song> songs;
 
     public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong, boolean animate) {
         this.arraylist = arraylist;
@@ -63,6 +64,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         this.songIDs = getSongIds();
         this.ateKey = Helpers.getATEKey(context);
         this.animate = animate;
+        this.songs = arraylist;
     }
 
     @Override
@@ -188,6 +190,16 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         return ret;
     }
 
+
+   /* public List<Song> getSongList() {
+        List<Song> urls = new ArrayList<>();
+        for (int i = 0; i < getItemCount(); i++) {
+            urls[i] = arraylist.get(i).url;
+        }
+
+        return urls;
+    }*/
+
     @Override
     public String getTextToShowInBubble(final int pos) {
         if (arraylist == null || arraylist.size() == 0)
@@ -234,7 +246,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+//                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+                    MusicPlayer.playAllUrls(mContext, arraylist, getAdapterPosition());
                     Handler handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override

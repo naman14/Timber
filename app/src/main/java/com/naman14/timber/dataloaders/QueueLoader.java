@@ -16,7 +16,7 @@ package com.naman14.timber.dataloaders;
 
 import android.content.Context;
 
-import com.naman14.timber.models.Song;
+import com.naman14.timber.helpers.Song;
 
 import java.util.ArrayList;
 import java.util.List;

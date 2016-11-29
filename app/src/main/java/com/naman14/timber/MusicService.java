@@ -177,8 +177,6 @@ public class MusicService extends Service {
     private PendingIntent mShutdownIntent;
     private boolean mShutdownScheduled;
     private NotificationManagerCompat mNotificationManager;
-    private Cursor mCursor;
-    private Cursor mAlbumCursor;
     private AudioManager mAudioManager;
     private SharedPreferences mPreferences;
     private boolean mServiceInUse = false;
@@ -747,8 +745,8 @@ public class MusicService extends Service {
     private void updateCursor(final String selection, final String[] selectionArgs) {
         synchronized (this) {
             closeCursor();
-            mCursor = openCursorAndGoToFirst(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    PROJECTION, selection, selectionArgs);
+            //mCursor = openCursorAndGoToFirst(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            //        PROJECTION, selection, selectionArgs);
         }
         updateAlbumCursor();
     }
@@ -756,19 +754,19 @@ public class MusicService extends Service {
     private void updateCursor(final Uri uri) {
         synchronized (this) {
             closeCursor();
-            mCursor = openCursorAndGoToFirst(uri, PROJECTION, null, null);
+            //mCursor = openCursorAndGoToFirst(uri, PROJECTION, null, null);
         }
         updateAlbumCursor();
     }
 
     private void updateAlbumCursor() {
         long albumId = getAlbumId();
-        if (albumId >= 0) {
+        /*if (albumId >= 0) {
             mAlbumCursor = openCursorAndGoToFirst(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
                     ALBUM_PROJECTION, "_id=" + albumId, null);
         } else {
             mAlbumCursor = null;
-        }
+        }*/
     }
 
     private Cursor openCursorAndGoToFirst(Uri uri, String[] projection,
@@ -786,14 +784,10 @@ public class MusicService extends Service {
     }
 
     private synchronized void closeCursor() {
-        if (mCursor != null) {
-            mCursor.close();
-            mCursor = null;
-        }
-        if (mAlbumCursor != null) {
+        /*if (mAlbumCursor != null) {
             mAlbumCursor.close();
             mAlbumCursor = null;
-        }
+        }*/
     }
 
     private void openCurrentAndNext() {
@@ -813,11 +807,12 @@ public class MusicService extends Service {
 
             updateCursor(mPlaylist.get(mPlayPos).mId);
             while (true) {
-                if (mCursor != null
+                //Opening cursor
+                /*if (mCursor != null
                         && openFile(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/"
                         + mCursor.getLong(IDCOLIDX))) {
                     break;
-                }
+                }*/
 
                 closeCursor();
                 if (mOpenFailedCounter++ < 10 && mPlaylist.size() > 1) {
@@ -1268,10 +1263,10 @@ public class MusicService extends Service {
             }
             mPlayPos = pos;
             updateCursor(mPlaylist.get(mPlayPos).mId);
-            if (mCursor == null) {
+            /*if (mCursor == null) {
                 SystemClock.sleep(3000);
                 updateCursor(mPlaylist.get(mPlayPos).mId);
-            }
+            }*/
             synchronized (this) {
                 closeCursor();
                 mOpenFailedCounter = 20;
@@ -1324,7 +1319,6 @@ public class MusicService extends Service {
                 return false;
             }
 
-            if (mCursor == null) {
                 Uri uri = Uri.parse(path);
                 boolean shouldAddToPlaylist = true;
                 long id = -1;
@@ -1364,10 +1358,9 @@ public class MusicService extends Service {
                     updateCursor(where, selectionArgs);
                 }
                 try {
-                    if (mCursor != null && shouldAddToPlaylist) {
+                    if (shouldAddToPlaylist) {
                         mPlaylist.clear();
-                        mPlaylist.add(new MusicPlaybackTrack(
-                                mCursor.getLong(IDCOLIDX), -1, TimberUtils.IdType.NA, -1));
+                        mPlaylist.add(new MusicPlaybackTrack(id, -1, TimberUtils.IdType.NA, -1));
                         notifyChange(QUEUE_CHANGED);
                         mPlayPos = 0;
                         mHistory.clear();
@@ -1375,7 +1368,7 @@ public class MusicService extends Service {
                 } catch (final UnsupportedOperationException ex) {
                     // Ignore
                 }
-            }
+
 
             mFileToPlay = path;
             mPlayer.setDataSource(mFileToPlay);
@@ -1410,8 +1403,8 @@ public class MusicService extends Service {
                     null,
                     null
             });
-            mCursor = cursor;
-            mCursor.moveToFirst();
+            //mCursor = cursor;
+            //mCursor.moveToFirst();
         }
     }
 
@@ -1572,35 +1565,38 @@ public class MusicService extends Service {
     }
 
     public String getPath() {
-        synchronized (this) {
+        /*synchronized (this) {
             if (mCursor == null) {
                 return null;
             }
             return mCursor.getString(mCursor.getColumnIndexOrThrow(AudioColumns.DATA));
-        }
+        }*/
+        return "";
     }
 
     public String getAlbumName() {
-        synchronized (this) {
+        /*synchronized (this) {
             if (mCursor == null) {
                 return null;
             }
             return mCursor.getString(mCursor.getColumnIndexOrThrow(AudioColumns.ALBUM));
-        }
+        }*/
+        return "";
     }
 
     public String getTrackName() {
-        synchronized (this) {
+        /*synchronized (this) {
             if (mCursor == null) {
                 return null;
             }
             return mCursor.getString(mCursor.getColumnIndexOrThrow(AudioColumns.TITLE));
-        }
+        }*/
+        return "";
     }
 
     public String getGenreName() {
         synchronized (this) {
-            if (mCursor == null || mPlayPos < 0 || mPlayPos >= mPlaylist.size()) {
+            if (mPlayPos < 0 || mPlayPos >= mPlaylist.size()) {
                 return null;
             }
             String[] genreProjection = {MediaStore.Audio.Genres.NAME};
@@ -1623,39 +1619,43 @@ public class MusicService extends Service {
     }
 
     public String getArtistName() {
-        synchronized (this) {
+        /*synchronized (this) {
             if (mCursor == null) {
                 return null;
             }
             return mCursor.getString(mCursor.getColumnIndexOrThrow(AudioColumns.ARTIST));
-        }
+        }*/
+        return "";
     }
 
     public String getAlbumArtistName() {
-        synchronized (this) {
+        /*synchronized (this) {
             if (mAlbumCursor == null) {
                 return null;
             }
             return mAlbumCursor.getString(mAlbumCursor.getColumnIndexOrThrow(AlbumColumns.ARTIST));
-        }
+        }*/
+        return "";
     }
 
     public long getAlbumId() {
-        synchronized (this) {
+        /*synchronized (this) {
             if (mCursor == null) {
                 return -1;
             }
             return mCursor.getLong(mCursor.getColumnIndexOrThrow(AudioColumns.ALBUM_ID));
-        }
+        }*/
+        return -1;
     }
 
     public long getArtistId() {
         synchronized (this) {
-            if (mCursor == null) {
+            /*if (mCursor == null) {
                 return -1;
             }
-            return mCursor.getLong(mCursor.getColumnIndexOrThrow(AudioColumns.ARTIST_ID));
+            return mCursor.getLong(mCursor.getColumnIndexOrThrow(AudioColumns.ARTIST_ID));*/
         }
+        return -1;
     }
 
     public long getAudioId() {
@@ -2171,10 +2171,10 @@ public class MusicService extends Service {
                         mService.get().scrobble();
                         service.setAndRecordPlayPos(service.mNextPlayPos);
                         service.setNextTrack();
-                        if (service.mCursor != null) {
+                        /*if (service.mCursor != null) {
                             service.mCursor.close();
                             service.mCursor = null;
-                        }
+                        }*/
                         service.updateCursor(service.mPlaylist.get(service.mPlayPos).mId);
                         service.notifyChange(META_CHANGED);
                         service.updateNotification();

@@ -50,7 +50,6 @@ import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Audio.AlbumColumns;
 import android.provider.MediaStore.Audio.AudioColumns;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.media.MediaMetadataCompat;
@@ -66,7 +65,6 @@ import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.models.LastfmUserSession;
 import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
-import com.naman14.timber.helpers.Song;
 import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
@@ -207,7 +205,15 @@ public class MusicService extends Service {
 
     private int mServiceStartId = -1;
 
-    private ArrayList<MusicPlaybackTrack> mPlaylist = new ArrayList<MusicPlaybackTrack>(100);
+    private List<MusicPlaybackTrack> mPlaylist = new ArrayList<MusicPlaybackTrack>(100);
+
+    public List<MusicPlaybackTrack> getPlaylist() {
+        return mPlaylist;
+    }
+
+    public void setPlaylist(List<MusicPlaybackTrack> mPlaylist) {
+        this.mPlaylist = mPlaylist;
+    }
 
     private ArrayList<String> mSongsUrls = new ArrayList<String>(100);
 
@@ -720,7 +726,7 @@ public class MusicService extends Service {
             position = 0;
         }
 
-        mPlaylist.ensureCapacity(mPlaylist.size() + addlen);
+//        mPlaylist.ensureCapacity(mPlaylist.size() + addlen);
         if (position > mPlaylist.size()) {
             position = mPlaylist.size();
         }
@@ -743,30 +749,30 @@ public class MusicService extends Service {
     }
 
     private void updateCursor(final String selection, final String[] selectionArgs) {
-        synchronized (this) {
-            closeCursor();
-            //mCursor = openCursorAndGoToFirst(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-            //        PROJECTION, selection, selectionArgs);
-        }
-        updateAlbumCursor();
+//        synchronized (this) {
+//            closeCursor();
+//            mCursor = openCursorAndGoToFirst(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+//                    PROJECTION, selection, selectionArgs);
+//        }
+//        updateAlbumCursor();
     }
 
     private void updateCursor(final Uri uri) {
-        synchronized (this) {
-            closeCursor();
-            //mCursor = openCursorAndGoToFirst(uri, PROJECTION, null, null);
-        }
-        updateAlbumCursor();
+//        synchronized (this) {
+//            closeCursor();
+//            mCursor = openCursorAndGoToFirst(uri, PROJECTION, null, null);
+//        }
+//        updateAlbumCursor();
     }
 
     private void updateAlbumCursor() {
-        long albumId = getAlbumId();
-        /*if (albumId >= 0) {
-            mAlbumCursor = openCursorAndGoToFirst(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-                    ALBUM_PROJECTION, "_id=" + albumId, null);
-        } else {
-            mAlbumCursor = null;
-        }*/
+//        long albumId = getAlbumId();
+//        if (albumId >= 0) {
+//            mAlbumCursor = openCursorAndGoToFirst(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+//                    ALBUM_PROJECTION, "_id=" + albumId, null);
+//        } else {
+//            mAlbumCursor = null;
+//        }
     }
 
     private Cursor openCursorAndGoToFirst(Uri uri, String[] projection,
@@ -810,9 +816,10 @@ public class MusicService extends Service {
                 //Opening cursor
                 /*if (mCursor != null
                         && openFile(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/"
-                        + mCursor.getLong(IDCOLIDX))) {
+                        + mCursor.getLong(IDCOLIDX))) {*/
+                if(openFile(mPlaylist.get(mPlayPos).url)) {
                     break;
-                }*/
+                }
 
                 closeCursor();
                 if (mOpenFailedCounter++ < 10 && mPlaylist.size() > 1) {
@@ -870,13 +877,13 @@ public class MusicService extends Service {
             }
 
 
-            final int numHistory = mHistory.size();
-            for (int i = 0; i < numHistory; i++) {
-                final int idx = mHistory.get(i).intValue();
-                if (idx >= 0 && idx < numTracks) {
-                    trackNumPlays[idx]++;
-                }
-            }
+//            final int numHistory = mHistory.size();
+//            for (int i = 0; i < numHistory; i++) {
+//                final int idx = mHistory.get(i).intValue();
+//                if (idx >= 0 && idx < numTracks) {
+//                    trackNumPlays[idx]++;
+//                }
+//            }
 
             if (mPlayPos >= 0 && mPlayPos < numTracks) {
                 trackNumPlays[mPlayPos]++;
@@ -940,7 +947,7 @@ public class MusicService extends Service {
         if (D) Log.d(TAG, "setNextTrack: next play position = " + mNextPlayPos);
         if (mNextPlayPos >= 0 && mPlaylist != null && mNextPlayPos < mPlaylist.size()) {
             final long id = mPlaylist.get(mNextPlayPos).mId;
-            mPlayer.setNextDataSource(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/" + id);
+            mPlayer.setNextDataSource(mPlaylist.get(position).url/*MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/" + id*/);
         } else {
             mPlayer.setNextDataSource(null);
         }
@@ -1218,23 +1225,23 @@ public class MusicService extends Service {
     }
 
     private void saveQueue(final boolean full) {
-        if (!mQueueIsSaveable) {
-            return;
-        }
-
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        if (full) {
-            mPlaybackStateStore.saveState(mPlaylist,
-                    mShuffleMode != SHUFFLE_NONE ? mHistory : null);
-            editor.putInt("cardid", mCardId);
-        }
-        editor.putInt("curpos", mPlayPos);
-        if (mPlayer.isInitialized()) {
-            editor.putLong("seekpos", mPlayer.position());
-        }
-        editor.putInt("repeatmode", mRepeatMode);
-        editor.putInt("shufflemode", mShuffleMode);
-        editor.apply();
+//        if (!mQueueIsSaveable) {
+//            return;
+//        }
+//
+//        final SharedPreferences.Editor editor = mPreferences.edit();
+//        if (full) {
+//            mPlaybackStateStore.saveState(mPlaylist,
+//                    mShuffleMode != SHUFFLE_NONE ? mHistory : null);
+//            editor.putInt("cardid", mCardId);
+//        }
+//        editor.putInt("curpos", mPlayPos);
+//        if (mPlayer.isInitialized()) {
+//            editor.putLong("seekpos", mPlayer.position());
+//        }
+//        editor.putInt("repeatmode", mRepeatMode);
+//        editor.putInt("shufflemode", mShuffleMode);
+//        editor.apply();
     }
 
     private void reloadQueueAfterPermissionCheck() {
@@ -1308,8 +1315,10 @@ public class MusicService extends Service {
         }
     }
 
-    public void playAllUrls(List<Song> songs, int position){
-        mPlayer.setDataSource(songs, position);
+    public void setPlayList(List<MusicPlaybackTrack> songs, int position){
+//        mPlayer.setDataSource(songs, position);
+        mPlaylist = songs;
+        mPlayPos = position;
     }
 
     public boolean openFile(final String path) {
@@ -1319,55 +1328,55 @@ public class MusicService extends Service {
                 return false;
             }
 
-                Uri uri = Uri.parse(path);
-                boolean shouldAddToPlaylist = true;
-                long id = -1;
-                try {
-                    id = Long.valueOf(uri.getLastPathSegment());
-                } catch (NumberFormatException ex) {
-                    // Ignore
-                }
-
-                if (id != -1 && path.startsWith(
-                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString())) {
-                    updateCursor(uri);
-
-                } else if (id != -1 && path.startsWith(
-                        MediaStore.Files.getContentUri("external").toString())) {
-                    updateCursor(id);
-
-                } else if (path.startsWith("content://downloads/")) {
-
-                    String mpUri = getValueForDownloadedFile(this, uri, "mediaprovider_uri");
-                    if (D) Log.i(TAG, "Downloaded file's MP uri : " + mpUri);
-                    if (!TextUtils.isEmpty(mpUri)) {
-                        if (openFile(mpUri)) {
-                            notifyChange(META_CHANGED);
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    } else {
-                        updateCursorForDownloadedFile(this, uri);
-                        shouldAddToPlaylist = false;
-                    }
-
-                } else {
-                    String where = MediaStore.Audio.Media.DATA + "=?";
-                    String[] selectionArgs = new String[]{path};
-                    updateCursor(where, selectionArgs);
-                }
-                try {
-                    if (shouldAddToPlaylist) {
-                        mPlaylist.clear();
-                        mPlaylist.add(new MusicPlaybackTrack(id, -1, TimberUtils.IdType.NA, -1));
-                        notifyChange(QUEUE_CHANGED);
-                        mPlayPos = 0;
-                        mHistory.clear();
-                    }
-                } catch (final UnsupportedOperationException ex) {
-                    // Ignore
-                }
+//            Uri uri = Uri.parse(path);
+//            boolean shouldAddToPlaylist = true;
+//            long id = -1;
+//            try {
+//                id = Long.valueOf(uri.getLastPathSegment());
+//            } catch (NumberFormatException ex) {
+//                // Ignore
+//            }
+//
+//            if (id != -1 && path.startsWith(
+//                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString())) {
+//                updateCursor(uri);
+//
+//            } else if (id != -1 && path.startsWith(
+//                    MediaStore.Files.getContentUri("external").toString())) {
+//                updateCursor(id);
+//
+//            } else if (path.startsWith("content://downloads/")) {
+//
+//                String mpUri = getValueForDownloadedFile(this, uri, "mediaprovider_uri");
+//                if (D) Log.i(TAG, "Downloaded file's MP uri : " + mpUri);
+//                if (!TextUtils.isEmpty(mpUri)) {
+//                    if (openFile(mpUri)) {
+//                        notifyChange(META_CHANGED);
+//                        return true;
+//                    } else {
+//                        return false;
+//                    }
+//                } else {
+//                    updateCursorForDownloadedFile(this, uri);
+//                    shouldAddToPlaylist = false;
+//                }
+//
+//            } else {
+//                String where = MediaStore.Audio.Media.DATA + "=?";
+//                String[] selectionArgs = new String[]{path};
+//                updateCursor(where, selectionArgs);
+//            }
+//            try {
+//                if (shouldAddToPlaylist) {
+//                    mPlaylist.clear();
+//                    mPlaylist.add(new MusicPlaybackTrack(id, -1, TimberUtils.IdType.NA, -1));
+//                    notifyChange(QUEUE_CHANGED);
+//                    mPlayPos = 0;
+//                    mHistory.clear();
+//                }
+//            } catch (final UnsupportedOperationException ex) {
+//                // Ignore
+//            }
 
 
             mFileToPlay = path;
@@ -2292,9 +2301,9 @@ public class MusicService extends Service {
 
         private String mNextMediaPath;
 
-        private  List<Song> mSongs;
-
-        private int mPosition;
+//        private  List<Song> mSongs;
+//
+//        private int mPosition;
 
 
         public MultiPlayer(final MusicService service) {
@@ -2306,7 +2315,7 @@ public class MusicService extends Service {
 
         public void setDataSource(final String path) {
             try {
-                mIsInitialized = setDataSourceImpl(mCurrentMediaPlayer, path);
+                mIsInitialized = setDataSourceImpl(mCurrentMediaPlayer, path, false);
                 if (mIsInitialized) {
                     setNextDataSource(null);
                 }
@@ -2315,64 +2324,37 @@ public class MusicService extends Service {
             }
         }
 
-        public void setDataSource(List<Song> songs, int position) {
-            try {
-                mSongs = songs;
-                mPosition = position;
-                mIsInitialized = setDataSourceImpl(mCurrentMediaPlayer);
-                if (mIsInitialized) {
-                    setNextDataSource(null);
-                }
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        private boolean setDataSourceImpl(final MediaPlayer player, final String path) {
+        private boolean setDataSourceImpl(final MediaPlayer player, final String path, boolean isForNextPlayer) {
             try {
                 player.reset();
-                player.setOnPreparedListener(this);
+
                 if (path.startsWith("content://")) {
-                    player.setDataSource(path);
                     player.setDataSource(mService.get(), Uri.parse(path));
                 } else {
                     player.setDataSource(path);
                 }
                 player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                player.setDataSource(path);
-                player.prepareAsync();
-            } catch (final IOException todo) {
 
+                if (isForNextPlayer) {
+                    player.setOnPreparedListener(null);
+                    player.prepare();
+                }
+                else {
+                    player.setOnPreparedListener(this);
+                    player.prepareAsync();
+                }
+
+            }
+            catch (final IOException todo) {
                 return false;
-            } catch (final IllegalArgumentException todo) {
-
+            }
+            catch (final IllegalArgumentException todo) {
                 return false;
             }
             player.setOnCompletionListener(this);
             player.setOnErrorListener(this);
             return true;
         }
-
-        private boolean setDataSourceImpl(final MediaPlayer player) {
-            try {
-                player.reset();
-                player.setOnPreparedListener(this);
-                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                player.setDataSource(mSongs.get(mPosition).url);
-                player.prepareAsync();
-            } catch (final IOException todo) {
-
-                return false;
-            } catch (final IllegalArgumentException todo) {
-
-                return false;
-            }
-            player.setOnCompletionListener(this);
-            player.setOnErrorListener(this);
-            return true;
-        }
-
 
         public void setNextDataSource(final String path) {
             mNextMediaPath = null;
@@ -2395,7 +2377,7 @@ public class MusicService extends Service {
             mNextMediaPlayer.setWakeMode(mService.get(), PowerManager.PARTIAL_WAKE_LOCK);
             mNextMediaPlayer.setAudioSessionId(getAudioSessionId());
             try {
-                if (setDataSourceImpl(mNextMediaPlayer, path)) {
+                if (setDataSourceImpl(mNextMediaPlayer, path, true)) {
                     mNextMediaPath = path;
                     mCurrentMediaPlayer.setNextMediaPlayer(mNextMediaPlayer);
                 } else {
@@ -2495,25 +2477,7 @@ public class MusicService extends Service {
             return false;
         }
 
-
         @Override
-        public void onCompletion(final MediaPlayer mp) {
-                try {
-                    if(mPosition == (mSongs.size()-1)){
-                        mPosition = -1;
-                    }
-                    mPosition++;
-                    mp.reset();
-                    mp.setDataSource(mSongs.get(mPosition).url);
-                    mp.prepareAsync();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-        }
-
-      /*  @Override
         public void onCompletion(final MediaPlayer mp) {
             if (mp == mCurrentMediaPlayer && mNextMediaPlayer != null) {
                 mCurrentMediaPlayer.release();
@@ -2526,7 +2490,7 @@ public class MusicService extends Service {
                 mHandler.sendEmptyMessage(TRACK_ENDED);
                 mHandler.sendEmptyMessage(RELEASE_WAKELOCK);
             }
-        }*/
+        }
 
         @Override
         public void onPrepared(MediaPlayer mp) {
@@ -2778,8 +2742,8 @@ public class MusicService extends Service {
         }
 
         @Override
-        public void playAllUrls(List<Song> songs, int position) throws RemoteException {
-            mService.get().playAllUrls(songs, position);
+        public void setPlayList(List<MusicPlaybackTrack> songs, int position) throws RemoteException {
+            mService.get().setPlayList(songs, position);
 
         }
 

@@ -503,9 +503,12 @@ public class MusicPlayer {
         }
     }
 
-    public static void playAllUrls(final Context context,  List<Song> songs, int position) {
+    public static void setPlayList(final Context context,  List<MusicPlaybackTrack> songs, int position) {
+        if (mService == null) {
+            return;
+        }
         try {
-            mService.playAllUrls(songs, position);
+            mService.setPlayList(songs, position);
         }
         catch (RemoteException e) {
             e.printStackTrace();

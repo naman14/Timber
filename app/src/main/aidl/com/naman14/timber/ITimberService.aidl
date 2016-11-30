@@ -53,6 +53,6 @@ interface ITimberService
     int getMediaMountedCount();
     int getAudioSessionId();
     void setLockscreenAlbumArt(boolean enabled);
-    void playAllUrls(in List<Song> songs, int position);
+    void setPlayList(in List<MusicPlaybackTrack> songs, int position);
 }
 

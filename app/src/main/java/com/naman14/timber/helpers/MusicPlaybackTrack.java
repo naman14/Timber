@@ -41,8 +41,10 @@ public class MusicPlaybackTrack implements Parcelable {
     };
     public long mId;
     public long mSourceId;
-    public TimberUtils.IdType mSourceType;
+    public TimberUtils.IdType mSourceType = TimberUtils.IdType.NA;
     public int mSourcePosition;
+    public String url;
+    public String title;
 
     public MusicPlaybackTrack(long id, long sourceId, TimberUtils.IdType type, int sourcePosition) {
         mId = id;
@@ -51,11 +53,18 @@ public class MusicPlaybackTrack implements Parcelable {
         mSourcePosition = sourcePosition;
     }
 
+    public MusicPlaybackTrack(String title, String url) {
+        this.url = url;
+        this.title = title;
+    }
+
     public MusicPlaybackTrack(Parcel in) {
         mId = in.readLong();
         mSourceId = in.readLong();
         mSourceType = TimberUtils.IdType.getTypeById(in.readInt());
         mSourcePosition = in.readInt();
+        url = in.readString();
+        title = in.readString();
     }
 
     @Override
@@ -69,6 +78,8 @@ public class MusicPlaybackTrack implements Parcelable {
         dest.writeLong(mSourceId);
         dest.writeInt(mSourceType.mId);
         dest.writeInt(mSourcePosition);
+        dest.writeString(url);
+        dest.writeString(title);
     }
 
     @Override
@@ -79,7 +90,9 @@ public class MusicPlaybackTrack implements Parcelable {
                 return mId == other.mId
                         && mSourceId == other.mSourceId
                         && mSourceType == other.mSourceType
-                        && mSourcePosition == other.mSourcePosition;
+                        && mSourcePosition == other.mSourcePosition
+                        && title.equals(other.title)
+                        && url.equals(other.url);
 
             }
         }

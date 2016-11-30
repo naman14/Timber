@@ -6,7 +6,7 @@ android {
     buildToolsVersion '24.0.3'
 
     defaultConfig {
-        applicationId "naman14.timber"
+        applicationId "test.timber"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 16

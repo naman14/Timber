@@ -152,18 +152,18 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             DragSortRecycler dragSortRecycler = new DragSortRecycler();
             dragSortRecycler.setViewHandleId(R.id.reorder);
 
-            dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
-                @Override
-                public void onItemMoved(int from, int to) {
-                    Log.d("playlist", "onItemMoved " + from + " to " + to);
-                    Song song = mAdapter.getSongAt(from);
-                    mAdapter.removeSongAt(from);
-                    mAdapter.addSongTo(to, song);
-                    mAdapter.notifyDataSetChanged();
-                    MediaStore.Audio.Playlists.Members.moveItem(getContentResolver(),
-                            playlistID, from, to);
-                }
-            });
+//            dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
+//                @Override
+//                public void onItemMoved(int from, int to) {
+//                    Log.d("playlist", "onItemMoved " + from + " to " + to);
+//                    Song song = mAdapter.getSongAt(from);
+//                    mAdapter.removeSongAt(from);
+//                    mAdapter.addSongTo(to, song);
+//                    mAdapter.notifyDataSetChanged();
+//                    MediaStore.Audio.Playlists.Members.moveItem(getContentResolver(),
+//                            playlistID, from, to);
+//                }
+//            });
 
             recyclerView.addItemDecoration(dragSortRecycler);
             recyclerView.addOnItemTouchListener(dragSortRecycler);
@@ -208,7 +208,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         @Override
         protected String doInBackground(String... params) {
             List<Song> lastadded = LastAddedLoader.getLastAddedSongs(mContext);
-            mAdapter = new SongsListAdapter(mContext, lastadded, true, animate);
+//            mAdapter = new SongsListAdapter(mContext, lastadded, true, animate);
             mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }
@@ -229,7 +229,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         protected String doInBackground(String... params) {
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.RecentSongs);
             List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-            mAdapter = new SongsListAdapter(mContext, recentsongs, true, animate);
+//            mAdapter = new SongsListAdapter(mContext, recentsongs, true, animate);
             mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }
@@ -251,7 +251,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         protected String doInBackground(String... params) {
             TopTracksLoader loader = new TopTracksLoader(mContext, TopTracksLoader.QueryType.TopTracks);
             List<Song> toptracks = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-            mAdapter = new SongsListAdapter(mContext, toptracks, true, animate);
+//            mAdapter = new SongsListAdapter(mContext, toptracks, true, animate);
             mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }
@@ -272,7 +272,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         protected String doInBackground(String... params) {
             playlistID = getIntent().getExtras().getLong(Constants.PLAYLIST_ID);
             List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(mContext, playlistID);
-            mAdapter = new SongsListAdapter(mContext, playlistsongs, true, animate);
+//            mAdapter = new SongsListAdapter(mContext, playlistsongs, true, animate);
             mAdapter.setPlaylistId(playlistID);
             return "Executed";
         }

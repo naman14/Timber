@@ -41,6 +41,8 @@ import com.naman14.timber.widgets.FastScroller;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class SongsFragment extends Fragment implements MusicStateListener {
 
     private SongsListAdapter mAdapter;

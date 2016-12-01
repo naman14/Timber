@@ -18,7 +18,6 @@ package com.naman14.timber.musicplayer;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -28,7 +27,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
@@ -556,7 +554,7 @@ public class MusicPlayer {
     }
 
     public static final long[] getSongListForArtist(final Context context, final long id) {
-        final String[] projection = new String[]{
+        /*final String[] projection = new String[]{
                 BaseColumns._ID
         };
         final String selection = MediaStore.Audio.AudioColumns.ARTIST_ID + "=" + id + " AND "
@@ -569,12 +567,12 @@ public class MusicPlayer {
             cursor.close();
             cursor = null;
             return mList;
-        }
+        }*/
         return sEmptyList;
     }
 
     public static final long[] getSongListForAlbum(final Context context, final long id) {
-        final String[] projection = new String[]{
+        /*final String[] projection = new String[]{
                 BaseColumns._ID
         };
         final String selection = MediaStore.Audio.AudioColumns.ALBUM_ID + "=" + id + " AND " + MediaStore.Audio.AudioColumns.IS_MUSIC
@@ -587,13 +585,13 @@ public class MusicPlayer {
             cursor.close();
             cursor = null;
             return mList;
-        }
+        }*/
         return sEmptyList;
     }
 
     public static final int getSongCountForAlbumInt(final Context context, final long id) {
         int songCount = 0;
-        if (id == -1) {
+        /*if (id == -1) {
             return songCount;
         }
 
@@ -609,13 +607,13 @@ public class MusicPlayer {
             }
             cursor.close();
             cursor = null;
-        }
+        }*/
 
         return songCount;
     }
 
     public static final String getReleaseDateForAlbum(final Context context, final long id) {
-        if (id == -1) {
+        /*if (id == -1) {
             return null;
         }
         Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, id);
@@ -630,8 +628,8 @@ public class MusicPlayer {
             }
             cursor.close();
             cursor = null;
-        }
-        return releaseDate;
+        }*/
+        return null/*releaseDate*/;
     }
 
     public static void seek(final long position) {

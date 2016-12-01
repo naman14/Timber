@@ -15,7 +15,6 @@
 
 package com.naman14.timber.musicplayer;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -23,7 +22,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -36,14 +34,12 @@ import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Audio.AudioColumns;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -59,12 +55,10 @@ import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.models.LastfmUserSession;
 import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
-import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
 import com.naman14.timber.utils.NavigationUtils;
-import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.utils.TimberUtils.IdType;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -74,12 +68,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import de.Maxr1998.trackselectorlib.ModNotInstalledException;
 import de.Maxr1998.trackselectorlib.NotificationHelper;
-import de.Maxr1998.trackselectorlib.TrackItem;
 
 @SuppressLint("NewApi")
 public class MusicService extends Service {
+
+    private static final String TAG = "MusicPlaybackService";
+    private static final boolean D = true;
+
     public static final String PLAYSTATE_CHANGED = "com.naman14.timber.playstatechanged";
     public static final String POSITION_CHANGED = "com.naman14.timber.positionchanged";
     public static final String META_CHANGED = "com.naman14.timber.metachanged";
@@ -101,6 +97,8 @@ public class MusicService extends Service {
     public static final String SHUFFLE_ACTION = "com.naman14.timber.shuffle";
     public static final String FROM_MEDIA_BUTTON = "frommediabutton";
     public static final String REFRESH = "com.naman14.timber.refresh";
+    public static final String UPDATE_LOCKSCREEN = "com.naman14.timber.updatelockscreen";
+    private static final String SHUTDOWN = "com.naman14.timber.shutdown";
     public static final String CMDNAME = "command";
     public static final String CMDTOGGLEPAUSE = "togglepause";
     public static final String CMDSTOP = "stop";
@@ -108,6 +106,8 @@ public class MusicService extends Service {
     public static final String CMDPLAY = "play";
     public static final String CMDPREVIOUS = "previous";
     public static final String CMDNEXT = "next";
+    public static final String CMDNOTIF = "buttonId";
+
     public static final int NEXT = 2;
     public static final int LAST = 3;
     public static final int SHUFFLE_NONE = 0;
@@ -117,9 +117,8 @@ public class MusicService extends Service {
     public static final int REPEAT_CURRENT = 1;
     public static final int REPEAT_ALL = 2;
     public static final int MAX_HISTORY_SIZE = 1000;
-    private static final String TAG = "MusicPlaybackService";
-    private static final boolean D = false;
-    private static final String SHUTDOWN = "com.naman14.timber.shutdown";
+
+    static final int IDCOLIDX = 0;
     static final int TRACK_ENDED = 1;
     static final int TRACK_WENT_TO_NEXT = 2;
     static final int RELEASE_WAKELOCK = 3;
@@ -128,16 +127,36 @@ public class MusicService extends Service {
     static final int FADEDOWN = 6;
     static final int FADEUP = 7;
     static final int IDLE_DELAY = 5 * 60 * 1000;
-    static final long REWIND_INSTEAD_PREVIOUS_THRESHOLD = 3000;
+    static final long REWIND_INSTEAD_PREVIOUS_THRESHOLD = 15000;
 
-    private static final String[] NOTIFICATION_PROJECTION = new String[]{
-            "audio._id AS _id", AudioColumns.ALBUM_ID, AudioColumns.TITLE,
-            AudioColumns.ARTIST, AudioColumns.DURATION
-    };
+//    private static final String[] PROJECTION = new String[]{
+//            "audio._id AS _id", MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM,
+//            MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
+//            MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.ALBUM_ID,
+//            MediaStore.Audio.Media.ARTIST_ID
+//    };
+//    private static final String[] ALBUM_PROJECTION = new String[]{
+//            MediaStore.Audio.Albums.ALBUM, MediaStore.Audio.Albums.ARTIST,
+//            MediaStore.Audio.Albums.LAST_YEAR
+//    };
+//    private static final String[] NOTIFICATION_PROJECTION = new String[]{
+//            "audio._id AS _id", AudioColumns.ALBUM_ID, AudioColumns.TITLE,
+//            AudioColumns.ARTIST, AudioColumns.DURATION
+//    };
+//    private static final String[] PROJECTION_MATRIX = new String[]{
+//            "_id", MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM,
+//            MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
+//            MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.ALBUM_ID,
+//            MediaStore.Audio.Media.ARTIST_ID
+//    };
+
     private static final Shuffler mShuffler = new Shuffler();
     private static final int NOTIFY_MODE_NONE = 0;
     private static final int NOTIFY_MODE_FOREGROUND = 1;
     private static final int NOTIFY_MODE_BACKGROUND = 2;
+
+    private int mNotifyMode = NOTIFY_MODE_NONE;
+
     private static LinkedList<Integer> mHistory = new LinkedList<>();
     private final IBinder mBinder = new ServiceStub(this);
     MultiPlayer mPlayer;
@@ -149,10 +168,11 @@ public class MusicService extends Service {
     private NotificationManagerCompat mNotificationManager;
     private AudioManager mAudioManager;
     private SharedPreferences mPreferences;
+
     private boolean mServiceInUse = false;
     private boolean mIsSupposedToBePlaying = false;
     private long mLastPlayedTime;
-    private int mNotifyMode = NOTIFY_MODE_NONE;
+
     private long mNotificationPostTime = 0;
     boolean mPausedByTransientLossOfFocus = false;
 
@@ -203,17 +223,17 @@ public class MusicService extends Service {
     private boolean mShowAlbumArtOnLockscreen;
     private SongPlayCount mSongPlayCount;
     private RecentStore mRecentStore;
+
+
     private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(final Context context, final Intent intent) {
             final String command = intent.getStringExtra(CMDNAME);
-
-
             handleCommandIntent(intent);
-
         }
     };
+//    private ContentObserver mMediaStoreObserver;
 
     @Override
     public IBinder onBind(final Intent intent) {
@@ -274,13 +294,14 @@ public class MusicService extends Service {
                 MediaButtonIntentReceiver.class.getName());
         mAudioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setUpMediaSession();
+        }
 
         mPreferences = getSharedPreferences("Service", 0);
-        mCardId = getCardId();
+//        mCardId = getCardId();
 
-        registerExternalStorageListener();
+//        registerExternalStorageListener();
 
         mPlayer = new MultiPlayer(this);
         mPlayer.setHandler(mPlayerHandler);
@@ -296,8 +317,15 @@ public class MusicService extends Service {
         filter.addAction(PREVIOUS_FORCE_ACTION);
         filter.addAction(REPEAT_ACTION);
         filter.addAction(SHUFFLE_ACTION);
+
         // Attach the broadcast listener
         registerReceiver(mIntentReceiver, filter);
+
+//        mMediaStoreObserver = new MediaStoreObserver(mPlayerHandler);
+//        getContentResolver().registerContentObserver(
+//                MediaStore.Audio.Media.INTERNAL_CONTENT_URI, true, mMediaStoreObserver);
+//        getContentResolver().registerContentObserver(
+//                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true, mMediaStoreObserver);
 
         // Initialize the wake lock
         final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -313,7 +341,7 @@ public class MusicService extends Service {
 
         scheduleDelayedShutdown();
 
-        reloadQueueAfterPermissionCheck();
+//        reloadQueueAfterPermissionCheck();
         notifyChange(QUEUE_CHANGED);
         notifyChange(META_CHANGED);
     }
@@ -385,6 +413,8 @@ public class MusicService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             mSession.release();
 
+//        getContentResolver().unregisterContentObserver(mMediaStoreObserver);
+
         closeCursor();
 
         unregisterReceiver(mIntentReceiver);
@@ -436,7 +466,9 @@ public class MusicService extends Service {
             return;
         }
 
-        if (D) Log.d(TAG, "Nothing is playing anymore, releasing notification");
+        if (D) {
+            Log.d(TAG, "Nothing is playing anymore, releasing notification");
+        }
         cancelNotification();
         mAudioManager.abandonAudioFocus(mAudioFocusListener);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -452,7 +484,9 @@ public class MusicService extends Service {
         final String action = intent.getAction();
         final String command = SERVICECMD.equals(action) ? intent.getStringExtra(CMDNAME) : null;
 
-        if (D) Log.d(TAG, "handleCommandIntent: action = " + action + ", command = " + command);
+        if (D) {
+            Log.d(TAG, "handleCommandIntent: action = " + action + ", command = " + command);
+        }
 
         if (NotificationHelper.checkIntent(intent)) {
             goToPosition(mPlayPos + NotificationHelper.getPosition(intent));
@@ -461,29 +495,38 @@ public class MusicService extends Service {
 
         if (CMDNEXT.equals(command) || NEXT_ACTION.equals(action)) {
             gotoNext(true);
-        } else if (CMDPREVIOUS.equals(command) || PREVIOUS_ACTION.equals(action)
+        }
+        else if (CMDPREVIOUS.equals(command) || PREVIOUS_ACTION.equals(action)
                 || PREVIOUS_FORCE_ACTION.equals(action)) {
+
             prev(PREVIOUS_FORCE_ACTION.equals(action));
-        } else if (CMDTOGGLEPAUSE.equals(command) || TOGGLEPAUSE_ACTION.equals(action)) {
+        }
+        else if (CMDTOGGLEPAUSE.equals(command) || TOGGLEPAUSE_ACTION.equals(action)) {
             if (isPlaying()) {
                 pause();
                 mPausedByTransientLossOfFocus = false;
-            } else {
+            }
+            else {
                 play();
             }
-        } else if (CMDPAUSE.equals(command) || PAUSE_ACTION.equals(action)) {
+        }
+        else if (CMDPAUSE.equals(command) || PAUSE_ACTION.equals(action)) {
             pause();
             mPausedByTransientLossOfFocus = false;
-        } else if (CMDPLAY.equals(command)) {
+        }
+        else if (CMDPLAY.equals(command)) {
             play();
-        } else if (CMDSTOP.equals(command) || STOP_ACTION.equals(action)) {
+        }
+        else if (CMDSTOP.equals(command) || STOP_ACTION.equals(action)) {
             pause();
             mPausedByTransientLossOfFocus = false;
             seek(0);
             releaseServiceUiAndStop();
-        } else if (REPEAT_ACTION.equals(action)) {
+        }
+        else if (REPEAT_ACTION.equals(action)) {
             cycleRepeat();
-        } else if (SHUFFLE_ACTION.equals(action)) {
+        }
+        else if (SHUFFLE_ACTION.equals(action)) {
             cycleShuffle();
         }
     }
@@ -492,20 +535,25 @@ public class MusicService extends Service {
         final int newNotifyMode;
         if (isPlaying()) {
             newNotifyMode = NOTIFY_MODE_FOREGROUND;
-        } else if (recentlyPlayed()) {
+        }
+        else if (recentlyPlayed()) {
             newNotifyMode = NOTIFY_MODE_BACKGROUND;
-        } else {
+        }
+        else {
             newNotifyMode = NOTIFY_MODE_NONE;
         }
 
         int notificationId = hashCode();
         if (mNotifyMode != newNotifyMode) {
             if (mNotifyMode == NOTIFY_MODE_FOREGROUND) {
-                if (TimberUtils.isLollipop())
+                if (TimberUtils.isLollipop()) {
                     stopForeground(newNotifyMode == NOTIFY_MODE_NONE);
-                else
+                }
+                else {
                     stopForeground(newNotifyMode == NOTIFY_MODE_NONE || newNotifyMode == NOTIFY_MODE_BACKGROUND);
-            } else if (newNotifyMode == NOTIFY_MODE_NONE) {
+                }
+            }
+            else if (newNotifyMode == NOTIFY_MODE_NONE) {
                 mNotificationManager.cancel(notificationId);
                 mNotificationPostTime = 0;
             }
@@ -513,7 +561,8 @@ public class MusicService extends Service {
 
         if (newNotifyMode == NOTIFY_MODE_FOREGROUND) {
             startForeground(notificationId, buildNotification());
-        } else if (newNotifyMode == NOTIFY_MODE_BACKGROUND) {
+        }
+        else if (newNotifyMode == NOTIFY_MODE_BACKGROUND) {
             mNotificationManager.notify(notificationId, buildNotification());
         }
 
@@ -527,62 +576,68 @@ public class MusicService extends Service {
         mNotifyMode = NOTIFY_MODE_NONE;
     }
 
-    private int getCardId() {
-        if (TimberUtils.isMarshmallow()) {
-            if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                return getmCardId();
-            } else return 0;
-        } else {
-            return getmCardId();
-        }
-    }
+//    private int getCardId() {
+//        if (TimberUtils.isMarshmallow()) {
+//            if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                return getmCardId();
+//            }
+//            else {
+//                return 0;
+//            }
+//        }
+//        else {
+//            return getmCardId();
+//        }
+//    }
 
-    private int getmCardId() {
-        final ContentResolver resolver = getContentResolver();
-        Cursor cursor = resolver.query(Uri.parse("content://media/external/fs_id"), null, null,
-                null, null);
-        int mCardId = -1;
-        if (cursor != null && cursor.moveToFirst()) {
-            mCardId = cursor.getInt(0);
-            cursor.close();
-            cursor = null;
-        }
-        return mCardId;
-    }
-
-    public void closeExternalStorageFiles(final String storagePath) {
-        stop(true);
-        notifyChange(QUEUE_CHANGED);
-        notifyChange(META_CHANGED);
-    }
-
-    public void registerExternalStorageListener() {
-        if (mUnmountReceiver == null) {
-            mUnmountReceiver = new BroadcastReceiver() {
-
-
-                @Override
-                public void onReceive(final Context context, final Intent intent) {
-                    final String action = intent.getAction();
-                    if (action.equals(Intent.ACTION_MEDIA_EJECT)) {
-                        saveQueue(true);
-                        closeExternalStorageFiles(intent.getData().getPath());
-                    } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
-                        mMediaMountedCount++;
-                        mCardId = getCardId();
-                        reloadQueueAfterPermissionCheck();
-                        notifyChange(QUEUE_CHANGED);
-                        notifyChange(META_CHANGED);
-                    }
-                }
-            };
-            final IntentFilter filter = new IntentFilter();
-            filter.addAction(Intent.ACTION_MEDIA_EJECT);
-            filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-            filter.addDataScheme("file");
-            registerReceiver(mUnmountReceiver, filter);
-        }
-    }
+//    private int getmCardId() {
+//        final ContentResolver resolver = getContentResolver();
+//        Cursor cursor = resolver.query(Uri.parse("content://media/external/fs_id"), null, null,
+//                null, null);
+//        int mCardId = -1;
+//        if (cursor != null && cursor.moveToFirst()) {
+//            mCardId = cursor.getInt(0);
+//            cursor.close();
+//            cursor = null;
+//        }
+//        return mCardId;
+//    }
+//
+//    public void closeExternalStorageFiles(final String storagePath) {
+//        stop(true);
+//        notifyChange(QUEUE_CHANGED);
+//        notifyChange(META_CHANGED);
+//    }
+//
+//    public void registerExternalStorageListener() {
+//        if (mUnmountReceiver == null) {
+//            mUnmountReceiver = new BroadcastReceiver() {
+//
+//
+//                @Override
+//                public void onReceive(final Context context, final Intent intent) {
+//                    final String action = intent.getAction();
+//                    if (action.equals(Intent.ACTION_MEDIA_EJECT)) {
+//                        saveQueue(true);
+//                        mQueueIsSaveable = false;
+//                        closeExternalStorageFiles(intent.getData().getPath());
+//                    } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
+//                        mMediaMountedCount++;
+//                        mCardId = getCardId();
+//                        reloadQueueAfterPermissionCheck();
+//                        mQueueIsSaveable = true;
+//                        notifyChange(QUEUE_CHANGED);
+//                        notifyChange(META_CHANGED);
+//                    }
+//                }
+//            };
+//            final IntentFilter filter = new IntentFilter();
+//            filter.addAction(Intent.ACTION_MEDIA_EJECT);
+//            filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+//            filter.addDataScheme("file");
+//            registerReceiver(mUnmountReceiver, filter);
+//        }
+//    }
 
     private void scheduleDelayedShutdown() {
         if (D) Log.v(TAG, "Scheduling shutdown in " + IDLE_DELAY + " ms");
@@ -600,7 +655,9 @@ public class MusicService extends Service {
     }
 
     private void stop(final boolean goToIdle) {
-        if (D) Log.d(TAG, "Stopping playback, goToIdle = " + goToIdle);
+        if (D) {
+            Log.d(TAG, "Stopping playback, goToIdle = " + goToIdle);
+        }
         if (mPlayer.isInitialized()) {
             mPlayer.stop();
         }
@@ -608,10 +665,14 @@ public class MusicService extends Service {
         closeCursor();
         if (goToIdle) {
             setIsSupposedToBePlaying(false, false);
-        } else {
-            if (TimberUtils.isLollipop())
+        }
+        else {
+            if (TimberUtils.isLollipop()) {
                 stopForeground(false);
-            else stopForeground(true);
+            }
+            else {
+                stopForeground(true);
+            }
         }
     }
 
@@ -619,9 +680,11 @@ public class MusicService extends Service {
         synchronized (this) {
             if (last < first) {
                 return 0;
-            } else if (first < 0) {
+            }
+            else if (first < 0) {
                 first = 0;
-            } else if (last >= mPlaylist.size()) {
+            }
+            else if (last >= mPlaylist.size()) {
                 last = mPlaylist.size() - 1;
             }
 
@@ -629,7 +692,8 @@ public class MusicService extends Service {
             if (first <= mPlayPos && mPlayPos <= last) {
                 mPlayPos = first;
                 gotonext = true;
-            } else if (mPlayPos > last) {
+            }
+            else if (mPlayPos > last) {
                 mPlayPos -= last - first + 1;
             }
             final int numToRemove = last - first + 1;
@@ -639,7 +703,8 @@ public class MusicService extends Service {
                 mNextPlayPos = -1;
                 mPlaylist.clear();
                 mHistory.clear();
-            } else {
+            }
+            else {
                 for (int i = 0; i < numToRemove; i++) {
                     mPlaylist.remove(first);
                 }
@@ -649,7 +714,8 @@ public class MusicService extends Service {
                     int pos = positionIterator.next();
                     if (pos >= first && pos <= last) {
                         positionIterator.remove();
-                    } else if (pos > last) {
+                    }
+                    else if (pos > last) {
                         positionIterator.set(pos - numToRemove);
                     }
                 }
@@ -659,10 +725,12 @@ public class MusicService extends Service {
                     stop(true);
                     mPlayPos = -1;
                     closeCursor();
-                } else {
+                }
+                else {
                     if (mShuffleMode != SHUFFLE_NONE) {
                         mPlayPos = getNextPosition(true);
-                    } else if (mPlayPos >= mPlaylist.size()) {
+                    }
+                    else if (mPlayPos >= mPlaylist.size()) {
                         mPlayPos = 0;
                     }
                     final boolean wasPlaying = isPlaying();
@@ -685,6 +753,7 @@ public class MusicService extends Service {
             position = 0;
         }
 
+//        mPlaylist.ensureCapacity(mPlaylist.size() + addlen);
         if (position > mPlaylist.size()) {
             position = mPlaylist.size();
         }
@@ -707,9 +776,51 @@ public class MusicService extends Service {
     }
 
     private void updateCursor(final String selection, final String[] selectionArgs) {
+//        synchronized (this) {
+//            closeCursor();
+//            mCursor = openCursorAndGoToFirst(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+//                    PROJECTION, selection, selectionArgs);
+//        }
+//        updateAlbumCursor();
     }
 
+    private void updateCursor(final Uri uri) {
+//        synchronized (this) {
+//            closeCursor();
+//            mCursor = openCursorAndGoToFirst(uri, PROJECTION, null, null);
+//        }
+//        updateAlbumCursor();
+    }
+
+    private void updateAlbumCursor() {
+//        long albumId = getAlbumId();
+//        if (albumId >= 0) {
+//            mAlbumCursor = openCursorAndGoToFirst(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+//                    ALBUM_PROJECTION, "_id=" + albumId, null);
+//        } else {
+//            mAlbumCursor = null;
+//        }
+    }
+
+//    private Cursor openCursorAndGoToFirst(Uri uri, String[] projection,
+//                                          String selection, String[] selectionArgs) {
+//        Cursor c = getContentResolver().query(uri, projection,
+//                selection, selectionArgs, null);
+//        if (c == null) {
+//            return null;
+//        }
+//        if (!c.moveToFirst()) {
+//            c.close();
+//            return null;
+//        }
+//        return c;
+//    }
+
     private synchronized void closeCursor() {
+        /*if (mAlbumCursor != null) {
+            mAlbumCursor.close();
+            mAlbumCursor = null;
+        }*/
     }
 
     void openCurrentAndNext() {
@@ -729,7 +840,11 @@ public class MusicService extends Service {
 
             updateCursor(mPlaylist.get(mPlayPos).mId);
             while (true) {
-                if (openFile(mPlaylist.get(mPlayPos).url)) {
+                //Opening cursor
+                /*if (mCursor != null
+                        && openFile(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/"
+                        + mCursor.getLong(IDCOLIDX))) {*/
+                if(openFile(mPlaylist.get(mPlayPos).url)) {
                     break;
                 }
 
@@ -779,7 +894,8 @@ public class MusicService extends Service {
                 return 0;
             }
             return mPlayPos;
-        } else if (mShuffleMode == SHUFFLE_NORMAL) {
+        }
+        else if (mShuffleMode == SHUFFLE_NORMAL) {
             final int numTracks = mPlaylist.size();
 
 
@@ -787,6 +903,14 @@ public class MusicService extends Service {
             for (int i = 0; i < numTracks; i++) {
                 trackNumPlays[i] = 0;
             }
+
+//            final int numHistory = mHistory.size();
+//            for (int i = 0; i < numHistory; i++) {
+//                final int idx = mHistory.get(i).intValue();
+//                if (idx >= 0 && idx < numTracks) {
+//                    trackNumPlays[idx]++;
+//                }
+//            }
 
             if (mPlayPos >= 0 && mPlayPos < numTracks) {
                 trackNumPlays[mPlayPos]++;
@@ -798,44 +922,49 @@ public class MusicService extends Service {
                 if (trackNumPlays[i] < minNumPlays) {
                     minNumPlays = trackNumPlays[i];
                     numTracksWithMinNumPlays = 1;
-                } else if (trackNumPlays[i] == minNumPlays) {
+                }
+                else if (trackNumPlays[i] == minNumPlays) {
                     numTracksWithMinNumPlays++;
                 }
             }
-
 
             if (minNumPlays > 0 && numTracksWithMinNumPlays == numTracks
                     && mRepeatMode != REPEAT_ALL && !force) {
                 return -1;
             }
 
-
             int skip = mShuffler.nextInt(numTracksWithMinNumPlays);
             for (int i = 0; i < trackNumPlays.length; i++) {
                 if (trackNumPlays[i] == minNumPlays) {
                     if (skip == 0) {
                         return i;
-                    } else {
+                    }
+                    else {
                         skip--;
                     }
                 }
             }
 
-            if (D)
+            if (D) {
                 Log.e(TAG, "Getting the next position resulted did not get a result when it should have");
+            }
             return -1;
-        } else if (mShuffleMode == SHUFFLE_AUTO) {
+        }
+        else if (mShuffleMode == SHUFFLE_AUTO) {
             doAutoShuffleUpdate();
             return mPlayPos + 1;
-        } else {
+        }
+        else {
             if (mPlayPos >= mPlaylist.size() - 1) {
                 if (mRepeatMode == REPEAT_NONE && !force) {
                     return -1;
-                } else if (mRepeatMode == REPEAT_ALL || force) {
+                }
+                else if (mRepeatMode == REPEAT_ALL || force) {
                     return 0;
                 }
                 return -1;
-            } else {
+            }
+            else {
                 return mPlayPos + 1;
             }
         }
@@ -847,11 +976,14 @@ public class MusicService extends Service {
 
     private void setNextTrack(int position) {
         mNextPlayPos = position;
-        if (D) Log.d(TAG, "setNextTrack: next play position = " + mNextPlayPos);
+        if (D) {
+            Log.d(TAG, "setNextTrack: next play position = " + mNextPlayPos);
+        }
         if (mNextPlayPos >= 0 && mPlaylist != null && mNextPlayPos < mPlaylist.size()) {
             final long id = mPlaylist.get(mNextPlayPos).mId;
             mPlayer.setNextDataSource(mPlaylist.get(position).url/*MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/" + id*/);
-        } else {
+        }
+        else {
             mPlayer.setNextDataSource(null);
         }
     }
@@ -860,7 +992,7 @@ public class MusicService extends Service {
         Cursor cursor = null;
         try {
             cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    new String[]{
+                    new String[] {
                             MediaStore.Audio.Media._ID
                     }, MediaStore.Audio.Media.IS_MUSIC + "=1", null, null);
             if (cursor == null || cursor.getCount() == 0) {
@@ -874,8 +1006,10 @@ public class MusicService extends Service {
             }
             mAutoShuffleList = list;
             return true;
-        } catch (final RuntimeException e) {
-        } finally {
+        }
+        catch (final RuntimeException e) {
+        }
+        finally {
             if (cursor != null) {
                 cursor.close();
                 cursor = null;
@@ -932,11 +1066,14 @@ public class MusicService extends Service {
     }
 
     void notifyChange(final String what) {
-        if (D) Log.d(TAG, "notifyChange: what = " + what);
+        if (D) {
+            Log.d(TAG, "notifyChange: what = " + what);
+        }
 
         // Update the lockscreen controls
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             updateMediaSession(what);
+        }
 
         if (what.equals(POSITION_CHANGED)) {
             return;
@@ -957,21 +1094,23 @@ public class MusicService extends Service {
 
         if (what.equals(META_CHANGED)) {
 
-            mRecentStore.addSongId(getAudioId());
-            mSongPlayCount.bumpSongCount(getAudioId());
+            mRecentStore.addSongId(getAudioId()); // This is used to track recently played songs
+            mSongPlayCount.bumpSongCount(getAudioId()); //This is to track top played songs
 
-        } else if (what.equals(QUEUE_CHANGED)) {
+        }
+        else if (what.equals(QUEUE_CHANGED)) {
             saveQueue(true);
             if (isPlaying()) {
 
-                if (mNextPlayPos >= 0 && mNextPlayPos < mPlaylist.size()
-                        && getShuffleMode() != SHUFFLE_NONE) {
+                if (mNextPlayPos >= 0 && mNextPlayPos < mPlaylist.size() && getShuffleMode() != SHUFFLE_NONE) {
                     setNextTrack(mNextPlayPos);
-                } else {
+                }
+                else {
                     setNextTrack();
                 }
             }
-        } else {
+        }
+        else {
             saveQueue(false);
         }
 
@@ -995,6 +1134,7 @@ public class MusicService extends Service {
                         .build());
             }
         } else if (what.equals(META_CHANGED) || what.equals(QUEUE_CHANGED)) {
+            //TODO: Replace below Image download using Picasso
             Bitmap albumArt = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
             if (albumArt != null) {
 
@@ -1039,6 +1179,8 @@ public class MusicService extends Service {
 
         Intent nowPlayingIntent = NavigationUtils.getNowPlayingIntent(this);
         PendingIntent clickIntent = PendingIntent.getActivity(this, 0, nowPlayingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //TODO: Replace below Image download using Picasso
         Bitmap artwork;
         artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
 
@@ -1076,48 +1218,49 @@ public class MusicService extends Service {
                     .setShowActionsInCompactView(0, 1, 2, 3);
             builder.setStyle(style);
         }
-        if (artwork != null && TimberUtils.isLollipop())
+        if (artwork != null && TimberUtils.isLollipop()) {
             builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
+        }
         Notification n = builder.build();
 
-        if (PreferencesUtility.getInstance(this).getXPosedTrackselectorEnabled()) {
-            addXTrackSelector(n);
-        }
+//        if (PreferencesUtility.getInstance(this).getXPosedTrackselectorEnabled()) {
+//            addXTrackSelector(n);
+//        }
 
         return n;
     }
 
-    private void addXTrackSelector(Notification n) {
-        if (NotificationHelper.isSupported(n)) {
-            StringBuilder selection = new StringBuilder();
-            StringBuilder order = new StringBuilder().append("CASE _id \n");
-            for (int i = 0; i < mPlaylist.size(); i++) {
-                selection.append("_id=").append(mPlaylist.get(i).mId).append(" OR ");
-                order.append("WHEN ").append(mPlaylist.get(i).mId).append(" THEN ").append(i).append("\n");
-            }
-            order.append("END");
-            Cursor c = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, NOTIFICATION_PROJECTION, selection.substring(0, selection.length() - 3), null, order.toString());
-            if (c != null && c.getCount() != 0) {
-                c.moveToFirst();
-                ArrayList<Bundle> list = new ArrayList<>();
-                do {
-                    TrackItem t = new TrackItem()
-                            .setArt(ImageLoader.getInstance()
-                                    .loadImageSync(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))).toString()))
-                            .setTitle(c.getString(c.getColumnIndexOrThrow(AudioColumns.TITLE)))
-                            .setArtist(c.getString(c.getColumnIndexOrThrow(AudioColumns.ARTIST)))
-                            .setDuration(TimberUtils.makeShortTimeString(this, c.getInt(c.getColumnIndexOrThrow(AudioColumns.DURATION)) / 1000));
-                    list.add(t.get());
-                } while (c.moveToNext());
-                try {
-                    NotificationHelper.insertToNotification(n, list, this, getQueuePosition());
-                } catch (ModNotInstalledException e) {
-                    e.printStackTrace();
-                }
-                c.close();
-            }
-        }
-    }
+//    private void addXTrackSelector(Notification n) {
+//        if (NotificationHelper.isSupported(n)) {
+//            StringBuilder selection = new StringBuilder();
+//            StringBuilder order = new StringBuilder().append("CASE _id \n");
+//            for (int i = 0; i < mPlaylist.size(); i++) {
+//                selection.append("_id=").append(mPlaylist.get(i).mId).append(" OR ");
+//                order.append("WHEN ").append(mPlaylist.get(i).mId).append(" THEN ").append(i).append("\n");
+//            }
+//            order.append("END");
+//            Cursor c = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, NOTIFICATION_PROJECTION, selection.substring(0, selection.length() - 3), null, order.toString());
+//            if (c != null && c.getCount() != 0) {
+//                c.moveToFirst();
+//                ArrayList<Bundle> list = new ArrayList<>();
+//                do {
+//                    TrackItem t = new TrackItem()
+//                            .setArt(ImageLoader.getInstance()
+//                                    .loadImageSync(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))).toString()))
+//                            .setTitle(c.getString(c.getColumnIndexOrThrow(AudioColumns.TITLE)))
+//                            .setArtist(c.getString(c.getColumnIndexOrThrow(AudioColumns.ARTIST)))
+//                            .setDuration(TimberUtils.makeShortTimeString(this, c.getInt(c.getColumnIndexOrThrow(AudioColumns.DURATION)) / 1000));
+//                    list.add(t.get());
+//                } while (c.moveToNext());
+//                try {
+//                    NotificationHelper.insertToNotification(n, list, this, getQueuePosition());
+//                } catch (ModNotInstalledException e) {
+//                    e.printStackTrace();
+//                }
+//                c.close();
+//            }
+//        }
+//    }
 
     private final PendingIntent retrievePlaybackAction(final String action) {
         final ComponentName serviceName = new ComponentName(this, MusicService.class);
@@ -1147,90 +1290,140 @@ public class MusicService extends Service {
 //        editor.apply();
     }
 
-    private void reloadQueueAfterPermissionCheck() {
-        if (TimberUtils.isMarshmallow()) {
-            if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                reloadQueue();
-            }
-        } else {
-            reloadQueue();
-        }
-    }
+//    private void reloadQueueAfterPermissionCheck() {
+//        if (TimberUtils.isMarshmallow()) {
+//            if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                reloadQueue();
+//            }
+//        } else {
+//            reloadQueue();
+//        }
+//    }
 
-    private void reloadQueue() {
-        int id = mCardId;
-        if (mPreferences.contains("cardid")) {
-            id = mPreferences.getInt("cardid", ~mCardId);
-        }
-        if (id == mCardId) {
-            mPlaylist = mPlaybackStateStore.getQueue();
-        }
-        if (mPlaylist.size() > 0) {
-            final int pos = mPreferences.getInt("curpos", 0);
-            if (pos < 0 || pos >= mPlaylist.size()) {
-                mPlaylist.clear();
-                return;
-            }
-            mPlayPos = pos;
-            updateCursor(mPlaylist.get(mPlayPos).mId);
-            /*if (mCursor == null) {
-                SystemClock.sleep(3000);
-                updateCursor(mPlaylist.get(mPlayPos).mId);
-            }*/
-            synchronized (this) {
-                closeCursor();
-                mOpenFailedCounter = 20;
-                openCurrentAndNext();
-            }
-            if (!mPlayer.isInitialized()) {
-                mPlaylist.clear();
-                return;
-            }
+//    private void reloadQueue() {
+//        int id = mCardId;
+//        if (mPreferences.contains("cardid")) {
+//            id = mPreferences.getInt("cardid", ~mCardId);
+//        }
+//        if (id == mCardId) {
+//            mPlaylist = mPlaybackStateStore.getQueue();
+//        }
+//        if (mPlaylist.size() > 0) {
+//            final int pos = mPreferences.getInt("curpos", 0);
+//            if (pos < 0 || pos >= mPlaylist.size()) {
+//                mPlaylist.clear();
+//                return;
+//            }
+//            mPlayPos = pos;
+//            updateCursor(mPlaylist.get(mPlayPos).mId);
+//            /*if (mCursor == null) {
+//                SystemClock.sleep(3000);
+//                updateCursor(mPlaylist.get(mPlayPos).mId);
+//            }*/
+//            synchronized (this) {
+//                closeCursor();
+//                mOpenFailedCounter = 20;
+//                openCurrentAndNext();
+//            }
+//            if (!mPlayer.isInitialized()) {
+//                mPlaylist.clear();
+//                return;
+//            }
+//
+//            final long seekpos = mPreferences.getLong("seekpos", 0);
+//            seek(seekpos >= 0 && seekpos < duration() ? seekpos : 0);
+//
+//            if (D) {
+//                Log.d(TAG, "restored queue, currently at mPosition "
+//                        + position() + "/" + duration()
+//                        + " (requested " + seekpos + ")");
+//            }
+//
+//            int repmode = mPreferences.getInt("repeatmode", REPEAT_NONE);
+//            if (repmode != REPEAT_ALL && repmode != REPEAT_CURRENT) {
+//                repmode = REPEAT_NONE;
+//            }
+//            mRepeatMode = repmode;
+//
+//            int shufmode = mPreferences.getInt("shufflemode", SHUFFLE_NONE);
+//            if (shufmode != SHUFFLE_AUTO && shufmode != SHUFFLE_NORMAL) {
+//                shufmode = SHUFFLE_NONE;
+//            }
+//            if (shufmode != SHUFFLE_NONE) {
+//                mHistory = mPlaybackStateStore.getHistory(mPlaylist.size());
+//            }
+//            if (shufmode == SHUFFLE_AUTO) {
+//                if (!makeAutoShuffleList()) {
+//                    shufmode = SHUFFLE_NONE;
+//                }
+//            }
+//            mShuffleMode = shufmode;
+//        }
+//    }
 
-            final long seekpos = mPreferences.getLong("seekpos", 0);
-            seek(seekpos >= 0 && seekpos < duration() ? seekpos : 0);
-
-            if (D) {
-                Log.d(TAG, "restored queue, currently at mPosition "
-                        + position() + "/" + duration()
-                        + " (requested " + seekpos + ")");
-            }
-
-            int repmode = mPreferences.getInt("repeatmode", REPEAT_NONE);
-            if (repmode != REPEAT_ALL && repmode != REPEAT_CURRENT) {
-                repmode = REPEAT_NONE;
-            }
-            mRepeatMode = repmode;
-
-            int shufmode = mPreferences.getInt("shufflemode", SHUFFLE_NONE);
-            if (shufmode != SHUFFLE_AUTO && shufmode != SHUFFLE_NORMAL) {
-                shufmode = SHUFFLE_NONE;
-            }
-            if (shufmode != SHUFFLE_NONE) {
-                mHistory = mPlaybackStateStore.getHistory(mPlaylist.size());
-            }
-            if (shufmode == SHUFFLE_AUTO) {
-                if (!makeAutoShuffleList()) {
-                    shufmode = SHUFFLE_NONE;
-                }
-            }
-            mShuffleMode = shufmode;
-        }
-    }
-
-    public void setPlayList(List<MusicPlaybackTrack> songs, int position) {
-//        mPlayer.setDataSource(songs, position);
+    public void setPlayList(List<MusicPlaybackTrack> songs, int position){
         mPlaylist = songs;
         mPlayPos = position;
     }
 
     public boolean openFile(final String path) {
-        if (D) Log.d(TAG, "openFile: path = " + path);
+        if (D) {
+            Log.d(TAG, "openFile: path = " + path);
+        }
         synchronized (this) {
             if (path == null) {
                 return false;
             }
 
+//            Uri uri = Uri.parse(path);
+//            boolean shouldAddToPlaylist = true;
+//            long id = -1;
+//            try {
+//                id = Long.valueOf(uri.getLastPathSegment());
+//            } catch (NumberFormatException ex) {
+//                // Ignore
+//            }
+//
+//            if (id != -1 && path.startsWith(
+//                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString())) {
+//                updateCursor(uri);
+//
+//            } else if (id != -1 && path.startsWith(
+//                    MediaStore.Files.getContentUri("external").toString())) {
+//                updateCursor(id);
+//
+//            } else if (path.startsWith("content://downloads/")) {
+//
+//                String mpUri = getValueForDownloadedFile(this, uri, "mediaprovider_uri");
+//                if (D) Log.i(TAG, "Downloaded file's MP uri : " + mpUri);
+//                if (!TextUtils.isEmpty(mpUri)) {
+//                    if (openFile(mpUri)) {
+//                        notifyChange(META_CHANGED);
+//                        return true;
+//                    } else {
+//                        return false;
+//                    }
+//                } else {
+//                    updateCursorForDownloadedFile(this, uri);
+//                    shouldAddToPlaylist = false;
+//                }
+//
+//            } else {
+//                String where = MediaStore.Audio.Media.DATA + "=?";
+//                String[] selectionArgs = new String[]{path};
+//                updateCursor(where, selectionArgs);
+//            }
+//            try {
+//                if (shouldAddToPlaylist) {
+//                    mPlaylist.clear();
+//                    mPlaylist.add(new MusicPlaybackTrack(id, -1, TimberUtils.IdType.NA, -1));
+//                    notifyChange(QUEUE_CHANGED);
+//                    mPlayPos = 0;
+//                    mHistory.clear();
+//                }
+//            } catch (final UnsupportedOperationException ex) {
+//                // Ignore
+//            }
 
             mFileToPlay = path;
             mPlayer.setDataSource(mFileToPlay);
@@ -1250,26 +1443,45 @@ public class MusicService extends Service {
         }
     }
 
+//    private void updateCursorForDownloadedFile(Context context, Uri uri) {
+//        synchronized (this) {
+//            closeCursor();
+//            MatrixCursor cursor = new MatrixCursor(PROJECTION_MATRIX);
+//            String title = getValueForDownloadedFile(this, uri, "title");
+//            cursor.addRow(new Object[]{
+//                    null,
+//                    null,
+//                    null,
+//                    title,
+//                    null,
+//                    null,
+//                    null,
+//                    null
+//            });
+//            //mCursor = cursor;
+//            //mCursor.moveToFirst();
+//        }
+//    }
 
-    private String getValueForDownloadedFile(Context context, Uri uri, String column) {
-
-        Cursor cursor = null;
-        final String[] projection = {
-                column
-        };
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getString(0);
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return null;
-    }
+//    private String getValueForDownloadedFile(Context context, Uri uri, String column) {
+//
+//        Cursor cursor = null;
+//        final String[] projection = {
+//                column
+//        };
+//
+//        try {
+//            cursor = context.getContentResolver().query(uri, projection, null, null, null);
+//            if (cursor != null && cursor.moveToFirst()) {
+//                return cursor.getString(0);
+//            }
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//        }
+//        return null;
+//    }
 
     public int getAudioSessionId() {
         synchronized (this) {
@@ -1408,15 +1620,48 @@ public class MusicService extends Service {
     }
 
     public String getPath() {
-        return "";
+        /*synchronized (this) {
+            if (mCursor == null) {
+                return null;
+            }
+            return mCursor.getString(mCursor.getColumnIndexOrThrow(AudioColumns.DATA));
+        }*/
+        synchronized (this) {
+            if (mPlayPos < 0 || mPlayPos >= mPlaylist.size()) {
+                return "";
+            }
+            return mPlaylist.get(mPlayPos).url;
+        }
     }
 
     public String getAlbumName() {
-        return "";
+        /*synchronized (this) {
+            if (mCursor == null) {
+                return null;
+            }
+            return mCursor.getString(mCursor.getColumnIndexOrThrow(AudioColumns.ALBUM));
+        }*/
+        synchronized (this) {
+            if (mPlayPos < 0 || mPlayPos >= mPlaylist.size()) {
+                return "";
+            }
+            return mPlaylist.get(mPlayPos).title;
+        }
     }
 
     public String getTrackName() {
-        return "";
+        /*synchronized (this) {
+            if (mCursor == null) {
+                return null;
+            }
+            return mCursor.getString(mCursor.getColumnIndexOrThrow(AudioColumns.TITLE));
+        }*/
+        synchronized (this) {
+            if (mPlayPos < 0 || mPlayPos >= mPlaylist.size()) {
+                return "";
+            }
+            return mPlaylist.get(mPlayPos).title;
+        }
     }
 
     public String getGenreName() {
@@ -1424,31 +1669,34 @@ public class MusicService extends Service {
             if (mPlayPos < 0 || mPlayPos >= mPlaylist.size()) {
                 return null;
             }
-            String[] genreProjection = {MediaStore.Audio.Genres.NAME};
-            Uri genreUri = MediaStore.Audio.Genres.getContentUriForAudioId("external",
-                    (int) mPlaylist.get(mPlayPos).mId);
-            Cursor genreCursor = getContentResolver().query(genreUri, genreProjection,
-                    null, null, null);
-            if (genreCursor != null) {
-                try {
-                    if (genreCursor.moveToFirst()) {
-                        return genreCursor.getString(
-                                genreCursor.getColumnIndexOrThrow(MediaStore.Audio.Genres.NAME));
-                    }
-                } finally {
-                    genreCursor.close();
-                }
-            }
-            return null;
+            // TODO: Return Genre
+            return /*mPlaylist.get(mPlayPos).title*/null;
+
+//            String[] genreProjection = {MediaStore.Audio.Genres.NAME};
+//            Uri genreUri = MediaStore.Audio.Genres.getContentUriForAudioId("external",
+//                    (int) mPlaylist.get(mPlayPos).mId);
+//            Cursor genreCursor = getContentResolver().query(genreUri, genreProjection,
+//                    null, null, null);
+//            if (genreCursor != null) {
+//                try {
+//                    if (genreCursor.moveToFirst()) {
+//                        return genreCursor.getString(
+//                                genreCursor.getColumnIndexOrThrow(MediaStore.Audio.Genres.NAME));
+//                    }
+//                } finally {
+//                    genreCursor.close();
+//                }
+//            }
+//            return null;
         }
     }
 
     public String getArtistName() {
-        return "";
+        return null;
     }
 
     public String getAlbumArtistName() {
-        return "";
+        return null;
     }
 
     public long getAlbumId() {
@@ -1456,8 +1704,6 @@ public class MusicService extends Service {
     }
 
     public long getArtistId() {
-        synchronized (this) {
-        }
         return -1;
     }
 
@@ -1526,11 +1772,13 @@ public class MusicService extends Service {
                     prev(true);
                     // seek to the new duration + the leftover position
                     seek(duration() + newPos);
-                } else if (newPos >= duration) {
+                }
+                else if (newPos >= duration) {
                     gotoNext(true);
                     // seek to the leftover duration
                     seek(newPos - duration);
-                } else {
+                }
+                else {
                     seek(newPos);
                 }
             }
@@ -1625,7 +1873,8 @@ public class MusicService extends Service {
             }
             if (position >= 0) {
                 mPlayPos = position;
-            } else {
+            }
+            else {
                 mPlayPos = mShuffler.nextInt(mPlaylist.size());
             }
             mHistory.clear();
@@ -1648,7 +1897,9 @@ public class MusicService extends Service {
         int status = mAudioManager.requestAudioFocus(mAudioFocusListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
-        if (D) Log.d(TAG, "Starting playback: audio focus request status = " + status);
+        if (D) {
+            Log.d(TAG, "Starting playback: audio focus request status = " + status);
+        }
 
         if (status != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             return;
@@ -1666,14 +1917,14 @@ public class MusicService extends Service {
 
         if (createNewNextTrack) {
             setNextTrack();
-        } else {
+        }
+        else {
             setNextTrack(mNextPlayPos);
         }
 
         if (mPlayer.isInitialized()) {
             final long duration = mPlayer.duration();
-            if (mRepeatMode != REPEAT_CURRENT && duration > 2000
-                    && mPlayer.position() >= duration - 2000) {
+            if (mRepeatMode != REPEAT_CURRENT && duration > 2000 && mPlayer.position() >= duration - 2000) {
                 gotoNext(true);
             }
 
@@ -1686,18 +1937,20 @@ public class MusicService extends Service {
             cancelShutdown();
             updateNotification();
             notifyChange(META_CHANGED);
-        } else if (mPlaylist.size() <= 0) {
+        }
+        else if (mPlaylist.size() <= 0) {
             setShuffleMode(SHUFFLE_AUTO);
         }
     }
 
     public void pause() {
-        if (D) Log.d(TAG, "Pausing playback");
+        if (D) {
+            Log.d(TAG, "Pausing playback");
+        }
         synchronized (this) {
             mPlayerHandler.removeMessages(FADEUP);
             if (mIsSupposedToBePlaying) {
-                final Intent intent = new Intent(
-                        AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
+                final Intent intent = new Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
                 intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, getAudioSessionId());
                 intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
                 sendBroadcast(intent);
@@ -1710,10 +1963,14 @@ public class MusicService extends Service {
     }
 
     public void gotoNext(final boolean force) {
-        if (D) Log.d(TAG, "Going to next track");
+        if (D) {
+            Log.d(TAG, "Going to next track");
+        }
         synchronized (this) {
             if (mPlaylist.size() <= 0) {
-                if (D) Log.d(TAG, "No play queue");
+                if (D) {
+                    Log.d(TAG, "No play queue");
+                }
                 scheduleDelayedShutdown();
                 return;
             }
@@ -1738,7 +1995,9 @@ public class MusicService extends Service {
     public void goToPosition(int pos) {
         synchronized (this) {
             if (mPlaylist.size() <= 0) {
-                if (D) Log.d(TAG, "No play queue");
+                if (D) {
+                    Log.d(TAG, "No play queue");
+                }
                 scheduleDelayedShutdown();
                 return;
             }
@@ -1776,12 +2035,13 @@ public class MusicService extends Service {
     public void prev(boolean forcePrevious) {
         synchronized (this) {
 
-
             boolean goPrevious = getRepeatMode() != REPEAT_CURRENT &&
                     (position() < REWIND_INSTEAD_PREVIOUS_THRESHOLD || forcePrevious);
 
             if (goPrevious) {
-                if (D) Log.d(TAG, "Going to previous track");
+                if (D) {
+                    Log.d(TAG, "Going to previous track");
+                }
                 int pos = getPreviousPlayPosition(true);
 
                 if (pos < 0) {
@@ -1793,8 +2053,11 @@ public class MusicService extends Service {
                 openCurrent();
                 play(false);
                 notifyChange(META_CHANGED);
-            } else {
-                if (D) Log.d(TAG, "Going to beginning of track");
+            }
+            else {
+                if (D) {
+                    Log.d(TAG, "Going to beginning of track");
+                }
                 seek(0);
                 play(false);
             }
@@ -1814,10 +2077,12 @@ public class MusicService extends Service {
                     mHistory.remove(histsize - 1);
                 }
                 return pos.intValue();
-            } else {
+            }
+            else {
                 if (mPlayPos > 0) {
                     return mPlayPos - 1;
-                } else {
+                }
+                else {
                     return mPlaylist.size() - 1;
                 }
             }
@@ -1846,14 +2111,17 @@ public class MusicService extends Service {
                 mPlaylist.add(index2, track);
                 if (mPlayPos == index1) {
                     mPlayPos = index2;
-                } else if (mPlayPos >= index1 && mPlayPos <= index2) {
+                }
+                else if (mPlayPos >= index1 && mPlayPos <= index2) {
                     mPlayPos--;
                 }
-            } else if (index2 < index1) {
+            }
+            else if (index2 < index1) {
                 mPlaylist.add(index2, track);
                 if (mPlayPos == index1) {
                     mPlayPos = index2;
-                } else if (mPlayPos >= index2 && mPlayPos <= index1) {
+                }
+                else if (mPlayPos >= index2 && mPlayPos <= index1) {
                     mPlayPos++;
                 }
             }
@@ -1867,7 +2135,8 @@ public class MusicService extends Service {
                 addToPlayList(list, mPlayPos + 1, sourceId, sourceType);
                 mNextPlayPos = mPlayPos + 1;
                 notifyChange(QUEUE_CHANGED);
-            } else {
+            }
+            else {
                 addToPlayList(list, Integer.MAX_VALUE, sourceId, sourceType);
                 notifyChange(QUEUE_CHANGED);
             }
@@ -1887,7 +2156,8 @@ public class MusicService extends Service {
             if (mShuffleMode != SHUFFLE_NONE) {
                 setShuffleMode(SHUFFLE_NONE);
             }
-        } else {
+        }
+        else {
             setRepeatMode(REPEAT_NONE);
         }
     }
@@ -1895,7 +2165,12 @@ public class MusicService extends Service {
     private void cycleShuffle() {
         if (mShuffleMode == SHUFFLE_NONE) {
             setShuffleMode(SHUFFLE_NORMAL);
-        } else if (mShuffleMode == SHUFFLE_NORMAL || mShuffleMode == SHUFFLE_AUTO) {
+            // This was originally commented by Author
+//            if (mRepeatMode == REPEAT_CURRENT) {
+//                setRepeatMode(REPEAT_ALL);
+//            }
+        }
+        else if (mShuffleMode == SHUFFLE_NORMAL || mShuffleMode == SHUFFLE_AUTO) {
             setShuffleMode(SHUFFLE_NONE);
         }
     }

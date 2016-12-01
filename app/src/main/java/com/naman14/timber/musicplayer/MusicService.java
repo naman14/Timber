@@ -760,7 +760,11 @@ public class MusicService extends Service {
 
         final ArrayList<MusicPlaybackTrack> arrayList = new ArrayList<MusicPlaybackTrack>(addlen);
         for (int i = 0; i < list.length; i++) {
-            arrayList.add(new MusicPlaybackTrack(list[i], sourceId, sourceType, i));
+            MusicPlaybackTrack playbackTrack = new MusicPlaybackTrack(list[i], sourceId, sourceType, i);
+            if (sourceType.equals(IdType.NA) && playbackTrack.url == null) {
+                playbackTrack.url = "content://media/external/audio/media/" + playbackTrack.mId;
+            }
+            arrayList.add(playbackTrack);
         }
 
         mPlaylist.addAll(position, arrayList);

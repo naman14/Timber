@@ -7,7 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.dataloaders.PlaylistLoader;
 import com.naman14.timber.models.Playlist;
 import com.naman14.timber.helpers.Song;

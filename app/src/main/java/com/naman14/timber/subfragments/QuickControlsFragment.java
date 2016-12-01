@@ -32,7 +32,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.Config;
-import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.listeners.MusicStateListener;

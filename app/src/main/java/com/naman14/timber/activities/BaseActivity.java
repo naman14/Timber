@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.media.session.MediaSessionManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,8 +36,8 @@ import android.widget.Toast;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
 import com.naman14.timber.ITimberService;
-import com.naman14.timber.MusicPlayer;
-import com.naman14.timber.MusicService;
+import com.naman14.timber.musicplayer.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
@@ -50,7 +49,7 @@ import com.naman14.timber.utils.TimberUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.naman14.timber.MusicPlayer.mService;
+import static com.naman14.timber.musicplayer.MusicPlayer.mService;
 
 public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
 

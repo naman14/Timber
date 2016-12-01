@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.widget.RemoteViews;
 
-import com.naman14.timber.MusicService;
+import com.naman14.timber.musicplayer.MusicService;
 
 /**
  * Created by nv95 on 02.11.16.

@@ -13,7 +13,7 @@
  * governing permissions and limitations under the License.
  */
 
-package com.naman14.timber;
+package com.naman14.timber.musicplayer;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -32,9 +32,10 @@ import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import com.naman14.timber.ITimberService;
+import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
-import com.naman14.timber.helpers.Song;
 import com.naman14.timber.utils.TimberUtils.IdType;
 
 import java.util.Arrays;

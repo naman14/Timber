@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.widget.RemoteViews;
 
-import com.naman14.timber.MusicPlayer;
-import com.naman14.timber.MusicService;
+import com.naman14.timber.musicplayer.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;

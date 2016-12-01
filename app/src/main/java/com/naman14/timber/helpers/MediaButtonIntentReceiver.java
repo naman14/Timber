@@ -22,7 +22,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.naman14.timber.MusicService;
+import com.naman14.timber.musicplayer.MusicService;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.utils.PreferencesUtility;
 

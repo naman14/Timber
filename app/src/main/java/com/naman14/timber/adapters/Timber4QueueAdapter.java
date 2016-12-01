@@ -24,7 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.helpers.Song;
 import com.naman14.timber.utils.TimberUtils;

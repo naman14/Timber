@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.FolderLoader;
 import com.naman14.timber.dataloaders.SongLoader;

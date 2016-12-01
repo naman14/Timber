@@ -94,7 +94,7 @@
         </receiver>
         <!-- Music service -->
         <service
-            android:name=".MusicService"
+            android:name=".musicplayer.MusicService"
             android:label="@string/app_name"
             android:process=":main" />
 

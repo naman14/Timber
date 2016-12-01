@@ -38,6 +38,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.models.Playlist;
 import com.naman14.timber.helpers.Song;
+import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.utils.TimberUtils;
 
 import java.util.ArrayList;

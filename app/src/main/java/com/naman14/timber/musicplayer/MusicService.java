@@ -159,7 +159,7 @@ public class MusicService extends Service {
 
     private static LinkedList<Integer> mHistory = new LinkedList<>();
     private final IBinder mBinder = new ServiceStub(this);
-    MultiPlayer mPlayer;
+    MultiPlayer2 mPlayer;
     private String mFileToPlay;
     WakeLock mWakeLock;
     private AlarmManager mAlarmManager;
@@ -303,7 +303,7 @@ public class MusicService extends Service {
 
 //        registerExternalStorageListener();
 
-        mPlayer = new MultiPlayer(this);
+        mPlayer = new MultiPlayer2(this);
         mPlayer.setHandler(mPlayerHandler);
 
         // Initialize the intent filter and each action

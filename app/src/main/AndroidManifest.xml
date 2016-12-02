@@ -107,9 +107,9 @@
         </service>
 
         <!--use your own api key for fabric-->
-     <!--   <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="@string/fabric_api_key" />-->
+        <!--<meta-data-->
+            <!--android:name="io.fabric.ApiKey"-->
+            <!--android:value="q433" />-->
 
         <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
             <intent-filter>

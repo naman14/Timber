@@ -54,7 +54,8 @@ public class SongsFragment extends Fragment implements MusicStateListener {
     private PreferencesUtility mPreferences;
     List<MusicPlaybackTrack> songList;
     public static String fileName = "Jabra FAN.mp4";
-    public static String encrypted_fileName = "encry_" + fileName;
+    public static String fileName1 = "Desi Girl.mp3";
+    public static String fileName2 = "Dhol Baaje.mp3";
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -72,19 +73,20 @@ public class SongsFragment extends Fragment implements MusicStateListener {
         FastScroller fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
         fastScroller.setRecyclerView(recyclerView);
 
-        encrypt();
+        encrypt(fileName, true);
+        encrypt(fileName1, true);
+        encrypt(fileName2, true);
 
 //        new loadSongs().execute("");
 
         songList = new ArrayList<>();
-        songList.add(new MusicPlaybackTrack("Jabra FAN", encrypted_fileName));
-        songList.add(new MusicPlaybackTrack("Tere Naal Ishqa","http://www.mp3khan.in/files/Bollywood Mp3 and Videos/New Relesed Bollywood/Shivaay Movies Songs/04 - Tere Naal Ishqa - Shivaay  [ Mp3Khan.in ] .mp3"));
-//        songList.add(new MusicPlaybackTrack("Chittiyaan Kalaiyaan","content://media/external/audio/media/1964"));
-        songList.add(new MusicPlaybackTrack("O Janiya","http://www.mp3khan.in/files/Bollywood Mp3 and Videos/New Relesed Bollywood/Force 2 Movies Songs/02 - O Janiya - Force 2.mp3"));
-//        songList.add(new MusicPlaybackTrack("Waka waka","content://media/external/audio/media/1965"));
-        songList.add(new MusicPlaybackTrack("Dil Mein Chhupa Loonga","http://www.mp3khan.in/files/Bollywood Mp3 and Videos/New Relesed Bollywood/Wajah Tum Ho Movies Songs/03 - Dil Mein Chhupa Loonga - Wajah Tum Ho.mp3"));
+        songList.add(new MusicPlaybackTrack("Jabra FAN from local", fileName));
+        songList.add(new MusicPlaybackTrack("O Janiya","http://www.mp3khan.in/files/Bollywood%20Mp3%20and%20Videos/New%20Relesed%20Bollywood/Force%202%20Movies%20Songs/02%20-%20O%20Janiya%20-%20Force%202.mp3"));
+        songList.add(new MusicPlaybackTrack("Desi Girl from local", fileName1));
+        songList.add(new MusicPlaybackTrack("Dil Mein Chhupa Loonga","http://www.mp3khan.in/files/Bollywood%20Mp3%20and%20Videos/New%20Relesed%20Bollywood/Wajah%20Tum%20Ho%20Movies%20Songs/03%20-%20Dil%20Mein%20Chhupa%20Loonga%20-%20Wajah%20Tum%20Ho.mp3"));
+        songList.add(new MusicPlaybackTrack("Dhol Baaje from local", fileName2));
         songList.add(new MusicPlaybackTrack("Let's Breakup","http://mp3khan.top/music/indian_movies/Dear%20Zindagi%20(2016)/04%20-%20Lets%20Break%20Up%20-%20Dear%20Zindagi%20[DJMaza.Cool].mp3"));
-        songList.add(new MusicPlaybackTrack("Haanikaarak Bapu","http://www.mp3khan.in/files/Bollywood Mp3 and Videos/New Relesed Bollywood/Dangal Movies Songs/Haanikaarak Bapu - 128Kbps.mp3"));
+        songList.add(new MusicPlaybackTrack("Haanikaarak Bapu","http://www.mp3khan.in/files/Bollywood%20Mp3%20and%20Videos/New%20Relesed%20Bollywood/Dangal%20Movies%20Songs/Haanikaarak%20Bapu%20-%20128Kbps.mp3"));
 
         mAdapter = new SongsListAdapter((AppCompatActivity) getActivity(), songList, false, false);
         recyclerView.setAdapter(mAdapter);
@@ -195,13 +197,13 @@ public class SongsFragment extends Fragment implements MusicStateListener {
 //        }
 //    }
 
-    private void encrypt() {
+    private void encrypt(String fileName, boolean shouldEncrypt) {
         try {
 
             // encrypt audio file send as second argument and corresponding key in first argument.
-            byte[] encrypt = FileCrypto.encrypt(getAudioFile());
+            final byte[] encrypt = shouldEncrypt ? FileCrypto.encrypt(getAudioFile(fileName)) : getAudioFile(fileName);
 
-            FileOutputStream fos = new FileOutputStream(new File(getActivity().getExternalFilesDir(null), encrypted_fileName));
+            FileOutputStream fos = new FileOutputStream(new File(getActivity().getExternalFilesDir(null), fileName));
             fos.write(encrypt);
             fos.close();
         }
@@ -211,11 +213,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
     }
 
 
-    public byte[] getAudioFile() throws FileNotFoundException {
-
-        byte[] audio_data = null;
-
-        byte[] inarry = null;
+    public byte[] getAudioFile(String fileName) throws FileNotFoundException {
 
         AssetManager am = getActivity().getApplicationContext().getAssets();
 
@@ -225,7 +223,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
 
             int length = is.available();
 
-            audio_data = new byte[length];
+            byte[] audio_data = new byte[length];
 
             int bytesRead;
 
@@ -235,12 +233,12 @@ public class SongsFragment extends Fragment implements MusicStateListener {
                 output.write(audio_data, 0, bytesRead);
             }
 
-            inarry = output.toByteArray();
+            return output.toByteArray();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        return inarry;
+        return null;
 
     }
 }

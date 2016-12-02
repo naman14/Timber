@@ -273,12 +273,13 @@ public final class MultiPlayer2 implements MediaPlayer.OnErrorListener {
     }
 
 
-    private static class CurrentPlayerPreparedListner implements MediaPlayer.OnPreparedListener {
+    private class CurrentPlayerPreparedListner implements MediaPlayer.OnPreparedListener {
 
         @Override
         public void onPrepared(MediaPlayer mp) {
             Log.d(TAG, "onPrepared: current player");
             mp.start();
+            mHandler.sendEmptyMessage(MusicService.BUFFERED);
         }
     }
 

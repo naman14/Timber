@@ -84,6 +84,7 @@ public class MusicService extends Service {
     public static final String REPEATMODE_CHANGED = "com.naman14.timber.repeatmodechanged";
     public static final String SHUFFLEMODE_CHANGED = "com.naman14.timber.shufflemodechanged";
     public static final String TRACK_ERROR = "com.naman14.timber.trackerror";
+    public static final String PLAYER_PREPARED = "com.naman14.timber.playerprepared";
     public static final String TIMBER_PACKAGE_NAME = "com.naman14.timber";
     public static final String MUSIC_PACKAGE_NAME = "com.android.music";
     public static final String SERVICECMD = "com.naman14.timber.musicservicecommand";
@@ -126,6 +127,8 @@ public class MusicService extends Service {
     static final int FOCUSCHANGE = 5;
     static final int FADEDOWN = 6;
     static final int FADEUP = 7;
+    static final int BUFFERED = 8;
+
     static final int IDLE_DELAY = 5 * 60 * 1000;
     static final long REWIND_INSTEAD_PREVIOUS_THRESHOLD = 15000;
 

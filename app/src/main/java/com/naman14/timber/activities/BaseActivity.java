@@ -83,6 +83,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         filter.addAction(MusicService.PLAYLIST_CHANGED);
         // If there is an error playing a track
         filter.addAction(MusicService.TRACK_ERROR);
+        // Player prepared
+        filter.addAction(MusicService.PLAYER_PREPARED);
 
         registerReceiver(mPlaybackStatus, filter);
 
@@ -91,8 +93,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
 
     @Override
@@ -269,7 +269,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             final String action = intent.getAction();
             BaseActivity baseActivity = mReference.get();
             if (baseActivity != null) {
-                if (action.equals(MusicService.META_CHANGED)) {
+                if (action.equals(MusicService.META_CHANGED) || action.equals(MusicService.PLAYER_PREPARED)) {
                     baseActivity.onMetaChanged();
                 } else if (action.equals(MusicService.PLAYSTATE_CHANGED)) {
 //                    baseActivity.mPlayPauseProgressButton.getPlayPauseButton().updateState();

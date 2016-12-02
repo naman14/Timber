@@ -14,6 +14,8 @@ import static com.naman14.timber.musicplayer.MusicService.META_CHANGED;
 import static com.naman14.timber.musicplayer.MusicService.RELEASE_WAKELOCK;
 import static com.naman14.timber.musicplayer.MusicService.REPEAT_CURRENT;
 import static com.naman14.timber.musicplayer.MusicService.SERVER_DIED;
+import static com.naman14.timber.musicplayer.MusicService.BUFFERED;
+import static com.naman14.timber.musicplayer.MusicService.PLAYER_PREPARED;
 import static com.naman14.timber.musicplayer.MusicService.TRACK_ENDED;
 import static com.naman14.timber.musicplayer.MusicService.TRACK_WENT_TO_NEXT;
 
@@ -86,6 +88,10 @@ public final class MusicPlayerHandler extends Handler {
                         } else {
                             service.gotoNext(false);
                         }
+                        break;
+                    case BUFFERED:
+                        mService.get().scrobble();
+                        service.notifyChange(PLAYER_PREPARED);
                         break;
                     case RELEASE_WAKELOCK:
                         service.mWakeLock.release();

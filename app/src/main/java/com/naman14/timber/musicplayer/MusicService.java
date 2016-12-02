@@ -36,14 +36,11 @@ import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Audio.AudioColumns;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -64,7 +61,6 @@ import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
 import com.naman14.timber.utils.NavigationUtils;
-import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.utils.TimberUtils.IdType;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -74,9 +70,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import de.Maxr1998.trackselectorlib.ModNotInstalledException;
 import de.Maxr1998.trackselectorlib.NotificationHelper;
-import de.Maxr1998.trackselectorlib.TrackItem;
 
 @SuppressLint("NewApi")
 public class MusicService extends Service {
@@ -129,18 +123,13 @@ public class MusicService extends Service {
     static final int FADEUP = 7;
     static final int IDLE_DELAY = 5 * 60 * 1000;
     static final long REWIND_INSTEAD_PREVIOUS_THRESHOLD = 3000;
-
-    private static final String[] NOTIFICATION_PROJECTION = new String[]{
-            "audio._id AS _id", AudioColumns.ALBUM_ID, AudioColumns.TITLE,
-            AudioColumns.ARTIST, AudioColumns.DURATION
-    };
     private static final Shuffler mShuffler = new Shuffler();
     private static final int NOTIFY_MODE_NONE = 0;
     private static final int NOTIFY_MODE_FOREGROUND = 1;
     private static final int NOTIFY_MODE_BACKGROUND = 2;
     private static LinkedList<Integer> mHistory = new LinkedList<>();
     private final IBinder mBinder = new ServiceStub(this);
-    MultiPlayer mPlayer;
+    MultiPlayer2 mPlayer;
     private String mFileToPlay;
     WakeLock mWakeLock;
     private AlarmManager mAlarmManager;
@@ -282,7 +271,7 @@ public class MusicService extends Service {
 
         registerExternalStorageListener();
 
-        mPlayer = new MultiPlayer(this);
+        mPlayer = new MultiPlayer2(this);
         mPlayer.setHandler(mPlayerHandler);
 
         // Initialize the intent filter and each action
@@ -857,30 +846,6 @@ public class MusicService extends Service {
     }
 
     private boolean makeAutoShuffleList() {
-        Cursor cursor = null;
-        try {
-            cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    new String[]{
-                            MediaStore.Audio.Media._ID
-                    }, MediaStore.Audio.Media.IS_MUSIC + "=1", null, null);
-            if (cursor == null || cursor.getCount() == 0) {
-                return false;
-            }
-            final int len = cursor.getCount();
-            final long[] list = new long[len];
-            for (int i = 0; i < len; i++) {
-                cursor.moveToNext();
-                list[i] = cursor.getLong(0);
-            }
-            mAutoShuffleList = list;
-            return true;
-        } catch (final RuntimeException e) {
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-                cursor = null;
-            }
-        }
         return false;
     }
 
@@ -1079,44 +1044,7 @@ public class MusicService extends Service {
         if (artwork != null && TimberUtils.isLollipop())
             builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
         Notification n = builder.build();
-
-        if (PreferencesUtility.getInstance(this).getXPosedTrackselectorEnabled()) {
-            addXTrackSelector(n);
-        }
-
         return n;
-    }
-
-    private void addXTrackSelector(Notification n) {
-        if (NotificationHelper.isSupported(n)) {
-            StringBuilder selection = new StringBuilder();
-            StringBuilder order = new StringBuilder().append("CASE _id \n");
-            for (int i = 0; i < mPlaylist.size(); i++) {
-                selection.append("_id=").append(mPlaylist.get(i).mId).append(" OR ");
-                order.append("WHEN ").append(mPlaylist.get(i).mId).append(" THEN ").append(i).append("\n");
-            }
-            order.append("END");
-            Cursor c = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, NOTIFICATION_PROJECTION, selection.substring(0, selection.length() - 3), null, order.toString());
-            if (c != null && c.getCount() != 0) {
-                c.moveToFirst();
-                ArrayList<Bundle> list = new ArrayList<>();
-                do {
-                    TrackItem t = new TrackItem()
-                            .setArt(ImageLoader.getInstance()
-                                    .loadImageSync(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))).toString()))
-                            .setTitle(c.getString(c.getColumnIndexOrThrow(AudioColumns.TITLE)))
-                            .setArtist(c.getString(c.getColumnIndexOrThrow(AudioColumns.ARTIST)))
-                            .setDuration(TimberUtils.makeShortTimeString(this, c.getInt(c.getColumnIndexOrThrow(AudioColumns.DURATION)) / 1000));
-                    list.add(t.get());
-                } while (c.moveToNext());
-                try {
-                    NotificationHelper.insertToNotification(n, list, this, getQueuePosition());
-                } catch (ModNotInstalledException e) {
-                    e.printStackTrace();
-                }
-                c.close();
-            }
-        }
     }
 
     private final PendingIntent retrievePlaybackAction(final String action) {
@@ -1128,23 +1056,6 @@ public class MusicService extends Service {
     }
 
     private void saveQueue(final boolean full) {
-//        if (!mQueueIsSaveable) {
-//            return;
-//        }
-//
-//        final SharedPreferences.Editor editor = mPreferences.edit();
-//        if (full) {
-//            mPlaybackStateStore.saveState(mPlaylist,
-//                    mShuffleMode != SHUFFLE_NONE ? mHistory : null);
-//            editor.putInt("cardid", mCardId);
-//        }
-//        editor.putInt("curpos", mPlayPos);
-//        if (mPlayer.isInitialized()) {
-//            editor.putLong("seekpos", mPlayer.position());
-//        }
-//        editor.putInt("repeatmode", mRepeatMode);
-//        editor.putInt("shufflemode", mShuffleMode);
-//        editor.apply();
     }
 
     private void reloadQueueAfterPermissionCheck() {
@@ -1173,10 +1084,6 @@ public class MusicService extends Service {
             }
             mPlayPos = pos;
             updateCursor(mPlaylist.get(mPlayPos).mId);
-            /*if (mCursor == null) {
-                SystemClock.sleep(3000);
-                updateCursor(mPlaylist.get(mPlayPos).mId);
-            }*/
             synchronized (this) {
                 closeCursor();
                 mOpenFailedCounter = 20;
@@ -1248,27 +1155,6 @@ public class MusicService extends Service {
             stop(true);
             return false;
         }
-    }
-
-
-    private String getValueForDownloadedFile(Context context, Uri uri, String column) {
-
-        Cursor cursor = null;
-        final String[] projection = {
-                column
-        };
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getString(0);
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return null;
     }
 
     public int getAudioSessionId() {
@@ -1420,27 +1306,7 @@ public class MusicService extends Service {
     }
 
     public String getGenreName() {
-        synchronized (this) {
-            if (mPlayPos < 0 || mPlayPos >= mPlaylist.size()) {
-                return null;
-            }
-            String[] genreProjection = {MediaStore.Audio.Genres.NAME};
-            Uri genreUri = MediaStore.Audio.Genres.getContentUriForAudioId("external",
-                    (int) mPlaylist.get(mPlayPos).mId);
-            Cursor genreCursor = getContentResolver().query(genreUri, genreProjection,
-                    null, null, null);
-            if (genreCursor != null) {
-                try {
-                    if (genreCursor.moveToFirst()) {
-                        return genreCursor.getString(
-                                genreCursor.getColumnIndexOrThrow(MediaStore.Audio.Genres.NAME));
-                    }
-                } finally {
-                    genreCursor.close();
-                }
-            }
-            return null;
-        }
+        return null;
     }
 
     public String getArtistName() {

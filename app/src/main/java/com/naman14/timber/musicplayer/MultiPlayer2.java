@@ -8,6 +8,13 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.naman14.timber.utils.FileCrypto;
+
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
@@ -71,8 +78,11 @@ public final class MultiPlayer2 implements MediaPlayer.OnErrorListener {
             player.reset();
             if (path.startsWith("content://")) {
                 player.setDataSource(mService.get(), Uri.parse(path));
+            } else if (path.startsWith("http://")) {
+                player.setDataSource(mService.get(), Uri.parse(path));
             } else {
-                player.setDataSource(path);
+                FileDescriptor fileDescriptor = decryptAndGiveFileDescriptor(path);
+                player.setDataSource(fileDescriptor);
             }
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
@@ -200,6 +210,68 @@ public final class MultiPlayer2 implements MediaPlayer.OnErrorListener {
         }
         return true;
     }
+
+    private FileDescriptor getFileDescriptor(byte[] decryptedFileData, String fileName) {
+
+        try {
+
+            // create temp file that will hold byte array
+
+            File tempMp3 = File.createTempFile("temp_" + fileName, "mp3", mService.get().getApplicationContext().getCacheDir());
+
+            tempMp3.deleteOnExit();
+
+            FileOutputStream fos = new FileOutputStream(tempMp3);
+            fos.write(decryptedFileData);
+            fos.close();
+
+            FileInputStream fis = new FileInputStream(tempMp3);
+            return fis.getFD();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public FileDescriptor decryptAndGiveFileDescriptor(String fileName) {
+        try {
+
+            // decryptAndGiveFileDescriptor the file
+            byte[] decrypt = FileCrypto.decrypt(getAudioFileFromFileSystem(fileName));
+
+            return getFileDescriptor(decrypt, fileName);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public byte[] getAudioFileFromFileSystem(String fileName) throws FileNotFoundException {
+
+        byte[] inarry = null;
+
+        try {
+
+            File file = new File(mService.get().getApplicationContext().getExternalFilesDir(null), fileName);
+
+            byte[] bFile = new byte[(int) file.length()];
+
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            fileInputStream.read(bFile);
+
+            fileInputStream.close();
+
+            inarry = bFile;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inarry;
+    }
+
 
     private static class CurrentPlayerPreparedListner implements MediaPlayer.OnPreparedListener {
 

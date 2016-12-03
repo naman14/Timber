@@ -87,5 +87,7 @@
     <string name="count_artist"><xliff:g id="count">%d</xliff:g> Interpret</string>
     <string name="count_artists"><xliff:g id="count">%d</xliff:g> Interpreten</string>
 
+    <string name="menu_show_lyrics">Songtext anzeigen</string>
+    <string name="no_lyrics">Songtext nicht gefunden.</string>
 
 </resources>

@@ -139,4 +139,7 @@
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
 
+    <string name="menu_show_lyrics">Show lyrics</string>
+    <string name="no_lyrics">No lyrics found.</string>
+
 </resources>

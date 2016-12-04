@@ -183,6 +183,9 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
             menu.removeItem(R.id.action_equalizer);
         }
+        if(!(this instanceof NowPlayingActivity)){
+            menu.removeItem(R.id.action_lyrics);
+        }
         ATE.applyMenu(this, getATEKey(), menu);
         return true;
     }

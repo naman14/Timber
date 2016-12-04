@@ -141,5 +141,6 @@
 
     <string name="menu_show_lyrics">Show lyrics</string>
     <string name="no_lyrics">No lyrics found.</string>
+    <string name="lyrics_makeitpersonal">Powered by <a href="https://makeitpersonal.co/">makeitpersonal.co</a></string>
 
 </resources>

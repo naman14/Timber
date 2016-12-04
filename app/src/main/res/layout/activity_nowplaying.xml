@@ -2,25 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:visibility="gone"
+
+    <ScrollView
+        android:id="@+id/lyrics"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lyrics">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/lyrics_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:textColor="@color/ate_disabled_edittext_light"
-                android:textSize="30sp"
-                android:id="@+id/lyrics_text"/>
-        </ScrollView>
-    </RelativeLayout>
+                android:layout_margin="20dp"
+                android:textColor="#ededed"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/lyrics_makeitpersonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:layout_margin="20dp"
+                android:text="@string/lyrics_makeitpersonal"
+                android:textColor="#ededed"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

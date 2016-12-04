@@ -12,13 +12,11 @@ import android.provider.MediaStore;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
@@ -43,6 +41,7 @@ import retrofit.client.Response;
 public class NowPlayingActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
 
     boolean lyricsopened = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +57,7 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
 
     }
 
-    private void displayLyrics(){
+    private void displayLyrics() {
         lyricsopened = true;
         final View bg = findViewById(R.id.container);
         final View lyricsView = findViewById(R.id.lyrics);
@@ -69,32 +68,37 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
             public boolean onPreDraw() {
                 bg.getViewTreeObserver().removeOnPreDrawListener(this);
                 bg.buildDrawingCache();
-                lyricsView.setBackground(ImageUtils.createBlurredImageFromBitmap(bg.getDrawingCache(),NowPlayingActivity.this,6));
+                lyricsView.setBackground(ImageUtils.createBlurredImageFromBitmap(bg.getDrawingCache(), NowPlayingActivity.this, 6));
                 return true;
             }
         });
+        final TextView poweredbyTextView = (TextView) lyricsView.findViewById(R.id.lyrics_makeitpersonal);
+        poweredbyTextView.setVisibility(View.GONE);
         final TextView lyricsTextView = (TextView) lyricsView.findViewById(R.id.lyrics_text);
+        lyricsTextView.setText("");
         String lyrics = null;
         String filename = getRealPathFromURI(Uri.parse(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/" + MusicPlayer.getCurrentAudioId()));
-        if(filename!=null){
+        if (filename != null) {
             lyrics = LyricsExtractor.getLyrics(new File(filename));
         }
-        if(lyrics != null) {
+        if (lyrics != null) {
             lyricsTextView.setText(lyrics);
         } else {
             String artist = MusicPlayer.getArtistName();
             if (artist != null) {
                 int i = artist.lastIndexOf(" feat");
-                if(i!=-1){
-                    artist = artist.substring(0,i);
+                if (i != -1) {
+                    artist = artist.substring(0, i);
                 }
                 LyricsLoader.getInstance(this).getLyrics(artist, MusicPlayer.getTrackName(), new Callback<String>() {
                     @Override
                     public void success(String s, Response response) {
-                        if (s.equals("Sorry, We don't have lyrics for this song yet.\n"))
+                        if (s.equals("Sorry, We don't have lyrics for this song yet.\n")) {
                             lyricsTextView.setText(R.string.no_lyrics);
-                        else
+                        } else {
                             lyricsTextView.setText(s);
+                            poweredbyTextView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -102,16 +106,15 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
                         lyricsTextView.setText(R.string.no_lyrics);
                     }
                 });
-            }else{
+            } else {
                 lyricsTextView.setText(R.string.no_lyrics);
             }
         }
     }
 
 
-
     private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Audio.Media.DATA };
+        String[] proj = {MediaStore.Audio.Media.DATA};
         CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
         Cursor cursor = loader.loadInBackground();
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
@@ -121,7 +124,7 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
         return result;
     }
 
-    private void closeLyrics(){
+    private void closeLyrics() {
         lyricsopened = false;
         final View lyricsView = findViewById(R.id.lyrics);
         lyricsView.setActivated(false);
@@ -154,15 +157,8 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_nowplaying, menu);
-        ATE.applyMenu(this, getATEKey(), menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()== R.id.action_lyrics){
+        if (item.getItemId() == R.id.action_lyrics) {
             displayLyrics();
             return true;
         }
@@ -171,7 +167,7 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
 
     @Override
     public void onBackPressed() {
-        if(lyricsopened)
+        if (lyricsopened)
             closeLyrics();
         else
             super.onBackPressed();

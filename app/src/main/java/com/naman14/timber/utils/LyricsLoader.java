@@ -22,7 +22,6 @@ import retrofit.http.Headers;
 import retrofit.http.Query;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
-import retrofit.mime.TypedString;
 
 /**
  * Created by Christoph Walcher on 03.12.16.
@@ -33,6 +32,7 @@ public class LyricsLoader {
     private static final String BASE_API_URL = "https://makeitpersonal.co";
     private static final long CACHE_SIZE = 1024 * 1024;
     private LyricsRestService service;
+
     public static LyricsLoader getInstance(Context con) {
         if(instance==null)instance = new LyricsLoader(con);
         return instance;
@@ -43,14 +43,13 @@ public class LyricsLoader {
 
         okHttpClient.setCache(new Cache(con.getApplicationContext().getCacheDir(),
                 CACHE_SIZE));
-        okHttpClient.setConnectTimeout(40, TimeUnit.SECONDS);
+        okHttpClient.setConnectTimeout(20, TimeUnit.SECONDS);
 
         RequestInterceptor interceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
                 //7-days cache
                 request.addHeader("Cache-Control", String.format("max-age=%d,max-stale=%d", Integer.valueOf(60 * 60 * 24 * 7), Integer.valueOf(31536000)));
-                request.addHeader("Connection", "keep-alive");
             }
         };
 
@@ -83,8 +82,7 @@ public class LyricsLoader {
 
                     @Override
                     public TypedOutput toBody(Object arg0) {
-                        String string = (String) arg0;
-                        return new TypedString(string);
+                        return null;
                     }
                 })
                 .setClient(new OkClient(okHttpClient));
@@ -99,10 +97,8 @@ public class LyricsLoader {
     }
 
     private interface LyricsRestService {
-        String BASE_PARAMETERS_ALBUM = "/lyrics";
-
         @Headers("Cache-Control: public")
-        @GET(BASE_PARAMETERS_ALBUM)
+        @GET("/lyrics")
         void getLyrics(@Query("artist") String artist, @Query("title") String title, Callback<String> callback);
     }
 

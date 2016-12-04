@@ -27,6 +27,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        devel {
+            applicationId "naman14.timber.devel"
+            resValue "string", "app_name", "Timber devel"
+        }
+        production {
+            resValue "string", "app_name", "Timber"
+        }
+    }
     lintOptions {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'

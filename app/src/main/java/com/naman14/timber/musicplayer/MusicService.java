@@ -52,9 +52,6 @@ import android.util.Log;
 import com.naman14.timber.R;
 import com.naman14.timber.helpers.MediaButtonIntentReceiver;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
-import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.models.LastfmUserSession;
-import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
@@ -455,12 +452,6 @@ public class MusicService extends Service {
         return START_NOT_STICKY; //no sense to use START_STICKY with using startForeground
     }
 
-    void scrobble() {
-        if (LastfmUserSession.getSession(this) != null) {
-            Log.d("Scrobble", "to LastFM");
-            LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(), getTrackName(), (System.currentTimeMillis() - duration()) / 1000));
-        }
-    }
 
     private void releaseServiceUiAndStop() {
         if (isPlaying()

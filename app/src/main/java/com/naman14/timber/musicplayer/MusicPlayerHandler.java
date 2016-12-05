@@ -69,7 +69,6 @@ public final class MusicPlayerHandler extends Handler {
                         }
                         break;
                     case TRACK_WENT_TO_NEXT:
-                        mService.get().scrobble();
                         service.setAndRecordPlayPos(service.mNextPlayPos);
                         service.setNextTrack();
                         /*if (service.mCursor != null) {
@@ -81,7 +80,6 @@ public final class MusicPlayerHandler extends Handler {
                         service.updateNotification();
                         break;
                     case TRACK_ENDED:
-                        mService.get().scrobble();
                         if (service.mRepeatMode == REPEAT_CURRENT) {
                             service.seek(0);
                             service.play();
@@ -90,7 +88,6 @@ public final class MusicPlayerHandler extends Handler {
                         }
                         break;
                     case BUFFERED:
-                        mService.get().scrobble();
                         service.notifyChange(PLAYER_PREPARED);
                         break;
                     case RELEASE_WAKELOCK:

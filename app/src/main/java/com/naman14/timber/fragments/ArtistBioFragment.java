@@ -23,10 +23,6 @@ import android.view.ViewGroup;
 
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.ArtistLoader;
-import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
-import com.naman14.timber.lastfmapi.models.ArtistQuery;
-import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.subfragments.ArtistTagFragment;
 import com.naman14.timber.utils.Constants;
@@ -59,16 +55,6 @@ public class ArtistBioFragment extends Fragment {
 
         Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
 
-        LastFmClient.getInstance(getActivity()).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
-            @Override
-            public void artistInfoSucess(LastfmArtist artist) {
-
-            }
-
-            @Override
-            public void artistInfoFailed() {
-            }
-        });
 
         final MultiViewPager pager = (MultiViewPager) rootView.findViewById(R.id.tagspager);
 

@@ -16,7 +16,6 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,7 +26,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.naman14.timber.R;
-import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.helpers.Song;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
@@ -158,7 +156,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
                                 MusicPlayer.addToQueue(mContext, song, -1, TimberUtils.IdType.NA);
                                 break;
                             case R.id.popup_song_addto_playlist:
-                                AddPlaylistDialog.newInstance(((Song) searchResults.get(position))).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
                         }
                         return false;

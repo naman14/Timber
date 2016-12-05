@@ -26,10 +26,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.Config;
-import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.R;
-import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.helpers.Song;
+import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
@@ -117,7 +116,6 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
                                 MusicPlayer.addToQueue(mContext, id, -1, TimberUtils.IdType.NA);
                                 break;
                             case R.id.popup_song_addto_playlist:
-                                AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
                             case R.id.popup_song_delete:
                                 long[] deleteIds = {arraylist.get(position).id};

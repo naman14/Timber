@@ -73,10 +73,6 @@
             android:theme="@style/AppThemeNormalLight" />
 
         <activity
-            android:name=".activities.PlaylistDetailActivity"
-            android:theme="@style/AppTheme.FullScreen.Light" />
-
-        <activity
             android:name=".activities.SearchActivity"
             android:theme="@style/AppThemeNormalLight" />
 
@@ -84,7 +80,6 @@
             android:name=".activities.NowPlayingActivity"
             android:theme="@style/AppTheme.FullScreen.Light" />
 
-        <activity android:name=".activities.DonateActivity"/>
 
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>
@@ -98,13 +93,6 @@
             android:label="@string/app_name"
             android:process=":main" />
 
-        <service
-            android:name=".WearBrowserService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
 
         <!--use your own api key for fabric-->
         <!--<meta-data-->

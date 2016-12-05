@@ -16,7 +16,6 @@ package com.naman14.timber.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +31,6 @@ import android.widget.Toast;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.NowPlayingActivity;
-import com.naman14.timber.activities.PlaylistDetailActivity;
 import com.naman14.timber.activities.SearchActivity;
 import com.naman14.timber.activities.SettingsActivity;
 import com.naman14.timber.fragments.AlbumDetailFragment;
@@ -41,8 +39,6 @@ import com.naman14.timber.nowplaying.Timber1;
 import com.naman14.timber.nowplaying.Timber2;
 import com.naman14.timber.nowplaying.Timber3;
 import com.naman14.timber.nowplaying.Timber4;
-
-import java.util.ArrayList;
 
 public class NavigationUtils {
 
@@ -134,28 +130,6 @@ public class NavigationUtils {
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.setAction(Constants.NAVIGATE_SEARCH);
         context.startActivity(intent);
-    }
-
-
-    @TargetApi(21)
-    public static void navigateToPlaylistDetail(Activity context, String action, long firstAlbumID, String playlistName, int foregroundcolor, long playlistID, ArrayList<Pair> transitionViews) {
-        final Intent intent = new Intent(context, PlaylistDetailActivity.class);
-        if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
-        intent.setAction(action);
-        intent.putExtra(Constants.PLAYLIST_ID, playlistID);
-        intent.putExtra(Constants.PLAYLIST_FOREGROUND_COLOR, foregroundcolor);
-        intent.putExtra(Constants.ALBUM_ID, firstAlbumID);
-        intent.putExtra(Constants.PLAYLIST_NAME, playlistName);
-        intent.putExtra(Constants.ACTIVITY_TRANSITION, transitionViews != null);
-
-        if (transitionViews != null && TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0), transitionViews.get(1), transitionViews.get(2));
-            context.startActivityForResult(intent, Constants.ACTION_DELETE_PLAYLIST, options.toBundle());
-        } else {
-            context.startActivityForResult(intent, Constants.ACTION_DELETE_PLAYLIST);
-        }
     }
 
     public static void navigateToEqualizer(Activity context) {

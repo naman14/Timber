@@ -68,24 +68,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activities.SettingsActivity"
-            android:theme="@style/AppThemeNormalLight" />
-
-        <activity
-            android:name=".activities.PlaylistDetailActivity"
-            android:theme="@style/AppTheme.FullScreen.Light" />
-
-        <activity
-            android:name=".activities.SearchActivity"
-            android:theme="@style/AppThemeNormalLight" />
-
-        <activity
-            android:name=".activities.NowPlayingActivity"
-            android:theme="@style/AppTheme.FullScreen.Light" />
-
-        <activity android:name=".activities.DonateActivity"/>
-
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
@@ -94,52 +76,9 @@
         </receiver>
         <!-- Music service -->
         <service
-            android:name=".MusicService"
+            android:name=".musicplayer.MusicService"
             android:label="@string/app_name"
             android:process=":main" />
-
-        <service
-            android:name=".WearBrowserService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
-
-        <!--use your own api key for fabric-->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="@string/fabric_api_key" />
-
-        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.naman14.timber.metachanged" />
-                <action android:name="com.naman14.timber.playstatechanged" />
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget_standard" />
-        </receiver>
-
-        <receiver android:name=".widgets.desktop.WhiteWidget" android:label="@string/widget_white">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.naman14.timber.metachanged" />
-                <action android:name="com.naman14.timber.playstatechanged" />
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget_white" />
-        </receiver>
-
-        <receiver android:name=".widgets.desktop.SmallWidget" android:label="@string/widget_small">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.naman14.timber.metachanged" />
-                <action android:name="com.naman14.timber.playstatechanged" />
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget_small" />
-        </receiver>
 
     </application>
 

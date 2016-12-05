@@ -64,7 +64,7 @@
             android:visibility="gone" />
 
 
-        <com.naman14.timber.widgets.PopupImageView
+        <ImageView
             android:id="@+id/popup_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

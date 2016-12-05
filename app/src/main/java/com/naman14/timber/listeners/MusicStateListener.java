@@ -16,23 +16,25 @@
 
 package com.naman14.timber.listeners;
 
+import com.naman14.timber.musicplayer.MusicService;
+
 /**
  * Listens for playback changes to send the the fragments bound to this activity
  */
 public interface MusicStateListener {
 
     /**
-     * Called when {@link com.naman14.timber.MusicService#REFRESH} is invoked
+     * Called when {@link MusicService#REFRESH} is invoked
      */
     void restartLoader();
 
     /**
-     * Called when {@link com.naman14.timber.MusicService#PLAYLIST_CHANGED} is invoked
+     * Called when {@link MusicService#PLAYLIST_CHANGED} is invoked
      */
     void onPlaylistChanged();
 
     /**
-     * Called when {@link com.naman14.timber.MusicService#META_CHANGED} is invoked
+     * Called when {@link MusicService#META_CHANGED} is invoked
      */
     void onMetaChanged();
 

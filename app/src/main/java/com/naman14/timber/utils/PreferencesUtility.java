@@ -16,35 +16,16 @@ package com.naman14.timber.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 
 public final class PreferencesUtility {
 
-    public static final String ARTIST_SORT_ORDER = "artist_sort_order";
-    public static final String ARTIST_SONG_SORT_ORDER = "artist_song_sort_order";
-    public static final String ARTIST_ALBUM_SORT_ORDER = "artist_album_sort_order";
-    public static final String ALBUM_SORT_ORDER = "album_sort_order";
-    public static final String ALBUM_SONG_SORT_ORDER = "album_song_sort_order";
     public static final String SONG_SORT_ORDER = "song_sort_order";
-    private static final String NOW_PLAYING_SELECTOR = "now_paying_selector";
-    private static final String TOGGLE_ANIMATIONS = "toggle_animations";
-    private static final String TOGGLE_SYSTEM_ANIMATIONS = "toggle_system_animations";
-    private static final String TOGGLE_ARTIST_GRID = "toggle_artist_grid";
-    private static final String TOGGLE_ALBUM_GRID = "toggle_album_grid";
-    private static final String TOGGLE_PLAYLIST_VIEW = "toggle_playlist_view";
-    private static final String TOGGLE_SHOW_AUTO_PLAYLIST = "toggle_show_auto_playlist";
-    private static final String LAST_FOLDER = "last_folder";
 
     private static final String TOGGLE_HEADPHONE_PAUSE = "toggle_headphone_pause";
     private static final String THEME_PREFERNCE = "theme_preference";
     private static final String START_PAGE_INDEX = "start_page_index";
     private static final String START_PAGE_PREFERENCE_LASTOPENED = "start_page_preference_latopened";
-    private static final String NOW_PLAYNG_THEME_VALUE = "now_playing_theme_value";
-    private static final String TOGGLE_XPOSED_TRACKSELECTOR = "toggle_xposed_trackselector";
-    public static final String LAST_ADDED_CUTOFF = "last_added_cutoff";
-    public static final String GESTURES = "gestures";
 
     private static PreferencesUtility sInstance;
 
@@ -62,37 +43,6 @@ public final class PreferencesUtility {
     }
 
 
-    public void setOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
-        mPreferences.registerOnSharedPreferenceChangeListener(listener);
-    }
-
-    public boolean getAnimations() {
-        return mPreferences.getBoolean(TOGGLE_ANIMATIONS, true);
-    }
-
-    public boolean getSystemAnimations() {
-        return mPreferences.getBoolean(TOGGLE_SYSTEM_ANIMATIONS, true);
-    }
-
-    public boolean isArtistsInGrid() {
-        return mPreferences.getBoolean(TOGGLE_ARTIST_GRID, true);
-    }
-
-    public void setArtistsInGrid(final boolean b) {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putBoolean(TOGGLE_ARTIST_GRID, b);
-        editor.apply();
-    }
-
-    public boolean isAlbumsInGrid() {
-        return mPreferences.getBoolean(TOGGLE_ALBUM_GRID, true);
-    }
-
-    public void setAlbumsInGrid(final boolean b) {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putBoolean(TOGGLE_ALBUM_GRID, b);
-        editor.apply();
-    }
 
     public boolean pauseEnabledOnDetach() {
         return mPreferences.getBoolean(TOGGLE_HEADPHONE_PAUSE, true);
@@ -112,128 +62,15 @@ public final class PreferencesUtility {
         editor.apply();
     }
 
-    public void setLastOpenedAsStartPagePreference(boolean preference) {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putBoolean(START_PAGE_PREFERENCE_LASTOPENED, preference);
-        editor.apply();
-    }
 
     public boolean lastOpenedIsStartPagePreference() {
         return mPreferences.getBoolean(START_PAGE_PREFERENCE_LASTOPENED, true);
     }
 
-    private void setSortOrder(final String key, final String value) {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
 
-    public final String getArtistSortOrder() {
-        return mPreferences.getString(ARTIST_SORT_ORDER, SortOrder.ArtistSortOrder.ARTIST_A_Z);
-    }
-
-    public void setArtistSortOrder(final String value) {
-        setSortOrder(ARTIST_SORT_ORDER, value);
-    }
-
-    public final String getArtistSongSortOrder() {
-        return mPreferences.getString(ARTIST_SONG_SORT_ORDER,
-                SortOrder.ArtistSongSortOrder.SONG_A_Z);
-    }
-
-    public void setArtistSongSortOrder(final String value) {
-        setSortOrder(ARTIST_SONG_SORT_ORDER, value);
-    }
-
-    public final String getArtistAlbumSortOrder() {
-        return mPreferences.getString(ARTIST_ALBUM_SORT_ORDER,
-                SortOrder.ArtistAlbumSortOrder.ALBUM_A_Z);
-    }
-
-    public void setArtistAlbumSortOrder(final String value) {
-        setSortOrder(ARTIST_ALBUM_SORT_ORDER, value);
-    }
-
-    public final String getAlbumSortOrder() {
-        return mPreferences.getString(ALBUM_SORT_ORDER, SortOrder.AlbumSortOrder.ALBUM_A_Z);
-    }
-
-    public void setAlbumSortOrder(final String value) {
-        setSortOrder(ALBUM_SORT_ORDER, value);
-    }
-
-    public final String getAlbumSongSortOrder() {
-        return mPreferences.getString(ALBUM_SONG_SORT_ORDER,
-                SortOrder.AlbumSongSortOrder.SONG_TRACK_LIST);
-    }
-
-    public void setAlbumSongSortOrder(final String value) {
-        setSortOrder(ALBUM_SONG_SORT_ORDER, value);
-    }
 
     public final String getSongSortOrder() {
         return mPreferences.getString(SONG_SORT_ORDER, SortOrder.SongSortOrder.SONG_A_Z);
-    }
-
-    public void setSongSortOrder(final String value) {
-        setSortOrder(SONG_SORT_ORDER, value);
-    }
-
-    public final boolean didNowplayingThemeChanged() {
-        return mPreferences.getBoolean(NOW_PLAYNG_THEME_VALUE, false);
-    }
-
-    public void setNowPlayingThemeChanged(final boolean value) {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putBoolean(NOW_PLAYNG_THEME_VALUE, value);
-        editor.apply();
-    }
-
-    public boolean getXPosedTrackselectorEnabled() {
-        return mPreferences.getBoolean(TOGGLE_XPOSED_TRACKSELECTOR, false);
-    }
-
-    public int getPlaylistView() {
-        return mPreferences.getInt(TOGGLE_PLAYLIST_VIEW ,0);
-    }
-
-    public void setPlaylistView(final int i) {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putInt(TOGGLE_PLAYLIST_VIEW, i);
-        editor.apply();
-    }
-
-    public boolean showAutoPlaylist() {
-        return mPreferences.getBoolean(TOGGLE_SHOW_AUTO_PLAYLIST, true);
-    }
-
-    public void setToggleShowAutoPlaylist(final boolean b) {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putBoolean(TOGGLE_SHOW_AUTO_PLAYLIST, b);
-        editor.apply();
-    }
-
-    /** @parm lastAddedMillis timestamp in millis used as a cutoff for last added playlist */
-    public void setLastAddedCutoff(long lastAddedMillis) {
-        mPreferences.edit().putLong(LAST_ADDED_CUTOFF, lastAddedMillis).apply();
-    }
-
-    public long getLastAddedCutoff() {
-        return mPreferences.getLong(LAST_ADDED_CUTOFF, 0L);
-    }
-
-    public boolean isGesturesEnabled() {
-        return mPreferences.getBoolean(GESTURES, true);
-    }
-
-    public void storeLastFolder(String path) {
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putString(LAST_FOLDER, path);
-        editor.apply();
-    }
-
-    public String getLastFolder() {
-        return mPreferences.getString(LAST_FOLDER, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
     }
 }
 

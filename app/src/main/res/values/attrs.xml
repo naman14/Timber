@@ -28,10 +28,6 @@
         <attr name="circularImageViewDefault" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="PlayTransition">
-        <attr name="colorCT" format="color"/>
-    </declare-styleable>
-
     <declare-styleable name="MultiViewPager">
         <!-- Child view inside a page to match the page size against. -->
         <attr name="matchChildWidth" format="reference" />
@@ -40,41 +36,6 @@
         <!-- Maximum size. -->
         <attr name="android:maxHeight" />
     </declare-styleable>
-
-    <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
-        <attr name="border_overlay" format="boolean" />
-    </declare-styleable>
-
-    <declare-styleable name="CircularSeekBar">
-        <attr name="progress" format="integer"></attr>
-        <attr name="max" format="integer"></attr>
-        <attr name="move_outside_circle" format="boolean"></attr>
-        <attr name="maintain_equal_circle" format="boolean"></attr>
-        <attr name="use_custom_radii" format="boolean"></attr>
-        <attr name="lock_enabled" format="boolean"></attr>
-        <attr name="circle_x_radius" format="float" />
-        <attr name="circle_y_radius" format="float" />
-        <attr name="circle_stroke_width" format="float" />
-        <attr name="pointer_radius" format="float" />
-        <attr name="pointer_halo_width" format="float" />
-        <attr name="pointer_halo_border_width" format="float"></attr>
-        <attr name="circle_color" format="string"></attr>
-        <attr name="circle_progress_color" format="string"></attr>
-        <attr name="pointer_color" format="string"></attr>
-        <attr name="pointer_halo_color" format="string"></attr>
-        <attr name="pointer_halo_color_ontouch" format="string"></attr>
-        <attr name="pointer_alpha_ontouch" format="integer"></attr>
-        <attr name="start_angle" format="float"></attr>
-        <attr name="end_angle" format="float"></attr>
-        <attr name="circle_fill" format="string"></attr>
-    </declare-styleable>
-
-    <declare-styleable name="TimelyView">
-        <attr name="text_color" format="color"></attr>
-    </declare-styleable>
-
 
 
 </resources>

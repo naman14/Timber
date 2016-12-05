@@ -22,37 +22,33 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.media.session.MediaSessionManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.afollestad.appthemeengine.ATE;
-import com.afollestad.appthemeengine.ATEActivity;
 import com.naman14.timber.ITimberService;
-import com.naman14.timber.MusicPlayer;
-import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.listeners.MusicStateListener;
+import com.naman14.timber.musicplayer.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicService;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
-import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.naman14.timber.MusicPlayer.mService;
+import static com.naman14.timber.musicplayer.MusicPlayer.mService;
 
-public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
+public class BaseActivity extends AppCompatActivity implements ServiceConnection, MusicStateListener {
 
     private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
     private MusicPlayer.ServiceToken mToken;
@@ -84,6 +80,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         filter.addAction(MusicService.PLAYLIST_CHANGED);
         // If there is an error playing a track
         filter.addAction(MusicService.TRACK_ERROR);
+        // Player prepared
+        filter.addAction(MusicService.PLAYER_PREPARED);
 
         registerReceiver(mPlaybackStatus, filter);
 
@@ -92,8 +90,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
 
     @Override
@@ -183,7 +179,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
             menu.removeItem(R.id.action_equalizer);
         }
-        ATE.applyMenu(this, getATEKey(), menu);
         return true;
     }
 
@@ -194,7 +189,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
                 super.onBackPressed();
                 return true;
             case R.id.action_settings:
-                NavigationUtils.navigateToSettings(this);
                 return true;
             case R.id.action_shuffle:
                 Handler handler = new Handler();
@@ -207,7 +201,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
                 return true;
             case R.id.action_search:
-                NavigationUtils.navigateToSearch(this);
                 return true;
             case R.id.action_equalizer:
                 NavigationUtils.navigateToEqualizer(this);
@@ -215,12 +208,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Nullable
-    @Override
-    public String getATEKey() {
-        return Helpers.getATEKey(this);
     }
 
     public void setPanelSlideListeners(SlidingUpPanelLayout panelLayout) {
@@ -270,7 +257,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             final String action = intent.getAction();
             BaseActivity baseActivity = mReference.get();
             if (baseActivity != null) {
-                if (action.equals(MusicService.META_CHANGED)) {
+                if (action.equals(MusicService.META_CHANGED) || action.equals(MusicService.PLAYER_PREPARED)) {
                     baseActivity.onMetaChanged();
                 } else if (action.equals(MusicService.PLAYSTATE_CHANGED)) {
 //                    baseActivity.mPlayPauseProgressButton.getPlayPauseButton().updateState();

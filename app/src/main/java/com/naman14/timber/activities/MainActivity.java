@@ -16,25 +16,18 @@ package com.naman14.timber.activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
-import com.anjlab.android.iab.v3.BillingProcessor;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.musicplayer.MusicPlayer;
@@ -43,8 +36,6 @@ import com.naman14.timber.permissions.PermissionCallback;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.TimberUtils;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,18 +43,11 @@ import java.util.Map;
 public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
 
 
-    private static MainActivity sMainActivity;
     SlidingUpPanelLayout panelLayout;
-    NavigationView navigationView;
-    TextView songtitle, songartist;
-    ImageView albumart;
     String action;
     Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
-    Handler navDrawerRunnable = new Handler();
-    Runnable runnable;
     Runnable navigateLibrary = new Runnable() {
         public void run() {
-            navigationView.getMenu().findItem(R.id.nav_library).setChecked(true);
             Fragment fragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
@@ -81,17 +65,11 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             finish();
         }
     };
-    private DrawerLayout mDrawerLayout;
     private boolean isDarkTheme;
 
-    public static MainActivity getInstance() {
-        return sMainActivity;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        sMainActivity = this;
         action = getIntent().getAction();
 
         isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false);
@@ -101,25 +79,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View header = navigationView.inflateHeaderView(R.layout.nav_header);
-
-        albumart = (ImageView) header.findViewById(R.id.album_art);
-        songtitle = (TextView) header.findViewById(R.id.song_title);
-        songartist = (TextView) header.findViewById(R.id.song_artist);
-
         setPanelSlideListeners(panelLayout);
-
-        navDrawerRunnable.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setupDrawerContent(navigationView);
-                setupNavigationIcons(navigationView);
-            }
-        }, 700);
 
 
         if (TimberUtils.isMarshmallow()) {
@@ -189,12 +150,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                if (isNavigatingMain()) {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
-                else {
                     super.onBackPressed();
-                }
                 return true;
             }
         }
@@ -206,136 +162,14 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         if (panelLayout.isPanelExpanded()) {
             panelLayout.collapsePanel();
         }
-        else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
         else {
             super.onBackPressed();
         }
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(final MenuItem menuItem) {
-                        updatePosition(menuItem);
-                        return true;
-
-                    }
-                });
-    }
-
-    private void setupNavigationIcons(NavigationView navigationView) {
-
-        //material-icon-lib currently doesn't work with navigationview of design support library 22.2.0+
-        //set icons manually for now
-        //https://github.com/code-mc/material-icon-lib/issues/15
-
-        if (!isDarkTheme) {
-            navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music);
-            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play);
-            navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note);
-            navigationView.getMenu().findItem(R.id.nav_folders).setIcon(R.drawable.ic_folder_open_black_24dp);
-            navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music);
-            navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings);
-            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle);
-            navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information);
-            navigationView.getMenu().findItem(R.id.nav_donate).setIcon(R.drawable.payment_black);
-        }
-        else {
-            navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music_white);
-            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play_white);
-            navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note_white);
-            navigationView.getMenu().findItem(R.id.nav_folders).setIcon(R.drawable.ic_folder_open_white_24dp);
-            navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music_white);
-            navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings_white);
-            navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle_white);
-            navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information_white);
-            navigationView.getMenu().findItem(R.id.nav_donate).setIcon(R.drawable.payment_white);
-        }
-
-        try {
-            if (!BillingProcessor.isIabServiceAvailable(this)) {
-                navigationView.getMenu().removeItem(R.id.nav_donate);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void updatePosition(final MenuItem menuItem) {
-        runnable = null;
-
-        switch (menuItem.getItemId()) {
-            case R.id.nav_library:
-                runnable = navigateLibrary;
-
-                break;
-            case R.id.nav_playlists:
-
-                break;
-            case R.id.nav_folders:
-                break;
-            case R.id.nav_nowplaying:
-                break;
-            case R.id.nav_queue:
-                break;
-            case R.id.nav_settings:
-                break;
-            case R.id.nav_help:
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                Uri data = Uri.parse("mailto:namandwivedi14@gmail.com");
-                intent.setData(data);
-                startActivity(intent);
-                break;
-            case R.id.nav_about:
-                mDrawerLayout.closeDrawers();
-                break;
-            case R.id.nav_donate:
-                break;
-        }
-
-        if (runnable != null) {
-            menuItem.setChecked(true);
-            mDrawerLayout.closeDrawers();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    runnable.run();
-                }
-            }, 350);
-        }
-    }
-
-    public void setDetailsToHeader() {
-        String name = MusicPlayer.getTrackName();
-        String artist = MusicPlayer.getArtistName();
-
-        if (name != null && artist != null) {
-            songtitle.setText(name);
-            songartist.setText(artist);
-        }
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(MusicPlayer.getCurrentAlbumId()).toString(), albumart,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
-                        .resetViewBeforeLoading(true)
-                        .build());
-    }
-
     @Override
     public void onMetaChanged() {
         super.onMetaChanged();
-        setDetailsToHeader();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        sMainActivity = this;
     }
 
     @Override
@@ -344,10 +178,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private boolean isNavigatingMain() {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        return (currentFragment instanceof MainFragment);
-    }
 
     private void addBackstackListener() {
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {

@@ -56,10 +56,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3'
     compile 'de.Maxr1998:track-selector-lib:1.1'
 
-    compile 'com.afollestad.material-dialogs:core:0.9.0.2'
-    compile 'com.afollestad.material-dialogs:commons:0.9.0.2'
-
-    compile('com.github.naman14:app-theme-engine:0.5.2@aar') {
+   compile('com.github.naman14:app-theme-engine:0.5.2@aar') {
         transitive = true
     }
     compile 'com.anjlab.android.iab.v3:library:1.0.+'

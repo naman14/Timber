@@ -36,8 +36,6 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.naman14.timber.R;
-import com.naman14.timber.fragments.AlbumDetailFragment;
-import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.permissions.Nammu;
@@ -90,24 +88,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             finish();
         }
     };
-    Runnable navigateAlbum = new Runnable() {
-        public void run() {
-            long albumID = getIntent().getExtras().getLong(Constants.ALBUM_ID);
-            Fragment fragment = AlbumDetailFragment.newInstance(albumID, false, null);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-        }
-    };
-    Runnable navigateArtist = new Runnable() {
-        public void run() {
-            long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
-            Fragment fragment = ArtistDetailFragment.newInstance(artistID, false, null);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment).commit();
-        }
-    };
     private DrawerLayout mDrawerLayout;
     private boolean isDarkTheme;
 
@@ -128,8 +108,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
         navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
-        navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
-        navigationMap.put(Constants.NAVIGATE_ARTIST, navigateArtist);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -316,7 +294,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             case R.id.nav_queue:
                 break;
             case R.id.nav_settings:
-                NavigationUtils.navigateToSettings(MainActivity.this);
                 break;
             case R.id.nav_help:
                 Intent intent = new Intent(Intent.ACTION_VIEW);

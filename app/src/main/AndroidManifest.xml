@@ -72,9 +72,6 @@
             android:name=".activities.SettingsActivity"
             android:theme="@style/AppThemeNormalLight" />
 
-        <activity
-            android:name=".activities.SearchActivity"
-            android:theme="@style/AppThemeNormalLight" />
 
         <activity
             android:name=".activities.NowPlayingActivity"

@@ -36,10 +36,10 @@ import android.widget.Toast;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
 import com.naman14.timber.ITimberService;
-import com.naman14.timber.musicplayer.MusicPlayer;
-import com.naman14.timber.musicplayer.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.listeners.MusicStateListener;
+import com.naman14.timber.musicplayer.MusicPlayer;
+import com.naman14.timber.musicplayer.MusicService;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
 import com.naman14.timber.utils.Helpers;
@@ -193,7 +193,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
                 super.onBackPressed();
                 return true;
             case R.id.action_settings:
-                NavigationUtils.navigateToSettings(this);
                 return true;
             case R.id.action_shuffle:
                 Handler handler = new Handler();
@@ -206,7 +205,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
                 return true;
             case R.id.action_search:
-                NavigationUtils.navigateToSearch(this);
                 return true;
             case R.id.action_equalizer:
                 NavigationUtils.navigateToEqualizer(this);

@@ -28,10 +28,6 @@
         <attr name="circularImageViewDefault" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="PlayTransition">
-        <attr name="colorCT" format="color"/>
-    </declare-styleable>
-
     <declare-styleable name="MultiViewPager">
         <!-- Child view inside a page to match the page size against. -->
         <attr name="matchChildWidth" format="reference" />
@@ -71,9 +67,6 @@
         <attr name="circle_fill" format="string"></attr>
     </declare-styleable>
 
-    <declare-styleable name="TimelyView">
-        <attr name="text_color" format="color"></attr>
-    </declare-styleable>
 
 
 

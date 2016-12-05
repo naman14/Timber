@@ -3,13 +3,11 @@ package com.naman14.timber.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,15 +90,5 @@ public class ATEUtils {
         return Color.HSVToColor(arrayOfFloat);
     }
 
-    public static void setFabBackgroundTint(FloatingActionButton fab, int color) {
-        ColorStateList fabColorStateList = new ColorStateList(
-                new int[][]{
-                        new int[]{}
-                },
-                new int[]{
-                        color,
-                }
-        );
-        fab.setBackgroundTintList(fabColorStateList);
-    }
+
 }

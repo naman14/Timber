@@ -52,9 +52,6 @@ import android.util.Log;
 import com.naman14.timber.R;
 import com.naman14.timber.helpers.MediaButtonIntentReceiver;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
-import com.naman14.timber.provider.MusicPlaybackState;
-import com.naman14.timber.provider.RecentStore;
-import com.naman14.timber.provider.SongPlayCount;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.utils.TimberUtils.IdType;
@@ -219,10 +216,7 @@ public class MusicService extends Service {
     };
     private HandlerThread mHandlerThread;
     private BroadcastReceiver mUnmountReceiver = null;
-    private MusicPlaybackState mPlaybackStateStore;
     private boolean mShowAlbumArtOnLockscreen;
-    private SongPlayCount mSongPlayCount;
-    private RecentStore mRecentStore;
 
 
     private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
@@ -274,12 +268,6 @@ public class MusicService extends Service {
         super.onCreate();
 
         mNotificationManager = NotificationManagerCompat.from(this);
-
-        // gets a pointer to the playback state store
-        mPlaybackStateStore = MusicPlaybackState.getInstance(this);
-        mSongPlayCount = SongPlayCount.getInstance(this);
-        mRecentStore = RecentStore.getInstance(this);
-
 
         mHandlerThread = new HandlerThread("MusicPlayerHandler",
                 android.os.Process.THREAD_PRIORITY_BACKGROUND);
@@ -1090,13 +1078,7 @@ public class MusicService extends Service {
         musicIntent.setAction(what.replace(TIMBER_PACKAGE_NAME, MUSIC_PACKAGE_NAME));
         sendStickyBroadcast(musicIntent);
 
-        if (what.equals(META_CHANGED)) {
-
-            mRecentStore.addSongId(getAudioId()); // This is used to track recently played songs
-            mSongPlayCount.bumpSongCount(getAudioId()); //This is to track top played songs
-
-        }
-        else if (what.equals(QUEUE_CHANGED)) {
+         if (what.equals(QUEUE_CHANGED)) {
             saveQueue(true);
             if (isPlaying()) {
 
@@ -1107,9 +1089,6 @@ public class MusicService extends Service {
                     setNextTrack();
                 }
             }
-        }
-        else {
-            saveQueue(false);
         }
 
         if (what.equals(PLAYSTATE_CHANGED)) {
@@ -1191,7 +1170,7 @@ public class MusicService extends Service {
         }
 
         android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(R.drawable.ate_check)
                 .setLargeIcon(artwork)
                 .setContentIntent(clickIntent)
                 .setContentTitle(getTrackName())

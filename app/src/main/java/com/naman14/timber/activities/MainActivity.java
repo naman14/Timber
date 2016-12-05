@@ -42,7 +42,6 @@ import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.permissions.PermissionCallback;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.utils.Constants;
-import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -69,12 +68,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
 
-        }
-    };
-    Runnable navigateNowplaying = new Runnable() {
-        public void run() {
-            navigateLibrary.run();
-            startActivity(new Intent(MainActivity.this, NowPlayingActivity.class));
         }
     };
     final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
@@ -107,7 +100,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         setContentView(R.layout.activity_main);
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
-        navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -147,7 +139,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                     MusicPlayer.clearQueue();
                     MusicPlayer.openFile(getIntent().getData().getPath());
                     MusicPlayer.playOrPause();
-                    navigateNowplaying.run();
                 }
             }, 350);
         }
@@ -289,7 +280,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             case R.id.nav_folders:
                 break;
             case R.id.nav_nowplaying:
-                NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 break;
             case R.id.nav_queue:
                 break;

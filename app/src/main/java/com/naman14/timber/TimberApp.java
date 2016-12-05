@@ -36,12 +36,6 @@ public class TimberApp extends Application {
         super.onCreate();
         mInstance = this;
 
-        //disable crashlytics for debug builds
-//        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-//                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-//                .build();
-//        Fabric.with(this, crashlyticsKit);
-
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(localImageLoaderConfiguration);
         L.writeLogs(false);

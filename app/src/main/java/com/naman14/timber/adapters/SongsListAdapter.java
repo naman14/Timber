@@ -25,10 +25,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
-import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.musicplayer.MusicPlayer;
 import com.naman14.timber.widgets.BubbleTextGetter;
 import com.naman14.timber.widgets.MusicVisualizer;
 
@@ -43,7 +42,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     private boolean isPlaylist;
     private boolean animate;
     private int lastPosition = -1;
-    private String ateKey;
     private long playlistId;
     private List<MusicPlaybackTrack> songs;
 
@@ -52,7 +50,6 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         this.mContext = context;
         this.isPlaylist = isPlaylistSong;
         this.songIDs = getSongIds();
-        this.ateKey = Helpers.getATEKey(context);
         this.animate = animate;
         this.songs = arraylist;
     }

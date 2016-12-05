@@ -24,22 +24,6 @@ import com.naman14.timber.activities.MainActivity;
 
 public class NavigationUtils {
 
-
-    public static void goToArtist(Context context, long artistId) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setAction(Constants.NAVIGATE_ARTIST);
-        intent.putExtra(Constants.ARTIST_ID, artistId);
-        context.startActivity(intent);
-    }
-
-    public static void goToAlbum(Context context, long albumId) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setAction(Constants.NAVIGATE_ALBUM);
-        intent.putExtra(Constants.ALBUM_ID, albumId);
-        context.startActivity(intent);
-    }
-
-
     public static Intent getNowPlayingIntent(Context context) {
 
         final Intent intent = new Intent(context, MainActivity.class);

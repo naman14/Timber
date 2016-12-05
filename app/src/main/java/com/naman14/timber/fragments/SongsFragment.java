@@ -32,7 +32,6 @@ import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.utils.FileCrypto;
-import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
@@ -51,7 +50,6 @@ public class SongsFragment extends Fragment implements MusicStateListener {
 
     private SongsListAdapter mAdapter;
     private RecyclerView recyclerView;
-    private PreferencesUtility mPreferences;
     List<MusicPlaybackTrack> songList;
     public static String fileName = "Jabra FAN.mp4";
     public static String fileName1 = "Desi Girl.mp3";
@@ -60,7 +58,6 @@ public class SongsFragment extends Fragment implements MusicStateListener {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPreferences = PreferencesUtility.getInstance(getActivity());
     }
 
     @Override

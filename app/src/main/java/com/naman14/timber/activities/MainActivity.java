@@ -18,7 +18,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.MainFragment;
 import com.naman14.timber.musicplayer.MusicPlayer;
@@ -40,7 +38,7 @@ import com.naman14.timber.utils.TimberUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
+public class MainActivity extends BaseActivity  {
 
 
     SlidingUpPanelLayout panelLayout;
@@ -65,14 +63,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             finish();
         }
     };
-    private boolean isDarkTheme;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         action = getIntent().getAction();
-
-        isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -186,12 +180,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container).onResume();
             }
         });
-    }
-
-
-    @Override
-    public int getActivityTheme() {
-        return isDarkTheme ? R.style.AppThemeNormalDark : R.style.AppThemeNormalLight;
     }
 
     @Override

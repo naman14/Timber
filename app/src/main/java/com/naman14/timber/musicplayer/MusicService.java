@@ -27,8 +27,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.audiofx.AudioEffect;
@@ -41,11 +39,9 @@ import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
-import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -55,7 +51,6 @@ import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.utils.TimberUtils.IdType;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -63,6 +58,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import de.Maxr1998.trackselectorlib.NotificationHelper;
+
 
 @SuppressLint("NewApi")
 public class MusicService extends Service {
@@ -1090,6 +1086,9 @@ public class MusicService extends Service {
                 }
             }
         }
+        else {
+            saveQueue(false);
+        }
 
         if (what.equals(PLAYSTATE_CHANGED)) {
             updateNotification();
@@ -1112,35 +1111,6 @@ public class MusicService extends Service {
             }
         } else if (what.equals(META_CHANGED) || what.equals(QUEUE_CHANGED)) {
             //TODO: Replace below Image download using Picasso
-            Bitmap albumArt = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
-            if (albumArt != null) {
-
-                Bitmap.Config config = albumArt.getConfig();
-                if (config == null) {
-                    config = Bitmap.Config.ARGB_8888;
-                }
-                albumArt = albumArt.copy(config, false);
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mSession.setMetadata(new MediaMetadataCompat.Builder()
-                        .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, getArtistName())
-                        .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, getAlbumArtistName())
-                        .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, getAlbumName())
-                        .putString(MediaMetadataCompat.METADATA_KEY_TITLE, getTrackName())
-                        .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration())
-                        .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getQueuePosition() + 1)
-                        .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getQueue().length)
-                        .putString(MediaMetadataCompat.METADATA_KEY_GENRE, getGenreName())
-                        .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
-                                mShowAlbumArtOnLockscreen ? albumArt : null)
-                        .build());
-
-                mSession.setPlaybackState(new PlaybackStateCompat.Builder()
-                        .setState(playState, position(), 1.0f)
-                        .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_PLAY_PAUSE |
-                                PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
-                        .build());
-            }
         }
     }
 
@@ -1158,20 +1128,13 @@ public class MusicService extends Service {
         PendingIntent clickIntent = PendingIntent.getActivity(this, 0, nowPlayingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //TODO: Replace below Image download using Picasso
-        Bitmap artwork;
-        artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(getAlbumId()).toString());
-
-        if (artwork == null) {
-            artwork = ImageLoader.getInstance().loadImageSync("drawable://" + R.drawable.ic_empty_music2);
-        }
 
         if (mNotificationPostTime == 0) {
             mNotificationPostTime = System.currentTimeMillis();
         }
 
         android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ate_check)
-                .setLargeIcon(artwork)
+                .setSmallIcon(R.drawable.btn_playback_pause)
                 .setContentIntent(clickIntent)
                 .setContentTitle(getTrackName())
                 .setContentText(text)
@@ -1194,9 +1157,6 @@ public class MusicService extends Service {
                     .setMediaSession(mSession.getSessionToken())
                     .setShowActionsInCompactView(0, 1, 2, 3);
             builder.setStyle(style);
-        }
-        if (artwork != null && TimberUtils.isLollipop()) {
-            builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
         }
         Notification n = builder.build();
 

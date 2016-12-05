@@ -17,12 +17,5 @@ package com.naman14.timber.utils;
 public class Constants {
 
     public static final String NAVIGATE_LIBRARY = "navigate_library";
-    public static final String NAVIGATE_ALBUM = "navigate_album";
-    public static final String NAVIGATE_ARTIST = "navigate_artist";
     public static final String NAVIGATE_NOWPLAYING = "navigate_nowplaying";
-
-
-    public static final String ALBUM_ID = "album_id";
-    public static final String ARTIST_ID = "artist_id";
-
 }

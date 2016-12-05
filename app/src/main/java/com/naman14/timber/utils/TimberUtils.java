@@ -15,16 +15,11 @@
 package com.naman14.timber.utils;
 
 import android.app.Activity;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.media.audiofx.AudioEffect;
-import android.net.Uri;
 import android.os.Build;
 
-import com.naman14.timber.R;
 import com.naman14.timber.musicplayer.MusicPlayer;
 
 public class TimberUtils {
@@ -47,30 +42,6 @@ public class TimberUtils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     }
 
-    public static Uri getAlbumArtUri(long albumId) {
-        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
-    }
-
-
-    public static final String makeLabel(final Context context, final int pluralInt,
-                                         final int number) {
-        return context.getResources().getQuantityString(pluralInt, number, number);
-    }
-
-    public static final String makeShortTimeString(final Context context, long secs) {
-        long hours, mins;
-
-        hours = secs / 3600;
-        secs %= 3600;
-        mins = secs / 60;
-        secs %= 60;
-
-        final String durationFormat = context.getResources().getString(
-                hours == 0 ? R.string.durationformatshort : R.string.durationformatlong);
-        return String.format(durationFormat, hours, mins, secs);
-    }
-
-
     public static boolean hasEffectsPanel(final Activity activity) {
         final PackageManager packageManager = activity.getPackageManager();
         return packageManager.resolveActivity(createEffectsIntent(),
@@ -83,12 +54,6 @@ public class TimberUtils {
         return effects;
     }
 
-    public static int getBlackWhiteColor(int color) {
-        double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
-        if (darkness >= 0.5) {
-            return Color.WHITE;
-        } else return Color.BLACK;
-    }
 
     public enum IdType {
         NA(0),

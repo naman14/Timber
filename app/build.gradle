@@ -48,17 +48,12 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:percent:24.2.1'
 
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'net.steamcrafted:materialiconlib:1.0.3'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.code.gson:gson:2.3'
     compile 'de.Maxr1998:track-selector-lib:1.1'
-
-   compile('com.github.naman14:app-theme-engine:0.5.2@aar') {
-        transitive = true
-    }
     compile 'com.anjlab.android.iab.v3:library:1.0.+'
 
 

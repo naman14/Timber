@@ -138,5 +138,6 @@
 
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
+    <string name="select_storage">Select storage</string>
 
 </resources>

@@ -7,36 +7,10 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <ScrollView
-        android:id="@+id/lyrics"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/lyrics_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/lyrics_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:textColor="#ededed"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/lyrics_makeitpersonal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:layout_margin="20dp"
-                android:text="@string/lyrics_makeitpersonal"
-                android:textColor="#ededed"
-                android:textSize="17sp" />
-        </LinearLayout>
-    </ScrollView>
 </RelativeLayout>

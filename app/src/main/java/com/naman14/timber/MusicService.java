@@ -572,7 +572,7 @@ public class MusicService extends Service {
         LastfmUserSession session = LastfmUserSession.getSession(this);
         session.mToken = extras.getString("lf_token", session.mToken);
         session.mUsername = extras.getString("lf_user", session.mUsername);
-        if (session.mToken.equals("logout")) {
+        if ("logout".equals(session.mToken)) {
             session.mToken = null;
             session.mUsername = null;
         }

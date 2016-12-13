@@ -2,7 +2,6 @@ package com.naman14.timber.subfragments;
 
 import android.content.CursorLoader;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,10 +10,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.LyricsExtractor;
 import com.naman14.timber.utils.LyricsLoader;
 
@@ -29,23 +30,29 @@ import retrofit.client.Response;
  */
 
 public class LyricsFragment extends Fragment {
-    View view;
-    Drawable bg;
+    String lyrics = null;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_lyrics,container,false);
+        final View root = inflater.inflate(R.layout.fragment_lyrics,container,false);
         final View lyricsView = root.findViewById(R.id.lyrics);
-        lyricsView.setActivated(true);
-        lyricsView.setVisibility(View.VISIBLE);
+        final View bg = getActivity().findViewById(R.id.container);
 
+        bg.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                bg.getViewTreeObserver().removeOnPreDrawListener(this);
+                bg.buildDrawingCache();
+                root.setBackground(ImageUtils.createBlurredImageFromBitmap(bg.getDrawingCache(), getContext(), 6));
+                return true;
+            }
+        });
         final TextView poweredbyTextView = (TextView) lyricsView.findViewById(R.id.lyrics_makeitpersonal);
         poweredbyTextView.setVisibility(View.GONE);
         final TextView lyricsTextView = (TextView) lyricsView.findViewById(R.id.lyrics_text);
-        lyricsTextView.setText("");
-        String lyrics = null;
+        lyricsTextView.setText("Loading...");
         String filename = getRealPathFromURI(Uri.parse(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/" + MusicPlayer.getCurrentAudioId()));
-        if (filename != null) {
+        if (filename != null && lyrics == null) {
             lyrics = LyricsExtractor.getLyrics(new File(filename));
         }
         if (lyrics != null) {
@@ -60,6 +67,7 @@ public class LyricsFragment extends Fragment {
                 LyricsLoader.getInstance(this.getContext()).getLyrics(artist, MusicPlayer.getTrackName(), new Callback<String>() {
                     @Override
                     public void success(String s, Response response) {
+                        lyrics = s;
                         if (s.equals("Sorry, We don't have lyrics for this song yet.\n")) {
                             lyricsTextView.setText(R.string.no_lyrics);
                         } else {
@@ -78,21 +86,6 @@ public class LyricsFragment extends Fragment {
             }
         }
         return root;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        this.view = view;
-        if(bg!=null)
-        view.setBackground(bg);
-    }
-
-
-    public void setBackground(Drawable drawable){
-        if(view!=null)
-            view.setBackground(drawable);
-        else
-            bg = drawable;
     }
 
     private String getRealPathFromURI(Uri contentUri) {

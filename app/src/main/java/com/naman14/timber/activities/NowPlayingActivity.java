@@ -9,8 +9,6 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
@@ -18,7 +16,6 @@ import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.naman14.timber.R;
 import com.naman14.timber.subfragments.LyricsFragment;
 import com.naman14.timber.utils.Constants;
-import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 
@@ -51,17 +48,6 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
                 .replace(R.id.lyrics_container, fragment)
                 .addToBackStack(null)
                 .commit();
-        final View bg = findViewById(R.id.container);
-
-        bg.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                bg.getViewTreeObserver().removeOnPreDrawListener(this);
-                bg.buildDrawingCache();
-                fragment.setBackground(ImageUtils.createBlurredImageFromBitmap(bg.getDrawingCache(), NowPlayingActivity.this, 6));
-                return true;
-            }
-        });
     }
 
     @StyleRes

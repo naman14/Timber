@@ -10,8 +10,8 @@
     <string name="accessibility_shuffle">Baralhar</string>
     <string name="accessibility_shuffle_all">Baralhar tudo</string>
     <string name="accessibility_repeat">Repetição</string>
-    <string name="accessibility_repeat_all">Repetir uma</string>
-    <string name="accessibility_repeat_one">Repetir todas</string>
+    <string name="accessibility_repeat_all">Repetir todas</string>
+    <string name="accessibility_repeat_one">Repetir uma</string>
     <string name="accessibility_queue">Abrir fila</string>
     <string name="accessibility_browse">Explorar músicas</string>
 

@@ -98,11 +98,35 @@
     <string name="colored_status_bar">彩色状态栏</string>
     <string name="colored_status_bar_summary">切换状态栏色彩</string>
 
+    <string name="gestures">手势</string>
+    <string name="switching_tracks_by_gestures">使用手势切换音轨</string>
+    <string name="widget_standard">Timber 小部件(标准)</string>
+    <string name="widget_small">Timber 小部件(小)</string>
+    <string name="tap_to_start">点击打开 Timber</string>
+    <string name="widget_white">Timber 小部件(亮)</string>
+
     <string name="count_song"><xliff:g id="count">%d</xliff:g> 首歌</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> 首歌</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> 张专辑</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> 张专辑</string>
     <string name="count_artist"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
     <string name="count_artists"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
+
+    <string name="number_song_add_queue">已将<xliff:g example="1" id="number">%d</xliff:g> 首歌添加到队列。</string>
+    <string name="number_songs_add_queue">已将<xliff:g example="1" id="number">%d</xliff:g> 首歌添加到队列。</string>
+    <string name="number_song_add_playlist">已将<xliff:g example="1" id="number">%d</xliff:g> 首歌添加到播放列表。</string>
+    <string name="number_songs_add_playlist">已将<xliff:g example="1" id="number">%d</xliff:g> 首歌添加到播放列表。</string>
+
+    <string name="play">播放</string>
+    <string name="add_to_playlist">添加到播放列表</string>
+    <string name="go_to_album">转到专辑</string>
+    <string name="go_to_artist">转到艺术家</string>
+    <string name="add_to_queue">添加到队列</string>
+    <string name="play_next">下一首播放</string>
+    <string name="new_playlist">新的播放列表</string>
+
+
+    <string name="nothing_found">没有结果</string>
+    <string name="folders">文件夹</string>
 
 </resources>

@@ -3,8 +3,9 @@
 
 [WIP][BETA]-Material Design Music Player
 
-<a href='https://play.google.com/store/apps/details?id=naman14.timber&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=80px/></a>
-[![Get it on F-Droid](https://guardianproject.info/wp-content/uploads/2014/07/logo-fdroid.png)](https://f-droid.org/repository/browse/?fdid=naman14.timber)
+<a href='https://play.google.com/store/apps/details?id=naman14.timber&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=90px/></a>
+
+<a href='https://f-droid.org/repository/browse/?fdid=naman14.timber'><img alt='Get it on F-Droid' src='https://guardianproject.info/wp-content/uploads/2014/07/logo-fdroid.png' height=60px/></a>
 
 ## Screenshots
 

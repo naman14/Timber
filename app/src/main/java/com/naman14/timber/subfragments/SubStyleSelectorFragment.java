@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 
 public class SubStyleSelectorFragment extends Fragment {
@@ -78,6 +79,9 @@ public class SubStyleSelectorFragment extends Fragment {
             case 3:
                 styleImage.setImageResource(R.drawable.timber_4_nowplaying_x);
                 break;
+            case 4:
+                styleImage.setImageResource(R.drawable.timber_4_nowplaying_x);
+                break;
         }
 
         currentStyle = (LinearLayout) rootView.findViewById(R.id.currentStyle);
@@ -92,9 +96,7 @@ public class SubStyleSelectorFragment extends Fragment {
         preferences = getActivity().getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
         String fragmentID = preferences.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 
-        ((StyleSelectorFragment) getParentFragment()).scrollToCurrentStyle(getIntForCurrentNowplaying(fragmentID));
-
-        if (getArguments().getInt(ARG_PAGE_NUMBER) == getIntForCurrentNowplaying(fragmentID)) {
+        if (getArguments().getInt(ARG_PAGE_NUMBER) == NavigationUtils.getIntForCurrentNowplaying(fragmentID)) {
             currentStyle.setVisibility(View.VISIBLE);
             foreground.setVisibility(View.VISIBLE);
         } else {
@@ -127,25 +129,13 @@ public class SubStyleSelectorFragment extends Fragment {
                 return Constants.TIMBER3;
             case 3:
                 return Constants.TIMBER4;
+            case 4:
+                return Constants.TIMBER5;
             default:
                 return Constants.TIMBER3;
         }
     }
 
-    private int getIntForCurrentNowplaying(String nowPlaying) {
-        switch (nowPlaying) {
-            case Constants.TIMBER1:
-                return 0;
-            case Constants.TIMBER2:
-                return 1;
-            case Constants.TIMBER3:
-                return 2;
-            case Constants.TIMBER4:
-                return 3;
-            default:
-                return 2;
-        }
 
-    }
 
 }

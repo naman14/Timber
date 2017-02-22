@@ -14,6 +14,7 @@
 
 package com.naman14.timber.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.afollestad.appthemeengine.prefs.ATECheckBoxPreference;
 import com.afollestad.appthemeengine.prefs.ATEColorPreference;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.naman14.timber.R;
+import com.naman14.timber.activities.DonateActivity;
 import com.naman14.timber.activities.SettingsActivity;
 import com.naman14.timber.dialogs.LastFmLoginDialog;
 import com.naman14.timber.lastfmapi.LastFmClient;
@@ -130,6 +132,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 return true;
             }
         });
+
+        Intent restoreIntent = new Intent(getActivity(), DonateActivity.class);
+        restoreIntent.putExtra("title", "Restoring purchases..");
+        restoreIntent.setAction("restore");
+
+        findPreference("support_development").setIntent(new Intent(getActivity(), DonateActivity.class));
+        findPreference("restore_purchases").setIntent(restoreIntent);
     }
 
     @Override

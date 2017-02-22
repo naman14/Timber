@@ -130,5 +130,19 @@
 
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
+    <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="Support">
+
+        <Preference
+            android:key="support_development"
+            android:summary="Support the development of Timber and unlock all now playing styles"
+            android:title="Support development" />
+
+        <Preference
+            android:key="restore_purchases"
+            android:summary="Restore previous purchases"
+            android:title="Restore purchases" />
+
+    </com.naman14.timber.widgets.ThemedPreferenceCategory>
+
 
 </PreferenceScreen>

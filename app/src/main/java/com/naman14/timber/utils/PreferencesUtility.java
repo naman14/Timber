@@ -45,6 +45,7 @@ public final class PreferencesUtility {
     private static final String TOGGLE_XPOSED_TRACKSELECTOR = "toggle_xposed_trackselector";
     public static final String LAST_ADDED_CUTOFF = "last_added_cutoff";
     public static final String GESTURES = "gestures";
+    public static final String FULL_UNLOCKED = "full_version_unlocked";
 
     private static PreferencesUtility sInstance;
 
@@ -234,6 +235,16 @@ public final class PreferencesUtility {
 
     public String getLastFolder() {
         return mPreferences.getString(LAST_FOLDER, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+    }
+
+    public boolean fullUnlocked() {
+        return mPreferences.getBoolean(FULL_UNLOCKED, false);
+    }
+
+    public void setFullUnlocked(final boolean b) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(FULL_UNLOCKED, b);
+        editor.apply();
     }
 }
 

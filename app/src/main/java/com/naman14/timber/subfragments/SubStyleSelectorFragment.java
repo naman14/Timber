@@ -97,6 +97,9 @@ public class SubStyleSelectorFragment extends Fragment {
             case 4:
                 styleImage.setImageResource(R.drawable.timber_5_nowplaying_x);
                 break;
+            case 5:
+                styleImage.setImageResource(R.drawable.timber_5_nowplaying_x);
+                break;
         }
 
         currentStyle = (LinearLayout) rootView.findViewById(R.id.currentStyle);
@@ -190,6 +193,8 @@ public class SubStyleSelectorFragment extends Fragment {
                 return Constants.TIMBER4;
             case 4:
                 return Constants.TIMBER5;
+            case 5:
+                return Constants.TIMBER6;
             default:
                 return Constants.TIMBER3;
         }

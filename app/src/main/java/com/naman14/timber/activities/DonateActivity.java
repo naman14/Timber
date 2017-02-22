@@ -133,6 +133,7 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
                     status.setText("Thanks for your support!");
                     if (action!=null && action.equals("restore")) {
                         status.setText("Your purchases has been restored. Thanks for your support");
+                        progressBar.setVisibility(View.GONE);
                     }
                     if (getSupportActionBar() != null)
                         getSupportActionBar().setTitle("Support development");

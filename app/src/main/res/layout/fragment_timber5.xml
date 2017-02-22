@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -42,21 +43,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@android:color/transparent"
-                    app:layout_heightPercent="50%"
-                    app:layout_widthPercent="50%">
+                    app:layout_heightPercent="60%"
+                    app:layout_widthPercent="60%"
+                    app:cardElevation="10dp"
+                    android:layout_marginTop="15dp">
 
                     <ImageView
                         android:id="@+id/album_art"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:adjustViewBounds="true" />
+                        android:adjustViewBounds="true"
+                        android:layout_margin="1dp"
+                        android:scaleType="centerCrop"/>
 
                 </android.support.v7.widget.CardView>
             </android.support.percent.PercentRelativeLayout>
@@ -77,47 +82,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="@dimen/appBarTopMargin"
                 android:gravity="left"
-                android:orientation="vertical"
-                android:paddingTop="25dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/song_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
                     android:ellipsize="marquee"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
                     android:textColor="#ffffff"
-                    android:textSize="23sp" />
+                    android:textSize="22sp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"/>
 
                 <TextView
                     android:id="@+id/song_artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:paddingTop="3dp"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="11sp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"/>
 
                 <SeekBar
                     android:id="@+id/song_progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
                     android:maxHeight="2dp"
-                    android:paddingTop="18dp"
                     android:progress="30"
-                    android:tag="tint_accent_color" />
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:tag="tint_accent_color"
+                    android:layout_marginTop="10dp"/>
 
 
                 <TextView
@@ -129,14 +132,15 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp">
 
                     <TextView
                         android:id="@+id/song_elapsed_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:paddingLeft="25dp"
                         android:textColor="#ffffff" />
 
                     <TextView
@@ -144,8 +148,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:paddingRight="25dp"
-                        android:textColor="#ffffff" />
+                        android:textColor="#ffffff"/>
 
                 </RelativeLayout>
 
@@ -154,13 +157,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal"
-                    android:paddingTop="20dp">
+                    android:paddingTop="20dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp">
 
                     <ImageView
                         android:id="@+id/shuffle"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:scaleType="center" />
 
@@ -168,9 +173,8 @@
                         android:id="@+id/previous"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:paddingLeft="50dp"
                         android:scaleType="center"
                         app:materialIcon="skip_previous"
                         app:materialIconColor="#fff"
@@ -202,9 +206,8 @@
                         android:id="@+id/next"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:paddingRight="50dp"
                         android:scaleType="center"
                         app:materialIcon="skip_next"
                         app:materialIconColor="#fff"
@@ -214,7 +217,7 @@
                         android:id="@+id/repeat"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:paddingLeft="5dp"
                         android:scaleType="center" />
@@ -223,7 +226,16 @@
             </LinearLayout>
         </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/queue_recyclerview_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentBottom="true"/>
+
     </android.support.percent.PercentRelativeLayout>
 
-
 </android.support.design.widget.CoordinatorLayout>
+
+
+

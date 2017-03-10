@@ -123,6 +123,8 @@ public class Timber2 extends BaseNowplayingFragment {
                                     mBlurredArt.getDrawable(),
                                     result
                             });
+                  
+                    td.setCrossFadeEnabled(true);
                     mBlurredArt.setImageDrawable(td);
                     td.startTransition(200);
 

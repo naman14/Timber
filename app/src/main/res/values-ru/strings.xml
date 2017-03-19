@@ -3,7 +3,7 @@
 
     <string name="action_settings">Настройки</string>
 
-    <string name="accessibility_play">Играть</string>
+    <string name="accessibility_play">Воспроизвести</string>
     <string name="accessibility_pause">Пауза</string>
     <string name="accessibility_next">Следующий</string>
     <string name="accessibility_prev">Предыдуший</string>
@@ -32,15 +32,15 @@
     <string name="error_playing_track">Ошибка воспроизведения трека</string>
 
     <string name="playlist_last_added">Новые</string>
-    <string name="playlist_recently_played">Недавно играли</string>
+    <string name="playlist_recently_played">Ранее Исполненные</string>
     <string name="playlist_top_tracks">Лучшие треки</string>
 
-    <string name="timber_source">Сообщить о какой-либо ошибки <u> здесь </u> </string>
-    <string name="timber_feature_request">Уточните любые вопросы в нашей Google+ группе <u> здесь </u></string>
+    <string name="bemusic_source">Сообщить о какой-либо ошибки <u> здесь </u> </string>
+    <string name="bemusic_feature_request">Уточните любые вопросы в нашей Google+ группе <u> здесь </u></string>
 
-    <string name="menu_show_as">Показывать как</string>
+    <string name="menu_show_as">Отображать как</string>
     <string name="menu_show_as_entry_list">Список</string>
-    <string name="menu_show_as_entry_grid">Сетку</string>
+    <string name="menu_show_as_entry_grid">Сетка</string>
 
     <string name="light">Светлая</string>
     <string name="dark">Темная</string>
@@ -50,11 +50,11 @@
 
     <string name="songs">Песни</string>
     <string name="albums">Альбомы</string>
-    <string name="artists">Артисты</string>
+    <string name="artists">Исполнители</string>
     <string name="library">Библиотека</string>
     <string name="playlists">Плей-листы</string>
-    <string name="playing_queue">Играет в очереди</string>
-    <string name="now_playing">Играет сейчас</string>
+    <string name="playing_queue">Очередь Воспроизв.</string>
+    <string name="now_playing">Воспроизводиться</string>
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
     <string name="help_and_feedback">Помощь и обратная связь</string>
@@ -64,19 +64,19 @@
     <string name="search_library">Искать в библиотеке</string>
 
     <string name="select_theme">Выбрать тему</string>
-    <string name="choose_theme_throughout">Выбрать тему всего приложения.</string>
+    <string name="choose_theme_throughout">Выбрать оформление приложения.</string>
     <string name="choose_start_page">Выбрать стартовую страницу, которая будет отображаться при запуске.</string>
     <string name="start_page">Стартовая страница</string>
     <string name="artist_in_grid">Артисты в сетке</string>
-    <string name="toggle_artists_grid">Включить отображение артисов в сетке 2x2</string>
-    <string name="toggle_system_animations">Включить системные анимации во всем приложении.</string>
-    <string name="system_animations">Системные анимации</string>
+    <string name="toggle_artists_grid">Включить отображение исполнителей в сетке 2x2</string>
+    <string name="toggle_system_animations">Включить системную анимацию в приложении.</string>
+    <string name="system_animations">Системная анимация</string>
     <string name="toggle_animations">Включить анимации в приложении.</string>
-    <string name="animations">Анимации</string>
+    <string name="animations">Анимация</string>
     <string name="now_playing_selector">Выбрать тему для экрана проигрывания из 4-х различных стилей.</string>
     <string name="personalisation">Персонализация</string>
     <string name="other">Прочее</string>
-    <string name="timber_about_opensource">Timber это музыкальный плеер с открытым исходным кодом который разработан Наманом Двиведи.</string>
+    <string name="bemusic_about">BeMusic это бесплатный музыкальный плеер от iNik Dev.</string>
     <string name="summary_pause_detach">Включить автоматическую паузу при отсоединении наушников</string>
     <string name="pause_detach">Пауза при отсоединении</string>
     <string name="currently_selected">Сейчас выбрано</string>
@@ -97,7 +97,7 @@
     <string name="colored_nav_bar_summary">Включить раскраску панели навигации</string>
 
     <string name="gestures">Жесты</string>
-    <string name="switching_tracks_by_gestures">Переключение дорожек с помощью жестов</string>
+    <string name="switching_tracks_by_gestures">Переключение треков с помощью жестов</string>
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> песня</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> песни</string>
@@ -114,10 +114,64 @@
     <string name="add_to_playlist">Добавить в список</string>
     <string name="add_to_queue">В очередь</string>
     <string name="advanced">Дополнительно</string>
-    <string name="go_to_album">Альбом</string>
-    <string name="go_to_artist">Исполнитель</string>
+    <string name="go_to_album">К Альбому</string>
+    <string name="go_to_artist">К Исполнителю</string>
     <string name="new_playlist">Новый плейлист</string>
     <string name="play">Воспроизвести</string>
     <string name="play_next">Воспр. следующим</string>
+    <string name="folders">Папки</string>
+    <string name="nothing_found">Не найдено</string>
+    <string name="menu_show_as_entry_default">По умолчанию</string>
+    <string name="summary_xposed_trackselector">Требуется Xposed и XMediaNotificationTrackSelector модуль Xposed должен быть установлен. Это обеспечит доступ к очереди воспроизведения из панели уведомлений.</string>
+    <string name="tap_to_start">Нажмите чтобы запустить Timber</string>
+    <string name="widget_small">Timber маленький виджет</string>
+    <string name="widget_standard">Timber стандартный виджет</string>
+    <string name="widget_white">Timber Светлый виджет</string>
+    <string name="xposed_trackselector">Поддержка очереди воспроизведения в уведомлениях</string>
+    <string name="aysd">Вы действительно хотите удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="clear">Очистить</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_from_device">Удалить с устройства</string>
+    <string name="delete_playlist">Удалить Плей лист</string>
+    <string name="delete_song">Удалить Песню?</string>
+    <string name="hide_auto_playlists">Скрыть авто плейлист</string>
+    <string name="login">Войти</string>
+    <string name="login_to_lostfm">Войдите в LastFm для скроблинга</string>
+    <string name="password">Пароль</string>
+    <string name="remove_from_playlist">Удалить из Плейлиста</string>
+    <string name="share">Поделиться</string>
+    <string name="username">Имя пользователя</string>
+    <string name="menu_show_lyrics">Показать Текст</string>
+    <string name="no_lyrics">Текст не найден</string>
+    <string name="auto_playlist">Авто\nПлейлист</string>
+    <string name="create">Создать</string>
+    <string name="delete_playlist1">Удалить Плейлист?</string>
+    <string name="logout">Выйти</string>
+    <string name="login_in">Вход....</string>
+    <string name="login_to_lastfm">Войти в LastFM</string>
+    <string name="logging_in">Вход...</string>
+    <string name="logged_in_as">Вошли как  </string>
+    <string name="del_playlist_desc">Вы уверены, что хотите удалить плейлист</string>
+    <string name="enter_playlist_name">Имя Плейлиста</string>
+    <string name="failed_to_Login">Ошибка Входа</string>
+    <string name="no_purchase_found">Предыдущие покупки не найдены</string>
+    <string name="purchases_restored">Ваши покупки были восстановлены. Спасибо за поддержку</string>
+    <string name="restore_purchases">Восстановить покупки</string>
+    <string name="restore_purchases_desc">Восстановить предыдущие покупки</string>
+    <string name="restoring_purchases">Восстановление покупок ..</string>
+    <string name="support_development">Поддержка развития</string>
+    <string name="support_development_desc">Поддержите развитие Timber и разблокируйте все темы оформления</string>
+    <string name="thanks_for_your_support">Спасибо за вашу поддержку!</string>
+    <string name="bm_will_need_reed">BeMusic нужен доступ к чтению внешних накопителей для отображения песен на вашем устройстве.</string>
+    <string name="show_auto_playlists">Показать Авто плейлисты</string>
+    <string name="donate_desc">Покажите свою признательность и поддержите развитие BeMusic. Покупка любого из нижеприведенных продуктов также открывает дополнительные темы оформления</string>
+    <string name="unable_to_initiate_purchase">Можете начать покупки</string>
+    <string name="unable_to_process_purchase">"Не удалось обработать покупку Предложить исправление "</string>
+    <string name="loading">Загрузка...</string>
+    <string name="support">Поддержка</string>
+    <string name="create_new_playlist">Создать новый плейлист</string>
+    <string name="created_playlist">Плейлист Создан</string>
+    <string name="purchase">Купить</string>
 
 </resources>

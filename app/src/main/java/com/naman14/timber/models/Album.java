@@ -15,6 +15,8 @@
 package com.naman14.timber.models;
 
 public class Album {
+    public static final int YEAR_UNDEFINED = 0;
+
     public final long artistId;
     public final String artistName;
     public final long id;
@@ -41,4 +43,7 @@ public class Album {
     }
 
 
+    public boolean hasYear() {
+        return year != Album.YEAR_UNDEFINED;
+    }
 }

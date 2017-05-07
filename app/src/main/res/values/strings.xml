@@ -136,6 +136,7 @@
     <string name="new_playlist">New playlist</string>
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
-
+    <string name="fabric_api_key">13123</string>
+    <string name="play_billing_license_key">13123</string>
 
 </resources>

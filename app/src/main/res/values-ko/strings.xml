@@ -99,6 +99,13 @@
     <string name="colored_nav_bar">색깔 있는 내비게이션바</string>
     <string name="colored_nav_bar_summary">내비게이션바 색깔을 유지합니다</string>
 
+    <string name="gestures">제스처</string>
+    <string name="switching_tracks_by_gestures">제스처로 트랙을 변경합니다</string>
+    <string name="widget_standard">Timber 표준 위젯</string>
+    <string name="widget_small">Timber 작은 위젯</string>
+    <string name="tap_to_start">탭 하여 Timber를 시작하기</string>
+    <string name="widget_white">Timber 밝은 위젯</string>
+
     <string name="count_song"><xliff:g id="count">%d</xliff:g> 음악</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> 음악</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> 앨범</string>
@@ -110,5 +117,17 @@
     <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> 음악이 대기열에 추가됐습니다.</string>
     <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> 음악이 재생 목록에 추가됐습니다.</string>
     <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> 음악이 재생 목록에 추가됐습니다.</string>
+
+    <string name="play">재생</string>
+    <string name="add_to_playlist">재생 목록에 추가</string>
+    <string name="go_to_album">앨범으로 이동</string>
+    <string name="go_to_artist">음악가로 이동</string>
+    <string name="add_to_queue">대기열에 추가</string>
+    <string name="play_next">다음곡</string>
+    <string name="new_playlist">새로운 재생 목록</string>
+
+
+    <string name="nothing_found">검색 결과가 없습니다</string>
+    <string name="folders">폴더</string>
 
 </resources>

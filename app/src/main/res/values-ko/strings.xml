@@ -31,8 +31,8 @@
 
     <string name="error_playing_track">재생 중인 트랙 오류</string>
 
-    <string name="playlist_last_added">마지막으로 추가된 리스트</string>
-    <string name="playlist_recently_played">최근 재생한 리스트</string>
+    <string name="playlist_last_added">마지막으로 추가한 재생목록</string>
+    <string name="playlist_recently_played">최근 재생한 재생목록</string>
     <string name="playlist_top_tracks">상위 트랙</string>
 
     <string name="timber_source"><u>여기</u>에 버그를 남겨주세요</string>
@@ -41,6 +41,7 @@
     <string name="menu_show_as">보기 정렬</string>
     <string name="menu_show_as_entry_list">목록</string>
     <string name="menu_show_as_entry_grid">그리드</string>
+    <string name="menu_show_as_entry_default">기본값</string>
 
     <string name="light">밝게</string>
     <string name="dark">어둡게</string>
@@ -54,7 +55,7 @@
     <string name="library">저장소</string>
     <string name="playlists">재생 목록</string>
     <string name="playing_queue">재생 중인 대기열</string>
-    <string name="now_playing">재생 주</string>
+    <string name="now_playing">재생 중인 음악</string>
     <string name="settings">설정</string>
     <string name="about">소개</string>
     <string name="help_and_feedback">도움말과 피드백</string>
@@ -65,7 +66,7 @@
 
     <string name="select_theme">테마 선택</string>
     <string name="choose_theme_throughout">전체적인 테마를 고르세요.</string>
-    <string name="choose_start_page">어플 실행 시 보여질 화면을 선택하세요.</string>
+    <string name="choose_start_page">어플 실행 시 시작 화면을 선택하세요.</string>
     <string name="start_page">시작 화면</string>
     <string name="artist_in_grid">그리드로 아티스트 보기</string>
     <string name="toggle_artists_grid">2x2 그리드로 아티스트 보기를 유지합니다.</string>
@@ -73,7 +74,7 @@
     <string name="system_animations">시스템 애니메이션</string>
     <string name="toggle_animations">변환 애니메이션을 유지합니다.</string>
     <string name="animations">애니메이션</string>
-    <string name="now_playing_selector">4가지 다른 스타일 중 재생 중인 화면을 고르세요.</string>
+    <string name="now_playing_selector">4가지 스타일 중 재생 중인 음악의 화면을 고르세요.</string>
     <string name="personalisation">개인 설정</string>
     <string name="other">기타</string>
     <string name="advanced">고급</string>
@@ -98,13 +99,20 @@
 
     <string name="colored_nav_bar">색깔 있는 내비게이션바</string>
     <string name="colored_nav_bar_summary">내비게이션바 색깔을 유지합니다</string>
+    
+    <string name="gestures">제스처</string>
+    <string name="switching_tracks_by_gestures">제스처로 트랙을 변경합니다</string>
+    <string name="widget_standard">Timber 위젯(표준)</string>
+    <string name="widget_small">Timber 위젯(작음)</string>
+    <string name="tap_to_start">탭(Tap)해서 Timber를 시작합니다</string>
+    <string name="widget_white">Timber 위젯(밝음)</string>
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> 음악</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> 음악</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> 앨범</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> 앨범</string>
-    <string name="count_artist"><xliff:g id="count">%d</xliff:g> 음악가</string>
-    <string name="count_artists"><xliff:g id="count">%d</xliff:g> 음악가</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> 아티스트</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> 아티스트</string>
 
     <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> 음악이 대기열에 추가됐습니다.</string>
     <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> 음악이 대기열에 추가됐습니다.</string>

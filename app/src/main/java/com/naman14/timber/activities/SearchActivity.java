@@ -38,6 +38,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.provider.SearchHistory;
+import com.naman14.timber.utils.DelaySearchUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SearchActivity extends BaseThemedActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
+public class SearchActivity extends BaseThemedActivity implements SearchView.OnQueryTextListener, View.OnTouchListener, DelaySearchUtils.CallbackDelay {
 
     private final Executor mSearchExecutor = Executors.newSingleThreadExecutor();
     @Nullable
@@ -59,6 +60,8 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
     private RecyclerView recyclerView;
 
     private List<Object> searchResults = Collections.emptyList();
+
+    private DelaySearchUtils delaySearchUtils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,8 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        delaySearchUtils = new DelaySearchUtils(this);
     }
 
 
@@ -140,14 +145,7 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
             mSearchTask = null;
         }
         queryString = newText;
-        if (queryString.trim().equals("")) {
-            searchResults.clear();
-            adapter.updateSearchResults(searchResults);
-            adapter.notifyDataSetChanged();
-        } else {
-            mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
-        }
-
+        delaySearchUtils.delay(queryString);
         return true;
     }
 
@@ -162,6 +160,7 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         if (mSearchTask != null && mSearchTask.getStatus() != AsyncTask.Status.FINISHED) {
             mSearchTask.cancel(false);
         }
+        delaySearchUtils.cancelTimerOnDestroyActivity();
         super.onDestroy();
     }
 
@@ -174,6 +173,23 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
 
             SearchHistory.getInstance(this).addSearchString(queryString);
         }
+    }
+
+    @Override
+    public void callbackDelayListener(String searchText) {
+        mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
+    }
+
+    @Override
+    public void callbackClearFieldIfEmpty() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                searchResults.clear();
+                adapter.updateSearchResults(searchResults);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private class SearchTask extends AsyncTask<String,Void,ArrayList<Object>> {

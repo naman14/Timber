@@ -134,10 +134,10 @@
     <string name="add_to_queue">Add to queue</string>
     <string name="play_next">Play next</string>
     <string name="new_playlist">New playlist</string>
-
-
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
+    <string name="fabric_api_key">13123</string>
+    <string name="play_billing_license_key">13123</string>
 
     <!--Replace with your own keys-->
     <string name="fabric_api_key">12345</string>

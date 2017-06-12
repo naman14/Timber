@@ -19,23 +19,23 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [ appNameSuffix:""]
+
         }
         debug {
             ext.enableCrashlytics = false
             versionNameSuffix "-debug"
             minifyEnabled false
+            applicationIdSuffix '.dev'
+            manifestPlaceholders = [ appNameSuffix:" Dev"]
+
+            resValue "string", "fabric_api_key", "12345"
+            resValue "string", "play_billing_license_key", "12345"
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-        devel {
-            applicationId "naman14.timber.devel"
-            resValue "string", "app_name", "Timber devel"
-        }
-        production {
-            resValue "string", "app_name", "Timber"
-        }
-    }
+
     lintOptions {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'

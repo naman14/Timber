@@ -18,13 +18,13 @@
         android:name=".TimberApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Timber${appNameSuffix}"
         android:theme="@style/AppTheme.FullScreen.Light"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup, android:label">
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name"
+            android:label="Timber${appNameSuffix}"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

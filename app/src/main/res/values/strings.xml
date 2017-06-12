@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <string name="app_name">Timber</string>
     <string name="action_settings">Settings</string>
 
     <string name="accessibility_play">Play</string>
@@ -137,9 +138,5 @@
 
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
-
-    <!--Replace with your own keys-->
-    <string name="fabric_api_key">12345</string>
-    <string name="play_billing_license_key">12345</string>
 
 </resources>

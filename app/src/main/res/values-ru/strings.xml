@@ -35,7 +35,7 @@
     <string name="playlist_recently_played">Недавно играли</string>
     <string name="playlist_top_tracks">Лучшие треки</string>
 
-    <string name="timber_source">Сообщить о какой-либо ошибки <u> здесь </u> </string>
+    <string name="timber_source">Сообщить о какой-либо ошибке <u> здесь </u> </string>
     <string name="timber_feature_request">Уточните любые вопросы в нашей Google+ группе <u> здесь </u></string>
 
     <string name="menu_show_as">Показывать как</string>
@@ -52,7 +52,7 @@
     <string name="albums">Альбомы</string>
     <string name="artists">Артисты</string>
     <string name="library">Библиотека</string>
-    <string name="playlists">Плей-листы</string>
+    <string name="playlists">Плейлисты</string>
     <string name="playing_queue">Играет в очереди</string>
     <string name="now_playing">Играет сейчас</string>
     <string name="settings">Настройки</string>
@@ -68,7 +68,7 @@
     <string name="choose_start_page">Выбрать стартовую страницу, которая будет отображаться при запуске.</string>
     <string name="start_page">Стартовая страница</string>
     <string name="artist_in_grid">Артисты в сетке</string>
-    <string name="toggle_artists_grid">Включить отображение артисов в сетке 2x2</string>
+    <string name="toggle_artists_grid">Включить отображение артистов в сетке 2x2</string>
     <string name="toggle_system_animations">Включить системные анимации во всем приложении.</string>
     <string name="system_animations">Системные анимации</string>
     <string name="toggle_animations">Включить анимации в приложении.</string>

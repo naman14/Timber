@@ -101,6 +101,15 @@
     <string name="colored_nav_bar">Colored Navigation Bar</string>
     <string name="colored_nav_bar_summary">Toggle navigation bar coloring</string>
 
+    <string name="albumart_lockscreen">Lockscreen</string>
+    <string name="albumart_lockscreen_summary">Show album art in lockscreen</string>
+
+    <string name="load_artist_image">Load artist images</string>
+    <string name="load_artist_image_summary">Load artist images from lastfm</string>
+
+    <string name="load_artist_image_mobile">Load artist images on mobile data</string>
+    <string name="load_artist_image_mobile_summary">Load artist images even if there is no wifi</string>
+
     <string name="gestures">Gestures</string>
     <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>
     <string name="widget_standard">Timber standard widget</string>
@@ -139,5 +148,12 @@
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
     <string name="select_storage">Select storage</string>
+
+    <string name="lastfm_pref">Login to LastFM to scrobble</string>
+    <string name="lastfm_login_failture">Failed to Login</string>
+    <string name="lastfm_login">Login to LastFM</string>
+    <string name="lastfm_loged_in">Logged in as %s</string>
+
+    <string name="cancel">Cancel</string>
 
 </resources>

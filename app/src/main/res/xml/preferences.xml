@@ -107,15 +107,36 @@
             android:title="@string/pause_detach"
             app:ateKey_pref_checkBox="?ate_key" />
 
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_albumart_lockscreen"
+            android:summary="@string/albumart_lockscreen_summary"
+            android:title="@string/albumart_lockscreen"
+            app:ateKey_pref_checkBox="?ate_key" />
+
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
     <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="LastFM">
 
         <Preference
             android:key="lastfm_login"
-            android:summary="Login to LastFM to scrobble"
+            android:summary="@string/lastfm_pref"
             android:title="Login" />
 
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:defaultValue="true"
+            android:key="artist_image"
+            android:summary="@string/load_artist_image_summary"
+            android:title="@string/load_artist_image"
+            app:ateKey_pref_checkBox="?ate_key" />
+
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:dependency="artist_image"
+            android:defaultValue="false"
+            android:key="artist_image_mobile"
+            android:summary="@string/load_artist_image_mobile_summary"
+            android:title="@string/load_artist_image_mobile"
+            app:ateKey_pref_checkBox="?ate_key" />
 
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
 

@@ -131,23 +131,23 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
         }
         File parent = mRoot.getParentFile();
         if (parent != null && parent.canRead()) {
-            updateDataSetAsync(parent);
-            return true;
+            return updateDataSetAsync(parent);
         } else {
             return false;
         }
     }
 
-    public void updateDataSetAsync(File newRoot) {
+    public boolean updateDataSetAsync(File newRoot) {
         if (mBusy) {
-            return;
+            return false;
         }
         if ("..".equals(newRoot.getName())) {
             goUpAsync();
-            return;
+            return false;
         }
         mRoot = newRoot;
         new NavigateTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mRoot);
+        return true;
     }
 
     @Override
@@ -218,9 +218,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
             }
             final File f = mFileSet.get(getAdapterPosition());
 
-            if (f.isDirectory()) {
+            if (f.isDirectory() && updateDataSetAsync(f)) {
                 albumArt.setImageDrawable(mIcons[3]);
-                updateDataSetAsync(f);
             } else if (f.isFile()) {
 
                 final Handler handler = new Handler();

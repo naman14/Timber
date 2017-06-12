@@ -99,16 +99,7 @@ public class MusicPlayer {
     }
 
     public static void initPlaybackServiceWithSettings(final Context context) {
-        setShowAlbumArtOnLockscreen(true);
-    }
 
-    public static void setShowAlbumArtOnLockscreen(final boolean enabled) {
-        try {
-            if (mService != null) {
-                mService.setLockscreenAlbumArt(enabled);
-            }
-        } catch (final RemoteException ignored) {
-        }
     }
 
     public static void asyncNext(final Context context) {

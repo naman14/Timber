@@ -15,10 +15,17 @@
 package com.naman14.timber.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+
+import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 
 public final class PreferencesUtility {
 
@@ -45,13 +52,21 @@ public final class PreferencesUtility {
     private static final String TOGGLE_XPOSED_TRACKSELECTOR = "toggle_xposed_trackselector";
     public static final String LAST_ADDED_CUTOFF = "last_added_cutoff";
     public static final String GESTURES = "gestures";
+
     public static final String FULL_UNLOCKED = "full_version_unlocked";
+
+    private static final String SHOW_LOCKSCREEN_ALBUMART = "show_albumart_lockscreen";
+    private static final String ARTIST_IMAGE = "artist_image";
+    private static final String ARTIST_IMAGE_MOBILE = "artist_image_mobile";
 
     private static PreferencesUtility sInstance;
 
     private static SharedPreferences mPreferences;
+    private static Context context;
+    private ConnectivityManager connManager = null;
 
     public PreferencesUtility(final Context context) {
+        this.context = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -246,5 +261,30 @@ public final class PreferencesUtility {
         editor.putBoolean(FULL_UNLOCKED, b);
         editor.apply();
     }
+
+    public boolean getSetAlbumartLockscreen() {
+        return mPreferences.getBoolean(SHOW_LOCKSCREEN_ALBUMART, true);
+    }
+
+    public void updateService(Bundle extras) {
+        if(!MusicPlayer.isPlaybackServiceConnected())return;
+        final Intent intent = new Intent(context, MusicService.class);
+        intent.setAction(MusicService.UPDATE_PREFERENCES);
+        intent.putExtras(extras);
+        context.startService(intent);
+    }
+
+    public boolean loadArtistImages() {
+        if (mPreferences.getBoolean(ARTIST_IMAGE, true)) {
+            if (!mPreferences.getBoolean(ARTIST_IMAGE_MOBILE, false)) {
+                if (connManager == null) connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo ni = connManager.getActiveNetworkInfo();
+                return ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI;
+            }
+            return true;
+        }
+        return false;
+    }
+
 }
 

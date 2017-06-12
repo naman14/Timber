@@ -30,6 +30,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -76,24 +77,30 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     String ateKey;
     int accentColor;
-
+    int overflowcounter = 0;
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
+    boolean fragmentPaused = false;
+
     //seekbar
     public Runnable mUpdateProgress = new Runnable() {
 
         @Override
         public void run() {
 
+            long position = MusicPlayer.position();
             if (mProgress != null) {
-                long position = MusicPlayer.position();
                 mProgress.setProgress((int) position);
                 if (elapsedtime != null && getActivity() != null)
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
             }
-
+            overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                mProgress.postDelayed(mUpdateProgress, 50);
+                int delay = (int) (1500 - (position % 1000));
+                if (overflowcounter < 0 && !fragmentPaused) {
+                    overflowcounter++;
+                    mProgress.postDelayed(mUpdateProgress, delay);
+                }
             }
 
         }
@@ -104,17 +111,20 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         @Override
         public void run() {
-
+            long position = MusicPlayer.position();
             if (mCircularProgress != null) {
-                long position = MusicPlayer.position();
                 mCircularProgress.setProgress((int) position);
                 if (elapsedtime != null && getActivity() != null)
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
 
             }
-
+            overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                mCircularProgress.postDelayed(mUpdateCircularProgress, 50);
+                int delay = (int) (1500 - (position % 1000));
+                if (overflowcounter < 0 && !fragmentPaused) {
+                    overflowcounter++;
+                    mCircularProgress.postDelayed(mUpdateCircularProgress, delay);
+                }
             }
 
         }
@@ -209,6 +219,23 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         super.onCreate(savedInstanceState);
         ateKey = Helpers.getATEKey(getActivity());
         accentColor = Config.accentColor(getActivity(), ateKey);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fragmentPaused = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fragmentPaused = false;
+        if (mProgress != null)
+            mProgress.postDelayed(mUpdateProgress, 10);
+
+        if (mCircularProgress != null)
+            mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
     }
 
     public void setSongDetails(View view) {

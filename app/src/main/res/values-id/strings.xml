@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name" translatable="false">Timber</string>
     <string name="action_settings">Pengaturan</string>
 
     <string name="accessibility_play">Main</string>
@@ -36,11 +35,6 @@
     <string name="playlist_recently_played">Baru-baru ini Dimainkan</string>
     <string name="playlist_top_tracks">Lagu Teratas Saya</string>
 
-    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
-
-    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
-    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
-    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
     <string name="timber_source">Laporkan bug <u> di sini </u></string>
     <string name="timber_feature_request">Spesifikasikan permintaan fitur dalam komunitas Google+ <u> di sini </u></string>
 

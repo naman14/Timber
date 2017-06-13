@@ -50,12 +50,20 @@ import com.naman14.timber.widgets.MultiViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class PlaylistFragment extends Fragment {
 
-    int playlistcount;
+    int playlistCount;
     FragmentStatePagerAdapter adapter;
+
+    @BindView(R.id.playlistpager)
     MultiViewPager pager;
+    @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+
     private GridLayoutManager layoutManager;
     private RecyclerView.ItemDecoration itemDecoration;
 
@@ -67,6 +75,8 @@ public class PlaylistFragment extends Fragment {
 
     private List<Playlist> playlists = new ArrayList<>();
 
+    private Unbinder unbinder;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +84,6 @@ public class PlaylistFragment extends Fragment {
         isGrid = mPreferences.getPlaylistView() == Constants.PLAYLIST_VIEW_GRID;
         isDefault = mPreferences.getPlaylistView() == Constants.PLAYLIST_VIEW_DEFAULT;
         showAuto = mPreferences.showAutoPlaylist();
-
     }
 
     @Override
@@ -82,20 +91,22 @@ public class PlaylistFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_playlist, container, false);
 
+        unbinder = ButterKnife.bind(this, rootView);
+
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        pager = (MultiViewPager) rootView.findViewById(R.id.playlistpager);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.playlists);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(R.string.playlists);
+        }
 
         playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
-        playlistcount = playlists.size();
+        playlistCount = playlists.size();
 
         if (isDefault) {
             initPager();
@@ -107,6 +118,11 @@ public class PlaylistFragment extends Fragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     private void initPager() {
         pager.setVisibility(View.VISIBLE);
@@ -116,7 +132,7 @@ public class PlaylistFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return playlistcount;
+                return playlistCount;
             }
 
             @Override
@@ -170,28 +186,6 @@ public class PlaylistFragment extends Fragment {
         setItemDecoration();
     }
 
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-
-
-            outRect.left = space;
-            outRect.top = space;
-            outRect.right = space;
-            outRect.bottom = space;
-
-        }
-    }
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -219,8 +213,9 @@ public class PlaylistFragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         if (showAuto) {
-            menu.findItem(R.id.action_view_auto_playlists).setTitle("Hide auto playlists");
-        } else menu.findItem(R.id.action_view_auto_playlists).setTitle("Show auto playlists");
+            menu.findItem(R.id.action_view_auto_playlists).setTitle(R.string.hide_auto_playlists);
+        } else
+            menu.findItem(R.id.action_view_auto_playlists).setTitle(R.string.show_auto_playlists);
     }
 
     @Override
@@ -266,7 +261,7 @@ public class PlaylistFragment extends Fragment {
 
     public void updatePlaylists(final long id) {
         playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
-        playlistcount = playlists.size();
+        playlistCount = playlists.size();
 
         if (isDefault) {
             adapter.notifyDataSetChanged();
@@ -293,7 +288,7 @@ public class PlaylistFragment extends Fragment {
 
     public void reloadPlaylists() {
         playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
-        playlistcount = playlists.size();
+        playlistCount = playlists.size();
 
         if (isDefault) {
             initPager();
@@ -310,6 +305,26 @@ public class PlaylistFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 reloadPlaylists();
             }
+
+        }
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+
+            outRect.left = space;
+            outRect.top = space;
+            outRect.right = space;
+            outRect.bottom = space;
 
         }
     }

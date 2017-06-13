@@ -15,7 +15,6 @@
 package com.naman14.timber.subfragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,27 +38,39 @@ import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class PlaylistPagerFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
     int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent, R.color.blue_transparent, R.color.red_transparent, R.color.purple_transparent};
+    @BindView(R.id.name)
+    TextView playlistName;
+    @BindView(R.id.songcount)
+    TextView songCount;
+    @BindView(R.id.number)
+    TextView playlistNumber;
+    @BindView(R.id.playlisttype)
+    TextView playlistType;
+    @BindView(R.id.foreground)
+    View foreground;
+    @BindView(R.id.playlist_image)
+    ImageView playlistImage;
     private int pageNumber, songCountInt;
     private int foregroundColor;
     private long firstAlbumID = -1;
     private Playlist playlist;
-    private TextView playlistame, songcount, playlistnumber, playlisttype;
-    private ImageView playlistImage;
-    private View foreground;
     private Context mContext;
     private boolean showAuto;
+    private Unbinder unbinder;
 
     public static PlaylistPagerFragment newInstance(int pageNumber) {
         PlaylistPagerFragment fragment = new PlaylistPagerFragment();
@@ -72,45 +83,44 @@ public class PlaylistPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        showAuto = PreferencesUtility.getInstance(getActivity()).showAutoPlaylist();
         View rootView = inflater.inflate(R.layout.fragment_playlist_pager, container, false);
-
-        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
-
-        pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
-        playlist = playlists.get(pageNumber);
-
-        playlistame = (TextView) rootView.findViewById(R.id.name);
-        playlistnumber = (TextView) rootView.findViewById(R.id.number);
-        songcount = (TextView) rootView.findViewById(R.id.songcount);
-        playlisttype = (TextView) rootView.findViewById(R.id.playlisttype);
-        playlistImage = (ImageView) rootView.findViewById(R.id.playlist_image);
-        foreground = rootView.findViewById(R.id.foreground);
-
+        unbinder = ButterKnife.bind(this, rootView);
         playlistImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Pair> tranitionViews = new ArrayList<>();
-                tranitionViews.add(0, Pair.create((View) playlistame, "transition_playlist_name"));
-                tranitionViews.add(1, Pair.create((View) playlistImage, "transition_album_art"));
-                tranitionViews.add(2, Pair.create(foreground, "transition_foreground"));
-                NavigationUtils.navigateToPlaylistDetail(getActivity(), getPlaylistType(), firstAlbumID, String.valueOf(playlistame.getText()), foregroundColor, playlist.id, tranitionViews);
+                ArrayList<Pair> transitionViews = new ArrayList<>();
+                transitionViews.add(0, Pair.create((View) playlistName, "transition_playlist_name"));
+                transitionViews.add(1, Pair.create((View) playlistImage, "transition_album_art"));
+                transitionViews.add(2, Pair.create(foreground, "transition_foreground"));
+                NavigationUtils.navigateToPlaylistDetail(getActivity(), getPlaylistType(), firstAlbumID, String.valueOf(playlistName.getText()), foregroundColor, playlist.id, transitionViews);
             }
         });
 
         mContext = this.getContext();
-        setUpPlaylistDetails();
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        showAuto = PreferencesUtility.getInstance(getActivity()).showAutoPlaylist();
+        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
+        if (savedInstanceState != null) {
+            pageNumber = savedInstanceState.getInt(ARG_PAGE_NUMBER);
+        } else {
+            pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
+        }
+        playlist = playlists.get(pageNumber);
+        setUpPlaylistDetails();
+    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedinstancestate) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         new loadPlaylistImage().execute("");
     }
 
     private void setUpPlaylistDetails() {
-        playlistame.setText(playlist.name);
+        playlistName.setText(playlist.name);
 
         int number = getArguments().getInt(ARG_PAGE_NUMBER) + 1;
         String playlistnumberstring;
@@ -120,7 +130,7 @@ public class PlaylistPagerFragment extends Fragment {
         } else {
             playlistnumberstring = "0" + String.valueOf(number);
         }
-        playlistnumber.setText(playlistnumberstring);
+        playlistNumber.setText(playlistnumberstring);
 
         Random random = new Random();
         int rndInt = random.nextInt(foregroundColors.length);
@@ -130,7 +140,7 @@ public class PlaylistPagerFragment extends Fragment {
 
         if (showAuto) {
             if (pageNumber <= 2)
-                playlisttype.setVisibility(View.VISIBLE);
+                playlistType.setVisibility(View.VISIBLE);
         }
 
     }
@@ -150,6 +160,11 @@ public class PlaylistPagerFragment extends Fragment {
         } else return Constants.NAVIGATE_PLAYLIST_USERCREATED;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     private class loadPlaylistImage extends AsyncTask<String, Void, String> {
 
@@ -209,16 +224,9 @@ public class PlaylistPagerFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String uri) {
-            ImageLoader.getInstance().displayImage(uri, playlistImage,
-                    new DisplayImageOptions.Builder().cacheInMemory(true)
-                            .showImageOnFail(R.drawable.ic_empty_music2)
-                            .resetViewBeforeLoading(true)
-                            .build(), new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        }
-                    });
-            songcount.setText(" " + String.valueOf(songCountInt) + " " + mContext.getString(R.string.songs));
+            Picasso.with(mContext).load(uri).error(R.drawable.ic_empty_music2)
+                    .into(playlistImage);
+            songCount.setText(" " + String.valueOf(songCountInt) + " " + mContext.getString(R.string.songs));
         }
 
         @Override

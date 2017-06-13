@@ -41,6 +41,7 @@
     <string name="menu_show_as">Показывать как</string>
     <string name="menu_show_as_entry_list">Список</string>
     <string name="menu_show_as_entry_grid">Сетку</string>
+    <string name="menu_show_as_entry_default">По умолчанию</string>
 
     <string name="light">Светлая</string>
     <string name="dark">Темная</string>
@@ -119,5 +120,9 @@
     <string name="new_playlist">Новый плейлист</string>
     <string name="play">Воспроизвести</string>
     <string name="play_next">Воспр. следующим</string>
+
+
+    <string name="hide_auto_playlists">Спрятать авто плейлист</string>
+    <string name="show_auto_playlists">Показать авто плейлист</string>
 
 </resources>

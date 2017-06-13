@@ -74,6 +74,7 @@
 
         <activity
             android:name=".activities.PlaylistDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen.Light" />
 
         <activity

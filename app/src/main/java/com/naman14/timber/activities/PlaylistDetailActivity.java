@@ -24,7 +24,9 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +44,7 @@ import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.LastAddedLoader;
@@ -56,14 +59,17 @@ import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.DragSortRecycler;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PlaylistDetailActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
 
+    private static final String ARG_PLAY_LIST_IMAGE = "ARG_PLAY_LIST_IMAGE";
     String action;
     long playlistID;
     HashMap<String, Runnable> playlistsMap = new HashMap<>();
@@ -92,12 +98,18 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
 
         }
     };
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerView;
+    @BindView(R.id.blurFrame)
+    ImageView blurFrame;
+    @BindView(R.id.name)
+    TextView playlistName;
+    @BindView(R.id.foreground)
+    View foreground;
     private AppCompatActivity mContext = PlaylistDetailActivity.this;
     private SongsListAdapter mAdapter;
-    private RecyclerView recyclerView;
-    private ImageView blurFrame;
-    private TextView playlistname;
-    private View foreground;
+    private int colorForeground = 0;
+    private String urImage;
     private boolean animate;
 
     @TargetApi(21)
@@ -106,31 +118,30 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_detail);
+        ButterKnife.bind(this);
 
         action = getIntent().getAction();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("");
+        }
 
         playlistsMap.put(Constants.NAVIGATE_PLAYLIST_LASTADDED, playlistLastAdded);
         playlistsMap.put(Constants.NAVIGATE_PLAYLIST_RECENT, playlistRecents);
         playlistsMap.put(Constants.NAVIGATE_PLAYLIST_TOPTRACKS, playlistToptracks);
         playlistsMap.put(Constants.NAVIGATE_PLAYLIST_USERCREATED, playlistUsercreated);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        blurFrame = (ImageView) findViewById(R.id.blurFrame);
-        playlistname = (TextView) findViewById(R.id.name);
-        foreground = findViewById(R.id.foreground);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        setAlbumart();
+        setAlbumArt(savedInstanceState);
 
         animate = getIntent().getBooleanExtra(Constants.ACTIVITY_TRANSITION, false);
-        if (animate && TimberUtils.isLollipop() && PreferencesUtility.getInstance(this).getAnimations()) {
+        if (savedInstanceState == null && animate && TimberUtils.isLollipop() && PreferencesUtility.getInstance(this).getAnimations()) {
             getWindow().getEnterTransition().addListener(new EnterTransitionListener());
         } else {
             setUpSongs();
@@ -138,10 +149,26 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
 
     }
 
-    private void setAlbumart() {
-        playlistname.setText(getIntent().getExtras().getString(Constants.PLAYLIST_NAME));
-        foreground.setBackgroundColor(getIntent().getExtras().getInt(Constants.PLAYLIST_FOREGROUND_COLOR));
-        loadBitmap(TimberUtils.getAlbumArtUri(getIntent().getExtras().getLong(Constants.ALBUM_ID)).toString());
+    private void setAlbumArt(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            playlistName.setText(savedInstanceState.getString(Constants.PLAYLIST_NAME));
+            colorForeground = savedInstanceState.getInt(Constants.PLAYLIST_FOREGROUND_COLOR);
+            urImage = savedInstanceState.getString(ARG_PLAY_LIST_IMAGE);
+        } else {
+            playlistName.setText(getIntent().getStringExtra(Constants.PLAYLIST_NAME));
+            colorForeground = getIntent().getIntExtra(Constants.PLAYLIST_FOREGROUND_COLOR, 0);
+            urImage = TimberUtils.getAlbumArtUri(getIntent().getExtras().getLong(Constants.ALBUM_ID)).toString();
+        }
+        Picasso.with(this).load(urImage).error(R.drawable.ic_empty_music2).into(blurFrame);
+        foreground.setBackgroundColor(colorForeground);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(Constants.PLAYLIST_NAME, playlistName.getText().toString());
+        outState.putInt(Constants.PLAYLIST_FOREGROUND_COLOR, colorForeground);
+        outState.putString(ARG_PLAY_LIST_IMAGE, urImage);
+        super.onSaveInstanceState(outState);
     }
 
     private void setUpSongs() {
@@ -159,9 +186,11 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
                     Song song = mAdapter.getSongAt(from);
                     mAdapter.removeSongAt(from);
                     mAdapter.addSongTo(to, song);
+                    mAdapter.updateDataSet();
                     mAdapter.notifyDataSetChanged();
-                    MediaStore.Audio.Playlists.Members.moveItem(getContentResolver(),
-                            playlistID, from, to);
+                    MusicPlayer.moveQueueItem(from, to);
+//                    MediaStore.Audio.Playlists.Members.moveItem(getContentResolver(),
+//                            playlistID, from, to);
                 }
             });
 
@@ -172,14 +201,6 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         } else {
             Log.d("PlaylistDetail", "mo action specified");
         }
-    }
-
-    private void loadBitmap(String uri) {
-        ImageLoader.getInstance().displayImage(uri, blurFrame,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
-                        .resetViewBeforeLoading(true)
-                        .build());
     }
 
     private void setRecyclerViewAapter() {
@@ -201,6 +222,95 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
     public int getActivityTheme() {
         return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_playlist_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (action.equals(Constants.NAVIGATE_PLAYLIST_USERCREATED)) {
+            menu.findItem(R.id.action_delete_playlist).setVisible(true);
+            menu.findItem(R.id.action_clear_auto_playlist).setVisible(false);
+        } else {
+            menu.findItem(R.id.action_delete_playlist).setVisible(false);
+            menu.findItem(R.id.action_clear_auto_playlist).setTitle("Clear " + playlistName.getText().toString());
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            case R.id.action_delete_playlist:
+                showDeletePlaylistDialog();
+                break;
+            case R.id.action_clear_auto_playlist:
+                clearAutoPlaylists();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeletePlaylistDialog() {
+        new MaterialDialog.Builder(this)
+                .title("Delete playlist?")
+                .content("Are you sure you want to delete playlist " + playlistName.getText().toString() + " ?")
+                .positiveText("Delete")
+                .negativeText("Cancel")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        PlaylistLoader.deletePlaylists(PlaylistDetailActivity.this, playlistID);
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void clearAutoPlaylists() {
+        switch (action) {
+            case Constants.NAVIGATE_PLAYLIST_LASTADDED:
+                TimberUtils.clearLastAdded(this);
+                break;
+            case Constants.NAVIGATE_PLAYLIST_RECENT:
+                TimberUtils.clearRecent(this);
+                break;
+            case Constants.NAVIGATE_PLAYLIST_TOPTRACKS:
+                TimberUtils.clearTopTracks(this);
+                break;
+        }
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
+    public int getToolbarColor() {
+        return Color.TRANSPARENT;
+    }
+
+    @Override
+    public int getLightToolbarMode() {
+        return Config.LIGHT_TOOLBAR_AUTO;
     }
 
     private class loadLastAdded extends AsyncTask<String, Void, String> {
@@ -297,94 +407,5 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
         public void onTransitionStart(Transition paramTransition) {
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_playlist_detail, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (action.equals(Constants.NAVIGATE_PLAYLIST_USERCREATED)) {
-            menu.findItem(R.id.action_delete_playlist).setVisible(true);
-            menu.findItem(R.id.action_clear_auto_playlist).setVisible(false);
-        } else {
-            menu.findItem(R.id.action_delete_playlist).setVisible(false);
-            menu.findItem(R.id.action_clear_auto_playlist).setTitle("Clear " + playlistname.getText().toString());
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                super.onBackPressed();
-                return true;
-            case R.id.action_delete_playlist:
-                showDeletePlaylistDialog();
-                break;
-            case R.id.action_clear_auto_playlist:
-                clearAutoPlaylists();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showDeletePlaylistDialog() {
-        new MaterialDialog.Builder(this)
-                .title("Delete playlist?")
-                .content("Are you sure you want to delete playlist " + playlistname.getText().toString() + " ?")
-                .positiveText("Delete")
-                .negativeText("Cancel")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        PlaylistLoader.deletePlaylists(PlaylistDetailActivity.this, playlistID);
-                        Intent returnIntent = new Intent();
-                        setResult(Activity.RESULT_OK, returnIntent);
-                        finish();
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
-
-    private void clearAutoPlaylists() {
-        switch (action) {
-            case Constants.NAVIGATE_PLAYLIST_LASTADDED:
-                TimberUtils.clearLastAdded(this);
-                break;
-            case Constants.NAVIGATE_PLAYLIST_RECENT:
-                TimberUtils.clearRecent(this);
-                break;
-            case Constants.NAVIGATE_PLAYLIST_TOPTRACKS:
-                TimberUtils.clearTopTracks(this);
-                break;
-        }
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-    }
-
-    @Override
-    public int getToolbarColor() {
-        return Color.TRANSPARENT;
-    }
-
-    @Override
-    public int getLightToolbarMode() {
-        return Config.LIGHT_TOOLBAR_AUTO;
     }
 }

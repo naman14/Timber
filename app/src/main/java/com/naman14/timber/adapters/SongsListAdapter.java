@@ -42,11 +42,13 @@ import com.naman14.timber.widgets.MusicVisualizer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.steamcrafted.materialiconlib.MaterialIconView;
+
 import java.util.List;
 
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
-    public int currentlyPlayingPosition;
+    public int currentlyPlayingPosition = -1;
     private List<Song> arraylist;
     private AppCompatActivity mContext;
     private long[] songIDs;
@@ -79,14 +81,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     }
 
     @Override
-    public void onBindViewHolder(ItemHolder itemHolder, int i) {
-        Song localItem = arraylist.get(i);
+    public void onBindViewHolder(ItemHolder itemHolder, int position) {
+        Song localItem = arraylist.get(position);
 
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
+        if (playlistId == 0 && itemHolder.reoder != null) {
+            itemHolder.reoder.setVisibility(View.GONE);
+        }
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
+            currentlyPlayingPosition = position;
             itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));
             if (MusicPlayer.isPlaying()) {
                 itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
@@ -103,15 +109,15 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
         if (animate && isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
             if (TimberUtils.isLollipop())
-                setAnimation(itemHolder.itemView, i);
+                setAnimation(itemHolder.itemView, position);
             else {
-                if (i > 10)
-                    setAnimation(itemHolder.itemView, i);
+                if (position > 10)
+                    setAnimation(itemHolder.itemView, position);
             }
         }
 
 
-        setOnPopupMenuListener(itemHolder, i);
+        setOnPopupMenuListener(itemHolder, position);
 
     }
 
@@ -164,11 +170,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                                 AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
                             case R.id.popup_song_share:
-                               TimberUtils.shareTrack(mContext, arraylist.get(position).id);
+                                TimberUtils.shareTrack(mContext, arraylist.get(position).id);
                                 break;
                             case R.id.popup_song_delete:
                                 long[] deleteIds = {arraylist.get(position).id};
-                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, SongsListAdapter.this, position);
+                                TimberUtils.showDeleteDialog(mContext, arraylist.get(position).title, deleteIds, SongsListAdapter.this, position);
                                 break;
                         }
                         return false;
@@ -214,44 +220,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     public void updateDataSet(List<Song> arraylist) {
         this.arraylist = arraylist;
         this.songIDs = getSongIds();
+        notifyDataSetChanged();
     }
 
-    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView title, artist;
-        protected ImageView albumArt, popupMenu;
-        private MusicVisualizer visualizer;
-
-        public ItemHolder(View view) {
-            super(view);
-            this.title = (TextView) view.findViewById(R.id.song_title);
-            this.artist = (TextView) view.findViewById(R.id.song_artist);
-            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
-            this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
-            visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
-                    Handler handler1 = new Handler();
-                    handler1.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyItemChanged(currentlyPlayingPosition);
-                            notifyItemChanged(getAdapterPosition());
-                        }
-                    }, 50);
-                }
-            }, 100);
-
-
-        }
-
+    public void updateDataSet() {
+        updateDataSet(this.arraylist);
     }
 
     public Song getSongAt(int i) {
@@ -264,6 +237,53 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
     public void removeSongAt(int i) {
         arraylist.remove(i);
+    }
+
+    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected TextView title, artist;
+        protected ImageView albumArt, popupMenu;
+        protected MaterialIconView reoder;
+        private MusicVisualizer visualizer;
+
+        public ItemHolder(View view) {
+            super(view);
+            this.title = (TextView) view.findViewById(R.id.song_title);
+            this.artist = (TextView) view.findViewById(R.id.song_artist);
+            this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
+            this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
+            this.reoder = (MaterialIconView) view.findViewById(R.id.reorder);
+            visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (currentlyPlayingPosition == getAdapterPosition()) {
+                        MusicPlayer.playOrPause();
+                    } else {
+                        MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+                    }
+                    Handler handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (currentlyPlayingPosition >= 0) {
+                                notifyItemChanged(currentlyPlayingPosition);
+                            }
+                            notifyItemChanged(getAdapterPosition());
+                            currentlyPlayingPosition = getAdapterPosition();
+                        }
+                    }, 50);
+                }
+            }, 100);
+
+
+        }
+
     }
 }
 

@@ -301,12 +301,15 @@ public class AlbumDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.album_song_sort_by, menu);
+        inflater.inflate(R.menu.album_detail, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_go_to_artist:
+                NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
+                break;
             case R.id.menu_sort_by_az:
                 mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_A_Z);
                 reloadAdapter();

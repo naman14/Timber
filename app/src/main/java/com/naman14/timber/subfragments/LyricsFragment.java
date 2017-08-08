@@ -34,15 +34,22 @@ import retrofit.client.Response;
 public class LyricsFragment extends Fragment {
     String lyrics = null;
     private Toolbar toolbar;
+    private View rootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_lyrics,container,false);
+        rootView = inflater.inflate(R.layout.fragment_lyrics,container,false);
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         setupToolbar();
 
+        loadLyrics();
+
+        return rootView;
+    }
+
+    private void loadLyrics() {
         final View lyricsView = rootView.findViewById(R.id.lyrics);
         final TextView poweredbyTextView = (TextView) lyricsView.findViewById(R.id.lyrics_makeitpersonal);
         poweredbyTextView.setVisibility(View.GONE);
@@ -82,7 +89,6 @@ public class LyricsFragment extends Fragment {
                 lyricsTextView.setText(R.string.no_lyrics);
             }
         }
-        return rootView;
     }
 
     private void setupToolbar() {

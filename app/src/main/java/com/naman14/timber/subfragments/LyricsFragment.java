@@ -2,20 +2,22 @@ package com.naman14.timber.subfragments;
 
 import android.content.CursorLoader;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
-import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.LyricsExtractor;
 import com.naman14.timber.utils.LyricsLoader;
 
@@ -31,22 +33,17 @@ import retrofit.client.Response;
 
 public class LyricsFragment extends Fragment {
     String lyrics = null;
+    private Toolbar toolbar;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.fragment_lyrics,container,false);
-        final View lyricsView = root.findViewById(R.id.lyrics);
-        final View bg = getActivity().findViewById(R.id.container);
+        final View rootView = inflater.inflate(R.layout.fragment_lyrics,container,false);
 
-        bg.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                bg.getViewTreeObserver().removeOnPreDrawListener(this);
-                bg.buildDrawingCache();
-                root.setBackground(ImageUtils.createBlurredImageFromBitmap(bg.getDrawingCache(), getContext(), 6));
-                return true;
-            }
-        });
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        setupToolbar();
+
+        final View lyricsView = rootView.findViewById(R.id.lyrics);
         final TextView poweredbyTextView = (TextView) lyricsView.findViewById(R.id.lyrics_makeitpersonal);
         poweredbyTextView.setVisibility(View.GONE);
         final TextView lyricsTextView = (TextView) lyricsView.findViewById(R.id.lyrics_text);
@@ -85,7 +82,22 @@ public class LyricsFragment extends Fragment {
                 lyricsTextView.setText(R.string.no_lyrics);
             }
         }
-        return root;
+        return rootView;
+    }
+
+    private void setupToolbar() {
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        ab.setDisplayShowTitleEnabled(false);
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        toolbar.setBackgroundColor(Color.TRANSPARENT);
     }
 
     private String getRealPathFromURI(Uri contentUri) {

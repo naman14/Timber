@@ -106,6 +106,12 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
+    public static void goToLyrics(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(Constants.NAVIGATE_LYRICS);
+        context.startActivity(intent);
+    }
+
     public static void navigateToNowplaying(Activity context, boolean withAnimations) {
 
         final Intent intent = new Intent(context, NowPlayingActivity.class);

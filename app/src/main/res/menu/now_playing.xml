@@ -6,4 +6,7 @@
     <item
         android:id="@+id/menu_go_to_artist"
         android:title="@string/go_to_artist" />
+    <item
+        android:id="@+id/action_lyrics"
+        android:title="@string/menu_show_lyrics" />
 </menu>

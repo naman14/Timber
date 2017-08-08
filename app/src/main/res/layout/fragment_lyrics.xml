@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:textSize="30sp" />
+                android:textAppearance="@style/TextAppearance.Song.Lyrics" />
 
             <TextView
                 android:id="@+id/lyrics_makeitpersonal"

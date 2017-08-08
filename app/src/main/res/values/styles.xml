@@ -107,6 +107,9 @@
         <item name="android:textSize">29sp</item>
     </style>
 
+    <style name="TextAppearance.Song.Lyrics" parent="@style/TextAppearance.AppCompat.Medium">
+    </style>
+
     <style name="TransparentText" parent="@android:style/TextAppearance">
         <item name="android:textColor">#00666666</item>
     </style>

@@ -308,7 +308,7 @@ public class AlbumDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_go_to_artist:
-                NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
+                NavigationUtils.goToArtist(getContext(), album.artistId);
                 break;
             case R.id.menu_sort_by_az:
                 mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_A_Z);

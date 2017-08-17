@@ -19,6 +19,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.naman14.timber.lastfmapi.callbacks.AlbuminfoListener;
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.callbacks.UserListener;
 import com.naman14.timber.lastfmapi.models.AlbumInfo;
@@ -33,13 +34,10 @@ import com.naman14.timber.lastfmapi.models.UserLoginQuery;
 import com.naman14.timber.utils.PreferencesUtility;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import retrofit.Callback;
@@ -103,16 +101,16 @@ public class LastFmClient {
 
     }
 
-    public void getAlbumInfo(AlbumQuery albumQuery) {
+    public void getAlbumInfo(AlbumQuery albumQuery, final AlbuminfoListener listener) {
         mRestService.getAlbumInfo(albumQuery.mArtist, albumQuery.mALbum, new Callback<AlbumInfo>() {
             @Override
             public void success(AlbumInfo albumInfo, Response response) {
-
+                listener.albumInfoSucess(albumInfo.mAlbum);
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                listener.albumInfoFailed();
                 error.printStackTrace();
             }
         });

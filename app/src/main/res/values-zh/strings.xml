@@ -36,7 +36,7 @@
     <string name="playlist_recently_played">最近播放</string>
     <string name="playlist_top_tracks">我的最佳曲目</string>
 
-    <string name="timber_source">在 <u> 这里 </u> 报告漏洞</string>
+    <string name="timber_source">在 <u>这里</u> 报告漏洞</string>
     <string name="timber_feature_request">在 <u>这里</u> 通过 Google+ 提出特性请求</string>
 
     <string name="menu_show_as">视图</string>
@@ -79,7 +79,7 @@
     <string name="personalisation">个性化</string>
     <string name="other">其他</string>
     <string name="advanced">高级</string>
-    <string name="timber_about_opensource">Timber 是由 Naman Dwivedi 开发的一款开源音乐播放器</string>
+    <string name="timber_about_opensource">Timber 是 Naman Dwivedi 开发的一款开源的音乐播放器</string>
     <string name="summary_pause_detach">当耳机拔出时暂停播放</string>
     <string name="pause_detach">拔出时暂停</string>
     <string name="summary_xposed_trackselector">需要安装 Xposed 和 Xposed 模块 XMediaNotificationTrackSelector。这将在通知中提供播放队列控制。</string>
@@ -135,7 +135,7 @@
     <string name="go_to_artist">转到艺术家</string>
     <string name="add_to_queue">添加到队列</string>
     <string name="play_next">下一首播放</string>
-    <string name="new_playlist">新播放列表</string>
+    <string name="new_playlist">新的播放列表</string>
 
 
     <string name="nothing_found">没有结果</string>

@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.callbacks.AlbuminfoListener;
+import com.naman14.timber.lastfmapi.callbacks.AlbumInfoListener;
 import com.naman14.timber.lastfmapi.models.AlbumQuery;
 import com.naman14.timber.lastfmapi.models.LastfmAlbum;
 import com.naman14.timber.models.Album;
@@ -76,9 +76,9 @@ public class ImageUtils {
         Album album = AlbumLoader.getAlbum(albumArt.getContext(), albumId);
         LastFmClient.getInstance(albumArt.getContext())
                 .getAlbumInfo(new AlbumQuery(album.title, album.artistName),
-                              new AlbuminfoListener() {
+                              new AlbumInfoListener() {
                                   @Override
-                                  public void albumInfoSucess(final LastfmAlbum album) {
+                                  public void albumInfoSuccess(final LastfmAlbum album) {
                                       if (album != null) {
                                           ImageLoader.getInstance()
                                                   .displayImage(album.mArtwork.get(4).mUrl,

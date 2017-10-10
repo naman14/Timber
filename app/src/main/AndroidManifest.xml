@@ -74,6 +74,7 @@
 
         <activity
             android:name=".activities.PlaylistDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen.Light" />
 
         <activity
@@ -84,7 +85,7 @@
             android:name=".activities.NowPlayingActivity"
             android:theme="@style/AppTheme.FullScreen.Light" />
 
-        <activity android:name=".activities.DonateActivity"/>
+        <activity android:name=".activities.DonateActivity" />
 
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>
@@ -111,33 +112,42 @@
             android:name="io.fabric.ApiKey"
             android:value="@string/fabric_api_key" />
 
-        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
+        <receiver
+            android:name=".widgets.desktop.StandardWidget"
+            android:label="@string/widget_standard">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />
                 <action android:name="com.naman14.timber.playstatechanged" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/widget_standard" />
         </receiver>
 
-        <receiver android:name=".widgets.desktop.WhiteWidget" android:label="@string/widget_white">
+        <receiver
+            android:name=".widgets.desktop.WhiteWidget"
+            android:label="@string/widget_white">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />
                 <action android:name="com.naman14.timber.playstatechanged" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/widget_white" />
         </receiver>
 
-        <receiver android:name=".widgets.desktop.SmallWidget" android:label="@string/widget_small">
+        <receiver
+            android:name=".widgets.desktop.SmallWidget"
+            android:label="@string/widget_small">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />
                 <action android:name="com.naman14.timber.playstatechanged" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/widget_small" />
         </receiver>
 

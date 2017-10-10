@@ -1,6 +1,12 @@
 #Changelog
 
-v0.21b-
+**v0.3a**
+* Search Video From Current Song
+* Fix Bug In Playlist
+* Fix No reaction In Earphone
+* Download Album Art From LastFM client
+* Fix Crash When Failed Login In LastFM
+**v0.21b-**
 
 * Add Homescreen widget
 * View playlists in list, grid and default
@@ -8,13 +14,13 @@ v0.21b-
 * Remove songs from playlists, reorder playlists
 * Delete songs from device
 
-v0.14b-
+**v0.14b-**
 
 * Added Theme engine
 * Performance improvements
 * Many bugs fixed
 
-v0.13b-
+**v0.13b-**
 
 * Create playlists and add songs to playlists
 * Go to artist, album, add to queue, play next in song popup menu
@@ -26,18 +32,18 @@ v0.13b-
 * Added Chinese,French,German and Italian translation
 * Bug fixes and improvements
 
-v0.122b-
+**v0.122b-**
 * Fix crash in search activity
 * Fix one time crash in marshmallow after allowing permission
 * Added albums view options(list,grid)
 
-v0.12b-
+**v0.12b-**
 * Fix crash in artist detail and search
 * Add intent for equalizer
 * Ability to sort songs, albums and artists according to year,duration,track,number of songs, a-z, z-a etc
 
 
-v0.11b-
+**v0.11b-**
 * Fix crash on asynctask onpostexecute
 * Fix crash on onTouchEvent in NavigationView
 * Updated more material launcher and notification icon
@@ -46,5 +52,5 @@ v0.11b-
 * Added option to remember the last page opened
 * Fixed blurred albumart not changing if albumart not available
 
-v0.1b
+**v0.1b**
 * Initial Release

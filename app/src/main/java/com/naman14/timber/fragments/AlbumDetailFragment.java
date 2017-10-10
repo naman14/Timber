@@ -1,16 +1,3 @@
-/*
- * Copyright (C) 2015 Naman Dwivedi
- *
- * Licensed under the GNU General Public License v3
- *
- * This is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- */
 package com.naman14.timber.fragments;
 
 import android.annotation.TargetApi;
@@ -53,13 +40,12 @@ import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -171,11 +157,7 @@ public class AlbumDetailFragment extends Fragment {
     }
 
     private void setAlbumart() {
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(albumID).toString(), albumArt,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
-                        .resetViewBeforeLoading(true)
-                        .build(), new ImageLoadingListener() {
+        ImageUtils.loadAlbumArtIntoView(album.id, albumArt, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
@@ -188,7 +170,6 @@ public class AlbumDetailFragment extends Fragment {
                                 .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
                         ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
                         fab.setImageDrawable(builder.build());
-
                     }
 
                     @Override
@@ -356,5 +337,4 @@ public class AlbumDetailFragment extends Fragment {
         }
 
     }
-
 }

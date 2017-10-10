@@ -15,6 +15,7 @@
 package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -30,7 +31,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -47,6 +50,7 @@ import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.timely.TimelyView;
 import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SlideTrackSwitcher;
 import com.naman14.timber.utils.TimberUtils;
@@ -219,6 +223,57 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         super.onCreate(savedInstanceState);
         ateKey = Helpers.getATEKey(getActivity());
         accentColor = Config.accentColor(getActivity(), ateKey);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.now_playing, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search_videos:
+                pauseMusicPlayer();
+                openSongSearchOnYouTubeApp();
+                break;
+            case R.id.menu_go_to_album:
+                NavigationUtils.goToAlbum(getContext(), MusicPlayer.getCurrentAlbumId());
+                break;
+            case R.id.menu_go_to_artist:
+                NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void pauseMusicPlayer() {
+        if (MusicPlayer.isPlaying()) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MusicPlayer.playOrPause();
+                    if (recyclerView != null && recyclerView.getAdapter() != null)
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                }
+            }, 250);
+        }
+    }
+
+    private void openSongSearchOnYouTubeApp() {
+        Intent intent = new Intent(Intent.ACTION_SEARCH);
+        intent.setPackage("com.google.android.youtube");
+        intent.putExtra("query", MusicPlayer.getArtistName() + " " + MusicPlayer.getTrackName());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

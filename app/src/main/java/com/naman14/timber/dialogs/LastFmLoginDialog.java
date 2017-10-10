@@ -52,7 +52,7 @@ public class LastFmLoginDialog extends DialogFragment {
                             @Override
                             public void userInfoFailed() {
                                 progressDialog.dismiss();
-                                Toast.makeText(getTargetFragment().getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getTargetFragment().getActivity(),"Login Failed...Plese Check Username And Password", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

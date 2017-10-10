@@ -3,7 +3,7 @@
 
     <string name="app_name">Timber</string>
     <string name="action_settings">Settings</string>
-
+<string name="search_videos">Search Videos</string>
     <string name="accessibility_play">Play</string>
     <string name="accessibility_pause">Pause</string>
     <string name="accessibility_next">Next</string>

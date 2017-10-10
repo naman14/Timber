@@ -1,6 +1,6 @@
 #Changelog
 
-**v0.3a**
+**v0.6a**
 * Search Video From Current Song
 * Fix Bug In Playlist
 * Fix No reaction In Earphone

@@ -19,6 +19,7 @@
             android:layout_height="104dp"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_empty_music2"
             android:transitionName="transition_album_art"/>
 
 

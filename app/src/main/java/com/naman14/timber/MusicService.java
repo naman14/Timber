@@ -429,6 +429,7 @@ public class MusicService extends MediaBrowserServiceCompat {
         });
         mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
                           | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
+        setSessionToken(mSession.getSessionToken());
     }
 
     @Override

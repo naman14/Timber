@@ -175,6 +175,8 @@ public class MusicService extends MediaBrowserServiceCompat {
             MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media.ARTIST_ID
     };
+    public static final String MEDIA_ID_ROOT = "__ROOT__";
+
     private static LinkedList<Integer> mHistory = new LinkedList<>();
     private final IBinder mBinder = new ServiceStub(this);
     private MultiPlayer mPlayer;
@@ -480,7 +482,8 @@ public class MusicService extends MediaBrowserServiceCompat {
     @Override
     public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable
             Bundle rootHints) {
-        return null;
+        // No access restrictions for now
+        return new BrowserRoot(MEDIA_ID_ROOT, null);
     }
 
     @Override

@@ -21,7 +21,6 @@ import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -56,7 +55,11 @@ import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.AlbumColumns;
 import android.provider.MediaStore.Audio.AudioColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -84,6 +87,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.TreeSet;
@@ -93,7 +97,7 @@ import de.Maxr1998.trackselectorlib.NotificationHelper;
 import de.Maxr1998.trackselectorlib.TrackItem;
 
 @SuppressLint("NewApi")
-public class MusicService extends Service {
+public class MusicService extends MediaBrowserServiceCompat {
     public static final String PLAYSTATE_CHANGED = "com.naman14.timber.playstatechanged";
     public static final String POSITION_CHANGED = "com.naman14.timber.positionchanged";
     public static final String META_CHANGED = "com.naman14.timber.metachanged";
@@ -469,6 +473,19 @@ public class MusicService extends Service {
         }
 
         mWakeLock.release();
+    }
+
+    @Nullable
+    @Override
+    public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable
+            Bundle rootHints) {
+        return null;
+    }
+
+    @Override
+    public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat
+            .MediaItem>> result) {
+
     }
 
     @Override

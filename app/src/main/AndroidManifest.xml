@@ -92,11 +92,16 @@
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
             </intent-filter>
         </receiver>
+
         <!-- Music service -->
         <service
             android:name=".MusicService"
             android:label="@string/app_name"
-            android:process=":main" />
+            android:process=":main">
+            <intent-filter>
+                <action android:name="android.support.v4.media.MediaBrowserServiceCompat" />
+            </intent-filter>
+        </service>
 
         <!--use your own api key for fabric-->
         <meta-data

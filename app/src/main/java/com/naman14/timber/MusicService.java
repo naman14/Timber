@@ -274,6 +274,7 @@ public class MusicService extends MediaBrowserServiceCompat {
         }
     };
     private ContentObserver mMediaStoreObserver;
+    private boolean mServiceStarted = false;
 
     @Override
     public IBinder onBind(final Intent intent) {
@@ -2124,6 +2125,11 @@ public class MusicService extends MediaBrowserServiceCompat {
 
         if (status != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             return;
+        }
+
+        if (!mServiceStarted) {
+            startService(new Intent(getApplicationContext(), MusicService.class));
+            mServiceStarted = true;
         }
 
         final Intent intent = new Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);

@@ -27,9 +27,6 @@ android {
             applicationIdSuffix '.dev'
             manifestPlaceholders = [ appNameSuffix:" Dev"]
 
-            resValue "string", "fabric_api_key", "12345"
-            resValue "string", "play_billing_license_key", "12345"
-
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

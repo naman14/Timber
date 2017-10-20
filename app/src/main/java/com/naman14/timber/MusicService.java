@@ -41,6 +41,7 @@ import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,6 +61,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
+import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -68,11 +70,23 @@ import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.naman14.timber.dataloaders.AlbumLoader;
+import com.naman14.timber.dataloaders.AlbumSongLoader;
+import com.naman14.timber.dataloaders.ArtistAlbumLoader;
+import com.naman14.timber.dataloaders.ArtistLoader;
+import com.naman14.timber.dataloaders.ArtistSongLoader;
+import com.naman14.timber.dataloaders.PlaylistLoader;
+import com.naman14.timber.dataloaders.PlaylistSongLoader;
+import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.helpers.MediaButtonIntentReceiver;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.models.LastfmUserSession;
 import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
+import com.naman14.timber.models.Album;
+import com.naman14.timber.models.Artist;
+import com.naman14.timber.models.Playlist;
+import com.naman14.timber.models.Song;
 import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
@@ -175,7 +189,16 @@ public class MusicService extends MediaBrowserServiceCompat {
             MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media.ARTIST_ID
     };
+
     public static final String MEDIA_ID_ROOT = "__ROOT__";
+    public static final int TYPE_ARTIST = 0;
+    public static final int TYPE_ALBUM = 1;
+    public static final int TYPE_SONG = 2;
+    public static final int TYPE_PLAYLIST = 3;
+    public static final int TYPE_ARTIST_SONG_ALBUMS = 4;
+    public static final int TYPE_ALBUM_SONGS = 5;
+    public static final int TYPE_ARTIST_ALL_SONGS = 6;
+    public static final int TYPE_PLAYLIST_ALL_SONGS = 7;
 
     private static LinkedList<Integer> mHistory = new LinkedList<>();
     private final IBinder mBinder = new ServiceStub(this);
@@ -487,9 +510,140 @@ public class MusicService extends MediaBrowserServiceCompat {
     }
 
     @Override
-    public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat
-            .MediaItem>> result) {
+    public void onLoadChildren(@NonNull final String parentId,
+                               @NonNull final Result<List<MediaBrowserCompat.MediaItem>> result) {
+        result.detach();
+        final List<MediaBrowserCompat.MediaItem> mediaItems = new ArrayList<>();
+        final Context context = this;
 
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void... unused) {
+                if (parentId.equals(MEDIA_ID_ROOT)) {
+                    addMediaRoots(mediaItems);
+                } else {
+                    switch (Integer.parseInt(Character.toString(parentId.charAt(0)))) {
+                        case TYPE_ARTIST:
+                            List<Artist> artistList = ArtistLoader.getAllArtists(context);
+                            for (Artist artist : artistList) {
+                                String albumNmber = TimberUtils.makeLabel(context, R.plurals.Nalbums, artist.albumCount);
+                                String songCount = TimberUtils.makeLabel(context, R.plurals.Nsongs, artist.songCount);
+                                fillMediaItems(mediaItems, Integer.toString(TYPE_ARTIST_SONG_ALBUMS) + Long.toString(artist.id), artist.name, Uri.parse("android.resource://" +
+                                        "naman14.timber/drawable/ic_empty_music2"), TimberUtils.makeCombinedString(context, albumNmber, songCount), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE);
+                            }
+                            break;
+                        case TYPE_ALBUM:
+                            List<Album> albumList = AlbumLoader.getAllAlbums(context);
+                            for (Album album : albumList) {
+                                fillMediaItems(mediaItems, Integer.toString(TYPE_ALBUM_SONGS) + Long.toString(album.id), album.title, TimberUtils.getAlbumArtUri(album.id), album.artistName, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE);
+                            }
+                            break;
+                        case TYPE_SONG:
+                            List<Song> songList = SongLoader.getAllSongs(context);
+                            for (Song song : songList) {
+                                fillMediaItems(mediaItems, String.valueOf(song.id), song.title, TimberUtils.getAlbumArtUri(song.albumId), song.artistName, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE);
+                            }
+                            break;
+                        case TYPE_ALBUM_SONGS:
+                            List<Song> albumSongList = AlbumSongLoader.getSongsForAlbum(context, Long.parseLong(parentId.substring(1)));
+                            for (Song song : albumSongList) {
+                                fillMediaItems(mediaItems, String.valueOf(song.id), song.title, TimberUtils.getAlbumArtUri(song.albumId), song.artistName, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE);
+                            }
+                            break;
+                        case TYPE_ARTIST_SONG_ALBUMS:
+                            fillMediaItems(mediaItems, Integer.toString(TYPE_ARTIST_ALL_SONGS) + Long.parseLong(parentId.substring(1)), "All songs", Uri.parse("android.resource://" +
+                                    "naman14.timber/drawable/ic_empty_music2"), "All songs by artist", MediaBrowserCompat.MediaItem.FLAG_BROWSABLE);
+                            List<Album> artistAlbums = ArtistAlbumLoader.getAlbumsForArtist(context, Long.parseLong(parentId.substring(1)));
+                            for (Album album : artistAlbums) {
+                                String songCount = TimberUtils.makeLabel(context, R.plurals.Nsongs, album.songCount);
+                                fillMediaItems(mediaItems, Integer.toString(TYPE_ALBUM_SONGS) + Long.toString(album.id), album.title, TimberUtils.getAlbumArtUri(album.id), songCount, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE);
+
+                            }
+                            break;
+                        case TYPE_ARTIST_ALL_SONGS:
+                            List<Song> artistSongs = ArtistSongLoader.getSongsForArtist(context, Long.parseLong(parentId.substring(1)));
+                            for (Song song : artistSongs) {
+                                fillMediaItems(mediaItems, String.valueOf(song.id), song.title, TimberUtils.getAlbumArtUri(song.albumId), song.albumName, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE);
+                            }
+                            break;
+                        case TYPE_PLAYLIST:
+                            List<Playlist> playlistList = PlaylistLoader.getPlaylists(context, false);
+                            for (Playlist playlist : playlistList) {
+                                String songCount = TimberUtils.makeLabel(context, R.plurals.Nsongs, playlist.songCount);
+                                fillMediaItems(mediaItems, Integer.toString(TYPE_PLAYLIST_ALL_SONGS) + Long.toString(playlist.id), playlist.name,
+                                        Uri.parse("android.resource://" +
+                                                "naman14.timber/drawable/ic_empty_music2"), songCount, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE);
+                            }
+                            break;
+                        case TYPE_PLAYLIST_ALL_SONGS:
+                            List<Song> playlistSongs = PlaylistSongLoader.getSongsInPlaylist(context, Long.parseLong(parentId.substring(1)));
+                            for (Song song : playlistSongs) {
+                                fillMediaItems(mediaItems, String.valueOf(song.id), song.title, TimberUtils.getAlbumArtUri(song.albumId), song.albumName, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE);
+                            }
+                            break;
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                result.sendResult(mediaItems);
+            }
+        }.execute();
+    }
+
+    private void addMediaRoots(List<MediaBrowserCompat.MediaItem> mMediaRoot) {
+        mMediaRoot.add(new MediaBrowserCompat.MediaItem(
+                new MediaDescriptionCompat.Builder()
+                        .setMediaId(Integer.toString(TYPE_ARTIST))
+                        .setTitle(getString(R.string.artists))
+                        .setIconUri(Uri.parse("android.resource://" +
+                                "naman14.timber/drawable/ic_empty_music2"))
+                        .setSubtitle(getString(R.string.artists))
+                        .build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        ));
+
+        mMediaRoot.add(new MediaBrowserCompat.MediaItem(
+                new MediaDescriptionCompat.Builder()
+                        .setMediaId(Integer.toString(TYPE_ALBUM))
+                        .setTitle(getString(R.string.albums))
+                        .setIconUri(Uri.parse("android.resource://" +
+                                "naman14.timber/drawable/ic_empty_music2"))
+                        .setSubtitle(getString(R.string.albums))
+                        .build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        ));
+
+        mMediaRoot.add(new MediaBrowserCompat.MediaItem(
+                new MediaDescriptionCompat.Builder()
+                        .setMediaId(Integer.toString(TYPE_SONG))
+                        .setTitle(getString(R.string.songs))
+                        .setIconUri(Uri.parse("android.resource://" +
+                                "naman14.timber/drawable/ic_empty_music2"))
+                        .setSubtitle(getString(R.string.songs))
+                        .build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        ));
+
+        mMediaRoot.add(new MediaBrowserCompat.MediaItem(
+                new MediaDescriptionCompat.Builder()
+                        .setMediaId(Integer.toString(TYPE_PLAYLIST))
+                        .setTitle(getString(R.string.playlists))
+                        .setIconUri(Uri.parse("android.resource://" +
+                                "naman14.timber/drawable/ic_empty_music2"))
+                        .setSubtitle(getString(R.string.playlists))
+                        .build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        ));
+    }
+
+    private void fillMediaItems(List<MediaBrowserCompat.MediaItem> mediaItems, String mediaId, String title, Uri icon, String subTitle, int playableOrBrowsable) {
+        mediaItems.add(new MediaBrowserCompat.MediaItem(
+                new MediaDescriptionCompat.Builder()
+                        .setMediaId(mediaId)
+                        .setTitle(title)
+                        .setIconUri(icon)
+                        .setSubtitle(subTitle)
+                        .build(), playableOrBrowsable
+        ));
     }
 
     @Override

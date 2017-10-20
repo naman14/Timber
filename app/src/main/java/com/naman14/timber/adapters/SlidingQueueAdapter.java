@@ -33,14 +33,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
-public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapter.ItemHolder> {
+public class SlidingQueueAdapter extends RecyclerView.Adapter<SlidingQueueAdapter.ItemHolder> {
 
     public static int currentlyPlayingPosition;
     private List<Song> arraylist;
     private Activity mContext;
     private int lastPosition = -1;
 
-    public Timber4QueueAdapter(Activity context, List<Song> arraylist) {
+    public SlidingQueueAdapter(Activity context, List<Song> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
         currentlyPlayingPosition = MusicPlayer.getQueuePosition();
@@ -48,7 +48,7 @@ public class Timber4QueueAdapter extends RecyclerView.Adapter<Timber4QueueAdapte
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_queue_timber4_bottom, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song_sliding_queue, null);
         ItemHolder ml = new ItemHolder(v);
         return ml;
     }

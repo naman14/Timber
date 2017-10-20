@@ -163,6 +163,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position)).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
+                            case R.id.popup_song_share:
+                               TimberUtils.shareTrack(mContext, arraylist.get(position).id);
+                                break;
                             case R.id.popup_song_delete:
                                 long[] deleteIds = {arraylist.get(position).id};
                                 TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, SongsListAdapter.this, position);

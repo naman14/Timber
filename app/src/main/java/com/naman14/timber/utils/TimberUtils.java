@@ -306,5 +306,33 @@ public class TimberUtils {
         MusicPlayer.refresh();
     }
 
+    public static void shareTrack(final Context context, long id) {
+
+        final String[] projection = new String[]{
+                BaseColumns._ID, MediaStore.MediaColumns.DATA, MediaStore.Audio.AudioColumns.ALBUM_ID
+        };
+        final StringBuilder selection = new StringBuilder();
+        selection.append(BaseColumns._ID + " IN (");
+        selection.append(id);
+        selection.append(")");
+        final Cursor c = context.getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection.toString(),
+                null, null);
+
+        if (c == null) {
+            return;
+        }
+        c.moveToFirst();
+        try {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("audio/*");
+            share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(c.getString(1))));
+            context.startActivity(Intent.createChooser(share, "Share"));
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

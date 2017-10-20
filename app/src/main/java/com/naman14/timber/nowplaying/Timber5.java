@@ -1,17 +1,3 @@
-/*
- * Copyright (C) 2015 Naman Dwivedi
- *
- * Licensed under the GNU General Public License v3
- *
- * This is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- */
-
 package com.naman14.timber.nowplaying;
 
 import android.graphics.Bitmap;
@@ -20,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,25 +22,28 @@ import com.naman14.timber.utils.ImageUtils;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
-public class Timber4 extends BaseNowplayingFragment {
+/**
+ * Created by naman on 22/02/17.
+ */
+
+public class Timber5 extends BaseNowplayingFragment {
 
     ImageView mBlurredArt;
-    RecyclerView horizontalRecyclerview;
-    SlidingQueueAdapter horizontalAdapter;
+    RecyclerView recyclerView;
+    SlidingQueueAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
-                R.layout.fragment_timber4, container, false);
+                R.layout.fragment_timber5, container, false);
 
         setMusicStateListener();
         setSongDetails(rootView);
 
         mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
-        horizontalRecyclerview = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
-
-        setupHorizontalQueue();
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal) ;
         initGestures(mBlurredArt);
+        setupSlidingQueue();
 
         return rootView;
     }
@@ -110,12 +100,13 @@ public class Timber4 extends BaseNowplayingFragment {
         blurredAlbumArt.execute(loadedImage);
     }
 
-    private void setupHorizontalQueue() {
-        horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        horizontalAdapter = new SlidingQueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
-        horizontalRecyclerview.setAdapter(horizontalAdapter);
-        horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
+    private void setupSlidingQueue() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        adapter = new SlidingQueueAdapter((AppCompatActivity) getActivity(), QueueLoader.getQueueSongs(getActivity()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
     }
+
 
     private class setBlurredAlbumArt extends AsyncTask<Bitmap, Void, Drawable> {
 
@@ -123,7 +114,7 @@ public class Timber4 extends BaseNowplayingFragment {
         protected Drawable doInBackground(Bitmap... loadedImage) {
             Drawable drawable = null;
             try {
-                drawable = ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 6);
+                drawable = ImageUtils.createBlurredImageFromBitmap(loadedImage[0], getActivity(), 12);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -152,6 +143,5 @@ public class Timber4 extends BaseNowplayingFragment {
         protected void onPreExecute() {
         }
     }
-
 
 }

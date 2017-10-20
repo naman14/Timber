@@ -76,6 +76,13 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_lock_outline_white_24dp"
+            android:id="@+id/img_lock"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
     </FrameLayout>
 

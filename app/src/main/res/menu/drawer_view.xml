@@ -45,9 +45,6 @@
             android:id="@+id/nav_donate"
             android:title="Support development" />
 
-        <item
-            android:id="@+id/nav_help"
-            android:title="@string/help_and_feedback" />
     </group>
 
 </menu>

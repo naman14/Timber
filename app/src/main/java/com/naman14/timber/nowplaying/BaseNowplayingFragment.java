@@ -15,16 +15,21 @@
 package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
+import android.content.ComponentName;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +46,7 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.adapters.BaseQueueAdapter;
@@ -84,6 +90,34 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
     boolean fragmentPaused = false;
+    private static MediaBrowserCompat mMediaBrowser;
+
+    private final MediaBrowserCompat.ConnectionCallback mConnectionCallbacks =
+            new MediaBrowserCompat.ConnectionCallback() {
+                @Override
+                public void onConnected() {
+                    MediaSessionCompat.Token token = mMediaBrowser.getSessionToken();
+                    try {
+                        MediaControllerCompat mediaController =
+                                new MediaControllerCompat(getActivity(), token);
+                        MediaControllerCompat.setMediaController(getActivity(), mediaController);
+                        onMetaChanged(); // FIXME: https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowser-client.html#sync-with-mediasession
+                        buildTransportControls(); // FIXME
+                    } catch (RemoteException e) {
+                        e.printStackTrace(); // FIXME
+                    }
+                }
+
+                @Override
+                public void onConnectionSuspended() {
+                    // TODO: The Service has crashed. Disable transport controls until it automatically reconnects
+                }
+
+                @Override
+                public void onConnectionFailed() {
+                    // TODO: The Service has refused our connection
+                }
+            };
 
     //seekbar
     public Runnable mUpdateProgress = new Runnable() {
@@ -228,6 +262,27 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+        mMediaBrowser = new MediaBrowserCompat(getActivity(),
+                new ComponentName(getActivity(), MusicService.class),
+                mConnectionCallbacks,
+                null);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mMediaBrowser.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (MediaControllerCompat.getMediaController(getActivity()) != null) {
+            MediaControllerCompat.getMediaController(getActivity())
+                    .unregisterCallback(controllerCallback); // FIXME
+        }
+        mMediaBrowser.disconnect();
     }
 
     @Override

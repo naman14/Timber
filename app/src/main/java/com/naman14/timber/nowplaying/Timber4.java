@@ -47,7 +47,7 @@ public class Timber4 extends BaseNowplayingFragment {
                 R.layout.fragment_timber4, container, false);
 
         setMusicStateListener();
-        setSongDetails(rootView);
+        setSongDetails();
 
         mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
         horizontalRecyclerview = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);

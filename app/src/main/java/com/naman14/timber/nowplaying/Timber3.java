@@ -29,7 +29,7 @@ public class Timber3 extends BaseNowplayingFragment {
                 R.layout.fragment_timber3, container, false);
 
         setMusicStateListener();
-        setSongDetails(rootView);
+        setSongDetails();
 
         initGestures(rootView.findViewById(R.id.album_art));
 

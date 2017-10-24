@@ -321,7 +321,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
     }
 
-    public void setSongDetails(View view) {
+    public void setSongDetails() {
+        View view = getView();
 
         albumart = (ImageView) view.findViewById(R.id.album_art);
         shuffle = (ImageView) view.findViewById(R.id.shuffle);

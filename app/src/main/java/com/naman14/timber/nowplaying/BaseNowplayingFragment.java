@@ -37,6 +37,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -76,6 +77,7 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 import java.security.InvalidParameterException;
 
 public abstract class BaseNowplayingFragment extends Fragment implements MusicStateListener {
+    private static final String LOG_TAG = "BaseNowplayingFragment";
 
     ImageView albumart;
     ImageView shuffle;
@@ -98,6 +100,7 @@ public abstract class BaseNowplayingFragment extends Fragment implements MusicSt
             new MediaBrowserCompat.ConnectionCallback() {
                 @Override
                 public void onConnected() {
+                    Log.d(LOG_TAG, "Connected to MusicService");
                     MediaSessionCompat.Token token = mMediaBrowser.getSessionToken();
                     try {
                         MediaControllerCompat mediaController =
@@ -113,11 +116,13 @@ public abstract class BaseNowplayingFragment extends Fragment implements MusicSt
                 @Override
                 public void onConnectionSuspended() {
                     // TODO: The Service has crashed. Disable transport controls until it automatically reconnects
+                    Log.d(LOG_TAG, "TODO: MediaBrowserCompat.ConnectionCallback.onConnectionSuspended");
                 }
 
                 @Override
                 public void onConnectionFailed() {
                     // TODO: The Service has refused our connection
+                    Log.d(LOG_TAG, "TODO: MediaBrowserCompat.ConnectionCallback.onConnectionFailed");
                 }
             };
 
@@ -126,11 +131,13 @@ public abstract class BaseNowplayingFragment extends Fragment implements MusicSt
                 @Override
                 public void onMetadataChanged(MediaMetadataCompat metadata) {
                     // TODO
+                    Log.d(LOG_TAG, "TODO: MediaControllerCompat.Callback.onMetadataChanged");
                 }
 
                 @Override
                 public void onPlaybackStateChanged(PlaybackStateCompat state) {
                     // TODO
+                    Log.d(LOG_TAG, "TODO: MediaControllerCompat.Callback.onPlaybackStateChanged");
                 }
             };
 

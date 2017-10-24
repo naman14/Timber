@@ -28,8 +28,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -116,6 +118,19 @@ public abstract class BaseNowplayingFragment extends Fragment implements MusicSt
                 @Override
                 public void onConnectionFailed() {
                     // TODO: The Service has refused our connection
+                }
+            };
+
+    MediaControllerCompat.Callback controllerCallback =
+            new MediaControllerCompat.Callback() {
+                @Override
+                public void onMetadataChanged(MediaMetadataCompat metadata) {
+                    // TODO
+                }
+
+                @Override
+                public void onPlaybackStateChanged(PlaybackStateCompat state) {
+                    // TODO
                 }
             };
 
@@ -280,7 +295,7 @@ public abstract class BaseNowplayingFragment extends Fragment implements MusicSt
 
         if (MediaControllerCompat.getMediaController(getActivity()) != null) {
             MediaControllerCompat.getMediaController(getActivity())
-                    .unregisterCallback(controllerCallback); // FIXME
+                    .unregisterCallback(controllerCallback);
         }
         mMediaBrowser.disconnect();
     }

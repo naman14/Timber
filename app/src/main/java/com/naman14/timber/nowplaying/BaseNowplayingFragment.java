@@ -403,21 +403,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             }
         }
 
-        setSongDetails();
-
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
-            ATE.apply(this, "dark_theme");
-        } else {
-            ATE.apply(this, "light_theme");
-        }
-    }
-
-    private void setSongDetails() {
         updateSongDetails();
 
         if (recyclerView != null)
@@ -428,7 +413,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (next != null) {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view1) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -444,7 +429,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (previous != null) {
             previous.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view1) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -467,6 +452,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         updateShuffleState();
         updateRepeatState();
 
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
+            ATE.apply(this, "dark_theme");
+        } else {
+            ATE.apply(this, "light_theme");
+        }
     }
 
     public void updateShuffleState() {

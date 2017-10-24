@@ -206,7 +206,6 @@ public class MusicService extends MediaBrowserServiceCompat {
     private String mFileToPlay;
     private WakeLock mWakeLock;
     private AlarmManager mAlarmManager;
-    private PendingIntent mShutdownIntent;
     private boolean mShutdownScheduled;
     private NotificationManagerCompat mNotificationManager;
     private Cursor mCursor;
@@ -295,7 +294,6 @@ public class MusicService extends MediaBrowserServiceCompat {
             return true;
 
         } else if (mPlaylist.size() > 0 || mPlayerHandler.hasMessages(TRACK_ENDED)) {
-            scheduleDelayedShutdown();
             return true;
         }
         stopSelf(mServiceStartId);
@@ -378,9 +376,6 @@ public class MusicService extends MediaBrowserServiceCompat {
         shutdownIntent.setAction(SHUTDOWN);
 
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mShutdownIntent = PendingIntent.getService(this, 0, shutdownIntent, 0);
-
-        scheduleDelayedShutdown();
 
         reloadQueueAfterPermissionCheck();
         notifyChange(QUEUE_CHANGED);
@@ -473,8 +468,6 @@ public class MusicService extends MediaBrowserServiceCompat {
         audioEffectsIntent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
         sendBroadcast(audioEffectsIntent);
 
-
-        mAlarmManager.cancel(mShutdownIntent);
 
         mPlayerHandler.removeCallbacksAndMessages(null);
 
@@ -663,8 +656,6 @@ public class MusicService extends MediaBrowserServiceCompat {
 
             handleCommandIntent(intent);
         }
-
-        scheduleDelayedShutdown();
 
         if (intent != null && intent.getBooleanExtra(FROM_MEDIA_BUTTON, false)) {
             MediaButtonIntentReceiver.completeWakefulIntent(intent);
@@ -855,17 +846,9 @@ public class MusicService extends MediaBrowserServiceCompat {
         }
     }
 
-    private void scheduleDelayedShutdown() {
-        if (D) Log.v(TAG, "Scheduling shutdown in " + IDLE_DELAY + " ms");
-        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + IDLE_DELAY, mShutdownIntent);
-        mShutdownScheduled = true;
-    }
-
     private void cancelShutdown() {
         if (D) Log.d(TAG, "Cancelling delayed shutdown, scheduled = " + mShutdownScheduled);
         if (mShutdownScheduled) {
-            mAlarmManager.cancel(mShutdownIntent);
             mShutdownScheduled = false;
         }
     }
@@ -1079,7 +1062,6 @@ public class MusicService extends MediaBrowserServiceCompat {
             }
 
             if (shutdown) {
-                scheduleDelayedShutdown();
                 if (mIsSupposedToBePlaying) {
                     mIsSupposedToBePlaying = false;
                     notifyChange(PLAYSTATE_CHANGED);
@@ -2061,7 +2043,6 @@ public class MusicService extends MediaBrowserServiceCompat {
 
 
             if (!mIsSupposedToBePlaying) {
-                scheduleDelayedShutdown();
                 mLastPlayedTime = System.currentTimeMillis();
             }
 
@@ -2192,7 +2173,6 @@ public class MusicService extends MediaBrowserServiceCompat {
         synchronized (this) {
             if (mPlaylist.size() <= 0) {
                 if (D) Log.d(TAG, "No play queue");
-                scheduleDelayedShutdown();
                 return;
             }
             int pos = mNextPlayPos;
@@ -2217,7 +2197,6 @@ public class MusicService extends MediaBrowserServiceCompat {
         synchronized (this) {
             if (mPlaylist.size() <= 0) {
                 if (D) Log.d(TAG, "No play queue");
-                scheduleDelayedShutdown();
                 return;
             }
             if (pos < 0) {

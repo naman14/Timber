@@ -25,15 +25,13 @@ public class Timber3 extends BaseNowplayingFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(
-                R.layout.fragment_timber3, container, false);
-
-        setMusicStateListener();
-        setSongDetails();
-
-        initGestures(rootView.findViewById(R.id.album_art));
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_timber3, container, false);
     }
 
+    @Override
+    protected void buildTransportControls() {
+        setMusicStateListener();
+        setSongDetails();
+        initGestures(getView().findViewById(R.id.album_art));
+    }
 }

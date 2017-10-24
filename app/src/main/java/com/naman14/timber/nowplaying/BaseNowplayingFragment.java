@@ -73,7 +73,7 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.security.InvalidParameterException;
 
-public class BaseNowplayingFragment extends Fragment implements MusicStateListener {
+public abstract class BaseNowplayingFragment extends Fragment implements MusicStateListener {
 
     ImageView albumart;
     ImageView shuffle;
@@ -102,7 +102,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                                 new MediaControllerCompat(getActivity(), token);
                         MediaControllerCompat.setMediaController(getActivity(), mediaController);
                         onMetaChanged(); // FIXME: https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowser-client.html#sync-with-mediasession
-                        buildTransportControls(); // FIXME
+                        buildTransportControls();
                     } catch (RemoteException e) {
                         e.printStackTrace(); // FIXME
                     }
@@ -320,6 +320,8 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (mCircularProgress != null)
             mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
     }
+
+    protected abstract void buildTransportControls();
 
     public void setSongDetails() {
         View view = getView();

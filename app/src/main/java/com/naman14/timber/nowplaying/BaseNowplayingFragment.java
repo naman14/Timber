@@ -540,8 +540,15 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (songalbum != null)
             songalbum.setText(MusicPlayer.getAlbumName());
 
-        if (songartist != null)
+        if (songartist != null) {
             songartist.setText(MusicPlayer.getArtistName());
+            songartist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
+                }
+            });
+        }
 
         if (songduration != null && getActivity() != null)
             songduration.setText(TimberUtils.makeShortTimeString(getActivity(), MusicPlayer.duration() / 1000));

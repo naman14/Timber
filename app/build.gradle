@@ -14,6 +14,8 @@ android {
         //renderscript support mode is not supported for 21+ with gradle version 2.0
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
+        resValue "string", "fabric_api_key", "REPLACE ME"
+        resValue "string", "play_billing_license_key", "REPLACE ME"
     }
     buildTypes {
         release {

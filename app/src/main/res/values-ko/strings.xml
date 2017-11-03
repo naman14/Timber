@@ -54,7 +54,7 @@
     <string name="library">저장소</string>
     <string name="playlists">재생 목록</string>
     <string name="playing_queue">재생 중인 대기열</string>
-    <string name="now_playing">재생 주</string>
+    <string name="now_playing">재생 중</string>
     <string name="settings">설정</string>
     <string name="about">소개</string>
     <string name="help_and_feedback">도움말과 피드백</string>

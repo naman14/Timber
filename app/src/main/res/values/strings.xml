@@ -143,7 +143,8 @@
     <string name="add_to_queue">Add to queue</string>
     <string name="play_next">Play next</string>
     <string name="new_playlist">New playlist</string>
-
+    <string name="share">Share</string>
+    <string name="delete_from_device">Delete from device</string>
 
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>

@@ -1,8 +1,8 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="104dp"
-    android:layout_height="150dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:foreground="?selectableItemBackgroundBorderless"
     android:paddingLeft="25dp"
     app:cardUseCompatPadding="true"
@@ -10,17 +10,15 @@
     style="?attr/cardStyle">
 
     <RelativeLayout
-        android:layout_width="104dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.naman14.timber.widgets.SquareImageView
             android:id="@+id/album_art"
-            android:layout_width="104dp"
-            android:layout_height="104dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:transitionName="transition_album_art"/>
-
+            android:transitionName="transition_album_art" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +32,7 @@
 
             <TextView
                 android:id="@+id/album_title"
-                android:layout_width="104dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:ellipsize="end"
@@ -44,7 +42,7 @@
 
             <TextView
                 android:id="@+id/album_details"
-                android:layout_width="104dp"
+                android:layout_width="match_parent"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:layout_height="wrap_content"

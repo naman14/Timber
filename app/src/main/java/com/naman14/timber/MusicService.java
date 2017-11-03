@@ -1302,8 +1302,7 @@ public class MusicService extends Service {
                 ArrayList<Bundle> list = new ArrayList<>();
                 do {
                     TrackItem t = new TrackItem()
-                            .setArt(ImageLoader.getInstance()
-                                    .loadImageSync(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))).toString()))
+                            .setArt(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))))
                             .setTitle(c.getString(c.getColumnIndexOrThrow(AudioColumns.TITLE)))
                             .setArtist(c.getString(c.getColumnIndexOrThrow(AudioColumns.ARTIST)))
                             .setDuration(TimberUtils.makeShortTimeString(this, c.getInt(c.getColumnIndexOrThrow(AudioColumns.DURATION)) / 1000));

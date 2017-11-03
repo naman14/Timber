@@ -16,6 +16,7 @@ android {
         renderscriptSupportModeEnabled true
         resValue "string", "fabric_api_key", "REPLACE ME"
         resValue "string", "play_billing_license_key", "REPLACE ME"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -51,32 +52,32 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:design:$rootProject.supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:percent:$rootProject.supportLibraryVersion"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
 
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    compile 'net.steamcrafted:materialiconlib:1.0.3'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'de.Maxr1998:track-selector-lib:1.2'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    implementation 'net.steamcrafted:materialiconlib:1.0.3'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    implementation 'com.squareup.okhttp:okhttp:2.3.0'
+    implementation 'com.google.code.gson:gson:2.3'
+    implementation 'de.Maxr1998:track-selector-lib:1.2'
 
-    compile 'com.afollestad.material-dialogs:core:0.9.0.2'
-    compile 'com.afollestad.material-dialogs:commons:0.9.0.2'
+    implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.0.2'
 
-    compile('com.github.naman14:app-theme-engine:0.5.2@aar') {
+    implementation('com.github.naman14:app-theme-engine:0.5.2@aar') {
         transitive = true
     }
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
-    compile 'com.anjlab.android.iab.v3:library:1.0.+'
+    implementation 'com.anjlab.android.iab.v3:library:1.0.+'
 
 
 }

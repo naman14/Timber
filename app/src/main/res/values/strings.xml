@@ -104,11 +104,11 @@
     <string name="albumart_lockscreen">Lockscreen</string>
     <string name="albumart_lockscreen_summary">Show album art in lockscreen</string>
 
-    <string name="load_artist_image">Load artist images</string>
-    <string name="load_artist_image_summary">Load artist images from lastfm</string>
+    <string name="load_artist_album_image">Load artist/album images</string>
+    <string name="load_artist_album_image_summary">Load artist/album images from lastfm</string>
 
-    <string name="load_artist_image_mobile">Load artist images on mobile data</string>
-    <string name="load_artist_image_mobile_summary">Load artist images even if there is no wifi</string>
+    <string name="load_artist_album_image_mobile">Load artist/album images on mobile data</string>
+    <string name="load_artist_album_image_mobile_summary">Load artist/album images even if there is no wifi</string>
 
     <string name="gestures">Gestures</string>
     <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>

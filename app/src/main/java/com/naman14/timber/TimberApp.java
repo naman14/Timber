@@ -15,7 +15,6 @@
 package com.naman14.timber;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.afollestad.appthemeengine.ATE;
 import com.crashlytics.android.Crashlytics;
@@ -57,7 +56,8 @@ public class TimberApp extends Application {
 
             @Override
             protected InputStream getStreamFromNetwork(String imageUri, Object extra) throws IOException {
-                if (prefs.loadArtistImages()) return super.getStreamFromNetwork(imageUri, extra);
+                if (prefs.loadArtistAndAlbumImages())
+                    return super.getStreamFromNetwork(imageUri, extra);
                 throw new IOException();
             }
         }).build();

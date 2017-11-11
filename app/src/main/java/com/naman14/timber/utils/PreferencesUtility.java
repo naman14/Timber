@@ -56,8 +56,8 @@ public final class PreferencesUtility {
     public static final String FULL_UNLOCKED = "full_version_unlocked";
 
     private static final String SHOW_LOCKSCREEN_ALBUMART = "show_albumart_lockscreen";
-    private static final String ARTIST_IMAGE = "artist_image";
-    private static final String ARTIST_IMAGE_MOBILE = "artist_image_mobile";
+    private static final String ARTIST_ALBUM_IMAGE = "artist_album_image";
+    private static final String ARTIST_ALBUM_IMAGE_MOBILE = "artist_album_image_mobile";
 
     private static PreferencesUtility sInstance;
 
@@ -274,9 +274,9 @@ public final class PreferencesUtility {
         context.startService(intent);
     }
 
-    public boolean loadArtistImages() {
-        if (mPreferences.getBoolean(ARTIST_IMAGE, true)) {
-            if (!mPreferences.getBoolean(ARTIST_IMAGE_MOBILE, false)) {
+    public boolean loadArtistAndAlbumImages() {
+        if (mPreferences.getBoolean(ARTIST_ALBUM_IMAGE, true)) {
+            if (!mPreferences.getBoolean(ARTIST_ALBUM_IMAGE_MOBILE, false)) {
                 if (connManager == null) connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo ni = connManager.getActiveNetworkInfo();
                 return ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI;

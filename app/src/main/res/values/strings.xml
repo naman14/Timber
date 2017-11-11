@@ -156,5 +156,7 @@
     <string name="lastfm_loged_in">Logged in as %s</string>
 
     <string name="cancel">Cancel</string>
+    <string name="always_load_album_images_lastfm">Always load album images from Last.fm</string>
+    <string name="always_load_album_images_lastfm_summary">If unchecked, album art will be fetched locally from song file if available</string>
 
 </resources>

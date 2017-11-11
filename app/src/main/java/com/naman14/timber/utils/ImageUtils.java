@@ -58,6 +58,15 @@ public class ImageUtils {
 
     public static void loadAlbumArtIntoView(final long albumId, final ImageView view,
                                             final ImageLoadingListener listener) {
+        if (PreferencesUtility.getInstance(view.getContext()).alwaysLoadAlbumImagesFromLastfm()) {
+            loadAlbumArtFromLastfm(albumId, view);
+        } else {
+            loadAlbumArtFromDiskWithLastfmFallback(albumId, view, listener);
+        }
+    }
+
+    private static void loadAlbumArtFromDiskWithLastfmFallback(final long albumId, ImageView view,
+                                                               final ImageLoadingListener listener) {
         ImageLoader.getInstance()
                 .displayImage(TimberUtils.getAlbumArtUri(albumId).toString(),
                               view,

@@ -104,11 +104,11 @@
     <string name="albumart_lockscreen">锁屏</string>
     <string name="albumart_lockscreen_summary">在锁屏界面显示专辑封面</string>
 
-    <string name="load_artist_image">加载艺术家图像</string>
-    <string name="load_artist_image_summary">从 Last.fm 加载艺术家图像</string>
+    <string name="load_artist_album_image">加载艺术家图像</string>
+    <string name="load_artist_album_image_summary">从 Last.fm 加载艺术家图像</string>
 
-    <string name="load_artist_image_mobile">从设备数据加载艺术家图像</string>
-    <string name="load_artist_image_mobile_summary">无 Wi-Fi 时也能加载艺术家图像</string>
+    <string name="load_artist_album_image_mobile">从设备数据加载艺术家图像</string>
+    <string name="load_artist_album_image_mobile_summary">无 Wi-Fi 时也能加载艺术家图像</string>
 
     <string name="gestures">手势</string>
     <string name="switching_tracks_by_gestures">使用手势切换曲目</string>

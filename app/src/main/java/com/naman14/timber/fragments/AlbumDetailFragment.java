@@ -53,13 +53,12 @@ import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -171,11 +170,7 @@ public class AlbumDetailFragment extends Fragment {
     }
 
     private void setAlbumart() {
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(albumID).toString(), albumArt,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
-                        .resetViewBeforeLoading(true)
-                        .build(), new ImageLoadingListener() {
+        ImageUtils.loadAlbumArtIntoView(album.id, albumArt, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
@@ -188,7 +183,6 @@ public class AlbumDetailFragment extends Fragment {
                                 .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
                         ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
                         fab.setImageDrawable(builder.build());
-
                     }
 
                     @Override
@@ -359,5 +353,4 @@ public class AlbumDetailFragment extends Fragment {
         }
 
     }
-
 }

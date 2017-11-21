@@ -5,4 +5,9 @@
         android:id="@+id/action_storages"
         android:title="@string/select_storage"
         android:orderInCategory="99" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_mark_dir"
+        android:title="@string/action_mark_dir"
+        android:orderInCategory="102" app:showAsAction="never" />
 </menu>

@@ -85,7 +85,7 @@ public class SongsFragment extends Fragment implements MusicStateListener {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(final Void... unused) {
-                List<Song> songList = SongLoader.getAllSongs(getActivity());
+                List<Song> songList = SongLoader.getAllSongs(getActivity(), null);
                 mAdapter.updateDataSet(songList);
                 return null;
             }
@@ -144,8 +144,10 @@ public class SongsFragment extends Fragment implements MusicStateListener {
 
         @Override
         protected String doInBackground(String... params) {
-            if (getActivity() != null)
-                mAdapter = new SongsListAdapter((AppCompatActivity) getActivity(), SongLoader.getAllSongs(getActivity()), false, false);
+            if (getActivity() != null) {
+                String lastFolder = PreferencesUtility.getInstance(getActivity()).getLastFolder();
+                mAdapter = new SongsListAdapter((AppCompatActivity) getActivity(), SongLoader.getAllSongs(getActivity(), lastFolder), false, false);
+            }
             return "Executed";
         }
 

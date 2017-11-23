@@ -115,8 +115,12 @@ public class SongLoader {
         else return new Song();
     }
 
-    public static ArrayList<Song> getAllSongs(Context context) {
-        return getSongsForCursor(makeSongCursor(context, null, null));
+    public static ArrayList<Song> getAllSongs(Context context, String lastFolder) {
+        String selection = null;
+        if(lastFolder != null && !lastFolder.isEmpty()) {
+            selection = MediaStore.Audio.Media.DATA + " LIKE '" + lastFolder + "%'";
+        }
+        return getSongsForCursor(makeSongCursor(context, selection, null));
     }
 
     public static long[] getSongListInFolder(Context context, String path) {

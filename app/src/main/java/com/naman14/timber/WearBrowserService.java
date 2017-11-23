@@ -253,7 +253,7 @@ public class WearBrowserService extends MediaBrowserService {
                             }
                             break;
                         case TYPE_SONG:
-                            List<Song> songList = SongLoader.getAllSongs(mContext);
+                            List<Song> songList = SongLoader.getAllSongs(mContext, null);
                             for (Song song : songList) {
                                 fillMediaItems(mediaItems, String.valueOf(song.id), song.title, TimberUtils.getAlbumArtUri(song.albumId), song.artistName, MediaBrowser.MediaItem.FLAG_PLAYABLE);
                             }

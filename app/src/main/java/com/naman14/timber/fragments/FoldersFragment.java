@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.R;
@@ -101,6 +102,11 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
             new StorageSelectDialog(getActivity())
                     .setDirSelectListener(this)
                     .show();
+        } else if(item.getItemId() == R.id.action_mark_dir) {
+            String lastFolder = FolderAdapter.getmRoot().toString();
+            PreferencesUtility.getInstance(getActivity()).storeLastFolder(lastFolder);
+            Toast.makeText(getActivity(), "Directory set", Toast.LENGTH_LONG).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

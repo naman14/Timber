@@ -212,10 +212,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             case R.id.action_equalizer:
                 NavigationUtils.navigateToEqualizer(this);
                 return true;
-            case R.id.action_mark_dir:
-                Toast.makeText(this, "Directory set", Toast.LENGTH_LONG).show();
-                return true;
-
         }
         return super.onOptionsItemSelected(item);
     }

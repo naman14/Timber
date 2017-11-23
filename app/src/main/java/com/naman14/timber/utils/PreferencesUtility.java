@@ -253,6 +253,7 @@ public final class PreferencesUtility {
         return mPreferences.getString(LAST_FOLDER, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
     }
 
+
     public boolean fullUnlocked() {
         return mPreferences.getBoolean(FULL_UNLOCKED, false);
     }

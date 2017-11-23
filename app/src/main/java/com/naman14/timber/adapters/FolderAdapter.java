@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
@@ -42,11 +41,10 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
     @NonNull
     private List<File> mFileSet;
     private List<Song> mSongs;
-    private File mRoot;
+    private static File mRoot;
     private Activity mContext;
     private final Drawable[] mIcons;
     private boolean mBusy = false;
-
 
     public FolderAdapter(Activity context, File root) {
         mContext = context;
@@ -138,6 +136,11 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
         }
     }
 
+
+    public static File getmRoot() {
+        return mRoot;
+    }
+
     public boolean updateDataSetAsync(File newRoot) {
         if (mBusy) {
             return false;
@@ -147,7 +150,6 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
             return false;
         }
         mRoot = newRoot;
-        Toast.makeText(mContext,  mRoot.getPath(), Toast.LENGTH_SHORT).show();
         new NavigateTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mRoot);
         return true;
     }
@@ -167,7 +169,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
             return "";
         }
     }
-//TODO
+
     private void getSongsForFiles(List<File> files) {
         mSongs.clear();
         for (File file : files) {

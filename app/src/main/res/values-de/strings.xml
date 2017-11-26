@@ -101,5 +101,7 @@
 
     <string name="cancel">Abbrechen</string>
 
+    <string name="menu_show_lyrics">Songtext anzeigen</string>
+    <string name="no_lyrics">Songtext nicht gefunden.</string>
 
 </resources>

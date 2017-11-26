@@ -25,7 +25,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.ImageUtils;
 
@@ -76,12 +78,22 @@ public class Timber2 extends BaseNowplayingFragment {
     public void updateRepeatState() {
         if (repeat != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
 
             if (MusicPlayer.getRepeatMode() == 0) {
                 builder.setColor(Color.WHITE);
             } else builder.setColor(accentColor);
+
+            if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_NONE) {
+                builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
+                builder.setColor(Color.WHITE);
+            } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_CURRENT) {
+                builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT_ONCE);
+                builder.setColor(accentColor);
+            } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_ALL) {
+                builder.setColor(accentColor);
+                builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
+            }
 
             repeat.setImageDrawable(builder.build());
             repeat.setOnClickListener(new View.OnClickListener() {

@@ -607,6 +607,8 @@ public class MusicPlayer {
             try {
                 mService.seek(position);
             } catch (final RemoteException ignored) {
+            } catch (IllegalStateException ignored) {
+
             }
         }
     }

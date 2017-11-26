@@ -61,7 +61,7 @@ dependencies {
     implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    implementation 'net.steamcrafted:materialiconlib:1.0.3'
+    implementation 'net.steamcrafted:materialiconlib:1.1.4'
     implementation 'com.squareup.retrofit:retrofit:1.9.0'
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     implementation 'com.squareup.okhttp:okhttp:2.3.0'

@@ -41,6 +41,7 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.adapters.BaseQueueAdapter;
@@ -444,14 +445,19 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void updateRepeatState() {
         if (repeat != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
 
-            if (getActivity() != null) {
-                if (MusicPlayer.getRepeatMode() == 0) {
+                if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_NONE) {
+                    builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
                     builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
-                } else builder.setColor(Config.accentColor(getActivity(), ateKey));
-            }
+                } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_CURRENT) {
+                    builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT_ONCE);
+                    builder.setColor(Config.accentColor(getActivity(), ateKey));
+                } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_ALL) {
+                    builder.setColor(Config.accentColor(getActivity(), ateKey));
+                    builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
+                }
+
 
             repeat.setImageDrawable(builder.build());
             repeat.setOnClickListener(new View.OnClickListener() {

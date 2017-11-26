@@ -73,6 +73,8 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
             if (MusicPlayer.isPlaying()) {
                 itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
+            } else {
+                itemHolder.visualizer.setVisibility(View.GONE);
             }
         } else {
             itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));

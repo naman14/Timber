@@ -379,6 +379,13 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
     }
 
     @Override
+    public void onMetaChanged() {
+        super.onMetaChanged();
+        if (mAdapter != null)
+            mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public int getToolbarColor() {
         return Color.TRANSPARENT;
     }

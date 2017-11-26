@@ -86,18 +86,22 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         itemHolder.artist.setText(localItem.artistName);
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
             itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));
             if (MusicPlayer.isPlaying()) {
                 itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
+            } else {
+                itemHolder.visualizer.setVisibility(View.GONE);
             }
         } else {
-            if (isPlaylist)
-                itemHolder.title.setTextColor(Color.WHITE);
-            else
-                itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
             itemHolder.visualizer.setVisibility(View.GONE);
+            if (isPlaylist) {
+                itemHolder.title.setTextColor(Color.WHITE);
+            } else {
+                itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
+            }
         }
 
 

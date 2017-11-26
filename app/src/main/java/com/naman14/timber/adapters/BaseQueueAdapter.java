@@ -72,6 +72,8 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
             if (MusicPlayer.isPlaying()) {
                 itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
+            } else {
+                itemHolder.visualizer.setVisibility(View.GONE);
             }
         } else {
             itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));

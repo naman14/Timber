@@ -8,11 +8,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.MenuItem;
 
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.naman14.timber.R;
+import com.naman14.timber.subfragments.LyricsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -35,6 +37,17 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment).commit();
 
+    }
+    
+
+    private void displayLyrics() {
+        final LyricsFragment fragment = new LyricsFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.lyrics_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @StyleRes
@@ -61,4 +74,14 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
             recreate();
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_lyrics) {
+            displayLyrics();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

@@ -156,6 +156,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
     }
 
     @Override
+    public long getItemId(int position) {
+        return arraylist.get(position).id;
+    }
+
+    @Override
     public int getItemCount() {
         return (null != arraylist ? arraylist.size() : 0);
     }

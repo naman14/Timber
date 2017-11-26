@@ -48,6 +48,10 @@ public class TimberUtils {
     public static final String MUSIC_ONLY_SELECTION = MediaStore.Audio.AudioColumns.IS_MUSIC + "=1"
             + " AND " + MediaStore.Audio.AudioColumns.TITLE + " != ''";
 
+    public static boolean isOreo() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+    }
+
     public static boolean isMarshmallow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }

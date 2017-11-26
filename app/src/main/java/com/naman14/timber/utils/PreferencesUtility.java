@@ -83,14 +83,6 @@ public final class PreferencesUtility {
         mPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    public boolean getAnimations() {
-        return mPreferences.getBoolean(TOGGLE_ANIMATIONS, true);
-    }
-
-    public boolean getSystemAnimations() {
-        return mPreferences.getBoolean(TOGGLE_SYSTEM_ANIMATIONS, true);
-    }
-
     public boolean isArtistsInGrid() {
         return mPreferences.getBoolean(TOGGLE_ARTIST_GRID, true);
     }

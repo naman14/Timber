@@ -14,34 +14,6 @@
     <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/personalisation">
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
-            android:defaultValue="true"
-            android:key="toggle_animations"
-            android:summary="@string/toggle_animations"
-            android:title="@string/animations"
-            app:ateKey_pref_checkBox="?ate_key" />
-
-        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
-            android:defaultValue="true"
-            android:key="toggle_system_animations"
-            android:summary="@string/toggle_system_animations"
-            android:title="@string/system_animations"
-            app:ateKey_pref_checkBox="?ate_key" />
-
-        <!--<SwitchPreference-->
-        <!--android:defaultValue="false"-->
-        <!--android:key="toggle_artist_grid"-->
-        <!--android:summary="@string/toggle_artists_grid"-->
-        <!--android:title="@string/artist_in_grid"/>-->
-
-        <!--<ListPreference-->
-        <!--android:defaultValue="light"-->
-        <!--android:entries="@array/pref_theme_entries"-->
-        <!--android:entryValues="@array/pref_theme_values"-->
-        <!--android:key="theme_preference"-->
-        <!--android:summary="@string/choose_theme_throughout"-->
-        <!--android:title="@string/select_theme" />-->
-
-        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="false"
             android:key="dark_theme"
             android:persistent="true"

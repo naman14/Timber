@@ -105,7 +105,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         }
 
 
-        if (animate && isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
+        if (animate && isPlaylist) {
             if (TimberUtils.isLollipop())
                 setAnimation(itemHolder.itemView, i);
             else {

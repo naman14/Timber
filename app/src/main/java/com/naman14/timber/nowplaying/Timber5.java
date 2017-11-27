@@ -35,18 +35,18 @@ public class Timber5 extends BaseNowplayingFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(
-                R.layout.fragment_timber5, container, false);
+        return inflater.inflate(R.layout.fragment_timber5, container, false);
+    }
 
+    @Override
+    protected void buildTransportControls() {
         setMusicStateListener();
-        setSongDetails(rootView);
+        setSongDetails();
 
-        mBlurredArt = (ImageView) rootView.findViewById(R.id.album_art_blurred);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal) ;
+        mBlurredArt = (ImageView) getView().findViewById(R.id.album_art_blurred);
+        recyclerView = (RecyclerView) getView().findViewById(R.id.queue_recyclerview_horizontal) ;
         initGestures(mBlurredArt);
         setupSlidingQueue();
-
-        return rootView;
     }
 
     @Override

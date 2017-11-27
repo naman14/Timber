@@ -15,21 +15,29 @@
 package com.naman14.timber.nowplaying;
 
 import android.animation.ObjectAnimator;
+import android.content.ComponentName;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -68,7 +76,8 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.security.InvalidParameterException;
 
-public class BaseNowplayingFragment extends Fragment implements MusicStateListener {
+public abstract class BaseNowplayingFragment extends Fragment implements MusicStateListener {
+    private static final String LOG_TAG = "BaseNowplayingFragment";
 
     ImageView albumart;
     ImageView shuffle;
@@ -85,6 +94,52 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
     boolean fragmentPaused = false;
+    private static MediaBrowserCompat mMediaBrowser;
+
+    private final MediaBrowserCompat.ConnectionCallback mConnectionCallbacks =
+            new MediaBrowserCompat.ConnectionCallback() {
+                @Override
+                public void onConnected() {
+                    Log.d(LOG_TAG, "Connected to MusicService");
+                    MediaSessionCompat.Token token = mMediaBrowser.getSessionToken();
+                    try {
+                        MediaControllerCompat mediaController =
+                                new MediaControllerCompat(getActivity(), token);
+                        MediaControllerCompat.setMediaController(getActivity(), mediaController);
+                        onMetaChanged(); // FIXME: https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowser-client.html#sync-with-mediasession
+                        buildTransportControls();
+                    } catch (RemoteException e) {
+                        e.printStackTrace(); // FIXME
+                    }
+                }
+
+                @Override
+                public void onConnectionSuspended() {
+                    // TODO: The Service has crashed. Disable transport controls until it automatically reconnects
+                    Log.d(LOG_TAG, "TODO: MediaBrowserCompat.ConnectionCallback.onConnectionSuspended");
+                }
+
+                @Override
+                public void onConnectionFailed() {
+                    // TODO: The Service has refused our connection
+                    Log.d(LOG_TAG, "TODO: MediaBrowserCompat.ConnectionCallback.onConnectionFailed");
+                }
+            };
+
+    MediaControllerCompat.Callback controllerCallback =
+            new MediaControllerCompat.Callback() {
+                @Override
+                public void onMetadataChanged(MediaMetadataCompat metadata) {
+                    // TODO
+                    Log.d(LOG_TAG, "TODO: MediaControllerCompat.Callback.onMetadataChanged");
+                }
+
+                @Override
+                public void onPlaybackStateChanged(PlaybackStateCompat state) {
+                    // TODO
+                    Log.d(LOG_TAG, "TODO: MediaControllerCompat.Callback.onPlaybackStateChanged");
+                }
+            };
 
     //seekbar
     public Runnable mUpdateProgress = new Runnable() {
@@ -229,6 +284,27 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+        mMediaBrowser = new MediaBrowserCompat(getActivity(),
+                new ComponentName(getActivity(), MusicService.class),
+                mConnectionCallbacks,
+                null);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mMediaBrowser.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (MediaControllerCompat.getMediaController(getActivity()) != null) {
+            MediaControllerCompat.getMediaController(getActivity())
+                    .unregisterCallback(controllerCallback);
+        }
+        mMediaBrowser.disconnect();
     }
 
     @Override
@@ -270,7 +346,10 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
     }
 
-    public void setSongDetails(View view) {
+    protected abstract void buildTransportControls();
+
+    public void setSongDetails() {
+        View view = getView();
 
         albumart = (ImageView) view.findViewById(R.id.album_art);
         shuffle = (ImageView) view.findViewById(R.id.shuffle);
@@ -352,21 +431,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             }
         }
 
-        setSongDetails();
-
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
-            ATE.apply(this, "dark_theme");
-        } else {
-            ATE.apply(this, "light_theme");
-        }
-    }
-
-    private void setSongDetails() {
         updateSongDetails();
 
         if (recyclerView != null)
@@ -377,7 +441,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (next != null) {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view1) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -393,7 +457,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (previous != null) {
             previous.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view1) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -416,6 +480,16 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         updateShuffleState();
         updateRepeatState();
 
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
+            ATE.apply(this, "dark_theme");
+        } else {
+            ATE.apply(this, "light_theme");
+        }
     }
 
     public void updateShuffleState() {

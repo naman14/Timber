@@ -16,17 +16,13 @@
 package com.naman14.timber.activities;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.media.session.MediaSessionManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
@@ -36,7 +32,6 @@ import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
-import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
@@ -50,20 +45,16 @@ import com.naman14.timber.utils.TimberUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.naman14.timber.MusicPlayer.mService;
 
-public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
+public class BaseActivity extends ATEActivity implements MusicStateListener {
 
     private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
-    private MusicPlayer.ServiceToken mToken;
     private PlaybackStatus mPlaybackStatus;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mToken = MusicPlayer.bindToService(this, this);
-
         mPlaybackStatus = new PlaybackStatus(this);
         //make volume keys change multimedia volume even if music is not playing now
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -92,8 +83,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
 
     @Override
@@ -103,26 +92,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     }
 
     @Override
-    public void onServiceConnected(final ComponentName name, final IBinder service) {
-        mService = ITimberService.Stub.asInterface(service);
-
-        onMetaChanged();
-    }
-
-
-    @Override
-    public void onServiceDisconnected(final ComponentName name) {
-        mService = null;
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Unbind from the service
-        if (mToken != null) {
-            MusicPlayer.unbindFromService(mToken);
-            mToken = null;
-        }
 
         try {
             unregisterReceiver(mPlaybackStatus);

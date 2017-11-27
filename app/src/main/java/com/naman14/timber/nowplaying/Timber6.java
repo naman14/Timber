@@ -31,28 +31,28 @@ public class Timber6 extends BaseNowplayingFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(
-                R.layout.fragment_timber6, container, false);
+        return inflater.inflate(R.layout.fragment_timber6, container, false);
+    }
 
+    @Override
+    protected void buildTransportControls() {
         setMusicStateListener();
-        setSongDetails(rootView);
+        setSongDetails();
 
-        initGestures(rootView.findViewById(R.id.album_art));
+        initGestures(getView().findViewById(R.id.album_art));
 
-        ((SeekBar) rootView.findViewById(R.id.song_progress)).getProgressDrawable().setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY));
-        ((SeekBar) rootView.findViewById(R.id.song_progress)).getThumb().setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP));
+        ((SeekBar) getView().findViewById(R.id.song_progress)).getProgressDrawable().setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY));
+        ((SeekBar) getView().findViewById(R.id.song_progress)).getThumb().setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP));
 
-        nextSong = (TextView) rootView.findViewById(R.id.title_next);
-        nextArt = (CircleImageView) rootView.findViewById(R.id.album_art_next);
+        nextSong = (TextView) getView().findViewById(R.id.title_next);
+        nextArt = (CircleImageView) getView().findViewById(R.id.album_art_next);
 
-        rootView.findViewById(R.id.nextView).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.nextView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MusicPlayer.setQueuePosition(MusicPlayer.getQueuePosition() + 1);
             }
         });
-
-        return rootView;
     }
 
     @Override

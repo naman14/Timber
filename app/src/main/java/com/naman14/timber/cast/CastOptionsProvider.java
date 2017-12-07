@@ -9,7 +9,7 @@ import com.naman14.timber.R;
 
 import java.util.List;
 
-class CastOptionsProvider implements OptionsProvider {
+public class CastOptionsProvider implements OptionsProvider {
 
     @Override
     public CastOptions getCastOptions(Context appContext) {

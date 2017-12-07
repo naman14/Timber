@@ -44,7 +44,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
+public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
     public int currentlyPlayingPosition;
     private List<Song> arraylist;
@@ -241,7 +241,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+                    playAll(mContext, songIDs, getAdapterPosition(), -1,
+                            TimberUtils.IdType.NA, false, arraylist.get(getAdapterPosition()));
                     Handler handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override

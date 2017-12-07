@@ -36,8 +36,13 @@ import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.Session;
+import com.google.android.gms.cast.framework.SessionManager;
+import com.google.android.gms.cast.framework.SessionManagerListener;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.cast.SimpleSessionManagerListener;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.FoldersFragment;
@@ -162,6 +167,25 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             finish();
         }
     };
+
+    private CastSession mCastSession;
+    private SessionManager mSessionManager;
+    private final SessionManagerListener mSessionManagerListener =
+            new SessionManagerListenerImpl();
+
+    private class SessionManagerListenerImpl extends SimpleSessionManagerListener {
+        @Override
+        public void onSessionStarted(Session session, String sessionId) {
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onSessionResumed(Session session, boolean wasSuspended) {
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onSessionEnded(Session session, int error) {
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -413,6 +437,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     private void initCast() {
         CastContext castContext = CastContext.getSharedInstance(this);
+        mSessionManager = castContext.getSessionManager();
+
     }
 
     @Override
@@ -423,7 +449,20 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     @Override
     public void onResume() {
+        mCastSession = mSessionManager.getCurrentCastSession();
+        mSessionManager.addSessionManagerListener(mSessionManagerListener);
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
+        mCastSession = null;
+    }
+
+    public CastSession getCastSession() {
+        return mCastSession;
     }
 
     @Override

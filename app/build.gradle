@@ -16,6 +16,7 @@ android {
         renderscriptSupportModeEnabled true
         resValue "string", "fabric_api_key", "REPLACE ME"
         resValue "string", "play_billing_license_key", "REPLACE ME"
+//        resValue "string", "cast_app_id", "REPLACE ME"
         multiDexEnabled true
     }
     buildTypes {
@@ -34,6 +35,7 @@ android {
 
             resValue "string", "fabric_api_key", "12345"
             resValue "string", "play_billing_license_key", "12345"
+//            resValue "string", "cast_app_id", "12345"
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -59,6 +61,9 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
+
+    implementation "com.android.support:mediarouter-v7:$rootProject.supportLibraryVersion"
+    implementation 'com.google.android.gms:play-services-cast-framework:10.2.6'
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     implementation 'net.steamcrafted:materialiconlib:1.1.4'

@@ -111,6 +111,11 @@
             android:name="io.fabric.ApiKey"
             android:value="@string/fabric_api_key" />
 
+        <meta-data
+            android:name=
+                "com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="com.naman14.timber.cast.CastOptionsProvider" />
+
         <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

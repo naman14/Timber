@@ -83,6 +83,7 @@ dependencies {
         transitive = true;
     }
     implementation 'com.anjlab.android.iab.v3:library:1.0.+'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
 
 
 }

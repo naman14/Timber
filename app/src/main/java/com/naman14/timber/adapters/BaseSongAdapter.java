@@ -1,7 +1,6 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,8 +13,11 @@ import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.common.images.WebImage;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.activities.MainActivity;
+import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.TimberUtils;
+
+import java.io.IOException;
 
 /**
  * Created by naman on 7/12/17.
@@ -63,16 +65,20 @@ public class BaseSongAdapter<V extends RecyclerView.ViewHolder> extends Recycler
 
                 musicMetadata.putString(MediaMetadata.KEY_TITLE, currentSong.title);
                 musicMetadata.putString(MediaMetadata.KEY_SUBTITLE, currentSong.artistName);
-                musicMetadata.addImage(new WebImage(TimberUtils.getAlbumArtUri(currentSong.albumId)));
+                musicMetadata.addImage(new WebImage(Uri.parse("192.168.1.5:8080/albumart")));
 
-                MediaInfo mediaInfo = new MediaInfo.Builder("url")
-                        .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
-                        .setContentType("audio/mpeg")
-                        .setMetadata(musicMetadata)
-                        .setStreamDuration(currentSong.duration * 1000)
-                        .build();
-                RemoteMediaClient remoteMediaClient = castSession.getRemoteMediaClient();
-                remoteMediaClient.load(mediaInfo, true, position);
+                try {
+                    MediaInfo mediaInfo = new MediaInfo.Builder("192.168.1.5:8080/song")
+                            .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
+                            .setContentType("audio/mpeg")
+                            .setMetadata(musicMetadata)
+                            .setStreamDuration(currentSong.duration * 1000)
+                            .build();
+                    RemoteMediaClient remoteMediaClient = castSession.getRemoteMediaClient();
+                    remoteMediaClient.load(mediaInfo, true, position);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             } else {
                 MusicPlayer.playAll(context, list, position, -1, TimberUtils.IdType.NA, false);

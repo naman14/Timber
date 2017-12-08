@@ -40,9 +40,11 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.Session;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
+import com.google.android.gms.cast.framework.media.widget.MiniControllerFragment;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.cast.SimpleSessionManagerListener;
+import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.FoldersFragment;
@@ -60,6 +62,7 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -172,18 +175,25 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     private SessionManager mSessionManager;
     private final SessionManagerListener mSessionManagerListener =
             new SessionManagerListenerImpl();
+    private WebServer castServer;
 
     private class SessionManagerListenerImpl extends SimpleSessionManagerListener {
         @Override
         public void onSessionStarted(Session session, String sessionId) {
             invalidateOptionsMenu();
+            mCastSession = mSessionManager.getCurrentCastSession();
+            startCastServer();
+            showCastMiniController();
         }
         @Override
         public void onSessionResumed(Session session, boolean wasSuspended) {
             invalidateOptionsMenu();
+            mCastSession = mSessionManager.getCurrentCastSession();
         }
         @Override
         public void onSessionEnded(Session session, int error) {
+            new initQuickControls().execute("");
+            stopCastServer();
         }
     }
 
@@ -285,6 +295,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_cast, menu);
 
         CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
                 menu,
@@ -497,6 +508,27 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         super.onActivityResult(requestCode, resultCode, data);
         getSupportFragmentManager().findFragmentById(R.id.fragment_container).onActivityResult(requestCode, resultCode, data);
     }
+
+    private void showCastMiniController() {
+        MiniControllerFragment controllerFragment = new MiniControllerFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.quickcontrols_container, controllerFragment).commitAllowingStateLoss();
+    }
+
+    private void startCastServer() {
+        castServer = new WebServer(this);
+        try {
+            castServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopCastServer() {
+        if (castServer != null) {
+            castServer.stop();
+        }
+    }
+
 }
 
 

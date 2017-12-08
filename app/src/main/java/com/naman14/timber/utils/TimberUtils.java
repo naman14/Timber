@@ -312,6 +312,17 @@ public class TimberUtils {
 
     public static void shareTrack(final Context context, long id) {
 
+        try {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("audio/*");
+            share.putExtra(Intent.EXTRA_STREAM, getSongUri(context, id));
+            context.startActivity(Intent.createChooser(share, "Share"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Uri getSongUri(Context context, long id) {
         final String[] projection = new String[]{
                 BaseColumns._ID, MediaStore.MediaColumns.DATA, MediaStore.Audio.AudioColumns.ALBUM_ID
         };
@@ -324,19 +335,21 @@ public class TimberUtils {
                 null, null);
 
         if (c == null) {
-            return;
+            return null;
         }
         c.moveToFirst();
+
+
         try {
-            Intent share = new Intent(Intent.ACTION_SEND);
-            share.setType("audio/*");
-            share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(c.getString(1))));
-            context.startActivity(Intent.createChooser(share, "Share"));
+
+            Uri uri = Uri.parse(c.getString(1));
             c.close();
+
+            return uri;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
-
 
 }

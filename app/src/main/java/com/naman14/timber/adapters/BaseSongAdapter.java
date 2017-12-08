@@ -3,6 +3,7 @@ package com.naman14.timber.adapters;
 import android.app.Activity;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +14,7 @@ import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.common.images.WebImage;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.activities.MainActivity;
+import com.naman14.timber.cast.TimberCastHelper;
 import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.TimberUtils;
@@ -60,26 +62,7 @@ public class BaseSongAdapter<V extends RecyclerView.ViewHolder> extends Recycler
         if (context instanceof MainActivity) {
             CastSession castSession = ((MainActivity) context).getCastSession();
             if (castSession != null) {
-
-                MediaMetadata musicMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
-
-                musicMetadata.putString(MediaMetadata.KEY_TITLE, currentSong.title);
-                musicMetadata.putString(MediaMetadata.KEY_SUBTITLE, currentSong.artistName);
-                musicMetadata.addImage(new WebImage(Uri.parse("192.168.1.5:8080/albumart")));
-
-                try {
-                    MediaInfo mediaInfo = new MediaInfo.Builder("192.168.1.5:8080/song")
-                            .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
-                            .setContentType("audio/mpeg")
-                            .setMetadata(musicMetadata)
-                            .setStreamDuration(currentSong.duration * 1000)
-                            .build();
-                    RemoteMediaClient remoteMediaClient = castSession.getRemoteMediaClient();
-                    remoteMediaClient.load(mediaInfo, true, position);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                TimberCastHelper.startCasting(castSession, currentSong);
             } else {
                 MusicPlayer.playAll(context, list, position, -1, TimberUtils.IdType.NA, false);
             }

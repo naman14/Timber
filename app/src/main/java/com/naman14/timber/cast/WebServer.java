@@ -8,6 +8,7 @@ import com.naman14.timber.utils.TimberUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
@@ -30,29 +31,26 @@ public class WebServer extends NanoHTTPD {
         if (uri.contains("albumart")) {
             //serve the picture
 
-            Uri url = Uri.parse(uri);
-            String albumId = url.getQueryParameter("id");
+            String albumId = parameters.get("id");
             this.albumArtUri = TimberUtils.getAlbumArtUri(Long.parseLong(albumId));
 
             if (albumArtUri != null) {
                 String mediasend = "image/jpg";
-                FileInputStream fisAlbumArt = null;
-                File albumArt = new File(albumArtUri.getPath());
+                InputStream fisAlbumArt = null;
                 try {
-                    fisAlbumArt = new FileInputStream(albumArt);
+                    fisAlbumArt = context.getContentResolver().openInputStream(albumArtUri);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
                 Response.Status st = Response.Status.OK;
 
                 //serve the song
-                return newFixedLengthResponse(st, mediasend, fisAlbumArt, albumArt.length());
+                return newChunkedResponse(st, mediasend, fisAlbumArt);
             }
 
         } else if (uri.contains("song")) {
 
-            Uri url = Uri.parse(uri);
-            String songId = url.getQueryParameter("id");
+            String songId = parameters.get("id");
             this.songUri = TimberUtils.getSongUri(context, Long.parseLong(songId));
 
             if (songUri != null) {

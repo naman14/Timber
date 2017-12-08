@@ -192,7 +192,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
         @Override
         public void onSessionEnded(Session session, int error) {
-            new initQuickControls().execute("");
+            hideCastMiniController();
             stopCastServer();
         }
     }
@@ -510,8 +510,13 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     }
 
     private void showCastMiniController() {
-        MiniControllerFragment controllerFragment = new MiniControllerFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.quickcontrols_container, controllerFragment).commitAllowingStateLoss();
+        findViewById(R.id.castMiniController).setVisibility(View.VISIBLE);
+        findViewById(R.id.quickcontrols_container).setVisibility(View.GONE);
+    }
+
+    private void hideCastMiniController() {
+        findViewById(R.id.castMiniController).setVisibility(View.GONE);
+        findViewById(R.id.quickcontrols_container).setVisibility(View.VISIBLE);
     }
 
     private void startCastServer() {

@@ -430,7 +430,11 @@ public class MusicService extends Service {
         mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
                           | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
     }
-
+    @Override
+     public void onTaskRemoved(Intent rootIntent){
+        super.onTaskRemoved(rootIntent);
+         cancelNotification();
+     }
     @Override
     public void onDestroy() {
         if (D) Log.d(TAG, "Destroying service");

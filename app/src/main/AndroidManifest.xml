@@ -11,16 +11,20 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
 
     <application
         android:name=".TimberApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme.FullScreen.Light">
+        android:label="Timber${appNameSuffix}"
+        android:theme="@style/AppTheme.FullScreen.Light"
+        tools:replace="android:allowBackup, android:label">
+
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name"
+            android:label="Timber${appNameSuffix}"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,32 +35,36 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="file"/>
-                <data android:mimeType="audio/*"/>
-                <data android:mimeType="application/ogg"/>
-                <data android:mimeType="application/x-ogg"/>
-                <data android:mimeType="application/itunes"/>
+
+                <data android:scheme="file" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="http" />
-                <data android:mimeType="audio/*"/>
-                <data android:mimeType="application/ogg"/>
-                <data android:mimeType="application/x-ogg"/>
-                <data android:mimeType="application/itunes"/>
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
             </intent-filter>
-            <intent-filter
-                android:priority="-1">
+            <intent-filter android:priority="-1">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="content" />
-                <data android:mimeType="audio/*"/>
-                <data android:mimeType="application/ogg"/>
-                <data android:mimeType="application/x-ogg"/>
-                <data android:mimeType="application/itunes"/>
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
             </intent-filter>
         </activity>
 
@@ -75,6 +83,8 @@
         <activity
             android:name=".activities.NowPlayingActivity"
             android:theme="@style/AppTheme.FullScreen.Light" />
+
+        <activity android:name=".activities.DonateActivity"/>
 
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>
@@ -95,6 +105,41 @@
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
         </service>
+
+        <!--use your own api key for fabric-->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="@string/fabric_api_key" />
+
+        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.naman14.timber.metachanged" />
+                <action android:name="com.naman14.timber.playstatechanged" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_standard" />
+        </receiver>
+
+        <receiver android:name=".widgets.desktop.WhiteWidget" android:label="@string/widget_white">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.naman14.timber.metachanged" />
+                <action android:name="com.naman14.timber.playstatechanged" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_white" />
+        </receiver>
+
+        <receiver android:name=".widgets.desktop.SmallWidget" android:label="@string/widget_small">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.naman14.timber.metachanged" />
+                <action android:name="com.naman14.timber.playstatechanged" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_small" />
+        </receiver>
 
     </application>
 

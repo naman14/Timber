@@ -99,16 +99,7 @@ public class MusicPlayer {
     }
 
     public static void initPlaybackServiceWithSettings(final Context context) {
-        setShowAlbumArtOnLockscreen(true);
-    }
 
-    public static void setShowAlbumArtOnLockscreen(final boolean enabled) {
-        try {
-            if (mService != null) {
-                mService.setLockscreenAlbumArt(enabled);
-            }
-        } catch (final RemoteException ignored) {
-        }
     }
 
     public static void asyncNext(final Context context) {
@@ -388,6 +379,15 @@ public class MusicPlayer {
         }
     }
 
+    public static void refresh() {
+        try {
+            if (mService != null) {
+                mService.refresh();
+            }
+        } catch (final RemoteException ignored) {
+        }
+    }
+
     public static final int getQueueHistorySize() {
         if (mService != null) {
             try {
@@ -506,27 +506,19 @@ public class MusicPlayer {
 
     public static void shuffleAll(final Context context) {
         Cursor cursor = SongLoader.makeSongCursor(context, null, null);
-        final long[] mTrackList = SongLoader.getSongListForCursor(cursor);
-        final int position = 0;
-        if (mTrackList.length == 0 || mService == null) {
+        final long[] trackList = SongLoader.getSongListForCursor(cursor);
+        if (trackList.length == 0 || mService == null) {
             return;
         }
         try {
             mService.setShuffleMode(MusicService.SHUFFLE_NORMAL);
-            final long mCurrentId = mService.getAudioId();
-            final int mCurrentQueuePosition = getQueuePosition();
-            if (position != -1 && mCurrentQueuePosition == position
-                    && mCurrentId == mTrackList[position]) {
-                final long[] mPlaylist = getQueue();
-                if (Arrays.equals(mTrackList, mPlaylist)) {
+            if (getQueuePosition() == 0 && mService.getAudioId() == trackList[0] && Arrays.equals(trackList, getQueue())) {
                     mService.play();
                     return;
-                }
             }
-            mService.open(mTrackList, -1, -1, IdType.NA.mId);
+            mService.open(trackList, -1, -1, IdType.NA.mId);
             mService.play();
             cursor.close();
-            cursor = null;
         } catch (final RemoteException ignored) {
         }
     }
@@ -615,6 +607,8 @@ public class MusicPlayer {
             try {
                 mService.seek(position);
             } catch (final RemoteException ignored) {
+            } catch (IllegalStateException ignored) {
+
             }
         }
     }
@@ -655,9 +649,11 @@ public class MusicPlayer {
     }
 
     public static void clearQueue() {
-        try {
-            mService.removeTracks(0, Integer.MAX_VALUE);
-        } catch (final RemoteException ignored) {
+        if (mService!=null) {
+            try {
+                mService.removeTracks(0, Integer.MAX_VALUE);
+            } catch (final RemoteException ignored) {
+            }
         }
     }
 

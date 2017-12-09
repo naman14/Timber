@@ -30,6 +30,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -38,13 +41,18 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.adapters.BaseQueueAdapter;
+import com.naman14.timber.adapters.SlidingQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.timely.TimelyView;
 import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.SlideTrackSwitcher;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.CircularSeekBar;
 import com.naman14.timber.widgets.DividerItemDecoration;
@@ -73,24 +81,30 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     String ateKey;
     int accentColor;
-
+    int overflowcounter = 0;
     TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     SeekBar mProgress;
+    boolean fragmentPaused = false;
+
     //seekbar
     public Runnable mUpdateProgress = new Runnable() {
 
         @Override
         public void run() {
 
+            long position = MusicPlayer.position();
             if (mProgress != null) {
-                long position = MusicPlayer.position();
                 mProgress.setProgress((int) position);
                 if (elapsedtime != null && getActivity() != null)
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
             }
-
+            overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                mProgress.postDelayed(mUpdateProgress, 50);
+                int delay = (int) (1500 - (position % 1000));
+                if (overflowcounter < 0 && !fragmentPaused) {
+                    overflowcounter++;
+                    mProgress.postDelayed(mUpdateProgress, delay);
+                }
             }
 
         }
@@ -101,17 +115,20 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         @Override
         public void run() {
-
+            long position = MusicPlayer.position();
             if (mCircularProgress != null) {
-                long position = MusicPlayer.position();
                 mCircularProgress.setProgress((int) position);
                 if (elapsedtime != null && getActivity() != null)
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
 
             }
-
+            overflowcounter--;
             if (MusicPlayer.isPlaying()) {
-                mCircularProgress.postDelayed(mUpdateCircularProgress, 50);
+                int delay = (int) (1500 - (position % 1000));
+                if (overflowcounter < 0 && !fragmentPaused) {
+                    overflowcounter++;
+                    mCircularProgress.postDelayed(mUpdateCircularProgress, delay);
+                }
             }
 
         }
@@ -119,6 +136,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     RecyclerView recyclerView;
     BaseQueueAdapter mAdapter;
+    SlidingQueueAdapter slidingQueueAdapter;
     TimelyView timelyView11, timelyView12, timelyView13, timelyView14, timelyView15;
     TextView hourColon;
     int[] timeArr = new int[]{0, 0, 0, 0, 0};
@@ -205,6 +223,51 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         super.onCreate(savedInstanceState);
         ateKey = Helpers.getATEKey(getActivity());
         accentColor = Config.accentColor(getActivity(), ateKey);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.now_playing, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_go_to_album:
+                NavigationUtils.goToAlbum(getContext(), MusicPlayer.getCurrentAlbumId());
+                break;
+            case R.id.menu_go_to_artist:
+                NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
+                break;
+            case R.id.action_lyrics:
+                NavigationUtils.goToLyrics(getContext());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fragmentPaused = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fragmentPaused = false;
+        if (mProgress != null)
+            mProgress.postDelayed(mUpdateProgress, 10);
+
+        if (mCircularProgress != null)
+            mCircularProgress.postDelayed(mUpdateCircularProgress, 10);
     }
 
     public void setSongDetails(View view) {
@@ -382,14 +445,19 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void updateRepeatState() {
         if (repeat != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
 
-            if (getActivity() != null) {
-                if (MusicPlayer.getRepeatMode() == 0) {
+                if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_NONE) {
+                    builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
                     builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
-                } else builder.setColor(Config.accentColor(getActivity(), ateKey));
-            }
+                } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_CURRENT) {
+                    builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT_ONCE);
+                    builder.setColor(Config.accentColor(getActivity(), ateKey));
+                } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_ALL) {
+                    builder.setColor(Config.accentColor(getActivity(), ateKey));
+                    builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
+                }
+
 
             repeat.setImageDrawable(builder.build());
             repeat.setOnClickListener(new View.OnClickListener() {
@@ -481,8 +549,15 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (songalbum != null)
             songalbum.setText(MusicPlayer.getAlbumName());
 
-        if (songartist != null)
+        if (songartist != null) {
             songartist.setText(MusicPlayer.getArtistName());
+            songartist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
+                }
+            });
+        }
 
         if (songduration != null && getActivity() != null)
             songduration.setText(TimberUtils.makeShortTimeString(getActivity(), MusicPlayer.duration() / 1000));
@@ -614,6 +689,17 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         if (a != timeArr[4]) {
             changeDigit(timelyView15, timeArr[4], a);
             timeArr[4] = a;
+        }
+    }
+
+    protected void initGestures(View v) {
+        if (PreferencesUtility.getInstance(v.getContext()).isGesturesEnabled()) {
+            new SlideTrackSwitcher() {
+                @Override
+                public void onSwipeBottom() {
+                    getActivity().finish();
+                }
+            }.attach(v);
         }
     }
 

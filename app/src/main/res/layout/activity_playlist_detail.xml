@@ -6,52 +6,61 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/blurFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:id="@+id/blurFrame"
-        android:transitionName="transition_album_art"/>
+        android:transitionName="transition_album_art" />
 
     <View
+        android:id="@+id/foreground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/foreground"
-        android:transitionName="transition_foreground"/>
+        android:transitionName="transition_foreground" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="70dp">
+        android:orientation="vertical">
 
-    <TextView
-        android:textSize="28sp"
-        android:layout_marginLeft="40dp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:textColor="#ffffff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:transitionName="transition_playlist_name"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="top"
+            android:layout_marginTop="@dimen/appBarTopMargin"
+            android:background="@android:color/transparent"
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#ffffff"
+            android:textSize="28sp"
+            android:layout_marginTop="15dp"
+            android:transitionName="transition_playlist_name" />
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="10dp">
-
-        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fadeScrollbars="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
+            android:background="@android:color/transparent">
 
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadeScrollbars="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

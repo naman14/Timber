@@ -37,6 +37,7 @@ import com.naman14.timber.models.Playlist;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -58,6 +59,7 @@ public class PlaylistPagerFragment extends Fragment {
     private ImageView playlistImage;
     private View foreground;
     private Context mContext;
+    private boolean showAuto;
 
     public static PlaylistPagerFragment newInstance(int pageNumber) {
         PlaylistPagerFragment fragment = new PlaylistPagerFragment();
@@ -70,9 +72,10 @@ public class PlaylistPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        showAuto = PreferencesUtility.getInstance(getActivity()).showAutoPlaylist();
         View rootView = inflater.inflate(R.layout.fragment_playlist_pager, container, false);
 
-        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), true);
+        final List<Playlist> playlists = PlaylistLoader.getPlaylists(getActivity(), showAuto);
 
         pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
         playlist = playlists.get(pageNumber);
@@ -125,23 +128,26 @@ public class PlaylistPagerFragment extends Fragment {
         foregroundColor = foregroundColors[rndInt];
         foreground.setBackgroundColor(foregroundColor);
 
-        if (pageNumber > 2) {
-            playlisttype.setVisibility(View.GONE);
+        if (showAuto) {
+            if (pageNumber <= 2)
+                playlisttype.setVisibility(View.VISIBLE);
         }
 
     }
 
     private String getPlaylistType() {
-        switch (pageNumber) {
-            case 0:
-                return Constants.NAVIGATE_PLAYLIST_LASTADDED;
-            case 1:
-                return Constants.NAVIGATE_PLAYLIST_RECENT;
-            case 2:
-                return Constants.NAVIGATE_PLAYLIST_TOPTRACKS;
-            default:
-                return Constants.NAVIGATE_PLAYLIST_USERCREATED;
-        }
+        if (showAuto) {
+            switch (pageNumber) {
+                case 0:
+                    return Constants.NAVIGATE_PLAYLIST_LASTADDED;
+                case 1:
+                    return Constants.NAVIGATE_PLAYLIST_RECENT;
+                case 2:
+                    return Constants.NAVIGATE_PLAYLIST_TOPTRACKS;
+                default:
+                    return Constants.NAVIGATE_PLAYLIST_USERCREATED;
+            }
+        } else return Constants.NAVIGATE_PLAYLIST_USERCREATED;
     }
 
 
@@ -150,42 +156,52 @@ public class PlaylistPagerFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             if (getActivity() != null) {
-                switch (pageNumber) {
-                    case 0:
-                        List<Song> lastAddedSongs = LastAddedLoader.getLastAddedSongs(getActivity());
-                        songCountInt = lastAddedSongs.size();
+                if (showAuto) {
+                    switch (pageNumber) {
+                        case 0:
+                            List<Song> lastAddedSongs = LastAddedLoader.getLastAddedSongs(getActivity());
+                            songCountInt = lastAddedSongs.size();
 
-                        if (songCountInt != 0) {
-                            firstAlbumID = lastAddedSongs.get(0).albumId;
-                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        } else return "nosongs";
-                    case 1:
-                        TopTracksLoader recentloader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.RecentSongs);
-                        List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-                        songCountInt = recentsongs.size();
+                            if (songCountInt != 0) {
+                                firstAlbumID = lastAddedSongs.get(0).albumId;
+                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                            } else return "nosongs";
+                        case 1:
+                            TopTracksLoader recentloader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.RecentSongs);
+                            List<Song> recentsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
+                            songCountInt = recentsongs.size();
 
-                        if (songCountInt != 0) {
-                            firstAlbumID = recentsongs.get(0).albumId;
-                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        } else return "nosongs";
-                    case 2:
-                        TopTracksLoader topTracksLoader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.TopTracks);
-                        List<Song> topsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
-                        songCountInt = topsongs.size();
+                            if (songCountInt != 0) {
+                                firstAlbumID = recentsongs.get(0).albumId;
+                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                            } else return "nosongs";
+                        case 2:
+                            TopTracksLoader topTracksLoader = new TopTracksLoader(getActivity(), TopTracksLoader.QueryType.TopTracks);
+                            List<Song> topsongs = SongLoader.getSongsForCursor(TopTracksLoader.getCursor());
+                            songCountInt = topsongs.size();
 
-                        if (songCountInt != 0) {
-                            firstAlbumID = topsongs.get(0).albumId;
-                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        } else return "nosongs";
-                    default:
-                        List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(getActivity(), playlist.id);
-                        songCountInt = playlistsongs.size();
+                            if (songCountInt != 0) {
+                                firstAlbumID = topsongs.get(0).albumId;
+                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                            } else return "nosongs";
+                        default:
+                            List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(getActivity(), playlist.id);
+                            songCountInt = playlistsongs.size();
 
-                        if (songCountInt != 0) {
-                            firstAlbumID = playlistsongs.get(0).albumId;
-                            return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
-                        } else return "nosongs";
+                            if (songCountInt != 0) {
+                                firstAlbumID = playlistsongs.get(0).albumId;
+                                return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                            } else return "nosongs";
 
+                    }
+                } else {
+                    List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(getActivity(), playlist.id);
+                    songCountInt = playlistsongs.size();
+
+                    if (songCountInt != 0) {
+                        firstAlbumID = playlistsongs.get(0).albumId;
+                        return TimberUtils.getAlbumArtUri(firstAlbumID).toString();
+                    } else return "nosongs";
                 }
             } else return "context is null";
 

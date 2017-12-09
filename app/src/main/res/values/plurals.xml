@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources>
+<resources  xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!--Nothing to be translated here-->
 
@@ -29,6 +29,11 @@
     <plurals name="NNNtrackstoplaylist">
         <item quantity="one">@string/number_song_add_playlist</item>
         <item quantity="other">@string/number_songs_add_playlist</item>
+    </plurals>
+
+    <plurals name="NNNtracksdeleted">
+        <item quantity="one"><xliff:g id="songs_to_delete" example="1">%d</xliff:g> song was deleted.</item>
+        <item quantity="other"><xliff:g id="songs_to_delete">%d</xliff:g> songs were deleted.</item>
     </plurals>
 
 </resources>

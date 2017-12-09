@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
+    <item
+        android:id="@+id/menu_go_to_artist"
+        android:title="@string/go_to_artist" />
     <item
         android:id="@+id/menu_sort_by"
         android:showAsAction="never"

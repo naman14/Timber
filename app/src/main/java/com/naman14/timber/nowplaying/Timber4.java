@@ -28,8 +28,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
-import com.naman14.timber.adapters.Timber4QueueAdapter;
+import com.naman14.timber.adapters.SlidingQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.utils.ImageUtils;
 
@@ -39,7 +40,7 @@ public class Timber4 extends BaseNowplayingFragment {
 
     ImageView mBlurredArt;
     RecyclerView horizontalRecyclerview;
-    Timber4QueueAdapter horizontalAdapter;
+    SlidingQueueAdapter horizontalAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class Timber4 extends BaseNowplayingFragment {
         horizontalRecyclerview = (RecyclerView) rootView.findViewById(R.id.queue_recyclerview_horizontal);
 
         setupHorizontalQueue();
+        initGestures(mBlurredArt);
 
         return rootView;
     }
@@ -84,13 +86,22 @@ public class Timber4 extends BaseNowplayingFragment {
     public void updateRepeatState() {
         if (repeat != null && getActivity() != null) {
             MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                    .setIcon(MaterialDrawableBuilder.IconValue.REPEAT)
                     .setSizeDp(30);
 
             if (MusicPlayer.getRepeatMode() == 0) {
                 builder.setColor(Color.WHITE);
             } else builder.setColor(accentColor);
 
+            if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_NONE) {
+                builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
+                builder.setColor(Color.WHITE);
+            } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_CURRENT) {
+                builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT_ONCE);
+                builder.setColor(accentColor);
+            } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_ALL) {
+                builder.setColor(accentColor);
+                builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
+            }
             repeat.setImageDrawable(builder.build());
             repeat.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,7 +122,7 @@ public class Timber4 extends BaseNowplayingFragment {
 
     private void setupHorizontalQueue() {
         horizontalRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        horizontalAdapter = new Timber4QueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
+        horizontalAdapter = new SlidingQueueAdapter(getActivity(), QueueLoader.getQueueSongs(getActivity()));
         horizontalRecyclerview.setAdapter(horizontalAdapter);
         horizontalRecyclerview.scrollToPosition(MusicPlayer.getQueuePosition() - 3);
     }

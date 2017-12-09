@@ -73,6 +73,8 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
             if (MusicPlayer.isPlaying()) {
                 itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
+            } else {
+                itemHolder.visualizer.setVisibility(View.GONE);
             }
         } else {
             itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
@@ -104,6 +106,10 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
                                 break;
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
+                                break;
+                            case R.id.popup_song_delete:
+                                long[] deleteIds = {arraylist.get(position).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, PlayingQueueAdapter.this,position);
                                 break;
                         }
                         return false;

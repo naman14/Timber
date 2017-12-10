@@ -40,6 +40,7 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.Session;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
+import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActivity;
 import com.google.android.gms.cast.framework.media.widget.MiniControllerFragment;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
@@ -393,7 +394,11 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
                 break;
             case R.id.nav_nowplaying:
-                NavigationUtils.navigateToNowplaying(MainActivity.this, false);
+                if (getCastSession() != null) {
+                    startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
+                } else {
+                    NavigationUtils.navigateToNowplaying(MainActivity.this, false);
+                }
                 break;
             case R.id.nav_queue:
                 runnable = navigateQueue;
@@ -449,6 +454,13 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     private void initCast() {
         CastContext castContext = CastContext.getSharedInstance(this);
         mSessionManager = castContext.getSessionManager();
+
+        findViewById(R.id.castMiniController).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
+            }
+        });
 
     }
 
@@ -512,11 +524,13 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     private void showCastMiniController() {
         findViewById(R.id.castMiniController).setVisibility(View.VISIBLE);
         findViewById(R.id.quickcontrols_container).setVisibility(View.GONE);
+        panelLayout.hidePanel();
     }
 
     private void hideCastMiniController() {
         findViewById(R.id.castMiniController).setVisibility(View.GONE);
         findViewById(R.id.quickcontrols_container).setVisibility(View.VISIBLE);
+        panelLayout.showPanel();
     }
 
     private void startCastServer() {

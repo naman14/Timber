@@ -86,7 +86,9 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(),
+                itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true)
+                        .showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
 
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
             itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));

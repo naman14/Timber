@@ -242,6 +242,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             }
         });
 
+        if (!panelLayout.isPanelHidden() && MusicPlayer.getTrackName() == null ) {
+            panelLayout.hidePanel();
+        }
+
     }
 
     private void loadEverything() {
@@ -432,6 +436,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     public void onMetaChanged() {
         super.onMetaChanged();
         setDetailsToHeader();
+
+        if (panelLayout.isPanelHidden() && MusicPlayer.getTrackName() != null) {
+            panelLayout.showPanel();
+        }
     }
 
     @Override

@@ -245,7 +245,8 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
                 @Override
                 public void run() {
                     playAll(mContext, songIDs, getAdapterPosition(), -1,
-                            TimberUtils.IdType.NA, false, arraylist.get(getAdapterPosition()));
+                            TimberUtils.IdType.NA, false,
+                            arraylist.get(getAdapterPosition()), false);
                     Handler handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override

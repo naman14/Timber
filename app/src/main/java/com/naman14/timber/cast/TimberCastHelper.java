@@ -19,11 +19,12 @@ public class TimberCastHelper  {
         MediaMetadata musicMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
 
         musicMetadata.putString(MediaMetadata.KEY_TITLE, song.title);
-        musicMetadata.putString(MediaMetadata.KEY_SUBTITLE, song.artistName);
-        musicMetadata.addImage(new WebImage(Uri.parse("http://192.168.1.100:8080/albumart?id="+ song.albumId)));
+        musicMetadata.putString(MediaMetadata.KEY_ARTIST, song.artistName);
+        musicMetadata.putString(MediaMetadata.KEY_ALBUM_TITLE, song.albumName);
+        musicMetadata.addImage(new WebImage(Uri.parse("http://192.168.1.5:8080/albumart?id="+ song.albumId)));
 
         try {
-            MediaInfo mediaInfo = new MediaInfo.Builder("http://192.168.1.100:8080/song?id=" + song.id)
+            MediaInfo mediaInfo = new MediaInfo.Builder("http://192.168.1.5:8080/song?id=" + song.id)
                     .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
                     .setContentType("audio/mpeg")
                     .setMetadata(musicMetadata)

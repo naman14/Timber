@@ -17,6 +17,7 @@ import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.cast.TimberCastHelper;
 import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 
 import java.io.IOException;
@@ -57,17 +58,22 @@ public class BaseSongAdapter<V extends RecyclerView.ViewHolder> extends Recycler
 
     public void playAll(final Activity context, final long[] list, int position,
                         final long sourceId, final TimberUtils.IdType sourceType,
-                        final boolean forceShuffle, final Song currentSong) {
+                        final boolean forceShuffle, final Song currentSong, boolean navigateNowPlaying) {
 
         if (context instanceof MainActivity) {
             CastSession castSession = ((MainActivity) context).getCastSession();
             if (castSession != null) {
+                navigateNowPlaying = false;
                 TimberCastHelper.startCasting(castSession, currentSong);
             } else {
                 MusicPlayer.playAll(context, list, position, -1, TimberUtils.IdType.NA, false);
             }
         } else {
             MusicPlayer.playAll(context, list, position, -1, TimberUtils.IdType.NA, false);
+        }
+
+        if (navigateNowPlaying) {
+            NavigationUtils.navigateToNowplaying(context, true);
         }
 
 

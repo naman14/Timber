@@ -36,10 +36,19 @@ import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
+import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.Session;
+import com.google.android.gms.cast.framework.SessionManager;
+import com.google.android.gms.cast.framework.SessionManagerListener;
+import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActivity;
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
+import com.naman14.timber.cast.SimpleSessionManagerListener;
+import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
@@ -47,6 +56,7 @@ import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -58,6 +68,38 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     private MusicPlayer.ServiceToken mToken;
     private PlaybackStatus mPlaybackStatus;
 
+    private CastSession mCastSession;
+    private SessionManager mSessionManager;
+    private final SessionManagerListener mSessionManagerListener =
+            new SessionManagerListenerImpl();
+    private WebServer castServer;
+
+    private class SessionManagerListenerImpl extends SimpleSessionManagerListener {
+        @Override
+        public void onSessionStarting(Session session) {
+            super.onSessionStarting(session);
+            startCastServer();
+        }
+
+        @Override
+        public void onSessionStarted(Session session, String sessionId) {
+            invalidateOptionsMenu();
+            mCastSession = mSessionManager.getCurrentCastSession();
+            showCastMiniController();
+        }
+        @Override
+        public void onSessionResumed(Session session, boolean wasSuspended) {
+            invalidateOptionsMenu();
+            mCastSession = mSessionManager.getCurrentCastSession();
+        }
+        @Override
+        public void onSessionEnded(Session session, int error) {
+            mCastSession = null;
+            hideCastMiniController();
+            stopCastServer();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +109,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         mPlaybackStatus = new PlaybackStatus(this);
         //make volume keys change multimedia volume even if music is not playing now
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        initCast();
     }
 
     @Override
@@ -98,8 +142,17 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
     @Override
     public void onResume() {
-        super.onResume();
+        mCastSession = mSessionManager.getCurrentCastSession();
+        mSessionManager.addSessionManagerListener(mSessionManagerListener);
         onMetaChanged();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
+        mCastSession = null;
     }
 
     @Override
@@ -109,6 +162,11 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         onMetaChanged();
     }
 
+
+    private void initCast() {
+        CastContext castContext = CastContext.getSharedInstance(this);
+        mSessionManager = castContext.getSessionManager();
+    }
 
     @Override
     public void onServiceDisconnected(final ComponentName name) {
@@ -180,6 +238,13 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        getMenuInflater().inflate(R.menu.menu_cast, menu);
+
+        CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
+                menu,
+                R.id.media_route_menu_item);
+
         if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
             menu.removeItem(R.id.action_equalizer);
         }
@@ -307,4 +372,30 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         }
     }
 
+    public void showCastMiniController() {
+        //implement by overriding in activities
+    }
+
+    public void hideCastMiniController() {
+        //implement by overriding in activities
+    }
+
+    public CastSession getmCastSession() {
+        return mCastSession;
+    }
+
+    private void startCastServer() {
+        castServer = new WebServer(this);
+        try {
+            castServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopCastServer() {
+        if (castServer != null) {
+            castServer.stop();
+        }
+    }
 }

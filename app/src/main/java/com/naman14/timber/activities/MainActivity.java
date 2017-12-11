@@ -44,6 +44,7 @@ import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActi
 import com.google.android.gms.cast.framework.media.widget.MiniControllerFragment;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.cast.ExpandedControlsActivity;
 import com.naman14.timber.cast.SimpleSessionManagerListener;
 import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.fragments.AlbumDetailFragment;
@@ -172,31 +173,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
-    private CastSession mCastSession;
-    private SessionManager mSessionManager;
-    private final SessionManagerListener mSessionManagerListener =
-            new SessionManagerListenerImpl();
-    private WebServer castServer;
 
-    private class SessionManagerListenerImpl extends SimpleSessionManagerListener {
-        @Override
-        public void onSessionStarted(Session session, String sessionId) {
-            invalidateOptionsMenu();
-            mCastSession = mSessionManager.getCurrentCastSession();
-            startCastServer();
-            showCastMiniController();
-        }
-        @Override
-        public void onSessionResumed(Session session, boolean wasSuspended) {
-            invalidateOptionsMenu();
-            mCastSession = mSessionManager.getCurrentCastSession();
-        }
-        @Override
-        public void onSessionEnded(Session session, int error) {
-            hideCastMiniController();
-            stopCastServer();
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -258,7 +235,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             }, 350);
         }
 
-        initCast();
+        findViewById(R.id.castMiniController).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
+            }
+        });
 
     }
 
@@ -296,11 +278,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_cast, menu);
-
-        CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
-                menu,
-                R.id.media_route_menu_item);
 
         return true;
     }
@@ -395,7 +372,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 break;
             case R.id.nav_nowplaying:
                 if (getCastSession() != null) {
-                    startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
+                    startActivity(new Intent(MainActivity.this, ExpandedControlsActivity.class));
                 } else {
                     NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 }
@@ -451,41 +428,14 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                         .build());
     }
 
-    private void initCast() {
-        CastContext castContext = CastContext.getSharedInstance(this);
-        mSessionManager = castContext.getSessionManager();
-
-        findViewById(R.id.castMiniController).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
-            }
-        });
-
-    }
-
     @Override
     public void onMetaChanged() {
         super.onMetaChanged();
         setDetailsToHeader();
     }
 
-    @Override
-    public void onResume() {
-        mCastSession = mSessionManager.getCurrentCastSession();
-        mSessionManager.addSessionManagerListener(mSessionManagerListener);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
-        mCastSession = null;
-    }
-
     public CastSession getCastSession() {
-        return mCastSession;
+        return getmCastSession();
     }
 
     @Override
@@ -521,33 +471,22 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         getSupportFragmentManager().findFragmentById(R.id.fragment_container).onActivityResult(requestCode, resultCode, data);
     }
 
-    private void showCastMiniController() {
+
+    @Override
+    public void showCastMiniController() {
         findViewById(R.id.castMiniController).setVisibility(View.VISIBLE);
         findViewById(R.id.quickcontrols_container).setVisibility(View.GONE);
         panelLayout.hidePanel();
     }
 
-    private void hideCastMiniController() {
+    @Override
+    public void hideCastMiniController() {
+
         findViewById(R.id.castMiniController).setVisibility(View.GONE);
         findViewById(R.id.quickcontrols_container).setVisibility(View.VISIBLE);
+
         panelLayout.showPanel();
     }
-
-    private void startCastServer() {
-        castServer = new WebServer(this);
-        try {
-            castServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void stopCastServer() {
-        if (castServer != null) {
-            castServer.stop();
-        }
-    }
-
 }
 
 

@@ -41,7 +41,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.ItemHolder> {
+public class ArtistSongAdapter extends BaseSongAdapter<ArtistSongAdapter.ItemHolder> {
 
     private List<Song> arraylist;
     private Activity mContext;
@@ -214,8 +214,9 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
-                    NavigationUtils.navigateToNowplaying(mContext, true);
+                    playAll(mContext, songIDs, getAdapterPosition() - 1, artistID,
+                            TimberUtils.IdType.Artist, false,
+                            arraylist.get(getAdapterPosition()), true);
                 }
             }, 100);
 

@@ -36,7 +36,7 @@ import java.util.List;
  * Created by nv95 on 10.11.16.
  */
 
-public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder> implements BubbleTextGetter {
+public class FolderAdapter extends BaseSongAdapter<FolderAdapter.ItemHolder> implements BubbleTextGetter {
 
     @NonNull
     private List<File> mFileSet;
@@ -226,7 +226,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        int current =-1;
+                        int current = -1;
                         long songId = SongLoader.getSongFromPath(mFileSet.get(getAdapterPosition()).getAbsolutePath(),mContext).id;
                         int count = 0;
                         for (Song song : mSongs) {
@@ -245,7 +245,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
                                 j++;
                             }
                         }
-                        MusicPlayer.playAll(mContext, ret, current, -1, TimberUtils.IdType.NA, false);
+                        playAll(mContext, ret, current, -1, TimberUtils.IdType.NA,
+                                false, mSongs.get(getAdapterPosition()), false);
                     }
                 }, 100);
 

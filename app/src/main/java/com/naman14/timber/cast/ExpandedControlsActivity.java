@@ -1,6 +1,8 @@
 package com.naman14.timber.cast;
 
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.WindowManager;
 
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActivity;
@@ -14,5 +16,11 @@ public class ExpandedControlsActivity extends ExpandedControllerActivity {
         getMenuInflater().inflate(R.menu.menu_expanded_controller, menu);
         CastButtonFactory.setUpMediaRouteButton(this, menu, R.id.media_route_menu_item);
         return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
     }
 }

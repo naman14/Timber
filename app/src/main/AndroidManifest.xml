@@ -89,15 +89,9 @@
         <activity
             android:name=".cast.ExpandedControlsActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeNormalLight"
+            android:theme="@style/AppTheme.ExpandedCastController"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+
         </activity>
 
         <receiver android:name=".helpers.MediaButtonIntentReceiver">

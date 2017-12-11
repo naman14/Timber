@@ -63,7 +63,7 @@ dependencies {
     implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
 
     implementation "com.android.support:mediarouter-v7:$rootProject.supportLibraryVersion"
-    implementation 'com.google.android.gms:play-services-cast-framework:10.2.6'
+    implementation 'com.google.android.gms:play-services-cast-framework:11.6.0'
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     implementation 'net.steamcrafted:materialiconlib:1.1.4'

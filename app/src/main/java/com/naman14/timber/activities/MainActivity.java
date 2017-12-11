@@ -434,10 +434,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         setDetailsToHeader();
     }
 
-    public CastSession getCastSession() {
-        return getmCastSession();
-    }
-
     @Override
     public void onRequestPermissionsResult(
             int requestCode, String[] permissions, int[] grantResults) {

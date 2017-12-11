@@ -98,6 +98,18 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             hideCastMiniController();
             stopCastServer();
         }
+
+        @Override
+        public void onSessionResuming(Session session, String s) {
+            super.onSessionResuming(session, s);
+            startCastServer();
+        }
+
+        @Override
+        public void onSessionSuspended(Session session, int i) {
+            super.onSessionSuspended(session, i);
+            stopCastServer();
+        }
     }
 
     @Override
@@ -380,7 +392,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         //implement by overriding in activities
     }
 
-    public CastSession getmCastSession() {
+    public CastSession getCastSession() {
         return mCastSession;
     }
 

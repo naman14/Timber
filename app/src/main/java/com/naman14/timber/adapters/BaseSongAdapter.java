@@ -13,6 +13,7 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.common.images.WebImage;
 import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.activities.BaseActivity;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.cast.TimberCastHelper;
 import com.naman14.timber.cast.WebServer;
@@ -60,8 +61,8 @@ public class BaseSongAdapter<V extends RecyclerView.ViewHolder> extends Recycler
                         final long sourceId, final TimberUtils.IdType sourceType,
                         final boolean forceShuffle, final Song currentSong, boolean navigateNowPlaying) {
 
-        if (context instanceof MainActivity) {
-            CastSession castSession = ((MainActivity) context).getCastSession();
+        if (context instanceof BaseActivity) {
+            CastSession castSession = ((BaseActivity) context).getCastSession();
             if (castSession != null) {
                 navigateNowPlaying = false;
                 TimberCastHelper.startCasting(castSession, currentSong);

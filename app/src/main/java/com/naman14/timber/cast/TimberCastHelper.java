@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.cast.TextTrackStyle;
 import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.common.images.WebImage;
@@ -21,6 +22,8 @@ public class TimberCastHelper  {
         musicMetadata.putString(MediaMetadata.KEY_TITLE, song.title);
         musicMetadata.putString(MediaMetadata.KEY_ARTIST, song.artistName);
         musicMetadata.putString(MediaMetadata.KEY_ALBUM_TITLE, song.albumName);
+        musicMetadata.putInt(MediaMetadata.KEY_TRACK_NUMBER, song.trackNumber);
+        musicMetadata.addImage(new WebImage(Uri.parse("http://192.168.1.5:8080/albumart?id="+ song.albumId)));
         musicMetadata.addImage(new WebImage(Uri.parse("http://192.168.1.5:8080/albumart?id="+ song.albumId)));
 
         try {

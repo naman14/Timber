@@ -46,7 +46,8 @@
                     android:scrollHorizontally="true"
                     android:singleLine="true"
                     android:textColor="#ffffff"
-                    android:textSize="21sp" />
+                    android:textSize="21sp"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/song_artist"
@@ -58,7 +59,8 @@
                     android:maxLines="1"
                     android:paddingTop="3dp"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:visibility="gone"/>
 
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"

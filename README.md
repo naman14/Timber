@@ -34,6 +34,8 @@ Material Design Music Player
 - LastFM scrobble
 - Android Wear and Android Auto support
 - Playing queue in notification (Xposed)
+- Lyrics support
+- Chromecast support
 
 ## Changelog
 

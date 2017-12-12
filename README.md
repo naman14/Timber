@@ -1,7 +1,7 @@
 # Timber
 [![Build Status](https://travis-ci.org/naman14/Timber.svg?branch=master)](https://travis-ci.org/naman14/Timber)
 
-[WIP][BETA]-Material Design Music Player
+Material Design Music Player
 
 <a href='https://play.google.com/store/apps/details?id=naman14.timber&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=90px/></a>
 
@@ -12,8 +12,13 @@
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen2.png" width="360" height="640">
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen3.png" width="360" height="640">
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen7.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen8.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen9.jpg" width="330" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen10.jpg" width="330" height="640">
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen1.png" width="360" height="640">
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen5.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen11.jpg" width="460" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen12.jpg" width="360" height="640">
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen4.png" width="360" height="640">
 <img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen6.png" width="360" height="640">
 
@@ -43,7 +48,7 @@ Changelog is available [here](https://github.com/naman14/Timber/blob/master/Chan
 * [CircularSeekBar](https://github.com/devadvance/circularseekbar)
 * [Nammu](https://github.com/tajchert/Nammu)
 
-#Donate
+# Donate
 Paypal donation email-
 namandwivedi14@gmail.com
 

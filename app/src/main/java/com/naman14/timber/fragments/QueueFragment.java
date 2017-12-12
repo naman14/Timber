@@ -60,7 +60,7 @@ public class QueueFragment extends Fragment implements MusicStateListener {
         recyclerView = rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(null);
-        recyclerView.setEmptyView(getActivity(), rootView.findViewById(R.id.list_empty), "Playing queue empty");
+        recyclerView.setEmptyView(getActivity(), rootView.findViewById(R.id.list_empty), "No songs in queue");
 
         new loadQueueSongs().execute("");
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);

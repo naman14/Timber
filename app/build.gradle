@@ -9,16 +9,14 @@ android {
         applicationId "naman14.timber"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 19
-        versionName "0.5b"
+        versionCode 20
+        versionName "1.6"
         //renderscript support mode is not supported for 21+ with gradle version 2.0
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
-        resValue "string", "fabric_api_key", "REPLACE ME"
-        resValue "string", "play_billing_license_key", "REPLACE ME"
-//        resValue "string", "cast_app_id", "REPLACE ME"
         multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -35,7 +33,7 @@ android {
 
             resValue "string", "fabric_api_key", "12345"
             resValue "string", "play_billing_license_key", "12345"
-//            resValue "string", "cast_app_id", "12345"
+            resValue "string", "cast_app_id", "12345"
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

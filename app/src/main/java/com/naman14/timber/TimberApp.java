@@ -14,7 +14,9 @@
 
 package com.naman14.timber;
 
-import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.afollestad.appthemeengine.ATE;
 import com.crashlytics.android.Crashlytics;
@@ -31,7 +33,7 @@ import java.io.InputStream;
 
 import io.fabric.sdk.android.Fabric;
 
-public class TimberApp extends Application {
+public class TimberApp extends MultiDexApplication {
 
 
     private static TimberApp mInstance;

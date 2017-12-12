@@ -104,7 +104,7 @@
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:dependency="artist_album_image"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="artist_album_image_mobile"
             android:summary="@string/load_artist_album_image_mobile_summary"
             android:title="@string/load_artist_album_image_mobile"

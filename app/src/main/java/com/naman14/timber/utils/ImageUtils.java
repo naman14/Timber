@@ -59,7 +59,7 @@ public class ImageUtils {
     public static void loadAlbumArtIntoView(final long albumId, final ImageView view,
                                             final ImageLoadingListener listener) {
         if (PreferencesUtility.getInstance(view.getContext()).alwaysLoadAlbumImagesFromLastfm()) {
-            loadAlbumArtFromLastfm(albumId, view);
+            loadAlbumArtFromLastfm(albumId, view, listener);
         } else {
             loadAlbumArtFromDiskWithLastfmFallback(albumId, view, listener);
         }
@@ -75,13 +75,18 @@ public class ImageUtils {
                                   @Override
                                   public void onLoadingFailed(String imageUri, View view,
                                                               FailReason failReason) {
-                                      loadAlbumArtFromLastfm(albumId, (ImageView) view);
+                                      loadAlbumArtFromLastfm(albumId, (ImageView) view, listener);
                                       listener.onLoadingFailed(imageUri, view, failReason);
+                                  }
+
+                                  @Override
+                                  public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                      listener.onLoadingComplete(imageUri, view, loadedImage);
                                   }
                               });
     }
 
-    private static void loadAlbumArtFromLastfm(long albumId, final ImageView albumArt) {
+    private static void loadAlbumArtFromLastfm(long albumId, final ImageView albumArt, final ImageLoadingListener listener) {
         Album album = AlbumLoader.getAlbum(albumArt.getContext(), albumId);
         LastFmClient.getInstance(albumArt.getContext())
                 .getAlbumInfo(new AlbumQuery(album.title, album.artistName),
@@ -92,7 +97,17 @@ public class ImageUtils {
                                           ImageLoader.getInstance()
                                                   .displayImage(album.mArtwork.get(4).mUrl,
                                                                 albumArt,
-                                                                lastfmDisplayImageOptions);
+                                                                lastfmDisplayImageOptions, new SimpleImageLoadingListener(){
+                                                              @Override
+                                                              public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                                                  listener.onLoadingComplete(imageUri, view, loadedImage);
+                                                              }
+
+                                                              @Override
+                                                              public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                                                  listener.onLoadingFailed(imageUri, view, failReason);
+                                                              }
+                                                          });
                                       }
                                   }
 

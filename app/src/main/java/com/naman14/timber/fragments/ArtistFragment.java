@@ -33,6 +33,7 @@ import com.naman14.timber.dataloaders.ArtistLoader;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
+import com.naman14.timber.widgets.BaseRecyclerView;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
@@ -41,7 +42,7 @@ import java.util.List;
 public class ArtistFragment extends Fragment {
 
     private ArtistAdapter mAdapter;
-    private RecyclerView recyclerView;
+    private BaseRecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     private RecyclerView.ItemDecoration itemDecoration;
     private PreferencesUtility mPreferences;
@@ -59,9 +60,10 @@ public class ArtistFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_recyclerview, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        FastScroller fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
+        recyclerView =  rootView.findViewById(R.id.recyclerview);
+        FastScroller fastScroller = rootView.findViewById(R.id.fastscroller);
         fastScroller.setRecyclerView(recyclerView);
+        recyclerView.setEmptyView(getActivity(), rootView.findViewById(R.id.list_empty), "No media found");
 
         setLayoutManager();
 
@@ -171,8 +173,10 @@ public class ArtistFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            mAdapter.setHasStableIds(true);
-            recyclerView.setAdapter(mAdapter);
+            if (mAdapter != null) {
+                mAdapter.setHasStableIds(true);
+                recyclerView.setAdapter(mAdapter);
+            }
             if (getActivity() != null) {
                 setItemDecoration();
             }

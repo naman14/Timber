@@ -96,8 +96,10 @@ public class LyricsFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayHomeAsUpEnabled(true);
+        if (MusicPlayer.getTrackName() != null) {
+            ab.setTitle(MusicPlayer.getTrackName());
+        }
     }
 
     @Override

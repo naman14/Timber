@@ -43,6 +43,8 @@ import com.google.android.gms.cast.framework.Session;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
 import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
@@ -73,6 +75,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     private final SessionManagerListener mSessionManagerListener =
             new SessionManagerListenerImpl();
     private WebServer castServer;
+
+    public boolean playServicesAvailable = false;
 
     private class SessionManagerListenerImpl extends SimpleSessionManagerListener {
         @Override
@@ -122,7 +126,15 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         //make volume keys change multimedia volume even if music is not playing now
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        initCast();
+        try {
+            playServicesAvailable = GoogleApiAvailability
+                    .getInstance().isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS;
+        } catch (Exception ignored) {
+
+        }
+
+        if (playServicesAvailable)
+            initCast();
     }
 
     @Override
@@ -154,8 +166,10 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
     @Override
     public void onResume() {
-        mCastSession = mSessionManager.getCurrentCastSession();
-        mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        if (playServicesAvailable) {
+            mCastSession = mSessionManager.getCurrentCastSession();
+            mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        }
         onMetaChanged();
         super.onResume();
     }
@@ -163,8 +177,10 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     protected void onPause() {
         super.onPause();
-        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
-        mCastSession = null;
+        if (playServicesAvailable) {
+            mSessionManager.removeSessionManagerListener(mSessionManagerListener);
+            mCastSession = null;
+        }
     }
 
     @Override
@@ -253,9 +269,11 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
         getMenuInflater().inflate(R.menu.menu_cast, menu);
 
-        CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
-                menu,
-                R.id.media_route_menu_item);
+        if (playServicesAvailable) {
+            CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
+                    menu,
+                    R.id.media_route_menu_item);
+        }
 
         if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
             menu.removeItem(R.id.action_equalizer);

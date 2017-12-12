@@ -2,6 +2,7 @@ package com.naman14.timber.cast;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.google.android.gms.cast.framework.CastButtonFactory;
@@ -21,6 +22,7 @@ public class ExpandedControlsActivity extends ExpandedControllerActivity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 
     }
 }

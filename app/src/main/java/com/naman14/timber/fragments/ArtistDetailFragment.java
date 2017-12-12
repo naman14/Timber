@@ -28,10 +28,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.ArtistLoader;
 import com.naman14.timber.lastfmapi.LastFmClient;
@@ -186,6 +189,19 @@ public class ArtistDetailFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        if (getActivity() != null)
+            ATE.applyMenu(getActivity(), "dark_theme", menu);
     }
 
     @Override

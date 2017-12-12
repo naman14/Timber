@@ -26,10 +26,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
@@ -235,15 +239,27 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             }, 350);
         }
 
-        findViewById(R.id.castMiniController).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
-            }
-        });
-
         if (!panelLayout.isPanelHidden() && MusicPlayer.getTrackName() == null ) {
             panelLayout.hidePanel();
+        }
+
+        if (playServicesAvailable) {
+
+            final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.BOTTOM;
+
+            FrameLayout contentRoot = findViewById(R.id.content_root);
+            contentRoot.addView(LayoutInflater.from(this)
+                    .inflate(R.layout.fragment_cast_mini_controller, null), params);
+
+            findViewById(R.id.castMiniController).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
+                }
+            });
         }
 
     }

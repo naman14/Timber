@@ -61,6 +61,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
+    implementation 'com.android.support:multidex:1.0.1'
 
     implementation "com.android.support:mediarouter-v7:$rootProject.supportLibraryVersion"
     implementation 'com.google.android.gms:play-services-cast-framework:11.6.0'

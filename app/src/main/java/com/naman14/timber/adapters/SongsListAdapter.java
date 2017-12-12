@@ -88,7 +88,8 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(),
                 itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+                        .showImageOnLoading(R.drawable.ic_empty_music2)
+                        .resetViewBeforeLoading(true).build());
 
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
             itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));

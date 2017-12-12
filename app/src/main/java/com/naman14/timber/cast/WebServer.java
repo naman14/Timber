@@ -3,6 +3,7 @@ package com.naman14.timber.cast;
 import android.content.Context;
 import android.net.Uri;
 
+import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.TimberUtils;
 
 import java.io.File;
@@ -19,7 +20,7 @@ public class WebServer extends NanoHTTPD {
     private Uri songUri, albumArtUri;
 
     public WebServer(Context context) {
-        super(8080);
+        super(Constants.CAST_SERVER_PORT);
         this.context = context;
     }
 

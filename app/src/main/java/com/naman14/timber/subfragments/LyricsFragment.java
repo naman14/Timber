@@ -54,7 +54,7 @@ public class LyricsFragment extends Fragment {
         final TextView poweredbyTextView = (TextView) lyricsView.findViewById(R.id.lyrics_makeitpersonal);
         poweredbyTextView.setVisibility(View.GONE);
         final TextView lyricsTextView = (TextView) lyricsView.findViewById(R.id.lyrics_text);
-        lyricsTextView.setText("Loading...");
+        lyricsTextView.setText(getString(R.string.lyrics_loading));
         String filename = getRealPathFromURI(Uri.parse(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/" + MusicPlayer.getCurrentAudioId()));
         if (filename != null && lyrics == null) {
             lyrics = LyricsExtractor.getLyrics(new File(filename));

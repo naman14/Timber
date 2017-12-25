@@ -332,8 +332,14 @@ public class MusicService extends Service {
         filter.addAction(PREVIOUS_FORCE_ACTION);
         filter.addAction(REPEAT_ACTION);
         filter.addAction(SHUFFLE_ACTION);
+        filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
         // Attach the broadcast listener
         registerReceiver(mIntentReceiver, filter);
+
+
+        Receiver mReceiver = new Receiver();
+        registerReceiver(mReceiver, filter);
 
         mMediaStoreObserver = new MediaStoreObserver(mPlayerHandler);
         getContentResolver().registerContentObserver(
@@ -2849,6 +2855,19 @@ public class MusicService extends Service {
 
             Log.e("ELEVEN", "calling refresh!");
             refresh();
+        }
+    }
+
+    private class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context content, Intent intent)
+        {
+            String action = intent.getAction();
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
+                if (PreferencesUtility.getInstance(content).pauseEnabledOnDetach()) {
+                    pause();
+                }
+            }
         }
     }
 

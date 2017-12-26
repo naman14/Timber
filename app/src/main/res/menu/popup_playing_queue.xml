@@ -4,6 +4,10 @@
     <item
         android:id="@+id/popup_song_play"
         android:title="@string/play" />
+    <item
+        android:id="@+id/popup_song_remove_queue"
+        android:title="Remove from queue"
+        />
 
     <item
         android:id="@+id/popup_song_addto_playlist"

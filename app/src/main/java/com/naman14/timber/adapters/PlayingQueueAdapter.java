@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapter.ItemHolder> {
+    private static final String TAG = "PlayingQueueAdapter";
 
     public int currentlyPlayingPosition;
     private List<Song> arraylist;
@@ -97,6 +99,12 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
+                            case R.id.popup_song_remove_queue:
+                                Log.v(TAG,"Removing " + position);
+                                removeSongAt(position);
+                                Log.v(TAG,"arraylist after remove: " + arraylist);
+                                Log.v(TAG,"Queue Size: " + getItemCount());
+                                break;
                             case R.id.popup_song_play:
                                 MusicPlayer.playAll(mContext, getSongIds(), position, -1, TimberUtils.IdType.NA, false);
                                 break;

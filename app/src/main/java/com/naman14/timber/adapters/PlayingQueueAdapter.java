@@ -101,9 +101,9 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
                         switch (item.getItemId()) {
                             case R.id.popup_song_remove_queue:
                                 Log.v(TAG,"Removing " + position);
+                                MusicPlayer.removeTrackAtPosition(getSongAt(position).id, position);
                                 removeSongAt(position);
-                                Log.v(TAG,"arraylist after remove: " + arraylist);
-                                Log.v(TAG,"Queue Size: " + getItemCount());
+                                notifyItemRemoved(position);
                                 break;
                             case R.id.popup_song_play:
                                 MusicPlayer.playAll(mContext, getSongIds(), position, -1, TimberUtils.IdType.NA, false);

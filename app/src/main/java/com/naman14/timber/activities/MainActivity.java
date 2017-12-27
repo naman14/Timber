@@ -220,6 +220,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
         if (TimberUtils.isMarshmallow()) {
             checkPermissionAndThenLoad();
+            //checkWritePermissions();
         } else {
             loadEverything();
         }
@@ -277,7 +278,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     private void checkPermissionAndThenLoad() {
         //check for permission
-        if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) && Nammu.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             loadEverything();
         } else {
             if (Nammu.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -286,14 +287,15 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                         .setAction("OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Nammu.askForPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE, permissionReadstorageCallback);
+                                Nammu.askForPermission(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
                             }
                         }).show();
             } else {
-                Nammu.askForPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, permissionReadstorageCallback);
+                Nammu.askForPermission(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
             }
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

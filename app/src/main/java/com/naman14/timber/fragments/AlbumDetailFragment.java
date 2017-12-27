@@ -48,6 +48,7 @@ import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.adapters.AlbumSongsAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.dataloaders.AlbumSongLoader;
+import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
@@ -74,6 +75,7 @@ public class AlbumDetailFragment extends Fragment {
 
     private ImageView albumArt, artistArt;
     private TextView albumTitle, albumDetails;
+    private AppCompatActivity mContext;
 
     private RecyclerView recyclerView;
     private AlbumSongsAdapter mAdapter;
@@ -110,6 +112,7 @@ public class AlbumDetailFragment extends Fragment {
             albumID = getArguments().getLong(Constants.ALBUM_ID);
         }
         context = getActivity();
+        mContext = (AppCompatActivity) context;
         mPreferences = PreferencesUtility.getInstance(context);
     }
 
@@ -309,6 +312,12 @@ public class AlbumDetailFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_go_to_artist:
                 NavigationUtils.goToArtist(getContext(), album.artistId);
+                break;
+            case R.id.popup_song_addto_queue:
+                MusicPlayer.addToQueue(context, mAdapter.getSongIds(), -1, TimberUtils.IdType.NA);
+                break;
+            case R.id.popup_song_addto_playlist:
+                AddPlaylistDialog.newInstance(mAdapter.getSongIds()).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
                 break;
             case R.id.menu_sort_by_az:
                 mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_A_Z);

@@ -4,6 +4,12 @@
         android:id="@+id/menu_go_to_artist"
         android:title="@string/go_to_artist" />
     <item
+        android:id="@+id/popup_song_addto_queue"
+        android:title="@string/add_to_queue" />
+    <item
+        android:id="@+id/popup_song_addto_playlist"
+        android:title="@string/add_to_playlist" />
+    <item
         android:id="@+id/menu_sort_by"
         android:showAsAction="never"
         android:orderInCategory="50"

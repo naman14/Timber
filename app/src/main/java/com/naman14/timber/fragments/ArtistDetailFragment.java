@@ -30,25 +30,34 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.afollestad.appthemeengine.ATE;
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.adapters.ArtistSongAdapter;
 import com.naman14.timber.dataloaders.ArtistLoader;
+import com.naman14.timber.dataloaders.ArtistSongLoader;
+import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
 import com.naman14.timber.lastfmapi.models.ArtistQuery;
 import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
+import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.ImageUtils;
+import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import java.util.List;
 
 public class ArtistDetailFragment extends Fragment {
 
@@ -61,6 +70,7 @@ public class ArtistDetailFragment extends Fragment {
     AppBarLayout appBarLayout;
     boolean largeImageLoaded = false;
     int primaryColor = -1;
+    ArtistSongAdapter mAdapter;
 
     public static ArtistDetailFragment newInstance(long id, boolean useTransition, String transitionName) {
         ArtistDetailFragment fragment = new ArtistDetailFragment();
@@ -118,6 +128,8 @@ public class ArtistDetailFragment extends Fragment {
     private void setUpArtistDetails() {
 
         final Artist artist = ArtistLoader.getArtist(getActivity(), artistID);
+        List<Song> songList = ArtistSongLoader.getSongsForArtist(getActivity(), artistID);
+        mAdapter = new ArtistSongAdapter(getActivity(), songList, artistID);
 
         collapsingToolbarLayout.setTitle(artist.name);
 
@@ -200,8 +212,21 @@ public class ArtistDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.artist_detail, menu);
         if (getActivity() != null)
             ATE.applyMenu(getActivity(), "dark_theme", menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.popup_song_addto_queue:
+                MusicPlayer.addToQueue(getContext(), mAdapter.getSongIds(), -1, TimberUtils.IdType.NA);
+                break;
+            case R.id.popup_song_addto_playlist:
+                AddPlaylistDialog.newInstance(mAdapter.getSongIds()).show(getActivity().getSupportFragmentManager(), "ADD_PLAYLIST");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

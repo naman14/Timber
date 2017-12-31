@@ -188,6 +188,9 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                     }
                 });
                 menu.inflate(R.menu.popup_song);
+                //Hide these because they aren't implemented
+                menu.getMenu().findItem(R.id.popup_song_delete).setVisible(false);
+                menu.getMenu().findItem(R.id.popup_song_share).setVisible(false);
                 menu.show();
             }
         });

@@ -149,6 +149,10 @@ public class BaseQueueAdapter extends RecyclerView.Adapter<BaseQueueAdapter.Item
         return ret;
     }
 
+    public void removeSongAt(int i){
+        arraylist.remove(i);
+    }
+
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, artist;
         protected ImageView albumArt, popupMenu;

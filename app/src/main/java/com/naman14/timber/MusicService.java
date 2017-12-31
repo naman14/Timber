@@ -337,10 +337,6 @@ public class MusicService extends Service {
         // Attach the broadcast listener
         registerReceiver(mIntentReceiver, filter);
 
-
-        Receiver mReceiver = new Receiver();
-        registerReceiver(mReceiver, filter);
-
         mMediaStoreObserver = new MediaStoreObserver(mPlayerHandler);
         getContentResolver().registerContentObserver(
                 MediaStore.Audio.Media.INTERNAL_CONTENT_URI, true, mMediaStoreObserver);
@@ -573,6 +569,11 @@ public class MusicService extends Service {
             cycleShuffle();
         } else if (UPDATE_PREFERENCES.equals(action)) {
             onPreferencesUpdate(intent.getExtras());
+        }
+        else if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
+            if (PreferencesUtility.getInstance(getApplicationContext()).pauseEnabledOnDetach()) {
+                pause();
+            }
         }
     }
 
@@ -2857,18 +2858,4 @@ public class MusicService extends Service {
             refresh();
         }
     }
-
-    private class Receiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context content, Intent intent)
-        {
-            String action = intent.getAction();
-            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
-                if (PreferencesUtility.getInstance(content).pauseEnabledOnDetach()) {
-                    pause();
-                }
-            }
-        }
-    }
-
 }

@@ -6,7 +6,7 @@
         android:title="@string/play" />
     <item
         android:id="@+id/popup_song_remove_queue"
-        android:title="Remove from queue"
+        android:title="@string/remove_from_queue"
         />
 
     <item

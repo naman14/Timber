@@ -107,5 +107,7 @@
     <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> faixas adicionadas à fila.</string>
     <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> faixa adicionada à lista de reprodução.</string>
     <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> faixas adicionadas à lista de reprodução.</string>
+    <string name="now_playing_no_track_selected">Não foi selecionado musíca para tocar.</string>
+    <string name="lyrics_loading">Carregando...</string>
 
 </resources>

@@ -54,11 +54,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String KEY_START_PAGE = "start_page_preference";
     private boolean lastFMlogedin;
 
-    Preference nowPlayingSelector,  lastFMlogin, lockscreen, xposed;
+    private Preference nowPlayingSelector,  lastFMlogin, lockscreen, xposed;
 
-    SwitchPreference toggleAnimations;
-    ListPreference themePreference, startPagePreference;
-    PreferencesUtility mPreferences;
+    private SwitchPreference toggleAnimations;
+    private ListPreference themePreference, startPagePreference;
+    private PreferencesUtility mPreferences;
     private String mAteKey;
 
     @Override

@@ -64,34 +64,10 @@ import java.util.List;
 
 public class PlaylistDetailActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
 
-    String action;
-    long playlistID;
-    HashMap<String, Runnable> playlistsMap = new HashMap<>();
-    Runnable playlistLastAdded = new Runnable() {
-        public void run() {
-            new loadLastAdded().execute("");
-        }
-    };
-    Runnable playlistRecents = new Runnable() {
-        @Override
-        public void run() {
-            new loadRecentlyPlayed().execute("");
+    private String action;
+    private long playlistID;
+    private HashMap<String, Runnable> playlistsMap = new HashMap<>();
 
-        }
-    };
-    Runnable playlistToptracks = new Runnable() {
-        @Override
-        public void run() {
-            new loadTopTracks().execute("");
-        }
-    };
-    Runnable playlistUsercreated = new Runnable() {
-        @Override
-        public void run() {
-            new loadUserCreatedPlaylist().execute("");
-
-        }
-    };
     private AppCompatActivity mContext = PlaylistDetailActivity.this;
     private SongsListAdapter mAdapter;
     private RecyclerView recyclerView;
@@ -99,6 +75,32 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
     private TextView playlistname;
     private View foreground;
     private boolean animate;
+
+    private Runnable playlistLastAdded = new Runnable() {
+        public void run() {
+            new loadLastAdded().execute("");
+        }
+    };
+    private Runnable playlistRecents = new Runnable() {
+        @Override
+        public void run() {
+            new loadRecentlyPlayed().execute("");
+
+        }
+    };
+    private Runnable playlistToptracks = new Runnable() {
+        @Override
+        public void run() {
+            new loadTopTracks().execute("");
+        }
+    };
+    private Runnable playlistUsercreated = new Runnable() {
+        @Override
+        public void run() {
+            new loadUserCreatedPlaylist().execute("");
+
+        }
+    };
 
     @TargetApi(21)
     @Override

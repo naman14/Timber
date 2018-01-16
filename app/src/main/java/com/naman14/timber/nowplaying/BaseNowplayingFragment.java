@@ -71,21 +71,31 @@ import java.security.InvalidParameterException;
 
 public class BaseNowplayingFragment extends Fragment implements MusicStateListener {
 
-    ImageView albumart;
-    ImageView shuffle;
-    ImageView repeat;
-    MaterialIconView previous, next;
-    PlayPauseButton mPlayPause;
-    PlayPauseDrawable playPauseDrawable = new PlayPauseDrawable();
-    FloatingActionButton playPauseFloating;
-    View playPauseWrapper;
+    private MaterialIconView previous, next;
+    private PlayPauseButton mPlayPause;
+    private PlayPauseDrawable playPauseDrawable = new PlayPauseDrawable();
+    private FloatingActionButton playPauseFloating;
+    private View playPauseWrapper;
 
-    String ateKey;
-    int accentColor;
-    int overflowcounter = 0;
-    TextView songtitle, songalbum, songartist, songduration, elapsedtime;
-    SeekBar mProgress;
+    private String ateKey;
+    private int overflowcounter = 0;
+    private TextView songtitle, songalbum, songartist, songduration, elapsedtime;
+    private SeekBar mProgress;
     boolean fragmentPaused = false;
+
+    private CircularSeekBar mCircularProgress;
+    private BaseQueueAdapter mAdapter;
+    private SlidingQueueAdapter slidingQueueAdapter;
+
+    private TimelyView timelyView11, timelyView12, timelyView13, timelyView14, timelyView15;
+    private TextView hourColon;
+    private int[] timeArr = new int[]{0, 0, 0, 0, 0};
+    private Handler mElapsedTimeHandler;
+    private boolean duetoplaypause = false;
+
+    public ImageView albumart, shuffle, repeat;
+    public int accentColor;
+    public RecyclerView recyclerView;
 
     //seekbar
     public Runnable mUpdateProgress = new Runnable() {
@@ -110,7 +120,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
-    CircularSeekBar mCircularProgress;
+
     //circular seekbar
     public Runnable mUpdateCircularProgress = new Runnable() {
 
@@ -135,14 +145,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         }
     };
 
-    RecyclerView recyclerView;
-    BaseQueueAdapter mAdapter;
-    SlidingQueueAdapter slidingQueueAdapter;
-
-    TimelyView timelyView11, timelyView12, timelyView13, timelyView14, timelyView15;
-    TextView hourColon;
-    int[] timeArr = new int[]{0, 0, 0, 0, 0};
-    Handler mElapsedTimeHandler;
     public Runnable mUpdateElapsedTime = new Runnable() {
         @Override
         public void run() {
@@ -175,7 +177,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
-    private boolean duetoplaypause = false;
+
     private final View.OnClickListener mButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -200,6 +202,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         }
     };
+
     private final View.OnClickListener mFLoatingButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

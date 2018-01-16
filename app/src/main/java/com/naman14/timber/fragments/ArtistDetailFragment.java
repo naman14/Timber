@@ -61,16 +61,14 @@ import java.util.List;
 
 public class ArtistDetailFragment extends Fragment {
 
-    long artistID = -1;
-
-    ImageView artistArt;
-
-    Toolbar toolbar;
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    AppBarLayout appBarLayout;
-    boolean largeImageLoaded = false;
-    int primaryColor = -1;
-    ArtistSongAdapter mAdapter;
+    private long artistID = -1;
+    private ImageView artistArt;
+    private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private AppBarLayout appBarLayout;
+    private boolean largeImageLoaded = false;
+    private int primaryColor = -1;
+    private ArtistSongAdapter mAdapter;
 
     public static ArtistDetailFragment newInstance(long id, boolean useTransition, String transitionName) {
         ArtistDetailFragment fragment = new ArtistDetailFragment();

@@ -160,8 +160,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
 
     @Override
@@ -190,7 +188,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         mService = ITimberService.Stub.asInterface(service);
-
         onMetaChanged();
     }
 

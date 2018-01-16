@@ -32,7 +32,8 @@ import retrofit.client.Response;
  */
 
 public class LyricsFragment extends Fragment {
-    String lyrics = null;
+
+    private String lyrics = null;
     private Toolbar toolbar;
     private View rootView;
 
@@ -50,6 +51,7 @@ public class LyricsFragment extends Fragment {
     }
 
     private void loadLyrics() {
+
         final View lyricsView = rootView.findViewById(R.id.lyrics);
         final TextView poweredbyTextView = (TextView) lyricsView.findViewById(R.id.lyrics_makeitpersonal);
         poweredbyTextView.setVisibility(View.GONE);
@@ -59,6 +61,7 @@ public class LyricsFragment extends Fragment {
         if (filename != null && lyrics == null) {
             lyrics = LyricsExtractor.getLyrics(new File(filename));
         }
+
         if (lyrics != null) {
             lyricsTextView.setText(lyrics);
         } else {
@@ -68,6 +71,7 @@ public class LyricsFragment extends Fragment {
                 if (i != -1) {
                     artist = artist.substring(0, i);
                 }
+
                 LyricsLoader.getInstance(this.getContext()).getLyrics(artist, MusicPlayer.getTrackName(), new Callback<String>() {
                     @Override
                     public void success(String s, Response response) {
@@ -85,6 +89,7 @@ public class LyricsFragment extends Fragment {
                         lyricsTextView.setText(R.string.no_lyrics);
                     }
                 });
+
             } else {
                 lyricsTextView.setText(R.string.no_lyrics);
             }

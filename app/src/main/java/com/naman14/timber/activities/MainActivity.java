@@ -82,6 +82,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     private Map<String, Runnable> navigationMap = new HashMap<String, Runnable>();
     private Handler navDrawerRunnable = new Handler();
     private Runnable runnable;
+    private DrawerLayout mDrawerLayout;
+    private boolean isDarkTheme;
 
     private Runnable navigateLibrary = new Runnable() {
         public void run() {
@@ -90,13 +92,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
 
-        }
-    };
-
-    private Runnable navigateNowplaying = new Runnable() {
-        public void run() {
-            navigateLibrary.run();
-            startActivity(new Intent(MainActivity.this, NowPlayingActivity.class));
         }
     };
 
@@ -162,8 +157,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
-    private DrawerLayout mDrawerLayout;
-    private boolean isDarkTheme;
+    private Runnable navigateNowplaying = new Runnable() {
+        public void run() {
+            navigateLibrary.run();
+            startActivity(new Intent(MainActivity.this, NowPlayingActivity.class));
+        }
+    };
 
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
@@ -176,7 +175,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             finish();
         }
     };
-
 
 
     @Override

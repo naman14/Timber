@@ -22,6 +22,7 @@ import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by naman on 7/12/17.
@@ -79,6 +80,7 @@ public class BaseSongAdapter<V extends RecyclerView.ViewHolder> extends Recycler
 
 
     }
-
+    public void removeSongAt(int i){}
+    public void updateDataSet(List<Song> arraylist) {}
 
 }

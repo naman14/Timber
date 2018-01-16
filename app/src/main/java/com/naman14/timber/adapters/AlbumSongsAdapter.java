@@ -140,9 +140,15 @@ public class AlbumSongsAdapter extends BaseSongAdapter<AlbumSongsAdapter.ItemHol
         return ret;
     }
 
+    @Override
     public void updateDataSet(List<Song> arraylist) {
         this.arraylist = arraylist;
         this.songIDs = getSongIds();
+    }
+
+    @Override
+    public void removeSongAt(int i){
+        arraylist.remove(i);
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

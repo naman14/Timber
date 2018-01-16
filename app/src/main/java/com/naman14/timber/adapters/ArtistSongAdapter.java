@@ -137,8 +137,8 @@ public class ArtistSongAdapter extends BaseSongAdapter<ArtistSongAdapter.ItemHol
                                 TimberUtils.shareTrack(mContext, arraylist.get(position).id);
                                 break;
                             case R.id.popup_song_delete:
-                                long[] deleteIds = {arraylist.get(position).id};
-                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, ArtistSongAdapter.this, position);
+                                long[] deleteIds = {arraylist.get(position + 1).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position + 1).title, deleteIds, ArtistSongAdapter.this, position + 1);
                                 break;
                         }
                         return false;
@@ -180,6 +180,18 @@ public class ArtistSongAdapter extends BaseSongAdapter<ArtistSongAdapter.ItemHol
             ret[i] = actualArraylist.get(i).id;
         }
         return ret;
+    }
+
+    @Override
+    public void removeSongAt(int i){
+        arraylist.remove(i);
+        updateDataSet(arraylist);
+    }
+
+    @Override
+    public void updateDataSet(List<Song> arraylist) {
+        this.arraylist = arraylist;
+        this.songIDs = getSongIds();
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.afollestad.appthemeengine.customizers.ATEStatusBarCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
@@ -20,7 +21,7 @@ import com.naman14.timber.utils.PreferencesUtility;
 /**
  * Created by naman on 01/01/16.
  */
-public class NowPlayingActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
+public class NowPlayingActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer, ATEStatusBarCustomizer {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,17 @@ public class NowPlayingActivity extends BaseActivity implements ATEActivityTheme
     }
 
     @Override
+    public int getLightStatusBarMode() {
+        return Config.LIGHT_STATUS_BAR_OFF;
+    }
+
+    @Override
     public int getToolbarColor() {
+        return Color.TRANSPARENT;
+    }
+
+    @Override
+    public int getStatusBarColor() {
         return Color.TRANSPARENT;
     }
 

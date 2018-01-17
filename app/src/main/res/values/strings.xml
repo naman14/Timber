@@ -145,6 +145,7 @@
     <string name="new_playlist">New playlist</string>
     <string name="share">Share</string>
     <string name="delete_from_device">Delete from device</string>
+    <string name="remove_from_queue">Remove from queue</string>
 
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>

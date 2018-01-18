@@ -110,14 +110,11 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
             }
             overflowcounter--;
-            if (MusicPlayer.isPlaying()) {
-                int delay = (int) (1500 - (position % 1000));
-                if (overflowcounter < 0 && !fragmentPaused) {
+            int delay = 250; //not sure why this delay was so high before
+            if (overflowcounter < 0 && !fragmentPaused) {
                     overflowcounter++;
-                    mProgress.postDelayed(mUpdateProgress, delay);
-                }
+                    mProgress.postDelayed(mUpdateProgress, delay); //delay
             }
-
         }
     };
 
@@ -543,6 +540,13 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
                         });
             }
+            if (songtitle != null) {
+                if(!songtitle.getText().equals(MusicPlayer.getTrackName())) {
+                    songtitle.setText(MusicPlayer.getTrackName());
+                    songtitle.setSelected(true);
+                }
+            }
+
         }
         duetoplaypause = false;
 
@@ -553,13 +557,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
             updatePlayPauseFloatingButton();
 
 
-        if (songtitle != null)
-            songtitle.setText(MusicPlayer.getTrackName());
+
 
         if (songalbum != null)
             songalbum.setText(MusicPlayer.getAlbumName());
 
-        if (songartist != null) {
+       /* if (songartist != null) {
             songartist.setText(MusicPlayer.getArtistName());
             songartist.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -567,7 +570,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                     NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
                 }
             });
-        }
+        }*/
 
         if (songduration != null && getActivity() != null)
             songduration.setText(TimberUtils.makeShortTimeString(getActivity(), MusicPlayer.duration() / 1000));

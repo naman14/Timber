@@ -31,13 +31,13 @@
                     android:layout_width="match_parent"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
-                    android:background="#55000000"
+                    android:background="#99000000"
                     app:layout_heightPercent="20%">
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#33000000" />
+                        android:background="#99000000" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"

@@ -65,16 +65,16 @@
                     <TextView
                         android:id="@+id/song_title"
                         style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="243dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="130dp"
+                        android:layout_marginRight="100dp"
                         android:width="800dp"
                         android:ellipsize="marquee"
                         android:fadingEdge="horizontal"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:text="It Aint Hard To Tell I Excel and Pre"
+                        android:text="It Aint Hard To Tell I Excel and Prev"
                         android:textSize="16sp" />
 
                     <TextView

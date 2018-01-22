@@ -65,23 +65,27 @@
                     <TextView
                         android:id="@+id/song_title"
                         style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="243dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="130dp"
+                        android:width="800dp"
                         android:ellipsize="marquee"
                         android:fadingEdge="horizontal"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:textSize="25sp" />
+                        android:text="It Aint Hard To Tell I Excel and Pre"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/song_artist"
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="wrap_content"
+                        android:width="800dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:text="Song Artist"
                         android:paddingTop="3dp"
 
                         android:textSize="14sp" />

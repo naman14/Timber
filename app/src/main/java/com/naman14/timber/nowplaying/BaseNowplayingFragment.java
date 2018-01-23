@@ -80,7 +80,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
     private String ateKey;
     private int overflowcounter = 0;
-    private TextView songtitle, songalbum, songartist, songduration, elapsedtime, scrollTest;
+    private TextView songtitle, songalbum, songartist, songduration, elapsedtime;
     private SeekBar mProgress;
     boolean fragmentPaused = false;
 
@@ -557,13 +557,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                         songtitle.setTextSize(18 + (MusicPlayer.getTrackName().length() - 24));
                     }
                     Log.v("BaseNowPlayingFrag", "Title Text Size: " + songtitle.getTextSize());
-
-                    /*new Runnable() {
-                        @Override
-                        public void run() {
-                            songtitle.setSelected(true);
-                        }
-                    };*/
             }
             if (songartist != null) {
                 songartist.setText(MusicPlayer.getArtistName());
@@ -585,13 +578,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         if (playPauseFloating != null)
             updatePlayPauseFloatingButton();
-
-
-
-
-
-
-
 
         if (songduration != null && getActivity() != null)
             songduration.setText(TimberUtils.makeShortTimeString(getActivity(), MusicPlayer.duration() / 1000));

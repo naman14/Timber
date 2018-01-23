@@ -280,9 +280,8 @@
                     android:layout_marginLeft="12dp"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-light"
-                    android:maxLength="20"
-                    android:maxLines="1"
-                    android:text="Demons"
+                    android:singleLine="true"
+                    android:text="This is a very long song title to test the length of this text view"
                     android:textColor="@android:color/white"
                     android:textSize="17sp" />
 

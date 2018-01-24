@@ -94,6 +94,12 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
+    public static void goToQueue(Context context){
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(Constants.NAVIGATE_QUEUE_ANYWHERE);
+        context.startActivity(intent);
+    }
+
     public static void goToLyrics(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setAction(Constants.NAVIGATE_LYRICS);

@@ -19,6 +19,7 @@ public class Constants {
     public static final String NAVIGATE_LIBRARY = "navigate_library";
     public static final String NAVIGATE_PLAYLIST = "navigate_playlist";
     public static final String NAVIGATE_QUEUE = "navigate_queue";
+    public static final String NAVIGATE_QUEUE_ANYWHERE = "navigate_queue_anywhere";
     public static final String NAVIGATE_ALBUM = "navigate_album";
     public static final String NAVIGATE_ARTIST = "navigate_artist";
     public static final String NAVIGATE_NOWPLAYING = "navigate_nowplaying";

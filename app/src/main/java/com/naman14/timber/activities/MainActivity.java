@@ -308,7 +308,15 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(currentFragment instanceof QueueFragment){
+            MenuItem item = menu.findItem(R.id.action_open_queue);
+            item.setVisible(false);
+        }
+        else{
+            MenuItem item = menu.findItem(R.id.action_open_queue);
+            item.setVisible(true);
+        }
         return true;
     }
 

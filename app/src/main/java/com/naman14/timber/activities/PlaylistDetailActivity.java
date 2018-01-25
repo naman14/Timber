@@ -42,6 +42,7 @@ import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SongsListAdapter;
 import com.naman14.timber.dataloaders.LastAddedLoader;
@@ -61,6 +62,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class PlaylistDetailActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
 
@@ -317,6 +319,7 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             menu.findItem(R.id.action_delete_playlist).setVisible(false);
             menu.findItem(R.id.action_clear_auto_playlist).setTitle("Clear " + playlistname.getText().toString());
         }
+        menu.findItem(R.id.action_shuffle).setVisible(false);
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -332,6 +335,16 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
                 break;
             case R.id.action_clear_auto_playlist:
                 clearAutoPlaylists();
+                break;
+            case R.id.shuffle_playlist:
+                List<Song> playlistsongs = PlaylistSongLoader.getSongsInPlaylist(mContext, playlistID);
+                long[] songIDs = new long[playlistsongs.size()];
+                for(int i = 0; i < playlistsongs.size();i++){
+                    songIDs[i] = playlistsongs.get(i).id;
+                }
+                Random random = new Random();
+                int position = random.nextInt(playlistsongs.size() + 1);
+                MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, true);
                 break;
             default:
                 break;

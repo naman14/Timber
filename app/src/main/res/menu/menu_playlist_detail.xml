@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/shuffle_playlist"
+        android:orderInCategory="10"
+        android:title="Shuffle Playlist"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_clear_auto_playlist"
         android:orderInCategory="9"
         android:title="Clear"

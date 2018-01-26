@@ -30,6 +30,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -110,14 +111,11 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                     elapsedtime.setText(TimberUtils.makeShortTimeString(getActivity(), position / 1000));
             }
             overflowcounter--;
-            if (MusicPlayer.isPlaying()) {
-                int delay = (int) (1500 - (position % 1000));
-                if (overflowcounter < 0 && !fragmentPaused) {
+            int delay = 250; //not sure why this delay was so high before
+            if (overflowcounter < 0 && !fragmentPaused) {
                     overflowcounter++;
-                    mProgress.postDelayed(mUpdateProgress, delay);
-                }
+                    mProgress.postDelayed(mUpdateProgress, delay); //delay
             }
-
         }
     };
 
@@ -308,6 +306,10 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
         mCircularProgress = (CircularSeekBar) view.findViewById(R.id.song_progress_circular);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.queue_recyclerview);
+
+
+        songtitle.setSelected(true);
+
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -543,6 +545,31 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
                         });
             }
+            if (songtitle != null && MusicPlayer.getTrackName() != null) {
+                    songtitle.setText(MusicPlayer.getTrackName());
+                    if(MusicPlayer.getTrackName().length() <= 23){
+                        songtitle.setTextSize(25);
+                    }
+                    else if(MusicPlayer.getTrackName().length() >= 30){
+                        songtitle.setTextSize(18);
+                    }
+                    else{
+                        songtitle.setTextSize(18 + (MusicPlayer.getTrackName().length() - 24));
+                    }
+                    Log.v("BaseNowPlayingFrag", "Title Text Size: " + songtitle.getTextSize());
+            }
+            if (songartist != null) {
+                songartist.setText(MusicPlayer.getArtistName());
+                songartist.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
+                    }
+                });
+            }
+            if (songalbum != null)
+                songalbum.setText(MusicPlayer.getAlbumName());
+
         }
         duetoplaypause = false;
 
@@ -551,23 +578,6 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
         if (playPauseFloating != null)
             updatePlayPauseFloatingButton();
-
-
-        if (songtitle != null)
-            songtitle.setText(MusicPlayer.getTrackName());
-
-        if (songalbum != null)
-            songalbum.setText(MusicPlayer.getAlbumName());
-
-        if (songartist != null) {
-            songartist.setText(MusicPlayer.getArtistName());
-            songartist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavigationUtils.goToArtist(getContext(), MusicPlayer.getCurrentArtistId());
-                }
-            });
-        }
 
         if (songduration != null && getActivity() != null)
             songduration.setText(TimberUtils.makeShortTimeString(getActivity(), MusicPlayer.duration() / 1000));

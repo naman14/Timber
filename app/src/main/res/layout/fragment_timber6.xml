@@ -31,13 +31,13 @@
                     android:layout_width="match_parent"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
-                    android:background="#55000000"
+                    android:background="#99000000"
                     app:layout_heightPercent="20%">
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#33000000" />
+                        android:background="#99000000" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -49,20 +49,20 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:layout_gravity="left"
-                            android:orientation="vertical"
-                            android:layout_marginRight="130dp">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/song_title"
                                 style="@style/TextAppearance.AppCompat.Body1"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="30dp"
+                                android:layout_marginRight="80dp"
                                 android:ellipsize="end"
                                 android:fontFamily="sans-serif-light"
                                 android:singleLine="true"
@@ -280,9 +280,8 @@
                     android:layout_marginLeft="12dp"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-light"
-                    android:maxLength="20"
-                    android:maxLines="1"
-                    android:text="Demons"
+                    android:singleLine="true"
+                    android:text="This is a very long song title to test the length of this text view"
                     android:textColor="@android:color/white"
                     android:textSize="17sp" />
 

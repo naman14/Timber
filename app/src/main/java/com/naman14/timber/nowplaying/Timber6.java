@@ -48,7 +48,7 @@ public class Timber6 extends BaseNowplayingFragment {
         rootView.findViewById(R.id.nextView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MusicPlayer.setQueuePosition(MusicPlayer.getQueuePosition() + 1);
+                MusicPlayer.next();
             }
         });
 

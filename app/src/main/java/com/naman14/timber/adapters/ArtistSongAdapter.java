@@ -112,7 +112,7 @@ public class ArtistSongAdapter extends BaseSongAdapter<ArtistSongAdapter.ItemHol
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.popup_song_play:
-                                MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
+                                MusicPlayer.playAll(mContext, songIDs, position + 1, -1, TimberUtils.IdType.NA, false);
                                 break;
                             case R.id.popup_song_play_next:
                                 long[] ids = new long[1];
@@ -134,7 +134,7 @@ public class ArtistSongAdapter extends BaseSongAdapter<ArtistSongAdapter.ItemHol
                                 AddPlaylistDialog.newInstance(arraylist.get(position + 1)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
                             case R.id.popup_song_share:
-                                TimberUtils.shareTrack(mContext, arraylist.get(position).id);
+                                TimberUtils.shareTrack(mContext, arraylist.get(position + 1).id);
                                 break;
                             case R.id.popup_song_delete:
                                 long[] deleteIds = {arraylist.get(position + 1).id};
@@ -228,7 +228,7 @@ public class ArtistSongAdapter extends BaseSongAdapter<ArtistSongAdapter.ItemHol
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    playAll(mContext, songIDs, getAdapterPosition() - 1, artistID,
+                    playAll(mContext, songIDs, getAdapterPosition(), artistID,
                             TimberUtils.IdType.Artist, false,
                             arraylist.get(getAdapterPosition()), true);
                 }

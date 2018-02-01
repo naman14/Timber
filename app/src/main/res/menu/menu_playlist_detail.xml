@@ -5,7 +5,7 @@
     <item
         android:id="@+id/shuffle_playlist"
         android:orderInCategory="10"
-        android:title="Shuffle Playlist"
+        android:title="Shuffle playlist"
         app:showAsAction="never" />
 
     <item

@@ -271,6 +271,7 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
 
     public void addSongTo(int i, Song song) {
         arraylist.add(i, song);
+        updateDataSet(arraylist);
     }
 
     @Override

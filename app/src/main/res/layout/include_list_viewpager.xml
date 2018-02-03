@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.naman14.timber.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
-    android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:fadeColor="@android:color/transparent"
-    sothree:panelHeight="55dp"
-    sothree:shadowHeight="5dp">
+    android:layout_width="match_parent"
+    android:id="@+id/content_root"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <com.naman14.timber.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:fadeColor="@android:color/transparent"
+        sothree:panelHeight="55dp"
+        sothree:shadowHeight="5dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/quickcontrols_container">
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/quickcontrols_container">
+
+        </FrameLayout>
+
+    </com.naman14.timber.slidinguppanel.SlidingUpPanelLayout>
 
 
-
-    </FrameLayout>
-
-</com.naman14.timber.slidinguppanel.SlidingUpPanelLayout>
+</FrameLayout>

@@ -104,11 +104,11 @@
     <string name="albumart_lockscreen">Lockscreen</string>
     <string name="albumart_lockscreen_summary">Show album art in lockscreen</string>
 
-    <string name="load_artist_image">Load artist images</string>
-    <string name="load_artist_image_summary">Load artist images from lastfm</string>
+    <string name="load_artist_album_image">Load artist/album images</string>
+    <string name="load_artist_album_image_summary">Load artist/album images from lastfm</string>
 
-    <string name="load_artist_image_mobile">Load artist images on mobile data</string>
-    <string name="load_artist_image_mobile_summary">Load artist images even if there is no wifi</string>
+    <string name="load_artist_album_image_mobile">Load artist/album images on mobile data</string>
+    <string name="load_artist_album_image_mobile_summary">Load artist/album images even if there is no wifi</string>
 
     <string name="gestures">Gestures</string>
     <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>
@@ -143,7 +143,9 @@
     <string name="add_to_queue">Add to queue</string>
     <string name="play_next">Play next</string>
     <string name="new_playlist">New playlist</string>
-
+    <string name="share">Share</string>
+    <string name="delete_from_device">Delete from device</string>
+    <string name="remove_from_queue">Remove from queue</string>
 
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
@@ -155,5 +157,14 @@
     <string name="lastfm_loged_in">Logged in as %s</string>
 
     <string name="cancel">Cancel</string>
+    <string name="always_load_album_images_lastfm">Always load album images from Last.fm</string>
+    <string name="always_load_album_images_lastfm_summary">If unchecked, album art will be fetched locally from song file if available</string>
+
+    <string name="menu_show_lyrics">Show lyrics</string>
+    <string name="no_lyrics">No lyrics found.</string>
+    <string name="lyrics_makeitpersonal">Powered by <a href="https://makeitpersonal.co/">makeitpersonal.co</a></string>
+    <string name="cast">Cast</string>
+    <string name="now_playing_no_track_selected">\"No current track selected.</string>
+    <string name="lyrics_loading">Loading...</string>
 
 </resources>

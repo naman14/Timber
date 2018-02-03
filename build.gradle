@@ -3,10 +3,11 @@
 buildscript {
     repositories {
         jcenter()
+        google()
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'io.fabric.tools:gradle:1.+'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -17,6 +18,21 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
     }
 }
+
+ext {
+    // Sdk and tools
+    minSdkVersion = 16
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.2'
+
+    // App dependencies
+    supportLibraryVersion = '27.0.2'
+    retrofitVersion = '2.3.0'
+    okHttp3Version = '3.9.0'
+}
+

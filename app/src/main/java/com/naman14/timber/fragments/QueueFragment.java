@@ -36,19 +36,20 @@ import com.naman14.timber.adapters.PlayingQueueAdapter;
 import com.naman14.timber.dataloaders.QueueLoader;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.widgets.BaseRecyclerView;
 import com.naman14.timber.widgets.DragSortRecycler;
 
 public class QueueFragment extends Fragment implements MusicStateListener {
 
     private PlayingQueueAdapter mAdapter;
-    private RecyclerView recyclerView;
+    private BaseRecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_queue, container, false);
 
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -56,9 +57,10 @@ public class QueueFragment extends Fragment implements MusicStateListener {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle(R.string.playing_queue);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        recyclerView = rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(null);
+        recyclerView.setEmptyView(getActivity(), rootView.findViewById(R.id.list_empty), "No songs in queue");
 
         new loadQueueSongs().execute("");
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);

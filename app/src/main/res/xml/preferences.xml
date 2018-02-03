@@ -14,34 +14,6 @@
     <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/personalisation">
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
-            android:defaultValue="true"
-            android:key="toggle_animations"
-            android:summary="@string/toggle_animations"
-            android:title="@string/animations"
-            app:ateKey_pref_checkBox="?ate_key" />
-
-        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
-            android:defaultValue="true"
-            android:key="toggle_system_animations"
-            android:summary="@string/toggle_system_animations"
-            android:title="@string/system_animations"
-            app:ateKey_pref_checkBox="?ate_key" />
-
-        <!--<SwitchPreference-->
-        <!--android:defaultValue="false"-->
-        <!--android:key="toggle_artist_grid"-->
-        <!--android:summary="@string/toggle_artists_grid"-->
-        <!--android:title="@string/artist_in_grid"/>-->
-
-        <!--<ListPreference-->
-        <!--android:defaultValue="light"-->
-        <!--android:entries="@array/pref_theme_entries"-->
-        <!--android:entryValues="@array/pref_theme_values"-->
-        <!--android:key="theme_preference"-->
-        <!--android:summary="@string/choose_theme_throughout"-->
-        <!--android:title="@string/select_theme" />-->
-
-        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="false"
             android:key="dark_theme"
             android:persistent="true"
@@ -125,19 +97,26 @@
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
             android:defaultValue="true"
-            android:key="artist_image"
-            android:summary="@string/load_artist_image_summary"
-            android:title="@string/load_artist_image"
+            android:key="artist_album_image"
+            android:summary="@string/load_artist_album_image_summary"
+            android:title="@string/load_artist_album_image"
             app:ateKey_pref_checkBox="?ate_key" />
 
         <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
-            android:dependency="artist_image"
-            android:defaultValue="false"
-            android:key="artist_image_mobile"
-            android:summary="@string/load_artist_image_mobile_summary"
-            android:title="@string/load_artist_image_mobile"
+            android:dependency="artist_album_image"
+            android:defaultValue="true"
+            android:key="artist_album_image_mobile"
+            android:summary="@string/load_artist_album_image_mobile_summary"
+            android:title="@string/load_artist_album_image_mobile"
             app:ateKey_pref_checkBox="?ate_key" />
 
+        <com.afollestad.appthemeengine.prefs.ATECheckBoxPreference
+            android:dependency="artist_album_image"
+            android:defaultValue="false"
+            android:key="always_load_album_images_lastfm"
+            android:summary="@string/always_load_album_images_lastfm_summary"
+            android:title="@string/always_load_album_images_lastfm"
+            app:ateKey_pref_checkBox="?ate_key" />
     </com.naman14.timber.widgets.ThemedPreferenceCategory>
 
     <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/advanced">

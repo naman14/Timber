@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="action_settings">Innstillinger</string>
+
+    <string name="accessibility_play">Spill</string>
+    <string name="accessibility_pause">Pause</string>
+    <string name="accessibility_next">Neste</string>
+    <string name="accessibility_prev">Forrige</string>
+    <string name="accessibility_shuffle">Veksle mellom sanger</string>
+    <string name="accessibility_shuffle_all">Veksle mellom alt</string>
+    <string name="accessibility_repeat">Gjenta</string>
+    <string name="accessibility_repeat_all">Gjenta alle</string>
+    <string name="accessibility_repeat_one">Gjenta én</string>
+    <string name="accessibility_queue">Åpne avspillingskø</string>
+    <string name="accessibility_browse">Utforsk musikk</string>
+
+    <string name="menu_sort_by">Sortering</string>
+    <string name="sort_order_entry_az">A-Å</string>
+    <string name="sort_order_entry_za">Å-A</string>
+    <string name="sort_order_entry_artist">Artist</string>
+    <string name="sort_order_entry_album">Album</string>
+    <string name="sort_order_entry_year">År</string>
+    <string name="sort_order_entry_track_number">Spornummer</string>
+    <string name="sort_order_entry_duration">Varighet</string>
+    <string name="sort_order_entry_date_added">Dato lagt til</string>
+    <string name="sort_order_entry_track_list">Sporliste</string>
+    <string name="sort_order_entry_number_of_songs">Antall spor</string>
+    <string name="sort_order_entry_number_of_albums">Antall album</string>
+    <string name="sort_order_entry_filename">Filnavn</string>
+
+    <string name="error_playing_track">Feil ved avspilling av spor</string>
+
+    <string name="playlist_last_added">Sist lagt til</string>
+    <string name="playlist_recently_played">Nylig spilt</string>
+    <string name="playlist_top_tracks">Mine mest spilte spor</string>
+
+    <string name="timber_source">Innrapporter eventuelle feil<u> her </u> </string>
+    <string name="timber_feature_request">Angi funksjonsforespørsler i Google+brukerfellesskapet<u> her </u></string>
+
+    <string name="menu_show_as">Vis som</string>
+    <string name="menu_show_as_entry_list">Liste</string>
+    <string name="menu_show_as_entry_grid">Rutenett</string>
+    <string name="menu_show_as_entry_default">Forvalg</string>
+
+    <string name="light">Lys</string>
+    <string name="dark">Mørk</string>
+    <string name="black">Svart</string>
+
+    <string name="last_opened">Sist åpnet</string>
+
+    <string name="songs">Spor</string>
+    <string name="albums">Album</string>
+    <string name="artists">Artister</string>
+    <string name="library">Bibliotek</string>
+    <string name="playlists">Spillelister</string>
+    <string name="playing_queue">Avspillingskø</string>
+    <string name="now_playing">Spilles nå</string>
+    <string name="settings">Innstillinger</string>
+    <string name="about">Om</string>
+    <string name="help_and_feedback">Hjelp og tilbakemeldinger</string>
+    <string name="search">Søk</string>
+    <string name="action_shuffle_all">Veksle mellom alle</string>
+    <string name="action_equalizer">Tonekontroll</string>
+    <string name="search_library">Søk i bibliotek</string>
+
+    <string name="select_theme">Velg drakt</string>
+    <string name="choose_theme_throughout">Velg en drakt til bruk i programmet.</string>
+    <string name="choose_start_page">Velg en startside til visning ved oppstart.</string>
+    <string name="start_page">Startside</string>
+    <string name="artist_in_grid">Artister i rutenett</string>
+    <string name="toggle_artists_grid">Veksle for visning av artister i 2x2-rutenett.</string>
+    <string name="toggle_system_animations">Veksle for systemanimasjoner i hele programmet.</string>
+    <string name="system_animations">System-animasjoner</string>
+    <string name="toggle_animations">Veksle for overgangsanimasjon i hele programmet.</string>
+    <string name="animations">Animasjoner</string>
+    <string name="now_playing_selector">Velg en "Nå spilles"-skjerm blandt fire forskjellige stilarter.</string>
+    <string name="personalisation">Brukertilpasning</string>
+    <string name="other">Annet</string>
+    <string name="advanced">Avansert</string>
+    <string name="timber_about_opensource">Timber er en fri programvare-musikkavspiller, utviklet av Naman Dwivedi.</string>
+    <string name="summary_pause_detach">Veksle for pausing av musikkavspilling når hodetelefoner kobles fra</string>
+    <string name="pause_detach">Pause ved frakobling</string>
+    <string name="summary_xposed_trackselector">Krever Xposed og XMediaNotificationTrackSelector Xposed-modul for å kunne installeres. Dette gir tilgang til avspillingskø fra merknadsmenyen.</string>
+    <string name="xposed_trackselector">Avspillingskø i merknadsfelt</string>
+    <string name="currently_selected">Valgt</string>
+
+    <string name="dark_theme">Mørk drakt</string>
+    <string name="dark_theme_summary">Ikle programmet en mørk drakt</string>
+
+    <string name="primary_color">Hovedfarge</string>
+    <string name="primary_color_summary">Endre draktens hovedfarge</string>
+
+    <string name="accent_color">Sekundærfarge</string>
+    <string name="accent_color_summary">Endre draktens sekundærfarge</string>
+
+    <string name="colored_status_bar">Farget statusfelt</string>
+    <string name="colored_status_bar_summary">Veksle fargelegging av statusfelt</string>
+
+    <string name="colored_nav_bar">Farget navigationsfelt</string>
+    <string name="colored_nav_bar_summary">Veksle fargelegging av navigasjonsfelt</string>
+
+    <string name="gestures">Strøk</string>
+    <string name="switching_tracks_by_gestures">Bytt spor ved å stryke</string>
+    <string name="widget_standard">Timber forvalgt miniprogram</string>
+    <string name="widget_small">Timber lite miniprogram</string>
+    <string name="tap_to_start">Trykk for å starte Timber</string>
+    <string name="widget_white">Timber lyst miniprogram</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> sang</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> sanger</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artist</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artister</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> sang lagt til i avspillingskø.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> songer lagt til i avspillingskø.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> sang lagt til i spilleliste.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> sanger lagt til i spilleliste.</string>
+
+    <string name="play">Spill</string>
+    <string name="add_to_playlist">Legg til i spilleliste</string>
+    <string name="go_to_album">Gå til album</string>
+    <string name="go_to_artist">Gå til artist</string>
+    <string name="add_to_queue">Legg til i avspillingskø</string>
+    <string name="play_next">Spill neste</string>
+    <string name="new_playlist">Ny spilleliste</string>
+
+
+    <string name="nothing_found">Ingenting funnet</string>
+    <string name="folders">Mapper</string>
+
+</resources>

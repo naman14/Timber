@@ -35,6 +35,7 @@ import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
+import com.naman14.timber.widgets.BaseRecyclerView;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
@@ -43,7 +44,7 @@ import java.util.List;
 public class SongsFragment extends Fragment implements MusicStateListener {
 
     private SongsListAdapter mAdapter;
-    private RecyclerView recyclerView;
+    private BaseRecyclerView recyclerView;
     private PreferencesUtility mPreferences;
 
     @Override
@@ -57,9 +58,10 @@ public class SongsFragment extends Fragment implements MusicStateListener {
         View rootView = inflater.inflate(
                 R.layout.fragment_recyclerview, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        recyclerView = rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FastScroller fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
+        recyclerView.setEmptyView(getActivity(), rootView.findViewById(R.id.list_empty), "No media found");
+        FastScroller fastScroller =  rootView.findViewById(R.id.fastscroller);
         fastScroller.setRecyclerView(recyclerView);
 
         new loadSongs().execute("");

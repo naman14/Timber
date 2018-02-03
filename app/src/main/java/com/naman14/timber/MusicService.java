@@ -20,6 +20,8 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -60,7 +62,6 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.Log;
@@ -125,6 +126,7 @@ public class MusicService extends Service {
     public static final String CMDNEXT = "next";
     public static final String CMDNOTIF = "buttonId";
     public static final String UPDATE_PREFERENCES = "updatepreferences";
+    public static final String CHANNEL_ID = "timber_channel_01";
     public static final int NEXT = 2;
     public static final int LAST = 3;
     public static final int SHUFFLE_NONE = 0;
@@ -285,6 +287,7 @@ public class MusicService extends Service {
         super.onCreate();
 
         mNotificationManager = NotificationManagerCompat.from(this);
+        createNotificationChannel();
 
         // gets a pointer to the playback state store
         mPlaybackStateStore = MusicPlaybackState.getInstance(this);
@@ -329,6 +332,8 @@ public class MusicService extends Service {
         filter.addAction(PREVIOUS_FORCE_ACTION);
         filter.addAction(REPEAT_ACTION);
         filter.addAction(SHUFFLE_ACTION);
+        filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
         // Attach the broadcast listener
         registerReceiver(mIntentReceiver, filter);
 
@@ -423,7 +428,8 @@ public class MusicService extends Service {
                 releaseServiceUiAndStop();
             }
         });
-        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+                          | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
     }
 
     @Override
@@ -563,6 +569,11 @@ public class MusicService extends Service {
             cycleShuffle();
         } else if (UPDATE_PREFERENCES.equals(action)) {
             onPreferencesUpdate(intent.getExtras());
+        }
+        else if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
+            if (PreferencesUtility.getInstance(getApplicationContext()).pauseEnabledOnDetach()) {
+                pause();
+            }
         }
     }
 
@@ -1226,6 +1237,16 @@ public class MusicService extends Service {
         }
     }
 
+    private void createNotificationChannel() {
+        if (TimberUtils.isOreo()) {
+            CharSequence name = "Timber";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            manager.createNotificationChannel(mChannel);
+        }
+    }
+
     private Notification buildNotification() {
         final String albumName = getAlbumName();
         final String artistName = getArtistName();
@@ -1249,7 +1270,7 @@ public class MusicService extends Service {
             mNotificationPostTime = System.currentTimeMillis();
         }
 
-        android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        android.support.v4.app.NotificationCompat.Builder builder = new android.support.v4.app.NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(artwork)
                 .setContentIntent(clickIntent)
@@ -1268,15 +1289,22 @@ public class MusicService extends Service {
         if (TimberUtils.isJellyBeanMR1()) {
             builder.setShowWhen(false);
         }
+
         if (TimberUtils.isLollipop()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
-            NotificationCompat.MediaStyle style = new NotificationCompat.MediaStyle()
+            android.support.v4.media.app.NotificationCompat.MediaStyle style = new android.support.v4.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(mSession.getSessionToken())
                     .setShowActionsInCompactView(0, 1, 2, 3);
             builder.setStyle(style);
         }
-        if (artwork != null && TimberUtils.isLollipop())
+        if (artwork != null && TimberUtils.isLollipop()) {
             builder.setColor(Palette.from(artwork).generate().getVibrantColor(Color.parseColor("#403f4d")));
+        }
+
+        if (TimberUtils.isOreo()) {
+            builder.setColorized(true);
+        }
+
         Notification n = builder.build();
 
         if (mActivateXTrackSelector) {
@@ -1301,8 +1329,7 @@ public class MusicService extends Service {
                 ArrayList<Bundle> list = new ArrayList<>();
                 do {
                     TrackItem t = new TrackItem()
-                            .setArt(ImageLoader.getInstance()
-                                    .loadImageSync(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))).toString()))
+                            .setArt(TimberUtils.getAlbumArtUri(c.getLong(c.getColumnIndexOrThrow(AudioColumns.ALBUM_ID))))
                             .setTitle(c.getString(c.getColumnIndexOrThrow(AudioColumns.TITLE)))
                             .setArtist(c.getString(c.getColumnIndexOrThrow(AudioColumns.ARTIST)))
                             .setDuration(TimberUtils.makeShortTimeString(this, c.getInt(c.getColumnIndexOrThrow(AudioColumns.DURATION)) / 1000));
@@ -2831,5 +2858,4 @@ public class MusicService extends Service {
             refresh();
         }
     }
-
 }

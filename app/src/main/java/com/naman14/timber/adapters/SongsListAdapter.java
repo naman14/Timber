@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +45,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
+public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolder> implements BubbleTextGetter {
 
     public int currentlyPlayingPosition;
     private List<Song> arraylist;
@@ -85,23 +86,30 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
 
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(),
+                itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true)
+                        .showImageOnLoading(R.drawable.ic_empty_music2)
+                        .resetViewBeforeLoading(true).build());
+
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
             itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));
             if (MusicPlayer.isPlaying()) {
                 itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
+            } else {
+                itemHolder.visualizer.setVisibility(View.GONE);
             }
         } else {
-            if (isPlaylist)
-                itemHolder.title.setTextColor(Color.WHITE);
-            else
-                itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
             itemHolder.visualizer.setVisibility(View.GONE);
+            if (isPlaylist) {
+                itemHolder.title.setTextColor(Color.WHITE);
+            } else {
+                itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
+            }
         }
 
 
-        if (animate && isPlaylist && PreferencesUtility.getInstance(mContext).getAnimations()) {
+        if (animate && isPlaylist) {
             if (TimberUtils.isLollipop())
                 setAnimation(itemHolder.itemView, i);
             else {
@@ -211,6 +219,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         }
     }
 
+    @Override
     public void updateDataSet(List<Song> arraylist) {
         this.arraylist = arraylist;
         this.songIDs = getSongIds();
@@ -237,7 +246,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, TimberUtils.IdType.NA, false);
+                    playAll(mContext, songIDs, getAdapterPosition(), -1,
+                            TimberUtils.IdType.NA, false,
+                            arraylist.get(getAdapterPosition()), false);
                     Handler handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override
@@ -262,8 +273,10 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
         arraylist.add(i, song);
     }
 
+    @Override
     public void removeSongAt(int i) {
         arraylist.remove(i);
+        updateDataSet(arraylist);
     }
 }
 

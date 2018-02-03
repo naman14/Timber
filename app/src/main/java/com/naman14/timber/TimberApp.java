@@ -14,8 +14,9 @@
 
 package com.naman14.timber;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.permissions.Nammu;
@@ -28,7 +29,9 @@ import com.nostra13.universalimageloader.utils.L;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class TimberApp extends Application {
+
+public class TimberApp extends MultiDexApplication {
+
 
 
     private static TimberApp mInstance;
@@ -47,7 +50,8 @@ public class TimberApp extends Application {
 
             @Override
             protected InputStream getStreamFromNetwork(String imageUri, Object extra) throws IOException {
-                if (prefs.loadArtistImages()) return super.getStreamFromNetwork(imageUri, extra);
+                if (prefs.loadArtistAndAlbumImages())
+                    return super.getStreamFromNetwork(imageUri, extra);
                 throw new IOException();
             }
         }).build();

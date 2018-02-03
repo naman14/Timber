@@ -22,6 +22,7 @@ public class Constants {
     public static final String NAVIGATE_ALBUM = "navigate_album";
     public static final String NAVIGATE_ARTIST = "navigate_artist";
     public static final String NAVIGATE_NOWPLAYING = "navigate_nowplaying";
+    public static final String NAVIGATE_LYRICS = "navigate_lyrics";
 
     public static final String NAVIGATE_PLAYLIST_RECENT = "navigate_playlist_recent";
     public static final String NAVIGATE_PLAYLIST_LASTADDED = "navigate_playlist_lastadded";
@@ -65,6 +66,8 @@ public class Constants {
 
 
     public static final String ACTIVITY_TRANSITION = "activity_transition";
+
+    public static final int CAST_SERVER_PORT = 8080;
 
 
 

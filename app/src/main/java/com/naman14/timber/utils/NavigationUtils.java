@@ -54,16 +54,10 @@ public class NavigationUtils {
         FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
         Fragment fragment;
 
-        if (TimberUtils.isLollipop() && transitionViews != null && PreferencesUtility.getInstance(context).getAnimations()) {
-            Transition changeImage = TransitionInflater.from(context).inflateTransition(R.transition.image_transform);
-            transaction.addSharedElement(transitionViews.first, transitionViews.second);
-            fragment = AlbumDetailFragment.newInstance(albumID, true, transitionViews.second);
-            fragment.setSharedElementEnterTransition(changeImage);
-        } else {
-            transaction.setCustomAnimations(R.anim.activity_fade_in,
-                    R.anim.activity_fade_out, R.anim.activity_fade_in, R.anim.activity_fade_out);
-            fragment = AlbumDetailFragment.newInstance(albumID, false, null);
-        }
+        transaction.setCustomAnimations(R.anim.activity_fade_in,
+                R.anim.activity_fade_out, R.anim.activity_fade_in, R.anim.activity_fade_out);
+        fragment = AlbumDetailFragment.newInstance(albumID, false, null);
+
         transaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container));
         transaction.add(R.id.fragment_container, fragment);
         transaction.addToBackStack(null).commit();
@@ -76,16 +70,10 @@ public class NavigationUtils {
         FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
         Fragment fragment;
 
-        if (TimberUtils.isLollipop() && transitionViews != null && PreferencesUtility.getInstance(context).getAnimations()) {
-            Transition changeImage = TransitionInflater.from(context).inflateTransition(R.transition.image_transform);
-            transaction.addSharedElement(transitionViews.first, transitionViews.second);
-            fragment = ArtistDetailFragment.newInstance(artistID, true, transitionViews.second);
-            fragment.setSharedElementEnterTransition(changeImage);
-        } else {
-            transaction.setCustomAnimations(R.anim.activity_fade_in,
-                    R.anim.activity_fade_out, R.anim.activity_fade_in, R.anim.activity_fade_out);
-            fragment = ArtistDetailFragment.newInstance(artistID, false, null);
-        }
+        transaction.setCustomAnimations(R.anim.activity_fade_in,
+                R.anim.activity_fade_out, R.anim.activity_fade_in, R.anim.activity_fade_out);
+        fragment = ArtistDetailFragment.newInstance(artistID, false, null);
+
         transaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container));
         transaction.add(R.id.fragment_container, fragment);
         transaction.addToBackStack(null).commit();
@@ -106,12 +94,15 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
+    public static void goToLyrics(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(Constants.NAVIGATE_LYRICS);
+        context.startActivity(intent);
+    }
+
     public static void navigateToNowplaying(Activity context, boolean withAnimations) {
 
         final Intent intent = new Intent(context, NowPlayingActivity.class);
-        if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
         context.startActivity(intent);
     }
 
@@ -124,9 +115,6 @@ public class NavigationUtils {
 
     public static void navigateToSettings(Activity context) {
         final Intent intent = new Intent(context, SettingsActivity.class);
-        if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
         intent.setAction(Constants.NAVIGATE_SETTINGS);
         context.startActivity(intent);
     }
@@ -142,9 +130,6 @@ public class NavigationUtils {
     @TargetApi(21)
     public static void navigateToPlaylistDetail(Activity context, String action, long firstAlbumID, String playlistName, int foregroundcolor, long playlistID, ArrayList<Pair> transitionViews) {
         final Intent intent = new Intent(context, PlaylistDetailActivity.class);
-        if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
         intent.setAction(action);
         intent.putExtra(Constants.PLAYLIST_ID, playlistID);
         intent.putExtra(Constants.PLAYLIST_FOREGROUND_COLOR, foregroundcolor);
@@ -152,8 +137,8 @@ public class NavigationUtils {
         intent.putExtra(Constants.PLAYLIST_NAME, playlistName);
         intent.putExtra(Constants.ACTIVITY_TRANSITION, transitionViews != null);
 
-        if (transitionViews != null && TimberUtils.isLollipop() && PreferencesUtility.getInstance(context).getAnimations()) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.getInstance(), transitionViews.get(0), transitionViews.get(1), transitionViews.get(2));
+        if (transitionViews != null && TimberUtils.isLollipop()) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(context, transitionViews.get(0), transitionViews.get(1), transitionViews.get(2));
             context.startActivityForResult(intent, Constants.ACTION_DELETE_PLAYLIST, options.toBundle());
         } else {
             context.startActivityForResult(intent, Constants.ACTION_DELETE_PLAYLIST);
@@ -171,9 +156,6 @@ public class NavigationUtils {
 
     public static Intent getNavigateToStyleSelectorIntent(Activity context, String what) {
         final Intent intent = new Intent(context, SettingsActivity.class);
-        if (!PreferencesUtility.getInstance(context).getSystemAnimations()) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
         intent.setAction(Constants.SETTINGS_STYLE_SELECTOR);
         intent.putExtra(Constants.SETTINGS_STYLE_SELECTOR_WHAT, what);
         return intent;

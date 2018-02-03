@@ -57,7 +57,17 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
     public static View topContainer;
     private ProgressBar mProgress;
     private SeekBar mSeekBar;
-    int overflowcounter = 0;
+    private int overflowcounter = 0;
+    private PlayPauseButton mPlayPause, mPlayPauseExpanded;
+    private TextView mTitle, mTitleExpanded;
+    private TextView mArtist, mArtistExpanded;
+    private ImageView mAlbumArt, mBlurredArt;
+    private View rootView;
+    private View playPauseWrapper, playPauseWrapperExpanded;
+    private MaterialIconView previous, next;
+    private boolean duetoplaypause = false;
+    private boolean fragmentPaused = false;
+
     public Runnable mUpdateProgress = new Runnable() {
 
         @Override
@@ -78,15 +88,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
 
         }
     };
-    private PlayPauseButton mPlayPause, mPlayPauseExpanded;
-    private TextView mTitle, mTitleExpanded;
-    private TextView mArtist, mArtistExpanded;
-    private ImageView mAlbumArt, mBlurredArt;
-    private View rootView;
-    private View playPauseWrapper, playPauseWrapperExpanded;
-    private MaterialIconView previous, next;
-    private boolean duetoplaypause = false;
-    private boolean fragmentPaused = false;
+
     private final View.OnClickListener mPlayPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -108,6 +110,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
 
         }
     };
+
     private final View.OnClickListener mPlayPauseExpandedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

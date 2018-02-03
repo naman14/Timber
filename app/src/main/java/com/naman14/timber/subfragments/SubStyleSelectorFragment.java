@@ -40,11 +40,11 @@ public class SubStyleSelectorFragment extends Fragment {
 
     private static final String ARG_PAGE_NUMBER = "pageNumber";
     private static final String WHAT = "what";
-    SharedPreferences.Editor editor;
-    SharedPreferences preferences;
-    LinearLayout currentStyle;
-    View foreground;
-    ImageView styleImage, imgLock;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences preferences;
+    private LinearLayout currentStyle;
+    private View foreground;
+    private ImageView styleImage, imgLock;
 
     public static SubStyleSelectorFragment newInstance(int pageNumber, String what) {
         SubStyleSelectorFragment fragment = new SubStyleSelectorFragment();

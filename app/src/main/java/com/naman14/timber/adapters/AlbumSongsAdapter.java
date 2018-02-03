@@ -35,7 +35,7 @@ import com.naman14.timber.utils.TimberUtils;
 
 import java.util.List;
 
-public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.ItemHolder> {
+public class AlbumSongsAdapter extends BaseSongAdapter<AlbumSongsAdapter.ItemHolder> {
 
     private List<Song> arraylist;
     private Activity mContext;
@@ -140,9 +140,15 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
         return ret;
     }
 
+    @Override
     public void updateDataSet(List<Song> arraylist) {
         this.arraylist = arraylist;
         this.songIDs = getSongIds();
+    }
+
+    @Override
+    public void removeSongAt(int i){
+        arraylist.remove(i);
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -164,8 +170,9 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.It
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), albumID, TimberUtils.IdType.Album, false);
-                    NavigationUtils.navigateToNowplaying(mContext, true);
+                    playAll(mContext, songIDs, getAdapterPosition(), albumID,
+                            TimberUtils.IdType.Album, false,
+                            arraylist.get(getAdapterPosition()), true);
                 }
             }, 100);
 

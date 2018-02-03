@@ -29,11 +29,4 @@
         <item>albums</item>
         <item>artists</item>
     </string-array>
-
-    <array name="cast_expanded_controller_control_buttons">
-        <item>@id/cast_button_type_empty</item>
-        <item>@id/cast_button_type_rewind_30_seconds</item>
-        <item>@id/cast_button_type_mute_toggle</item>
-        <item>@id/cast_button_type_empty</item>
-    </array>
 </resources>

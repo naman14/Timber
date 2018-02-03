@@ -137,25 +137,4 @@
         <item name="cardBackgroundColor">@color/window_background_black</item>
     </style>
 
-
-    <style name="CustomCastMiniController" parent="CastMiniController">
-        <item name="castShowImageThumbnail">true</item>
-        <item name="castTitleTextAppearance">@style/TextAppearance.AppCompat.Subhead</item>
-        <item name="castSubtitleTextAppearance">@style/TextAppearance.AppCompat.Caption</item>
-    </style>
-
-    <style name="CustomCastExpandedController" parent="CastExpandedController">
-        <item name="castControlButtons">
-            @array/cast_expanded_controller_control_buttons
-        </item>
-    </style>
-
-    <style name="AppTheme.ExpandedCastController" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="castExpandedControllerStyle">@style/CustomCastExpandedController</item>
-        <item name="castExpandedControllerToolbarStyle">
-            @style/ThemeOverlay.AppCompat.Dark.ActionBar
-        </item>
-    </style>
-
-
 </resources>

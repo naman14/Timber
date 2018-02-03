@@ -33,24 +33,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.anjlab.android.iab.v3.BillingProcessor;
-import com.google.android.gms.cast.framework.CastButtonFactory;
-import com.google.android.gms.cast.framework.CastContext;
-import com.google.android.gms.cast.framework.CastSession;
-import com.google.android.gms.cast.framework.Session;
-import com.google.android.gms.cast.framework.SessionManager;
-import com.google.android.gms.cast.framework.SessionManagerListener;
-import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActivity;
-import com.google.android.gms.cast.framework.media.widget.MiniControllerFragment;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
-import com.naman14.timber.cast.ExpandedControlsActivity;
-import com.naman14.timber.cast.SimpleSessionManagerListener;
-import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.FoldersFragment;
@@ -68,7 +56,6 @@ import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -242,24 +229,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             panelLayout.hidePanel();
         }
 
-        if (playServicesAvailable) {
-
-            final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.BOTTOM;
-
-            FrameLayout contentRoot = findViewById(R.id.content_root);
-            contentRoot.addView(LayoutInflater.from(this)
-                    .inflate(R.layout.fragment_cast_mini_controller, null), params);
-
-            findViewById(R.id.castMiniController).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, ExpandedControllerActivity.class));
-                }
-            });
-        }
 
     }
 
@@ -391,11 +360,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
                 break;
             case R.id.nav_nowplaying:
-                if (getCastSession() != null) {
-                    startActivity(new Intent(MainActivity.this, ExpandedControlsActivity.class));
-                } else {
-                    NavigationUtils.navigateToNowplaying(MainActivity.this, false);
-                }
+                NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 break;
             case R.id.nav_queue:
                 runnable = navigateQueue;

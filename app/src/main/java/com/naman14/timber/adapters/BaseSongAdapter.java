@@ -1,27 +1,16 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.cast.MediaInfo;
-import com.google.android.gms.cast.MediaMetadata;
-import com.google.android.gms.cast.framework.CastSession;
-import com.google.android.gms.cast.framework.media.RemoteMediaClient;
-import com.google.android.gms.common.images.WebImage;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.activities.BaseActivity;
-import com.naman14.timber.activities.MainActivity;
-import com.naman14.timber.cast.TimberCastHelper;
-import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -63,13 +52,8 @@ public class BaseSongAdapter<V extends RecyclerView.ViewHolder> extends Recycler
                         final boolean forceShuffle, final Song currentSong, boolean navigateNowPlaying) {
 
         if (context instanceof BaseActivity) {
-            CastSession castSession = ((BaseActivity) context).getCastSession();
-            if (castSession != null) {
-                navigateNowPlaying = false;
-                TimberCastHelper.startCasting(castSession, currentSong);
-            } else {
-                MusicPlayer.playAll(context, list, position, -1, TimberUtils.IdType.NA, false);
-            }
+            MusicPlayer.playAll(context, list, position, -1, TimberUtils.IdType.NA, false);
+
         } else {
             MusicPlayer.playAll(context, list, position, -1, TimberUtils.IdType.NA, false);
         }

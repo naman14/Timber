@@ -86,13 +86,6 @@
 
         <activity android:name=".activities.DonateActivity"/>
 
-        <activity
-            android:name=".cast.ExpandedControlsActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.ExpandedCastController"
-            android:screenOrientation="portrait">
-
-        </activity>
 
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>

@@ -54,7 +54,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
     compile "com.android.support:mediarouter-v7:$rootProject.supportLibraryVersion"
-    compile 'com.google.android.gms:play-services-cast-framework:11.6.0'
 
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'net.steamcrafted:materialiconlib:1.1.4'

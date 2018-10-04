@@ -1,0 +1,13 @@
+Notes Week1:
+Modified Gradle to work in environment
+Familiarized myself with various different fuctions of app
+- Activities are split enough to be tested individually
+- Label where every fuction is in the app
+- Refactoring needs to be done on some activities in order to test faster
+
+Notes Week2:
+Reviewed the and documented the various activities of the app
+- Added MD files to easily keep track of what I think still should get tested in the main activities and other areas of the project
+- Junit can be used to test android app functionality
+    > Mockito can be used to test with specific android calls
+    > Espresso can be used to generate tests for the UI

@@ -53,6 +53,9 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:design:$rootProject.supportLibraryVersion"
     implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
@@ -83,6 +86,7 @@ dependencies {
     }
     implementation 'com.anjlab.android.iab.v3:library:1.0.+'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    androidTestImplementation 'org.testng:testng:6.9.6'
 
 
 }

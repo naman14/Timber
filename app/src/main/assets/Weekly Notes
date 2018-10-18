@@ -17,3 +17,6 @@ NOTES week3:
     the gradle
     > Having trouble building the tests, need to get test running on actual emulator or phone with the files for search test
 - Looked more into the expected results for different methods which have a lot of dependencies
+
+NOTES week4:
+- Added tests to TimberUtil and trying to understand how the different values are set and fed into these functions

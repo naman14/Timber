@@ -29,7 +29,6 @@ import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -125,6 +124,7 @@ public class TimberUtils {
     }
 
     public static final int getSongCountForPlaylist(final Context context, final long playlistId) {
+        //cursor taken from context is basically a pointer to the Playlist's songs on device
         Cursor c = context.getContentResolver().query(
                 MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId),
                 new String[]{BaseColumns._ID}, MUSIC_ONLY_SELECTION, null, null);

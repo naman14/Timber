@@ -39,6 +39,7 @@ Material Design Music Player
 ## Changelog
 
 Changelog is available [here](https://github.com/naman14/Timber/blob/master/Changelog.md)
+<!-- я бы сделал дизайн настолько простой и понятный, на сколько это возможно --!>
 
 ## Credits
 

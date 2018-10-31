@@ -28,3 +28,6 @@ NOTES week5:
     > Test internet retrieval of lyrics next
     > Espresso can be used to generate tests for the UI
 
+Notes week6:
+- Test to load lyrics from the web
+

@@ -12,6 +12,7 @@ import java.util.Arrays;
  */
 
 public class LyricsExtractor {
+    //Extracts the lyrics from the file
     public static String getLyrics(File file){
         String filename = file.getName();
         String fileending = filename.substring(filename.lastIndexOf('.')+1,filename.length()).toLowerCase();

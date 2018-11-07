@@ -20,5 +20,14 @@ NOTES week3:
 
 NOTES week4:
 - Added tests to TimberUtil and trying to understand how the different values are set and fed into these functions
+
+NOTES week5:
+- Created test to get lyrics from the audio files, different types of audio formats store lyrics differently
+    > Created 3 sample files with blank audio and edited tags to have the lyrics that match the
+      assert expectations
+    > Test internet retrieval of lyrics next
     > Espresso can be used to generate tests for the UI
+
+Notes week6:
+- Test to load lyrics from the web
 

@@ -15,6 +15,7 @@ android {
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
         multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -52,6 +53,9 @@ repositories {
 }
 
 dependencies {
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support:support-annotations:24.0.0'

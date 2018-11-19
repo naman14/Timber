@@ -16,6 +16,10 @@ import com.naman14.timber.models.Song;
  */
 public class CreatePlaylistDialog extends DialogFragment {
 
+    private final static int MIN_NAME_LENGTH = 1;
+
+    private final static int MAX_NAME_LENGTH = 50;
+
     public static CreatePlaylistDialog newInstance() {
         return newInstance((Song) null);
     }
@@ -42,7 +46,8 @@ public class CreatePlaylistDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new MaterialDialog.Builder(getActivity()).positiveText("Create").negativeText("Cancel").input("Enter playlist name", "", false, new MaterialDialog.InputCallback() {
+        return new MaterialDialog.Builder(getActivity()).positiveText("Create").negativeText("Cancel").inputRange(MIN_NAME_LENGTH,MAX_NAME_LENGTH).input("Enter playlist name", "", false, new MaterialDialog.InputCallback() {
+
             @Override
             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
 

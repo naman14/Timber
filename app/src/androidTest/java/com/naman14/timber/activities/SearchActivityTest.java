@@ -42,7 +42,7 @@ public class SearchActivityTest {
         //Search results updates as text changes
          for(int i = 0; i <= 4 ; i++) {
              //Only one result per search for simplicity
-             onView(withId(R.id.action_search)).perform(typeTextIntoFocusedView(searchKey.get(0)));
+             onView(withId(R.id.action_search)).perform(typeTextIntoFocusedView(searchKey.get(i)));
              //Match first result results
              if(i < 3)
                 onView(withId(R.id.menu_search)).check(matches(withText(Song1)));

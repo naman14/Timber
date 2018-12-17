@@ -15,7 +15,7 @@ android {
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
         multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -53,11 +53,8 @@ repositories {
 }
 
 dependencies {
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test:rules:1.1.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'junit:junit:4.12'
+
     androidTestImplementation 'com.android.support:support-annotations:24.0.0'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
@@ -92,9 +89,16 @@ dependencies {
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     androidTestImplementation 'org.testng:testng:6.9.6'
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
 
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.12'
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.0.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:1.10.19'
 }

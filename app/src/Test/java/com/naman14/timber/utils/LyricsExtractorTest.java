@@ -19,10 +19,10 @@ public class LyricsExtractorTest {
         String File_3 = "Sample3.ogg";
 
         assertEquals(le.getLyrics(new File("SONG.fake")), null);
-        assertNotEquals(le.getLyrics(new File(File_1)), "This is sample 1 now it's time to run lalala");
+        assertNotEquals(le.getLyrics(new File(File_1)), "This is not sample 1");
         assertEquals(le.getLyrics(new File(File_1)), "This is sample 1 now it's time to run lalala");
-        assertEquals(le.getLyrics(new File(File_1)), "This is sample 2 beepboop beepboop");
-        assertEquals(le.getLyrics(new File(File_1)), "This is sample 3 [Chorus] yeah its me!");
+        assertEquals(le.getLyrics(new File(File_2)), "This is sample 2 beepboop beepboop");
+        assertEquals(le.getLyrics(new File(File_3)), "This is sample 3 [Chorus] yeah its me!");
 
     }
 }

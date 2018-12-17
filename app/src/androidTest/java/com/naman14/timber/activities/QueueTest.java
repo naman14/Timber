@@ -31,20 +31,24 @@ public class QueueTest {
     @Test
     public void AddtoQueue(){
         //Start Playing first Track in list
-        onData(anything()).inAdapterView(withId((R.id.song_title)))
-                .atPosition(0).perform(click()),
-        //Add 4th song to queue
-        onData(anything()).inAdapterView(withId((R.id.song_title)))
-                .atPosition(3)
-                .perform(NavigationViewActions.navigateTo(R.id.dots_vertical_circle)
-                .perform(click()));
+        onData(anything()).inAdapterView(withId((R.id.match_parent)))
+                .atPosition(0).perform(click());
 
+        //Add 4th song to queue
+        onData(anything()).inAdapterView(withId((R.id.match_parent)))
+                .atPosition(3)
+                .onChildView(withId(R.id.dots_vertical_circle)).
+                perform(click());
+
+        onView(withId((R.id.popup_song_addto_queue))).perform(click());
 
         //Add 2nd song
-        onData(anything()).inAdapterView(withId((R.id.song_title)))
+        onData(anything()).inAdapterView(withId((R.id.match_parent)))
                 .atPosition(1)
-                .perform(NavigationViewActions.navigateTo(R.id.dots_vertical_circle)
-                        .perform(click()));
+                .onChildView(withId(R.id.dots_vertical_circle)).
+                perform(click());
+
+        onView(withId((R.id.popup_song_addto_queue))).perform(click());
 
         String song_name = "Young Forever (Featuring Mr Hudson)";
         //Click next

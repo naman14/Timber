@@ -6,12 +6,16 @@ import android.support.test.runner.AndroidJUnit4;
 import com.naman14.timber.R;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+import androidx.test.rule.ActivityTestRule;
+
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeTextIntoFocusedView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -20,13 +24,17 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-
 public class SearchActivityTest {
+
+    @Rule
+    public ActivityTestRule<MainActivity> MainActivityRule=
+            new ActivityTestRule<MainActivity>(MainActivity.class);
 
     //declaring ArrayList with initial size n
     ArrayList<String> searchKey = new ArrayList<String>();
     String Song1 = "Off That (Featuring Drake)";
     String Song2 = "Young Forever (Featuring Mr Hudson)";
+
     @Before
     public void setupVer(){
             searchKey.add("O");
@@ -39,10 +47,11 @@ public class SearchActivityTest {
 
     @Test
     public void onQueryTextChangeTest(){
+        onView(withId(R.id.action_search)).perform(click());
         //Search results updates as text changes
          for(int i = 0; i <= 4 ; i++) {
              //Only one result per search for simplicity
-             onView(withId(R.id.action_search)).perform(typeTextIntoFocusedView(searchKey.get(i)));
+                 onView(withId(R.id.action_search)).perform(typeTextIntoFocusedView(searchKey.get(i)));
              //Match first result results
              if(i < 3)
                 onView(withId(R.id.menu_search)).check(matches(withText(Song1)));

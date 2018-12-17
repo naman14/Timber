@@ -2,28 +2,21 @@ package com.naman14.timber.activities;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
-import static org.junit.Assert.*;
 
 import com.naman14.timber.R;
 
-import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Random;
-
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.rule.ActivityTestRule;
 
-
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -58,11 +51,6 @@ public class MainActivityTest {
         }
     }
 
-    @Test
-    public void testOnOptionsItemSelected() throws Exception {
-        //Select first option
-        onData(getItem()).inAdapterView(withId(R.id.text_list_view)).atPosition(0).perform(click());
-    }
 
     @Test
     public void testGetActivityTheme() {
@@ -71,14 +59,5 @@ public class MainActivityTest {
         assertEquals(main.getActivityTheme(),"Theme.AppCompat.Light.NoActionBar");
     }
 
-    public int[] getItem() {
-        int items[] = new int[5];
-        for(int i = 0; i < 5; i++){
-            Random rand = new Random();
-            int pos = rand.nextInt();
-            items[i]= pos;
-        }
 
-        return items;
-    }
 }

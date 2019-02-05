@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_go_to_artist"
         android:title="@string/go_to_artist" />
@@ -10,10 +11,9 @@
         android:id="@+id/popup_song_addto_playlist"
         android:title="@string/add_to_playlist" />
     <item
-        android:id="@+id/menu_sort_by"
-        android:showAsAction="never"
-        android:orderInCategory="50"
-        android:title="@string/menu_sort_by">
+            android:id="@+id/menu_sort_by"
+            android:orderInCategory="50"
+            android:title="@string/menu_sort_by" app:showAsAction="never">
         <menu>
             <item
                 android:id="@+id/menu_sort_by_az"

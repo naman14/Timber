@@ -14,6 +14,7 @@
 
 package com.naman14.timber.fragments;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -89,7 +90,7 @@ public class ArtistDetailFragment extends Fragment {
         }
     }
 
-
+    @TargetApi(21)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(

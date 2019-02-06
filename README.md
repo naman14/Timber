@@ -1,9 +1,7 @@
 # Timber
-[![Build Status](https://travis-ci.org/naman14/Timber.svg?branch=master)](https://travis-ci.org/naman14/Timber)
 
 Material Design Music Player
 
-<a href='https://play.google.com/store/apps/details?id=naman14.timber&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=90px/></a>
 
 <a href='https://f-droid.org/repository/browse/?fdid=naman14.timber'><img alt='Get it on F-Droid' src='https://guardianproject.info/wp-content/uploads/2014/07/logo-fdroid.png' height=60px/></a>
 
@@ -48,10 +46,6 @@ Changelog is available [here](https://github.com/naman14/Timber/blob/master/Chan
 * [PlayPauseButton](https://github.com/recruit-lifestyle/PlayPauseButton)
 * [CircularSeekBar](https://github.com/devadvance/circularseekbar)
 * [Nammu](https://github.com/tajchert/Nammu)
-
-# Donate
-Paypal donation email-
-namandwivedi14@gmail.com
 
 
 ## License

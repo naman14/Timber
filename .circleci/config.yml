@@ -8,7 +8,7 @@ jobs:
       - image: circleci/android:api-26
     environment: &proxy_env
       _JAVA_OPTIONS: -Xmx3g -Xms3g
-      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=1
+      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
     steps:
       - checkout
       - restore_cache:

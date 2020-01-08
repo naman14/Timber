@@ -11,6 +11,23 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=1
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - ndk_r16b-dependencies
+      - run:
+          name: Update ndk_r16b
+          no_output_timeout: 30m 
+          command: |
+            if [ ! -d /home/circleci/android-ndk-r16b/ ]; then
+              sudo apt-get update
+              sudo apt-get install -y zip unzip libncurses5
+              wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
+              unzip android-ndk-r16b-linux-x86_64.zip -d /home/circleci
+            fi
+      - save_cache:
+          paths:
+            - /home/circleci/android-ndk-r16b/
+          key: ndk_r16b-dependencies
       - run:
           name: Update sdk licenses
           command: |

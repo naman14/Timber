@@ -1,0 +1,32 @@
+
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    parallelism: 8
+    docker:
+      - image: circleci/android:api-26
+    environment: &proxy_env
+      _JAVA_OPTIONS: -Xmx3g -Xms3g
+      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=1
+    steps:
+      - checkout
+      - run:
+          name: Update sdk licenses
+          command: |
+            yes | sdkmanager --licenses || true
+            yes | sdkmanager --update  || true
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "build.gradle" }}
+      - run:
+          name: Build 
+          command: ./gradlew clean assembleDebug
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}

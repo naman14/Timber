@@ -25,6 +25,7 @@
 package com.naman14.timber.permissions;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,6 +40,7 @@ import java.util.Set;
 /**
  * Created by Michal Tajchert on 2015-06-04.
  */
+@TargetApi(Build.VERSION_CODES.M)
 public class Nammu {
     private static final String TAG = Nammu.class.getSimpleName();
     private static final String KEY_PREV_PERMISSIONS = "previous_permissions";

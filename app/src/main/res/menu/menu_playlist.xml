@@ -15,10 +15,10 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_show_as"
-        android:showAsAction="never"
-        android:orderInCategory="40"
-        android:title="@string/menu_show_as">
+            android:id="@+id/menu_show_as"
+            android:orderInCategory="40"
+            android:title="@string/menu_show_as"
+            app:showAsAction="never">
         <menu>
             <item
                 android:id="@+id/menu_show_as_list"

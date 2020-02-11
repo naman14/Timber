@@ -15,6 +15,7 @@ import com.naman14.timber.fragments.SettingsFragment;
 import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.lastfmapi.callbacks.UserListener;
 import com.naman14.timber.lastfmapi.models.UserLoginQuery;
+import com.naman14.timber.utils.PreferencesUtility;
 
 /**
  * Created by christoph on 17.07.16.
@@ -26,8 +27,8 @@ public class LastFmLoginDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new MaterialDialog.Builder(getActivity()).
                 positiveText("Login").
-                negativeText("Cancel").
-                title("Login to LastFM").
+                negativeText(getString(R.string.cancel)).
+                title(getString(R.string.lastfm_login)).
                 customView(R.layout.dialog_lastfm_login, false).
                 onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -51,7 +52,7 @@ public class LastFmLoginDialog extends DialogFragment {
                             @Override
                             public void userInfoFailed() {
                                 progressDialog.dismiss();
-                                Toast.makeText(getTargetFragment().getActivity(), "Failed to Login", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getTargetFragment().getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

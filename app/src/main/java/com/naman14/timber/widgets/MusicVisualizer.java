@@ -21,8 +21,8 @@ public class MusicVisualizer extends View {
         @Override
         public void run() {
 
-            //run every 150 ms
-            postDelayed(this, 150);
+            //run every 100 ms
+            postDelayed(this, 120);
 
             invalidate();
         }
@@ -48,9 +48,9 @@ public class MusicVisualizer extends View {
         //set paint style, Style.FILL will fill the color, Style.STROKE will stroke the color
         paint.setStyle(Paint.Style.FILL);
 
-        canvas.drawRect(getDimensionInPixel(0), getHeight() - (20 + random.nextInt((int) (getHeight() / 1.5f) - 19)), getDimensionInPixel(7), getHeight(), paint);
-        canvas.drawRect(getDimensionInPixel(10), getHeight() - (20 + random.nextInt((int) (getHeight() / 1.5f) - 19)), getDimensionInPixel(17), getHeight(), paint);
-        canvas.drawRect(getDimensionInPixel(20), getHeight() - (20 + random.nextInt((int) (getHeight() / 1.5f) - 19)), getDimensionInPixel(27), getHeight(), paint);
+        canvas.drawRect(getDimensionInPixel(0), getHeight() - (40 + random.nextInt((int) (getHeight() / 1.5f) - 25)), getDimensionInPixel(7), getHeight() - 15, paint);
+        canvas.drawRect(getDimensionInPixel(10), getHeight() - (40 + random.nextInt((int) (getHeight() / 1.5f) - 25)), getDimensionInPixel(17), getHeight() -15, paint);
+        canvas.drawRect(getDimensionInPixel(20), getHeight() - (40 + random.nextInt((int) (getHeight() / 1.5f) - 25)), getDimensionInPixel(27), getHeight() -15, paint);
     }
 
     public void setColor(int color) {

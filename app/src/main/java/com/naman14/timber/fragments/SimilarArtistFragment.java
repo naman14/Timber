@@ -31,7 +31,7 @@ import com.naman14.timber.utils.Constants;
 
 public class SimilarArtistFragment extends Fragment {
 
-    long artistID = -1;
+    private long artistID = -1;
 
     public static SimilarArtistFragment newInstance(long id) {
         SimilarArtistFragment fragment = new SimilarArtistFragment();

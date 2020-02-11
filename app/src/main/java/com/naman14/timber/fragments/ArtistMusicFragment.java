@@ -34,8 +34,8 @@ import java.util.ArrayList;
 public class ArtistMusicFragment extends Fragment {
 
     public static RecyclerView songsRecyclerview;
-    long artistID = -1;
-    ArtistSongAdapter mSongAdapter;
+    private long artistID = -1;
+    private ArtistSongAdapter mSongAdapter;
 
     public static ArtistMusicFragment newInstance(long id) {
         ArtistMusicFragment fragment = new ArtistMusicFragment();

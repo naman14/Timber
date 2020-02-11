@@ -26,10 +26,9 @@ import android.widget.TextView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.models.Album;
+import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -60,11 +59,7 @@ public class ArtistAlbumAdapter extends RecyclerView.Adapter<ArtistAlbumAdapter.
         String songCount = TimberUtils.makeLabel(mContext, R.plurals.Nsongs, localItem.songCount);
         itemHolder.details.setText(songCount);
 
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
-                        .resetViewBeforeLoading(true)
-                        .build());
+        ImageUtils.loadAlbumArtIntoView(localItem.id, itemHolder.albumArt);
 
         if (TimberUtils.isLollipop())
             itemHolder.albumArt.setTransitionName("transition_album_art" + i);

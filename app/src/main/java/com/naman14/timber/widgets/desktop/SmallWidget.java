@@ -5,9 +5,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 
-import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.NavigationUtils;
@@ -26,7 +26,7 @@ public class SmallWidget extends BaseWidget {
     }
 
     @Override
-    void onViewsUpdate(Context context, RemoteViews remoteViews, ComponentName serviceName) {
+    void onViewsUpdate(Context context, RemoteViews remoteViews, ComponentName serviceName, Bundle extras) {
         remoteViews.setOnClickPendingIntent(R.id.image_next, PendingIntent.getService(
                 context,
                 REQUEST_NEXT,
@@ -43,24 +43,26 @@ public class SmallWidget extends BaseWidget {
                         .setComponent(serviceName),
                 0
         ));
-        String t = MusicPlayer.getTrackName();
-        if (t != null) {
-            remoteViews.setTextViewText(R.id.textView_title, t);
-        }
-        t = MusicPlayer.getArtistName();
-        if (t != null) {
-            remoteViews.setTextViewText(R.id.textView_subtitle, t);
-        }
-        remoteViews.setImageViewResource(R.id.image_playpause,
-                MusicPlayer.isPlaying() ? R.drawable.ic_pause_white_36dp : R.drawable.ic_play_white_36dp);
-        long albumId = MusicPlayer.getCurrentAlbumId();
-        if (albumId != -1) {
-            Bitmap artwork;
-            artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(albumId).toString());
-            if (artwork == null) {
-                artwork = ImageLoader.getInstance().loadImageSync("drawable://" + R.drawable.ic_empty_music2);
+        if (extras != null) {
+            String t = extras.getString("track");
+            if (t != null) {
+                remoteViews.setTextViewText(R.id.textView_title, t);
             }
-            remoteViews.setImageViewBitmap(R.id.imageView_cover, artwork);
+            t = extras.getString("artist");
+            if (t != null) {
+                remoteViews.setTextViewText(R.id.textView_subtitle, t);
+            }
+            remoteViews.setImageViewResource(R.id.image_playpause,
+                    extras.getBoolean("playing") ? R.drawable.ic_pause_white_36dp : R.drawable.ic_play_white_36dp);
+            long albumId = extras.getLong("albumid");
+            if (albumId != -1) {
+                Bitmap artwork = ImageLoader.getInstance().loadImageSync(TimberUtils.getAlbumArtUri(albumId).toString());
+                if (artwork != null) {
+                    remoteViews.setImageViewBitmap(R.id.imageView_cover, artwork);
+                } else {
+                    remoteViews.setImageViewResource(R.id.imageView_cover, R.drawable.ic_empty_music2);
+                }
+            }
         }
         remoteViews.setOnClickPendingIntent(R.id.textView_title, PendingIntent.getActivity(
                 context,

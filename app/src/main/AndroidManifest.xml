@@ -18,13 +18,13 @@
         android:name=".TimberApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Timber${appNameSuffix}"
         android:theme="@style/AppTheme.FullScreen.Light"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup, android:label">
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name"
+            android:label="Timber${appNameSuffix}"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,6 +86,7 @@
 
         <activity android:name=".activities.DonateActivity"/>
 
+
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
@@ -106,10 +107,7 @@
             </intent-filter>
         </service>
 
-        <!--use your own api key for fabric-->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="@string/fabric_api_key" />
+
 
         <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
             <intent-filter>

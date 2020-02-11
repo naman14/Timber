@@ -3,8 +3,11 @@ package com.naman14.timber.lastfmapi;
 import com.naman14.timber.lastfmapi.models.ScrobbleInfo;
 import com.naman14.timber.lastfmapi.models.UserLoginInfo;
 
+import java.util.Map;
+
 import retrofit.Callback;
 import retrofit.http.Field;
+import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
@@ -21,6 +24,6 @@ public interface LastFmUserRestService {
 
     @POST(BASE)
     @FormUrlEncoded
-    void getScrobbleInfo(@Field("method") String method,  @Field("api_key") String apikey, @Field("api_sig") String apisig, @Field("sk") String token,@Field("artist") String artist, @Field("track") String track, @Field("timestamp") long timestamp, Callback<ScrobbleInfo> callback);
+    void getScrobbleInfo(@Field("api_sig") String apisig, @Field("format") String format, @FieldMap Map<String, String> fields, Callback<ScrobbleInfo> callback);
 
 }

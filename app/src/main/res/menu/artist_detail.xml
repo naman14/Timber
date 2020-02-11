@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/popup_song_addto_queue"
+        android:title="@string/add_to_queue" />
+    <item
+        android:id="@+id/popup_song_addto_playlist"
+        android:title="@string/add_to_playlist"/>
+</menu>

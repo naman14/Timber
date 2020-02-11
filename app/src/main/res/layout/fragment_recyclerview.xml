@@ -6,13 +6,15 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="55dp">
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.naman14.timber.widgets.BaseRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fadeScrollbars="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include layout="@layout/empty_view"/>
 
     <com.naman14.timber.widgets.FastScroller
         android:id="@+id/fastscroller"

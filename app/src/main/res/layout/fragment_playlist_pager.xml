@@ -59,6 +59,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/songcount"
                />
+            <TextView
+                android:textSize="15sp"
+                android:maxLines="1"
+                android:paddingTop="3dp"
+                android:ellipsize="end"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/runtime"
+                />
 
         </LinearLayout>
 

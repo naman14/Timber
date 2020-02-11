@@ -17,6 +17,7 @@ package com.naman14.timber.dataloaders;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
@@ -151,5 +152,19 @@ public class SongLoader {
 
     }
 
+    public static Song songFromFile(String filePath) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(filePath);
+        return new Song(
+                -1,
+                -1,
+                -1,
+                mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE),
+                mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST),
+                mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),
+                Integer.parseInt(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)),
+                0
+        );
+    }
 
 }

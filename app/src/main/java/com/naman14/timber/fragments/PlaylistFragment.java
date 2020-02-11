@@ -52,10 +52,10 @@ import java.util.List;
 
 public class PlaylistFragment extends Fragment {
 
-    int playlistcount;
-    FragmentStatePagerAdapter adapter;
-    MultiViewPager pager;
-    RecyclerView recyclerView;
+    private int playlistcount;
+    private FragmentStatePagerAdapter adapter;
+    private MultiViewPager pager;
+    private RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     private RecyclerView.ItemDecoration itemDecoration;
 

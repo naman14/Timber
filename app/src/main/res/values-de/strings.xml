@@ -79,6 +79,13 @@
     <string name="timber_about_opensource">Timber ist ein offener Musik-Player entwickelt von Naman Dwivedi.</string>
     <string name="summary_pause_detach">Wiedergabe pausieren wenn Kopfhörer entfernt werden.</string>
     <string name="pause_detach">Pause beim entfernen</string>
+    <string name="albumart_lockscreen">Sperrbildschirm</string>
+    <string name="albumart_lockscreen_summary">Albumcover im Sperrbildschirm anzeigen.</string>
+    <string name="load_artist_album_image">Interpretenbilder</string>
+    <string name="load_artist_album_image_summary">Lade Interpretenbilder aus dem Internet.</string>
+    <string name="load_artist_album_image_mobile">Mobiledaten</string>
+    <string name="load_artist_album_image_mobile_summary">Interpretenbilder auch ohne Wifi laden.</string>
+
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> Song</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> Songs</string>
@@ -87,5 +94,14 @@
     <string name="count_artist"><xliff:g id="count">%d</xliff:g> Interpret</string>
     <string name="count_artists"><xliff:g id="count">%d</xliff:g> Interpreten</string>
 
+    <string name="lastfm_pref">Bei LastFM einloggen um zuscrobblen</string>
+    <string name="lastfm_login_failture">Fehler beim einloggen</string>
+    <string name="lastfm_login">Bei LastFM einloggen</string>
+    <string name="lastfm_loged_in">Eingeloggt als %s</string>
+
+    <string name="cancel">Abbrechen</string>
+
+    <string name="menu_show_lyrics">Songtext anzeigen</string>
+    <string name="no_lyrics">Songtext nicht gefunden.</string>
 
 </resources>

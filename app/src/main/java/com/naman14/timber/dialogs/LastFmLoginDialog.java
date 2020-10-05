@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,9 +37,11 @@ public class LastFmLoginDialog extends DialogFragment {
                         String username = ((EditText) dialog.findViewById(R.id.lastfm_username)).getText().toString();
                         String password = ((EditText) dialog.findViewById(R.id.lastfm_password)).getText().toString();
                         if (username.length() == 0 || password.length() == 0) return;
+                        final Toast toast = Toast.makeText(getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT);
                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                         progressDialog.setMessage("Logging in..");
                         progressDialog.show();
+
                         LastFmClient.getInstance(getActivity()).getUserLoginInfo(new UserLoginQuery(username, password), new UserListener() {
 
                             @Override
@@ -52,10 +55,11 @@ public class LastFmLoginDialog extends DialogFragment {
                             @Override
                             public void userInfoFailed() {
                                 progressDialog.dismiss();
-                                Toast.makeText(getTargetFragment().getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT).show();
+                                toast.show();
                             }
                         });
                     }
                 }).build();
     }
+
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "123456789000",
+    "firebase_url": "https://mockproject-1234.firebaseio.com",
+    "project_id": "mockproject-1234",
+    "storage_bucket": "mockproject-1234.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123456789000:android:f1bf012572b04063",
+        "android_client_info": {
+          "package_name": "naman14.timber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123456789000-hjugbg6ud799v4c49dim8ce2usclthar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzbSzCn1N6LWIe6wthYyrgUUSAlUsdqMb-wvTo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

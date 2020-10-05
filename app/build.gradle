@@ -26,10 +26,6 @@ android {
         debug {
             versionNameSuffix "-debug"
             minifyEnabled false
-
-            resValue "string", "play_billing_license_key", "12345"
-            resValue "string", "cast_app_id", "12345"
-
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -76,6 +72,6 @@ dependencies {
 
     implementation 'com.anjlab.android.iab.v3:library:1.0.+'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
-
-
 }
+
+apply from: '../mock.gradle'

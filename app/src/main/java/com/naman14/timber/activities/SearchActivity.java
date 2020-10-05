@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -60,6 +61,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     private List<Object> searchResults = Collections.emptyList();
 
+    Bundle bundle;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -76,6 +79,18 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        if(savedInstanceState != null && savedInstanceState.containsKey("QUERY_STRING")){
+            bundle = savedInstanceState;
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (queryString != null){
+            outState.putString("QUERY_STRING", queryString);
+        }
     }
 
 
@@ -107,8 +122,14 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         menu.findItem(R.id.menu_search).expandActionView();
 
+        if(bundle != null && bundle.containsKey("QUERY_STRING")){
+            mSearchView.setQuery(bundle.getString("QUERY_STRING"), true);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -154,6 +175,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             adapter.notifyDataSetChanged();
         } else {
             mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
+            Log.d("AAAABBBBBB", "TaskCanelled? " + (mSearchTask.isCancelled()));
         }
 
         return true;
@@ -194,8 +216,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 results.add(getString(R.string.songs));
                 results.addAll(songList);
             }
-
-            if (isCancelled()) {
+            boolean canceled = isCancelled();
+            if (canceled) {
                 return null;
             }
             List<Album> albumList = AlbumLoader.getAlbums(SearchActivity.this, params[0], 7);
@@ -204,7 +226,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 results.addAll(albumList);
             }
 
-            if (isCancelled()) {
+            canceled = isCancelled();
+            if (canceled) {
                 return null;
             }
             List<Artist> artistList = ArtistLoader.getArtists(SearchActivity.this, params[0], 7);

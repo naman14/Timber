@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -133,11 +134,21 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
 
         animate = getIntent().getBooleanExtra(Constants.ACTIVITY_TRANSITION, false);
         if (animate && TimberUtils.isLollipop()) {
-            getWindow().getEnterTransition().addListener(new EnterTransitionListener());
+            if(savedInstanceState != null && savedInstanceState.containsKey("ROTATION_RECREATION")){
+                setUpSongs();
+            }
+            else{
+                getWindow().getEnterTransition().addListener(new EnterTransitionListener());
+            }
         } else {
             setUpSongs();
         }
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ROTATION_RECREATION", "Rotacion");
     }
 
     private void setAlbumart() {

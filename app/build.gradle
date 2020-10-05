@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         applicationId "naman14.timber"
@@ -21,17 +21,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [ appNameSuffix:""]
 
         }
         debug {
-            ext.enableCrashlytics = false
             versionNameSuffix "-debug"
             minifyEnabled false
-            applicationIdSuffix '.dev'
-            manifestPlaceholders = [ appNameSuffix:" Dev"]
 
-            resValue "string", "fabric_api_key", "12345"
             resValue "string", "play_billing_license_key", "12345"
             resValue "string", "cast_app_id", "12345"
 
@@ -48,21 +43,20 @@ android {
 
 repositories {
     jcenter()
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
-    implementation 'com.android.support:multidex:1.0.1'
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "com.google.android.material:material:1.2.1"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.palette:palette:1.0.0"
+    implementation "androidx.percentlayout:percentlayout:1.0.0"
+    implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation "com.android.support:mediarouter-v7:$rootProject.supportLibraryVersion"
-    implementation 'com.google.android.gms:play-services-cast-framework:11.6.0'
+    implementation "androidx.mediarouter:mediarouter:1.1.0"
+    implementation 'com.google.android.gms:play-services-cast-framework:16.1.2'
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     implementation 'net.steamcrafted:materialiconlib:1.1.4'
@@ -78,9 +72,8 @@ dependencies {
     implementation('com.github.naman14:app-theme-engine:0.5.2@aar') {
         transitive = true
     }
-    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+
     implementation 'com.anjlab.android.iab.v3:library:1.0.+'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
 

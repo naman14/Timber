@@ -138,7 +138,6 @@ public class Helpers {
             try {
                 PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
                 String version = pInfo.versionName;
-                int versionCode = pInfo.versionCode;
                 appversion.setText("Timber " + version);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();

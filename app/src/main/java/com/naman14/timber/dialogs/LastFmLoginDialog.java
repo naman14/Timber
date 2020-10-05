@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,8 +24,12 @@ import com.naman14.timber.utils.PreferencesUtility;
 public class LastFmLoginDialog extends DialogFragment {
     public static final String FRAGMENT_NAME = "LastFMLogin";
 
+    private String username;
+    private String password;
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
+
+
         return new MaterialDialog.Builder(getActivity()).
                 positiveText("Login").
                 negativeText(getString(R.string.cancel)).
@@ -33,29 +38,47 @@ public class LastFmLoginDialog extends DialogFragment {
                 onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        String username = ((EditText) dialog.findViewById(R.id.lastfm_username)).getText().toString();
-                        String password = ((EditText) dialog.findViewById(R.id.lastfm_password)).getText().toString();
+
+                        if(savedInstanceState != null ){
+                            username = (savedInstanceState.containsKey("NAME_LOGIN"))? savedInstanceState.getString("NAME_LOGIN"): ((EditText) dialog.findViewById(R.id.lastfm_username)).getText().toString();
+
+                            password = (savedInstanceState.containsKey("PASSWORD_LOGIN"))? savedInstanceState.getString("PASSWORD_LOGIN"): ((EditText) dialog.findViewById(R.id.lastfm_password)).getText().toString();
+                        }
+                        else{
+                            username = ((EditText) dialog.findViewById(R.id.lastfm_username)).getText().toString();
+                            password = ((EditText) dialog.findViewById(R.id.lastfm_password)).getText().toString();
+                        }
+
                         if (username.length() == 0 || password.length() == 0) return;
+                        final Toast toast = Toast.makeText(getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT);
                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                         progressDialog.setMessage("Logging in..");
                         progressDialog.show();
+
                         LastFmClient.getInstance(getActivity()).getUserLoginInfo(new UserLoginQuery(username, password), new UserListener() {
 
                             @Override
                             public void userSuccess() {
                                 progressDialog.dismiss();
-                                if (getTargetFragment() instanceof SettingsFragment) {
-                                    ((SettingsFragment) getTargetFragment()).updateLastFM();
+                                if (getParentFragment() instanceof SettingsFragment) {
+                                    ((SettingsFragment) getParentFragment()).updateLastFM();
                                 }
                             }
 
                             @Override
                             public void userInfoFailed() {
                                 progressDialog.dismiss();
-                                Toast.makeText(getTargetFragment().getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT).show();
+                                toast.show();
                             }
                         });
                     }
                 }).build();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("NAME_LOGIN", username);
+        outState.putString("PASSWORD_LOGIN", password);
     }
 }

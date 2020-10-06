@@ -323,19 +323,22 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1 - slideOffset);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1 - slideOffset);
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1);
             }
 
             @Override
             public void onPanelExpanded(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(0);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(0);
             }
 
             @Override

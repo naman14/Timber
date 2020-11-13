@@ -127,6 +127,15 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
+    private Runnable navigateQueueAnywhere = new Runnable(){
+      public void run(){
+          Fragment fragment = new QueueFragment();
+          FragmentManager fragmentManager = getSupportFragmentManager();
+          fragmentManager.beginTransaction()
+                  .replace(R.id.fragment_container,fragment).commit();
+      }
+    };
+
     private Runnable navigateArtist = new Runnable() {
         public void run() {
             long artistID = getIntent().getExtras().getLong(Constants.ARTIST_ID);
@@ -183,6 +192,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
         navigationMap.put(Constants.NAVIGATE_ARTIST, navigateArtist);
         navigationMap.put(Constants.NAVIGATE_LYRICS, navigateLyrics);
+        navigationMap.put(Constants.NAVIGATE_QUEUE_ANYWHERE, navigateQueueAnywhere);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         panelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -287,7 +297,15 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(currentFragment instanceof QueueFragment){
+            MenuItem item = menu.findItem(R.id.action_open_queue);
+            item.setVisible(false);
+        }
+        else{
+            MenuItem item = menu.findItem(R.id.action_open_queue);
+            item.setVisible(true);
+        }
         return true;
     }
 

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Timber</string>
+    <string name="action_settings">Instellingen</string>
+
+    <string name="accessibility_play">Afspelen</string>
+    <string name="accessibility_pause">Pauzeren</string>
+    <string name="accessibility_next">Volgende</string>
+    <string name="accessibility_prev">Vorige</string>
+    <string name="accessibility_shuffle">Willekeurig</string>
+    <string name="accessibility_shuffle_all">Willekeurig</string>
+    <string name="accessibility_repeat">Herhalen</string>
+    <string name="accessibility_repeat_all">Alles herhalen</string>
+    <string name="accessibility_repeat_one">Eén herhalen</string>
+    <string name="accessibility_queue">Wachtrij openen</string>
+    <string name="accessibility_browse">Muziek verkennen</string>
+
+    <string name="menu_sort_by">Sorteren op</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
+    <string name="sort_order_entry_artist">Artiest</string>
+    <string name="sort_order_entry_album">Album</string>
+    <string name="sort_order_entry_year">Jaar</string>
+    <string name="sort_order_entry_track_number">Nummer</string>
+    <string name="sort_order_entry_duration">Duur</string>
+    <string name="sort_order_entry_date_added">Toegevoegd op</string>
+    <string name="sort_order_entry_track_list">Lijst met nummers</string>
+    <string name="sort_order_entry_number_of_songs">Aantal nummers</string>
+    <string name="sort_order_entry_number_of_albums">Aantal albums</string>
+    <string name="sort_order_entry_filename">Bestandsnaam</string>
+
+    <string name="error_playing_track">Kan nummer niet afspelen</string>
+
+    <string name="playlist_last_added">Laatst toegevoegd</string>
+    <string name="playlist_recently_played">Recent afgespeeld</string>
+    <string name="playlist_top_tracks">Mijn topnummers</string>
+
+    <string name="timber_source">Meld bugs en problemen <u> hier </u> </string>
+    <string name="timber_feature_request">Draag <u> hier </u> ideëen aan in de Google+-gemeenschap</string>
+
+    <string name="menu_show_as">Tonen als</string>
+    <string name="menu_show_as_entry_list">Lijst</string>
+    <string name="menu_show_as_entry_grid">Raster</string>
+    <string name="menu_show_as_entry_default">Standaard</string>
+
+    <string name="light">Licht</string>
+    <string name="dark">Donker</string>
+    <string name="black">Zwart</string>
+
+    <string name="last_opened">Laatst geopend</string>
+
+    <string name="songs">Nummers</string>
+    <string name="albums">Albums</string>
+    <string name="artists">Artiesten</string>
+    <string name="library">Bibliotheek</string>
+    <string name="playlists">Afspeellijsten</string>
+    <string name="playing_queue">Afspeelwachtrij</string>
+    <string name="now_playing">Nu aan het afspelen</string>
+    <string name="settings">Instellingen</string>
+    <string name="about">Over</string>
+    <string name="help_and_feedback">Hulp en feedback</string>
+    <string name="search">Zoeken</string>
+    <string name="action_shuffle_all">Willekeurig</string>
+    <string name="action_equalizer">Equalizer</string>
+    <string name="search_library">Bibliotheek doorzoeken</string>
+
+    <string name="select_theme">Thema kiezen</string>
+    <string name="choose_theme_throughout">Kies het door de app gebruikte thema.</string>
+    <string name="choose_start_page">Kies de bij het opstarten te tonen pagina.</string>
+    <string name="start_page">Startpagina</string>
+    <string name="artist_in_grid">Artiesten in rooster</string>
+    <string name="toggle_artists_grid">Voor het tonen van artiesten in een rooster van 2x2.</string>
+    <string name="toggle_system_animations">Voor het tonen van animaties in de app.</string>
+    <string name="system_animations">Systeemanimaties</string>
+    <string name="toggle_animations">Voor het tonen van overgangsanimaties in de app.</string>
+    <string name="animations">Animaties</string>
+    <string name="now_playing_selector">Kies een 'nu aan het afspelen'-scherm uit 4 verschillende stijlen.</string>
+    <string name="personalisation">Personalisatie</string>
+    <string name="other">Overig</string>
+    <string name="advanced">Geavanceerd</string>
+    <string name="timber_about_opensource">Timber is a open-bron muziekspeler, ontwikkeld door Naman Dwivedi.</string>
+    <string name="summary_pause_detach">Voor het pauzeren als de hoofdtelefoon wordt losgekoppeld.</string>
+    <string name="pause_detach">Pauzeren bij loskoppelen</string>
+    <string name="summary_xposed_trackselector">Vereist Xposed en de XMediaNotificationTrackSelector Xposed-module. Dit geeft toegang tot de afspeelwachtrij vanuit de meldingenbalk.</string>
+    <string name="xposed_trackselector">Afspeelwachtrij-ondersteuning in melding</string>
+    <string name="currently_selected">Momenteel geselecteerd</string>
+
+    <string name="dark_theme">Donker thema</string>
+    <string name="dark_theme_summary">Donker thema toepassen in de app</string>
+
+    <string name="primary_color">Primaire kleur</string>
+    <string name="primary_color_summary">Wijzig de primaire themakleur</string>
+
+    <string name="accent_color">Accentkleur</string>
+    <string name="accent_color_summary">Wijzig de accent-themakleur</string>
+
+    <string name="colored_status_bar">Ingekleurde statusbalk</string>
+    <string name="colored_status_bar_summary">Statusbalk inkleuren in-/uitschakelen</string>
+
+    <string name="colored_nav_bar">Ingekleurde navigatiebalk</string>
+    <string name="colored_nav_bar_summary">Navigatiebalk inkleuren in-/uitschakelen</string>
+
+    <string name="albumart_lockscreen">Vergrendelscherm</string>
+    <string name="albumart_lockscreen_summary">Albumhoes tonen op vergrendelscherm</string>
+
+    <string name="load_artist_album_image">Artiest-/albumhoezen laden</string>
+    <string name="load_artist_album_image_summary">Artiest-/albumhoezen ophalen via lastfm</string>
+
+    <string name="load_artist_album_image_mobile">Artiest-/albumhoezen ophalen via mobiel internet</string>
+    <string name="load_artist_album_image_mobile_summary">Artiest-/albumhoezen ook ophalen als er géén Wi-Fi-verbinding is</string>
+
+    <string name="gestures">Gebaren</string>
+    <string name="switching_tracks_by_gestures">Schakelen tussen nummers middels gebaren</string>
+    <string name="widget_standard">Timber - standaardwidget</string>
+    <string name="widget_small">Timber - kleine widget</string>
+    <string name="tap_to_start">Druk om Timber te openen</string>
+    <string name="widget_white">Timber - lichte widget</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> nummer</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> nummers</string>
+    <string name="count_album"><xliff:g id="count">%d</xliff:g> album</string>
+    <string name="count_albums"><xliff:g id="count">%d</xliff:g> albums</string>
+    <string name="count_artist"><xliff:g id="count">%d</xliff:g> artiest</string>
+    <string name="count_artists"><xliff:g id="count">%d</xliff:g> artiesten</string>
+
+    <string name="number_song_add_queue"><xliff:g example="1" id="number">%d</xliff:g> nummer toegevoegd aan de wachtrij.</string>
+    <string name="number_songs_add_queue"><xliff:g example="1" id="number">%d</xliff:g> nummers toegevoegd aan de wachtrij.</string>
+    <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> nummer toegevoegd aan de afspeellijst.</string>
+    <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> nummers toegevoegd aan de afspeellijst.</string>
+
+
+    <!--do not translate these strings-->
+    <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
+    <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
+    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
+    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d:%2$02d:%3$02d</xliff:g></string>
+
+    <string name="play">Afspelen</string>
+    <string name="add_to_playlist">Toevoegen aan playlist</string>
+    <string name="go_to_album">Ga naar album</string>
+    <string name="go_to_artist">Ga naar artiest</string>
+    <string name="add_to_queue">Toevoegen aan wachtrij</string>
+    <string name="play_next">Volgende afspelen</string>
+    <string name="new_playlist">Nieuwe afspeellijst</string>
+    <string name="share">Delen</string>
+    <string name="delete_from_device">Verwijderen van apparaat</string>
+    <string name="remove_from_queue">Verwijderen uit wachtrij</string>
+
+    <string name="nothing_found">Niks aangetroffen</string>
+    <string name="folders">Mappen</string>
+    <string name="select_storage">Kies de opslag</string>
+
+    <string name="lastfm_pref">Log in op LastFM om te scrobbelen</string>
+    <string name="lastfm_login_failture">Inloggen mislukt</string>
+    <string name="lastfm_login">Inloggen op LastFM</string>
+    <string name="lastfm_loged_in">Ingelogd als %s</string>
+
+    <string name="cancel">Annuleren</string>
+    <string name="always_load_album_images_lastfm">Albumhoezen altijd ophalen via Last.fm</string>
+    <string name="always_load_album_images_lastfm_summary">Als dit wordt uitgeschakeld, dan worden albumhoezen lokaal opgehaald uit muziekbestanden (indien beschikbaar).</string>
+
+    <string name="menu_show_lyrics">Songtekst tonen</string>
+    <string name="no_lyrics">Geen songtekst gevonden.</string>
+    <string name="lyrics_makeitpersonal">Aangedreven door <a href="https://makeitpersonal.co/">makeitpersonal.co</a></string>
+    <string name="cast">Casten</string>
+    <string name="now_playing_no_track_selected">\"Geen nummer gekozen.</string>
+    <string name="lyrics_loading">Bezig met laden...</string>
+
+</resources>

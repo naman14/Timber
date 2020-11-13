@@ -41,6 +41,7 @@ This project is no longer in active development. Please refer to [TimberX](https
 ## Changelog
 
 Changelog is available [here](https://github.com/naman14/Timber/blob/master/Changelog.md)
+<!-- я бы сделал дизайн настолько простой и понятный, на сколько это возможно --!>
 
 ## Credits
 

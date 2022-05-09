@@ -152,7 +152,7 @@ public class MusicService extends Service {
     private static final int IDLE_DELAY = 5 * 60 * 1000;
     private static final long REWIND_INSTEAD_PREVIOUS_THRESHOLD = 3000;
     private static final String[] PROJECTION = new String[]{
-            "audio._id AS _id", MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM,
+            BaseColumns._ID, MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
             MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media.ARTIST_ID
@@ -162,7 +162,7 @@ public class MusicService extends Service {
             MediaStore.Audio.Albums.LAST_YEAR
     };
     private static final String[] NOTIFICATION_PROJECTION = new String[]{
-            "audio._id AS _id", AudioColumns.ALBUM_ID, AudioColumns.TITLE,
+            BaseColumns._ID, AudioColumns.ALBUM_ID, AudioColumns.TITLE,
             AudioColumns.ARTIST, AudioColumns.DURATION
     };
     private static final Shuffler mShuffler = new Shuffler();
@@ -170,7 +170,7 @@ public class MusicService extends Service {
     private static final int NOTIFY_MODE_FOREGROUND = 1;
     private static final int NOTIFY_MODE_BACKGROUND = 2;
     private static final String[] PROJECTION_MATRIX = new String[]{
-            "_id", MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM,
+            BaseColumns._ID, MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
             MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media.ARTIST_ID

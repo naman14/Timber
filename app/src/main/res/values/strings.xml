@@ -167,4 +167,11 @@
     <string name="now_playing_no_track_selected">\"No current track selected.</string>
     <string name="lyrics_loading">Loading...</string>
 
+    <string name="about_dialog_body"><![CDATA[
+    <b>Timber</b> is a fully featured open source music player.<br/><br/>
+    Designed and developed by <b>Naman Dwivedi</b>. Check out my
+    <a href="https://namand.in">Website</a> and <a href="https://github.com/naman14/Timber">GitHub</a>
+    <br/><br/>Also checkout <a href="https://play.google.com/store/apps/details?id=com.naman14.timberx">TimberX</a>,
+    material themed music player that works across all form factors.
+    ]]></string>
 </resources>

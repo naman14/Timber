@@ -22,13 +22,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.media.session.MediaSessionManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +41,6 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.Session;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
-import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.naman14.timber.ITimberService;
@@ -325,19 +323,22 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1 - slideOffset);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1 - slideOffset);
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1);
             }
 
             @Override
             public void onPanelExpanded(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(0);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(0);
             }
 
             @Override

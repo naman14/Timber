@@ -3,6 +3,8 @@
 
 Material Design Music Player
 
+This project is no longer in active development. Please refer to [TimberX](https://github.com/naman14/TimberX) instead
+
 <a href='https://play.google.com/store/apps/details?id=naman14.timber&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=90px/></a>
 
 <a href='https://f-droid.org/repository/browse/?fdid=naman14.timber'><img alt='Get it on F-Droid' src='https://guardianproject.info/wp-content/uploads/2014/07/logo-fdroid.png' height=60px/></a>

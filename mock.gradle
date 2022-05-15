@@ -1,0 +1,20 @@
+// This script must be applied in app/build.gradle for the paths here to work correctly
+
+def copyMockFilesNeeded() {
+    def srcGoogleServicesFile = file("../mock/mock-google-services.json")
+    def srcCastSecretFile = file("../mock/mock-secret.xml")
+
+    def destGoogleServicesFile = file("google-services.json")
+    def destCastSecretFile = file("src/main/res/values/secret.xml")
+
+    if (!destGoogleServicesFile.exists()) {
+        destGoogleServicesFile.write(srcGoogleServicesFile.text)
+    }
+    if (!destCastSecretFile.exists()) {
+        destCastSecretFile.write(srcCastSecretFile.text)
+    }
+}
+
+afterEvaluate {
+    copyMockFilesNeeded()
+}

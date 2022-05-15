@@ -24,7 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.service.media.MediaBrowserService;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.dataloaders.AlbumSongLoader;

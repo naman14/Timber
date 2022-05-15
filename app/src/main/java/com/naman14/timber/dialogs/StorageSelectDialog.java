@@ -3,7 +3,7 @@ package com.naman14.timber.dialogs;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Environment;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import com.naman14.timber.R;
 

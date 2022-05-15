@@ -6,7 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.widget.RemoteViews;
 
 import com.naman14.timber.MusicService;

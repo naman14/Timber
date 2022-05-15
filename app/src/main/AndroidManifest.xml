@@ -18,13 +18,13 @@
         android:name=".TimberApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="Timber${appNameSuffix}"
+        android:label="Timber"
         android:theme="@style/AppTheme.FullScreen.Light"
         tools:replace="android:allowBackup, android:label">
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="Timber${appNameSuffix}"
+            android:label="Timber"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -114,10 +114,6 @@
             </intent-filter>
         </service>
 
-        <!--use your own api key for fabric-->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="@string/fabric_api_key" />
 
         <meta-data
             android:name=

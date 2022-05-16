@@ -24,8 +24,8 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="Timber"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,7 +87,8 @@
         <activity android:name=".activities.DonateActivity"/>
 
 
-        <receiver android:name=".helpers.MediaButtonIntentReceiver">
+        <receiver android:name=".helpers.MediaButtonIntentReceiver"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
@@ -109,7 +110,8 @@
 
 
 
-        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
+        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />
@@ -119,7 +121,8 @@
                 android:resource="@xml/widget_standard" />
         </receiver>
 
-        <receiver android:name=".widgets.desktop.WhiteWidget" android:label="@string/widget_white">
+        <receiver android:name=".widgets.desktop.WhiteWidget" android:label="@string/widget_white"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />
@@ -129,7 +132,8 @@
                 android:resource="@xml/widget_white" />
         </receiver>
 
-        <receiver android:name=".widgets.desktop.SmallWidget" android:label="@string/widget_small">
+        <receiver android:name=".widgets.desktop.SmallWidget" android:label="@string/widget_small"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />

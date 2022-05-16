@@ -3,8 +3,9 @@ package com.naman14.timber.widgets;
 import android.content.Context;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.afollestad.appthemeengine.util.TintHelper;
 

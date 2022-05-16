@@ -40,7 +40,6 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
-import com.naman14.timber.cast.ExpandedControlsActivity;
 import com.naman14.timber.fragments.AlbumDetailFragment;
 import com.naman14.timber.fragments.ArtistDetailFragment;
 import com.naman14.timber.fragments.FoldersFragment;

@@ -5,13 +5,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -19,6 +22,7 @@ import android.widget.ProgressBar;
 import com.afollestad.appthemeengine.ATE;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.FolderAdapter;
+import com.naman14.timber.dialogs.StorageSelectDialog;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
@@ -29,7 +33,7 @@ import java.io.File;
  * Created by nv95 on 10.11.16.
  */
 
-public class FoldersFragment extends Fragment {
+public class FoldersFragment extends Fragment implements StorageSelectDialog.OnDirSelectListener {
 
     private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
@@ -82,7 +86,23 @@ public class FoldersFragment extends Fragment {
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_folders, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_storages) {
+            new StorageSelectDialog(getActivity())
+                    .setDirSelectListener(this)
+                    .show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void updateTheme() {
@@ -91,6 +111,11 @@ public class FoldersFragment extends Fragment {
             boolean dark = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dark_theme", false);
             mAdapter.applyTheme(dark);
         }
+    }
+
+    @Override
+    public void onDirSelected(File dir) {
+        mAdapter.updateDataSetAsync(dir);
     }
 
     private class loadFolders extends AsyncTask<String, Void, String> {

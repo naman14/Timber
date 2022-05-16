@@ -17,9 +17,9 @@ package com.naman14.timber.adapters;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +41,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.ItemHolder> {
+public class ArtistSongAdapter extends BaseSongAdapter<ArtistSongAdapter.ItemHolder> {
 
     private List<Song> arraylist;
     private Activity mContext;
@@ -79,7 +79,9 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             itemHolder.title.setText(localItem.title);
             itemHolder.album.setText(localItem.albumName);
 
-            ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(), itemHolder.albumArt, new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
+            ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.albumId).toString(),
+                    itemHolder.albumArt, new DisplayImageOptions.Builder()
+                            .cacheInMemory(true).showImageOnLoading(R.drawable.ic_empty_music2).resetViewBeforeLoading(true).build());
             setOnPopupMenuListener(itemHolder, i - 1);
         }
 
@@ -110,7 +112,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.popup_song_play:
-                                MusicPlayer.playAll(mContext, songIDs, position, -1, TimberUtils.IdType.NA, false);
+                                MusicPlayer.playAll(mContext, songIDs, position + 1, -1, TimberUtils.IdType.NA, false);
                                 break;
                             case R.id.popup_song_play_next:
                                 long[] ids = new long[1];
@@ -131,9 +133,12 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
                             case R.id.popup_song_addto_playlist:
                                 AddPlaylistDialog.newInstance(arraylist.get(position + 1)).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "ADD_PLAYLIST");
                                 break;
+                            case R.id.popup_song_share:
+                                TimberUtils.shareTrack(mContext, arraylist.get(position + 1).id);
+                                break;
                             case R.id.popup_song_delete:
-                                long[] deleteIds = {arraylist.get(position).id};
-                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position).title, deleteIds, ArtistSongAdapter.this, position);
+                                long[] deleteIds = {arraylist.get(position + 1).id};
+                                TimberUtils.showDeleteDialog(mContext,arraylist.get(position + 1).title, deleteIds, ArtistSongAdapter.this, position + 1);
                                 break;
                         }
                         return false;
@@ -169,12 +174,24 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
 
     public long[] getSongIds() {
         List<Song> actualArraylist = new ArrayList<Song>(arraylist);
-        actualArraylist.remove(0);
+        //actualArraylist.remove(0);
         long[] ret = new long[actualArraylist.size()];
         for (int i = 0; i < actualArraylist.size(); i++) {
             ret[i] = actualArraylist.get(i).id;
         }
         return ret;
+    }
+
+    @Override
+    public void removeSongAt(int i){
+        arraylist.remove(i);
+        updateDataSet(arraylist);
+    }
+
+    @Override
+    public void updateDataSet(List<Song> arraylist) {
+        this.arraylist = arraylist;
+        this.songIDs = getSongIds();
     }
 
     @Override
@@ -211,8 +228,9 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.It
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicPlayer.playAll(mContext, songIDs, getAdapterPosition() - 1, artistID, TimberUtils.IdType.Artist, false);
-                    NavigationUtils.navigateToNowplaying(mContext, true);
+                    playAll(mContext, songIDs, getAdapterPosition(), artistID,
+                            TimberUtils.IdType.Artist, false,
+                            arraylist.get(getAdapterPosition()), true);
                 }
             }, 100);
 

@@ -1,25 +1,41 @@
 # Timber
-[![Build Status](https://travis-ci.org/naman14/Timber.svg?branch=master)](https://travis-ci.org/naman14/Timber)
 
-[WIP][BETA]-Material Design Music Player
+Material Design Music Player
 
-<a href="https://play.google.com/store/apps/details?id=naman14.timber&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=50px/></a>  
-[![Get it on F-Droid](https://guardianproject.info/wp-content/uploads/2014/07/logo-fdroid.png)](https://f-droid.org/repository/browse/?fdid=naman14.timber)
+This project is no longer in active development. Please refer to [TimberX](https://github.com/naman14/TimberX) instead
+
+
+
+<a href='https://f-droid.org/repository/browse/?fdid=naman14.timber'><img alt='Get it on F-Droid' src='https://guardianproject.info/wp-content/uploads/2014/07/logo-fdroid.png' height=60px/></a>
 
 ## Screenshots
 
-![](https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-09-18-12-33-27.png)
-![](https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-05-14-23-03.png)
-![](https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-29-22-44-26.png)
-![](https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-31-11-50-50.png)
-![](https://raw.githubusercontent.com/naman14/Timber/master/graphics/Screenshot_2015-08-31-11-52-50.png)
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen2.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen3.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen7.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen8.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen9.jpg" width="330" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen10.jpg" width="330" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen1.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen5.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen12.jpg" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen4.png" width="360" height="640">
+<img src="https://raw.githubusercontent.com/naman14/Timber/master/graphics/screen6.png" width="360" height="640">
 
-## Contribute
-### Translations
-
-If there isn't any translations in your language go to the [res folder](https://github.com/naman14/Timber/blob/master/app/src/main/res/) and create a file named "values-XX/strings.xml" where XX is the target language's code. Copy and paste the content of the [English base file](https://github.com/naman14/Timber/blob/master/app/src/main/res/values/strings.xml) and remove all strings with "translatable=false" attribute. Translate all the keys and make a pull request.
-
-If there is a translation in your language go to its folder in [res folder](https://github.com/naman14/Timber/blob/master/app/src/main/res/) and edit the strings.xml file. You'd like to update the translation with new keys by copying them from the [English base file](https://github.com/naman14/Timber/blob/master/app/src/main/res/values/strings.xml). Edit the file and make a pull request.
+## Features
+- Material design
+- Browse Songs, Albums, Artists
+- Create and edit playlists
+- 6 different now playing styles
+- Homescreen widgets
+- Browse device folders
+- Dark theme and UI customisability
+- Gestures for track switching
+- LastFM scrobble
+- Android Wear and Android Auto support
+- Playing queue in notification (Xposed)
+- Lyrics support
+- Chromecast support
 
 ## Changelog
 
@@ -33,10 +49,6 @@ Changelog is available [here](https://github.com/naman14/Timber/blob/master/Chan
 * [PlayPauseButton](https://github.com/recruit-lifestyle/PlayPauseButton)
 * [CircularSeekBar](https://github.com/devadvance/circularseekbar)
 * [Nammu](https://github.com/tajchert/Nammu)
-
-#Donate
-Paypal donation email-
-namandwivedi14@gmail.com
 
 
 ## License

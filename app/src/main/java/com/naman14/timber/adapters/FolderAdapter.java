@@ -8,16 +8,15 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.FolderLoader;
 import com.naman14.timber.dataloaders.SongLoader;
@@ -36,7 +35,7 @@ import java.util.List;
  * Created by nv95 on 10.11.16.
  */
 
-public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder> implements BubbleTextGetter {
+public class FolderAdapter extends BaseSongAdapter<FolderAdapter.ItemHolder> implements BubbleTextGetter {
 
     @NonNull
     private List<File> mFileSet;
@@ -131,23 +130,23 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
         }
         File parent = mRoot.getParentFile();
         if (parent != null && parent.canRead()) {
-            updateDataSetAsync(parent);
-            return true;
+            return updateDataSetAsync(parent);
         } else {
             return false;
         }
     }
 
-    public void updateDataSetAsync(File newRoot) {
+    public boolean updateDataSetAsync(File newRoot) {
         if (mBusy) {
-            return;
+            return false;
         }
         if ("..".equals(newRoot.getName())) {
             goUpAsync();
-            return;
+            return false;
         }
         mRoot = newRoot;
         new NavigateTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mRoot);
+        return true;
     }
 
     @Override
@@ -218,16 +217,15 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
             }
             final File f = mFileSet.get(getAdapterPosition());
 
-            if (f.isDirectory()) {
+            if (f.isDirectory() && updateDataSetAsync(f)) {
                 albumArt.setImageDrawable(mIcons[3]);
-                updateDataSetAsync(f);
             } else if (f.isFile()) {
 
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        int current =-1;
+                        int current = -1;
                         long songId = SongLoader.getSongFromPath(mFileSet.get(getAdapterPosition()).getAbsolutePath(),mContext).id;
                         int count = 0;
                         for (Song song : mSongs) {
@@ -246,7 +244,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ItemHolder
                                 j++;
                             }
                         }
-                        MusicPlayer.playAll(mContext, ret, current, -1, TimberUtils.IdType.NA, false);
+                        playAll(mContext, ret, current, -1, TimberUtils.IdType.NA,
+                                false, mSongs.get(getAdapterPosition()), false);
                     }
                 }, 100);
 

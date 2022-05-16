@@ -17,12 +17,13 @@ package com.naman14.timber.activities;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SearchActivity extends BaseThemedActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
+public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
 
     private final Executor mSearchExecutor = Executors.newSingleThreadExecutor();
     @Nullable
@@ -59,6 +60,8 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
     private RecyclerView recyclerView;
 
     private List<Object> searchResults = Collections.emptyList();
+
+    Bundle bundle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,18 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        if(savedInstanceState != null && savedInstanceState.containsKey("QUERY_STRING")){
+            bundle = savedInstanceState;
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (queryString != null){
+            outState.putString("QUERY_STRING", queryString);
+        }
     }
 
 
@@ -106,7 +121,21 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
         });
 
         menu.findItem(R.id.menu_search).expandActionView();
+
+        if(bundle != null && bundle.containsKey("QUERY_STRING")){
+            mSearchView.setQuery(bundle.getString("QUERY_STRING"), true);
+        }
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_search);
+        item.setVisible(false);
+        return true;
     }
 
     @Override
@@ -146,6 +175,7 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
             adapter.notifyDataSetChanged();
         } else {
             mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
+            Log.d("AAAABBBBBB", "TaskCanelled? " + (mSearchTask.isCancelled()));
         }
 
         return true;
@@ -186,8 +216,8 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
                 results.add(getString(R.string.songs));
                 results.addAll(songList);
             }
-
-            if (isCancelled()) {
+            boolean canceled = isCancelled();
+            if (canceled) {
                 return null;
             }
             List<Album> albumList = AlbumLoader.getAlbums(SearchActivity.this, params[0], 7);
@@ -196,7 +226,8 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
                 results.addAll(albumList);
             }
 
-            if (isCancelled()) {
+            canceled = isCancelled();
+            if (canceled) {
                 return null;
             }
             List<Artist> artistList = ArtistLoader.getArtists(SearchActivity.this, params[0], 7);

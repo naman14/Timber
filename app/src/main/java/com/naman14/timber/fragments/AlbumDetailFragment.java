@@ -20,16 +20,16 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,12 +40,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumSongsAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.dataloaders.AlbumSongLoader;
+import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
@@ -53,13 +55,12 @@ import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.Helpers;
+import com.naman14.timber.utils.ImageUtils;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -69,21 +70,22 @@ import java.util.List;
 
 public class AlbumDetailFragment extends Fragment {
 
-    long albumID = -1;
+    private long albumID = -1;
 
-    ImageView albumArt, artistArt;
-    TextView albumTitle, albumDetails;
+    private ImageView albumArt, artistArt;
+    private TextView albumTitle, albumDetails;
+    private AppCompatActivity mContext;
 
-    RecyclerView recyclerView;
-    AlbumSongsAdapter mAdapter;
+    private RecyclerView recyclerView;
+    private AlbumSongsAdapter mAdapter;
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    Album album;
+    private Album album;
 
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    AppBarLayout appBarLayout;
-    FloatingActionButton fab;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private AppBarLayout appBarLayout;
+    private FloatingActionButton fab;
 
     private boolean loadFailed = false;
 
@@ -109,6 +111,7 @@ public class AlbumDetailFragment extends Fragment {
             albumID = getArguments().getLong(Constants.ALBUM_ID);
         }
         context = getActivity();
+        mContext = (AppCompatActivity) context;
         mPreferences = PreferencesUtility.getInstance(context);
     }
 
@@ -171,11 +174,7 @@ public class AlbumDetailFragment extends Fragment {
     }
 
     private void setAlbumart() {
-        ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(albumID).toString(), albumArt,
-                new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
-                        .resetViewBeforeLoading(true)
-                        .build(), new ImageLoadingListener() {
+        ImageUtils.loadAlbumArtIntoView(album.id, albumArt, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
@@ -188,7 +187,6 @@ public class AlbumDetailFragment extends Fragment {
                                 .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
                         ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
                         fab.setImageDrawable(builder.build());
-
                     }
 
                     @Override
@@ -213,18 +211,20 @@ public class AlbumDetailFragment extends Fragment {
                                                                                   }
                                                                               }
 
-                                                                              MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
-                                                                                      .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                                                                                      .setSizeDp(30);
-                                                                              if (primaryColor != -1) {
-                                                                                  builder.setColor(TimberUtils.getBlackWhiteColor(primaryColor));
-                                                                                  ATEUtils.setFabBackgroundTint(fab, primaryColor);
-                                                                                  fab.setImageDrawable(builder.build());
-                                                                              } else {
-                                                                                  if (context != null) {
-                                                                                      ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
-                                                                                      builder.setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
+                                                                              if (getActivity() != null) {
+                                                                                  MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(getActivity())
+                                                                                          .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
+                                                                                          .setSizeDp(30);
+                                                                                  if (primaryColor != -1) {
+                                                                                      builder.setColor(TimberUtils.getBlackWhiteColor(primaryColor));
+                                                                                      ATEUtils.setFabBackgroundTint(fab, primaryColor);
                                                                                       fab.setImageDrawable(builder.build());
+                                                                                  } else {
+                                                                                      if (context != null) {
+                                                                                          ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
+                                                                                          builder.setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
+                                                                                          fab.setImageDrawable(builder.build());
+                                                                                      }
                                                                                   }
                                                                               }
                                                                           }
@@ -301,12 +301,23 @@ public class AlbumDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.album_song_sort_by, menu);
+        inflater.inflate(R.menu.album_detail, menu);
+        if (getActivity() != null)
+            ATE.applyMenu(getActivity(), "dark_theme", menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_go_to_artist:
+                NavigationUtils.goToArtist(getContext(), album.artistId);
+                break;
+            case R.id.popup_song_addto_queue:
+                MusicPlayer.addToQueue(context, mAdapter.getSongIds(), -1, TimberUtils.IdType.NA);
+                break;
+            case R.id.popup_song_addto_playlist:
+                AddPlaylistDialog.newInstance(mAdapter.getSongIds()).show(mContext.getSupportFragmentManager(), "ADD_PLAYLIST");
+                break;
             case R.id.menu_sort_by_az:
                 mPreferences.setAlbumSongSortOrder(SortOrder.AlbumSongSortOrder.SONG_A_Z);
                 reloadAdapter();
@@ -334,11 +345,11 @@ public class AlbumDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        String ateKey = Helpers.getATEKey(getActivity());
         toolbar.setBackgroundColor(Color.TRANSPARENT);
         if (primaryColor != -1 && getActivity() != null) {
             collapsingToolbarLayout.setContentScrimColor(primaryColor);
             ATEUtils.setFabBackgroundTint(fab, primaryColor);
-            String ateKey = Helpers.getATEKey(getActivity());
             ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
         }
 
@@ -356,5 +367,4 @@ public class AlbumDetailFragment extends Fragment {
         }
 
     }
-
 }

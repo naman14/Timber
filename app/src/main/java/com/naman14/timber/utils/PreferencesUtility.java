@@ -15,10 +15,17 @@
 package com.naman14.timber.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+
+import com.naman14.timber.MusicPlayer;
+import com.naman14.timber.MusicService;
 
 public final class PreferencesUtility {
 
@@ -46,11 +53,21 @@ public final class PreferencesUtility {
     public static final String LAST_ADDED_CUTOFF = "last_added_cutoff";
     public static final String GESTURES = "gestures";
 
+    public static final String FULL_UNLOCKED = "full_version_unlocked";
+
+    private static final String SHOW_LOCKSCREEN_ALBUMART = "show_albumart_lockscreen";
+    private static final String ARTIST_ALBUM_IMAGE = "artist_album_image";
+    private static final String ARTIST_ALBUM_IMAGE_MOBILE = "artist_album_image_mobile";
+    private static final String ALWAYS_LOAD_ALBUM_IMAGES_LASTFM = "always_load_album_images_lastfm";
+
     private static PreferencesUtility sInstance;
 
     private static SharedPreferences mPreferences;
+    private static Context context;
+    private ConnectivityManager connManager = null;
 
     public PreferencesUtility(final Context context) {
+        this.context = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -64,14 +81,6 @@ public final class PreferencesUtility {
 
     public void setOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
         mPreferences.registerOnSharedPreferenceChangeListener(listener);
-    }
-
-    public boolean getAnimations() {
-        return mPreferences.getBoolean(TOGGLE_ANIMATIONS, true);
-    }
-
-    public boolean getSystemAnimations() {
-        return mPreferences.getBoolean(TOGGLE_SYSTEM_ANIMATIONS, true);
     }
 
     public boolean isArtistsInGrid() {
@@ -234,6 +243,44 @@ public final class PreferencesUtility {
 
     public String getLastFolder() {
         return mPreferences.getString(LAST_FOLDER, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+    }
+
+    public boolean fullUnlocked() {
+        return mPreferences.getBoolean(FULL_UNLOCKED, true);
+    }
+
+    public void setFullUnlocked(final boolean b) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(FULL_UNLOCKED, b);
+        editor.apply();
+    }
+
+    public boolean getSetAlbumartLockscreen() {
+        return mPreferences.getBoolean(SHOW_LOCKSCREEN_ALBUMART, true);
+    }
+
+    public void updateService(Bundle extras) {
+        if(!MusicPlayer.isPlaybackServiceConnected())return;
+        final Intent intent = new Intent(context, MusicService.class);
+        intent.setAction(MusicService.UPDATE_PREFERENCES);
+        intent.putExtras(extras);
+        context.startService(intent);
+    }
+
+    public boolean loadArtistAndAlbumImages() {
+        if (mPreferences.getBoolean(ARTIST_ALBUM_IMAGE, true)) {
+            if (!mPreferences.getBoolean(ARTIST_ALBUM_IMAGE_MOBILE, true)) {
+                if (connManager == null) connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo ni = connManager.getActiveNetworkInfo();
+                return ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean alwaysLoadAlbumImagesFromLastfm() {
+        return mPreferences.getBoolean(ALWAYS_LOAD_ALBUM_IMAGES_LASTFM, false);
     }
 }
 

@@ -1,30 +1,37 @@
 apply plugin: 'com.android.application'
 
+
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    compileSdkVersion rootProject.compileSdkVersion
 
     defaultConfig {
-        applicationId "naman14.timber"
-        minSdkVersion 16
-        targetSdkVersion 24
-        versionCode 16
-        versionName "0.3b"
+        applicationId "it.fossoft.timberfoss"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 22
+        versionName "1.8"
         //renderscript support mode is not supported for 21+ with gradle version 2.0
-        renderscriptTargetApi 20
-        renderscriptSupportModeEnabled true
+        renderscriptTargetApi 16
+        renderscriptSupportModeEnabled false
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
         debug {
             versionNameSuffix "-debug"
             minifyEnabled false
+            applicationIdSuffix '.dev'
+            manifestPlaceholders = [ appNameSuffix:" Dev"]
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     lintOptions {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
@@ -37,29 +44,35 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.android.support:cardview-v7:24.2.1'
-    compile 'com.android.support:palette-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:percent:24.2.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation "com.google.android.material:material:1.6.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.palette:palette:1.0.0"
+    implementation "androidx.percentlayout:percentlayout:1.0.0"
+    implementation 'androidx.multidex:multidex:2.0.1'
 
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    compile 'net.steamcrafted:materialiconlib:1.0.3'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'de.Maxr1998:track-selector-lib:1.1'
+    implementation "androidx.mediarouter:mediarouter:1.3.0"
 
-    compile 'com.afollestad.material-dialogs:core:0.9.0.2'
-    compile 'com.afollestad.material-dialogs:commons:0.9.0.2'
 
-    compile('com.github.naman14:app-theme-engine:0.5.2@aar') {
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    implementation 'net.steamcrafted:materialiconlib:1.1.4'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    implementation 'com.squareup.okhttp:okhttp:2.3.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'de.Maxr1998:track-selector-lib:1.2'
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.0.2'
+
+    implementation('com.github.naman14:app-theme-engine:0.5.2@aar') {
         transitive = true
     }
-    compile 'com.anjlab.android.iab.v3:library:1.0.+'
 
-
+    implementation 'com.anjlab.android.iab.v3:library:1.0.+'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
 }
+
+apply from: '../mock.gradle'

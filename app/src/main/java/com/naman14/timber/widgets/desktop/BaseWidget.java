@@ -5,7 +5,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.LayoutRes;
+import android.os.Bundle;
+import androidx.annotation.LayoutRes;
 import android.widget.RemoteViews;
 
 import com.naman14.timber.MusicService;
@@ -22,10 +23,14 @@ public abstract class BaseWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        onUpdate(context, appWidgetManager, appWidgetIds, null);
+    }
+
+    private void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds,Bundle extras){
         ComponentName serviceName = new ComponentName(context, MusicService.class);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getLayoutRes());
         try {
-            onViewsUpdate(context, remoteViews, serviceName);
+            onViewsUpdate(context, remoteViews, serviceName, extras);
             appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,13 +44,13 @@ public abstract class BaseWidget extends AppWidgetProvider {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), this.getClass().getName());
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
-            onUpdate(context, appWidgetManager, appWidgetIds);
+            onUpdate(context, appWidgetManager, appWidgetIds, intent.getExtras());
         } else {
             super.onReceive(context, intent);
         }
     }
 
-    abstract void onViewsUpdate(Context context, RemoteViews remoteViews, ComponentName serviceName);
+    abstract void onViewsUpdate(Context context, RemoteViews remoteViews, ComponentName serviceName, Bundle extras);
 
     abstract @LayoutRes int getLayoutRes();
 }

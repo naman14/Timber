@@ -22,13 +22,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.media.session.MediaSessionManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,10 +35,12 @@ import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
+
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
+import com.naman14.timber.cast.WebServer;
 import com.naman14.timber.listeners.MusicStateListener;
 import com.naman14.timber.slidinguppanel.SlidingUpPanelLayout;
 import com.naman14.timber.subfragments.QuickControlsFragment;
@@ -47,6 +48,7 @@ import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -57,6 +59,10 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
     private MusicPlayer.ServiceToken mToken;
     private PlaybackStatus mPlaybackStatus;
+
+    private WebServer castServer;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,22 +98,29 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
 
     @Override
     public void onResume() {
-        super.onResume();
+        //For Android 8.0+: service may get destroyed if in background too long
+        if(mService == null){
+            mToken = MusicPlayer.bindToService(this, this);
+        }
         onMetaChanged();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         mService = ITimberService.Stub.asInterface(service);
-
         onMetaChanged();
     }
+
 
 
     @Override
@@ -180,6 +193,10 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        getMenuInflater().inflate(R.menu.menu_cast, menu);
+
+
         if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
             menu.removeItem(R.id.action_equalizer);
         }
@@ -229,19 +246,22 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1 - slideOffset);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1 - slideOffset);
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1);
             }
 
             @Override
             public void onPanelExpanded(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(0);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(0);
             }
 
             @Override
@@ -300,12 +320,6 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
 
         @Override
         protected void onPostExecute(String result) {
-//            QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    NavigationUtils.navigateToNowplaying(BaseActivity.this, false);
-//                }
-//            });
         }
 
         @Override
@@ -313,4 +327,26 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         }
     }
 
+    public void showCastMiniController() {
+        //implement by overriding in activities
+    }
+
+    public void hideCastMiniController() {
+        //implement by overriding in activities
+    }
+
+    private void startCastServer() {
+        castServer = new WebServer(this);
+        try {
+            castServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopCastServer() {
+        if (castServer != null) {
+            castServer.stop();
+        }
+    }
 }

@@ -17,9 +17,9 @@ package com.naman14.timber.fragments;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +33,7 @@ import com.naman14.timber.dataloaders.AlbumLoader;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.SortOrder;
+import com.naman14.timber.widgets.BaseRecyclerView;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.FastScroller;
 
@@ -41,7 +42,7 @@ import java.util.List;
 public class AlbumFragment extends Fragment {
 
     private AlbumAdapter mAdapter;
-    private RecyclerView recyclerView;
+    private BaseRecyclerView recyclerView;
     private FastScroller fastScroller;
     private GridLayoutManager layoutManager;
     private RecyclerView.ItemDecoration itemDecoration;
@@ -60,8 +61,10 @@ public class AlbumFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.fragment_recyclerview, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
+        recyclerView = rootView.findViewById(R.id.recyclerview);
+        fastScroller = rootView.findViewById(R.id.fastscroller);
+
+        recyclerView.setEmptyView(getActivity(), rootView.findViewById(R.id.list_empty), "No media found");
 
         setLayoutManager();
 

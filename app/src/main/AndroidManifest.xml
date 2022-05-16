@@ -18,14 +18,14 @@
         android:name=".TimberApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Timber"
         android:theme="@style/AppTheme.FullScreen.Light"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup, android:label">
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,9 +84,11 @@
             android:name=".activities.NowPlayingActivity"
             android:theme="@style/AppTheme.FullScreen.Light" />
 
-        <activity android:name=".activities.DonateActivity"/>
+      <!--    <activity android:name=".activities.DonateActivity"/>     -->
 
-        <receiver android:name=".helpers.MediaButtonIntentReceiver">
+
+        <receiver android:name=".helpers.MediaButtonIntentReceiver"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
@@ -98,20 +100,18 @@
             android:label="@string/app_name"
             android:process=":main" />
 
-        <service
+   <!--     <service
             android:name=".WearBrowserService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
-        </service>
+        </service>     -->
 
-        <!--use your own api key for fabric-->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="@string/fabric_api_key" />
 
-        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard">
+
+        <receiver android:name=".widgets.desktop.StandardWidget" android:label="@string/widget_standard"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />
@@ -121,7 +121,8 @@
                 android:resource="@xml/widget_standard" />
         </receiver>
 
-        <receiver android:name=".widgets.desktop.WhiteWidget" android:label="@string/widget_white">
+        <receiver android:name=".widgets.desktop.WhiteWidget" android:label="@string/widget_white"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />
@@ -131,7 +132,8 @@
                 android:resource="@xml/widget_white" />
         </receiver>
 
-        <receiver android:name=".widgets.desktop.SmallWidget" android:label="@string/widget_small">
+        <receiver android:name=".widgets.desktop.SmallWidget" android:label="@string/widget_small"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.naman14.timber.metachanged" />

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <string name="app_name">Timber</string>
     <string name="action_settings">设置</string>
 
     <string name="accessibility_play">播放</string>
@@ -12,35 +13,36 @@
     <string name="accessibility_repeat">循环</string>
     <string name="accessibility_repeat_all">全部循环</string>
     <string name="accessibility_repeat_one">单曲循环</string>
-    <string name="accessibility_queue">开启队列</string>
+    <string name="accessibility_queue">打开队列</string>
     <string name="accessibility_browse">浏览音乐</string>
 
     <string name="menu_sort_by">排序</string>
-    <string name="sort_order_entry_az">A 到 Z</string>
-    <string name="sort_order_entry_za">Z 到 A</string>
+    <string name="sort_order_entry_az">A-Z</string>
+    <string name="sort_order_entry_za">Z-A</string>
     <string name="sort_order_entry_artist">艺术家</string>
     <string name="sort_order_entry_album">专辑</string>
     <string name="sort_order_entry_year">年份</string>
-    <string name="sort_order_entry_track_number">曲目编号</string>
+    <string name="sort_order_entry_track_number">曲目数</string>
     <string name="sort_order_entry_duration">时长</string>
-    <string name="sort_order_entry_date_added">添加时间</string>
+    <string name="sort_order_entry_date_added">日期已添加</string>
     <string name="sort_order_entry_track_list">曲目列表</string>
-    <string name="sort_order_entry_number_of_songs">歌曲数量</string>
-    <string name="sort_order_entry_number_of_albums">专辑数量</string>
+    <string name="sort_order_entry_number_of_songs">歌曲数</string>
+    <string name="sort_order_entry_number_of_albums">专辑数</string>
     <string name="sort_order_entry_filename">文件名</string>
 
-    <string name="error_playing_track">播放曲目错误</string>
+    <string name="error_playing_track">曲目播放错误</string>
 
     <string name="playlist_last_added">最新添加</string>
     <string name="playlist_recently_played">最近播放</string>
-    <string name="playlist_top_tracks">我的最佳单曲</string>
+    <string name="playlist_top_tracks">我的最佳曲目</string>
 
-    <string name="timber_source">报告任何 bug，在<u> 这里 </u>。</string>
-    <string name="timber_feature_request">提出任何特性请求通过 Google+ 社区，在 <u> 这里 </u>。</string>
+    <string name="timber_source">在 <u>这里</u> 报告漏洞</string>
+    <string name="timber_feature_request">在 <u>这里</u> 通过 Google+ 提出特性请求</string>
 
     <string name="menu_show_as">视图</string>
     <string name="menu_show_as_entry_list">列表</string>
     <string name="menu_show_as_entry_grid">网格</string>
+    <string name="menu_show_as_entry_default">默认</string>
 
     <string name="light">默认主题</string>
     <string name="dark">似水年华</string>
@@ -57,52 +59,94 @@
     <string name="now_playing">正在播放</string>
     <string name="settings">设置</string>
     <string name="about">关于</string>
-    <string name="help_and_feedback">帮助与反馈</string>
+    <string name="help_and_feedback">帮助和反馈</string>
     <string name="search">搜索</string>
-    <string name="action_shuffle_all">随机</string>
-    <string name="action_equalizer">均衡</string>
+    <string name="action_shuffle_all">全部随机</string>
+    <string name="action_equalizer">均衡器</string>
     <string name="search_library">在库中搜索</string>
 
     <string name="select_theme">选择主题</string>
-    <string name="choose_theme_throughout">选择一个主题，在整个应用中。</string>
-    <string name="choose_start_page">选择起始页，在启动时显示。</string>
+    <string name="choose_theme_throughout">为整个应用选择一个主题</string>
+    <string name="choose_start_page">选择启动时显示的页面</string>
     <string name="start_page">起始页</string>
-    <string name="artist_in_grid">艺术家网格显示</string>
-    <string name="toggle_artists_grid">切换艺术家显示，在 2×2 的网格中。</string>
-    <string name="toggle_system_animations">切换系统动画，在整个应用中。</string>
+    <string name="artist_in_grid">网格显示艺术家</string>
+    <string name="toggle_artists_grid">在 2x2 网格中显示艺术家</string>
+    <string name="toggle_system_animations">切换整个应用的系统动画</string>
     <string name="system_animations">系统动画</string>
-    <string name="toggle_animations">切换过渡动画，在整个应用中。</string>
+    <string name="toggle_animations">切换整个应用的过渡动画</string>
     <string name="animations">动画</string>
-    <string name="now_playing_selector">选择正在播放画面，从4个不同风格中。</string>
+    <string name="now_playing_selector">从4中不同的播放界面风格中选择一个</string>
     <string name="personalisation">个性化</string>
     <string name="other">其他</string>
-    <string name="timber_about_opensource">Timber 是一个开源音乐播放器，由 Naman Dwivedi 开发。</string>
-    <string name="summary_pause_detach">切换为暂停播放，当耳机被拔出时。</string>
-    <string name="pause_detach">拔出暂停</string>
+    <string name="advanced">高级</string>
+    <string name="timber_about_opensource">Timber 是 Naman Dwivedi 开发的一款开源的音乐播放器</string>
+    <string name="summary_pause_detach">当耳机拔出时暂停播放</string>
+    <string name="pause_detach">拔出时暂停</string>
+    <string name="summary_xposed_trackselector">需要安装 Xposed 和 Xposed 模块 XMediaNotificationTrackSelector。这将在通知中提供播放队列控制。</string>
+    <string name="xposed_trackselector">通知中的播放队列支持</string>
     <string name="currently_selected">当前选择</string>
-
 
     <string name="dark_theme">夜间模式</string>
     <string name="dark_theme_summary">应用夜间模式到整个应用</string>
 
     <string name="primary_color">基础色</string>
-    <string name="primary_color_summary">更改主题基础色</string>
+    <string name="primary_color_summary">更改基础主题色</string>
 
     <string name="accent_color">强调色</string>
+    <string name="accent_color_summary">更改强调主题色</string>
 
-    <string name="accent_color_summary">更改主题强调色</string>
+    <string name="colored_status_bar">状态栏着色</string>
+    <string name="colored_status_bar_summary">切换状态栏的着色状态</string>
 
-    <string name="colored_nav_bar">彩色导航栏</string>
-    <string name="colored_nav_bar_summary">切换导航栏色彩</string>
+    <string name="colored_nav_bar">导航栏着色</string>
+    <string name="colored_nav_bar_summary">切换导航栏的着色状态</string>
 
-    <string name="colored_status_bar">彩色状态栏</string>
-    <string name="colored_status_bar_summary">切换状态栏色彩</string>
+    <string name="albumart_lockscreen">锁屏</string>
+    <string name="albumart_lockscreen_summary">在锁屏界面显示专辑封面</string>
 
-    <string name="count_song"><xliff:g id="count">%d</xliff:g> 首歌</string>
-    <string name="count_songs"><xliff:g id="count">%d</xliff:g> 首歌</string>
+    <string name="load_artist_album_image">加载艺术家图像</string>
+    <string name="load_artist_album_image_summary">从 Last.fm 加载艺术家图像</string>
+
+    <string name="load_artist_album_image_mobile">从设备数据加载艺术家图像</string>
+    <string name="load_artist_album_image_mobile_summary">无 Wi-Fi 时也能加载艺术家图像</string>
+
+    <string name="gestures">手势</string>
+    <string name="switching_tracks_by_gestures">使用手势切换曲目</string>
+    <string name="widget_standard">Timber 标准</string>
+    <string name="widget_small">Timber 小</string>
+    <string name="tap_to_start">单击打开 Timber</string>
+    <string name="widget_white">Timber 亮</string>
+
+    <string name="count_song"><xliff:g id="count">%d</xliff:g> 首歌曲</string>
+    <string name="count_songs"><xliff:g id="count">%d</xliff:g> 首歌曲</string>
     <string name="count_album"><xliff:g id="count">%d</xliff:g> 张专辑</string>
     <string name="count_albums"><xliff:g id="count">%d</xliff:g> 张专辑</string>
     <string name="count_artist"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
     <string name="count_artists"><xliff:g id="count">%d</xliff:g> 位艺术家</string>
+
+    <string name="number_song_add_queue">已将 <xliff:g example="1" id="number">%d</xliff:g> 首歌曲添加到队列</string>
+    <string name="number_songs_add_queue">已将 <xliff:g example="1" id="number">%d</xliff:g> 首歌曲添加到队列</string>
+    <string name="number_song_add_playlist">已将 <xliff:g example="1" id="number">%d</xliff:g> 首歌曲添加到播放列表</string>
+    <string name="number_songs_add_playlist">已将 <xliff:g example="1" id="number">%d</xliff:g> 首歌曲添加到播放列表</string>
+
+    <string name="play">播放</string>
+    <string name="add_to_playlist">添加到播放列表</string>
+    <string name="go_to_album">转到专辑</string>
+    <string name="go_to_artist">转到艺术家</string>
+    <string name="add_to_queue">添加到队列</string>
+    <string name="play_next">下一首播放</string>
+    <string name="new_playlist">新的播放列表</string>
+
+
+    <string name="nothing_found">没有结果</string>
+    <string name="folders">文件夹</string>
+    <string name="select_storage">选择存储器</string>
+
+    <string name="lastfm_pref">登录 Last.fm 以上传偏好数据</string>
+    <string name="lastfm_login_failture">登录失败</string>
+    <string name="lastfm_login">登录 Last.fm</string>
+    <string name="lastfm_loged_in">已登录为 %s</string>
+
+    <string name="cancel">取消</string>
 
 </resources>

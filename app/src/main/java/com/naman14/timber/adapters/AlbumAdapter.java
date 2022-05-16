@@ -16,8 +16,8 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
+import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +75,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ItemHolder> 
 
         ImageLoader.getInstance().displayImage(TimberUtils.getAlbumArtUri(localItem.id).toString(), itemHolder.albumArt,
                 new DisplayImageOptions.Builder().cacheInMemory(true)
-                        .showImageOnFail(R.drawable.ic_empty_music2)
+                        .showImageOnLoading(R.drawable.ic_empty_music2)
                         .resetViewBeforeLoading(true)
                         .displayer(new FadeInBitmapDisplayer(400))
                         .build(), new SimpleImageLoadingListener() {

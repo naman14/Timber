@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,8 +26,8 @@ public class LastFmLoginDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new MaterialDialog.Builder(getActivity()).
                 positiveText("Login").
-                negativeText("Cancel").
-                title("Login to LastFM").
+                negativeText(getString(R.string.cancel)).
+                title(getString(R.string.lastfm_login)).
                 customView(R.layout.dialog_lastfm_login, false).
                 onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -51,7 +51,7 @@ public class LastFmLoginDialog extends DialogFragment {
                             @Override
                             public void userInfoFailed() {
                                 progressDialog.dismiss();
-                                Toast.makeText(getTargetFragment().getActivity(), "Failed to Login", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getTargetFragment().getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

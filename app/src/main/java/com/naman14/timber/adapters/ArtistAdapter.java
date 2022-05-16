@@ -17,9 +17,9 @@ package com.naman14.timber.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.ColorInt;
+import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,7 +94,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                         ImageLoader.getInstance().displayImage(artist.mArtwork.get(2).mUrl, itemHolder.artistImage,
                                 new DisplayImageOptions.Builder().cacheInMemory(true)
                                         .cacheOnDisk(true)
-                                        .showImageOnFail(R.drawable.ic_empty_music2)
+                                        .showImageOnLoading(R.drawable.ic_empty_music2)
                                         .resetViewBeforeLoading(true)
                                         .displayer(new FadeInBitmapDisplayer(400))
                                         .build(), new SimpleImageLoadingListener() {
@@ -136,7 +136,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
                         ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
                                 new DisplayImageOptions.Builder().cacheInMemory(true)
                                         .cacheOnDisk(true)
-                                        .showImageOnFail(R.drawable.ic_empty_music2)
+                                        .showImageOnLoading(R.drawable.ic_empty_music2)
                                         .resetViewBeforeLoading(true)
                                         .displayer(new FadeInBitmapDisplayer(400))
                                         .build());
@@ -153,6 +153,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ItemHolder
         if (TimberUtils.isLollipop())
             itemHolder.artistImage.setTransitionName("transition_artist_art" + i);
 
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return arraylist.get(position).id;
     }
 
     @Override

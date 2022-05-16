@@ -31,7 +31,11 @@
     android:title="@string/go_to_artist" />
 
     <item
+        android:id="@+id/popup_song_share"
+        android:title="@string/share" />
+
+    <item
         android:id="@+id/popup_song_delete"
-        android:title="Delete from device" />
+        android:title="@string/delete_from_device" />
 
 </menu>

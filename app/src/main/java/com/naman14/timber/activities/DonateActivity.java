@@ -3,7 +3,7 @@ package com.naman14.timber.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +16,7 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.SkuDetails;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.naman14.timber.R;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +43,8 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
     private ProgressBar progressBar;
     private TextView status;
 
+    private String action = "support";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +54,12 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Donate");
+        getSupportActionBar().setTitle("Support development");
+        action = getIntent().getAction();
+
         productListView = (LinearLayout) findViewById(R.id.product_list);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         status = (TextView) findViewById(R.id.donation_status);
-
         bp = new BillingProcessor(this, "PLAY_LICENSE_KEY", this);
 
     }
@@ -64,7 +68,8 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
     public void onBillingInitialized() {
         readyToPurchase = true;
         checkStatus();
-        getProducts();
+        if (!(action != null && action.equals("restore")))
+            getProducts();
     }
 
     @Override
@@ -73,7 +78,7 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(DonateActivity.this, "Thanks for your donation!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DonateActivity.this, "Thanks for your support!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,7 +124,19 @@ public class DonateActivity extends BaseThemedActivity implements BillingProcess
             protected void onPostExecute(Boolean b) {
                 super.onPostExecute(b);
                 if (b) {
-                    status.setText("Thanks for your donation!");
+                    PreferencesUtility.getInstance(DonateActivity.this).setFullUnlocked(true);
+                    status.setText("Thanks for your support!");
+                    if (action!=null && action.equals("restore")) {
+                        status.setText("Your purchases has been restored. Thanks for your support");
+                        progressBar.setVisibility(View.GONE);
+                    }
+                    if (getSupportActionBar() != null)
+                        getSupportActionBar().setTitle("Support development");
+                } else {
+                    if (action!=null && action.equals("restore")) {
+                        status.setText("No previous purchase found");
+                        getProducts();
+                    }
                 }
             }
         }.execute();

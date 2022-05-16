@@ -15,7 +15,7 @@
 package com.naman14.timber.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +31,7 @@ import com.naman14.timber.utils.Constants;
 
 public class SimilarArtistFragment extends Fragment {
 
-    long artistID = -1;
+    private long artistID = -1;
 
     public static SimilarArtistFragment newInstance(long id) {
         SimilarArtistFragment fragment = new SimilarArtistFragment();

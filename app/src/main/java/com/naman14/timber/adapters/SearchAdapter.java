@@ -16,8 +16,8 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +45,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import java.util.Collections;
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder> {
+public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
 
     private Activity mContext;
     private List searchResults = Collections.emptyList();
@@ -188,6 +188,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
                     }
                 });
                 menu.inflate(R.menu.popup_song);
+                //Hide these because they aren't implemented
+                menu.getMenu().findItem(R.id.popup_song_delete).setVisible(false);
+                menu.getMenu().findItem(R.id.popup_song_share).setVisible(false);
                 menu.show();
             }
         });
@@ -243,7 +246,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
                         public void run() {
                             long[] ret = new long[1];
                             ret[0] = ((Song) searchResults.get(getAdapterPosition())).id;
-                            MusicPlayer.playAll(mContext, ret, 0, -1, TimberUtils.IdType.NA, false);
+                            playAll(mContext, ret, 0, -1, TimberUtils.IdType.NA,
+                                    false, (Song) searchResults.get(getAdapterPosition()), false);
                         }
                     }, 100);
 

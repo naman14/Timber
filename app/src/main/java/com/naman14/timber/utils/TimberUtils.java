@@ -28,8 +28,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -38,15 +38,25 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.adapters.BaseQueueAdapter;
+import com.naman14.timber.adapters.BaseSongAdapter;
 import com.naman14.timber.provider.RecentStore;
 import com.naman14.timber.provider.SongPlayCount;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
 
 public class TimberUtils {
 
     public static final String MUSIC_ONLY_SELECTION = MediaStore.Audio.AudioColumns.IS_MUSIC + "=1"
             + " AND " + MediaStore.Audio.AudioColumns.TITLE + " != ''";
+
+    public static boolean isOreo() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+    }
 
     public static boolean isMarshmallow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
@@ -220,7 +230,7 @@ public class TimberUtils {
                 .setLastAddedCutoff(System.currentTimeMillis());
     }
 
-    public static void showDeleteDialog(final Context context, final String name, final long[] list, final RecyclerView.Adapter adapter, final int pos) {
+    public static void showDeleteDialog(final Context context, final String name, final long[] list, final BaseSongAdapter adapter, final int pos) {
 
         new MaterialDialog.Builder(context)
                 .title("Delete song?")
@@ -231,7 +241,9 @@ public class TimberUtils {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         TimberUtils.deleteTracks(context, list);
+                        adapter.removeSongAt(pos);
                         adapter.notifyItemRemoved(pos);
+                        adapter.notifyItemRangeChanged(pos, adapter.getItemCount());
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -241,10 +253,34 @@ public class TimberUtils {
                     }
                 })
                 .show();
-
-
-
     }
+
+    public static void showDeleteDialog(final Context context, final String name, final long[] list, final BaseQueueAdapter qAdapter, final int pos) {
+
+        new MaterialDialog.Builder(context)
+                .title("Delete song?")
+                .content("Are you sure you want to delete " + name + " ?")
+                .positiveText("Delete")
+                .negativeText("Cancel")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        TimberUtils.deleteTracks(context, list);
+                        qAdapter.removeSongAt(pos);
+                        qAdapter.notifyItemRemoved(pos);
+                        qAdapter.notifyItemRangeChanged(pos, qAdapter.getItemCount());
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+
     public static void deleteTracks(final Context context, final long[] list) {
         final String[] projection = new String[]{
                 BaseColumns._ID, MediaStore.MediaColumns.DATA, MediaStore.Audio.AudioColumns.ALBUM_ID
@@ -306,5 +342,73 @@ public class TimberUtils {
         MusicPlayer.refresh();
     }
 
+    public static void shareTrack(final Context context, long id) {
+
+        try {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("audio/*");
+            share.putExtra(Intent.EXTRA_STREAM, getSongUri(context, id));
+            context.startActivity(Intent.createChooser(share, "Share"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Uri getSongUri(Context context, long id) {
+        final String[] projection = new String[]{
+                BaseColumns._ID, MediaStore.MediaColumns.DATA, MediaStore.Audio.AudioColumns.ALBUM_ID
+        };
+        final StringBuilder selection = new StringBuilder();
+        selection.append(BaseColumns._ID + " IN (");
+        selection.append(id);
+        selection.append(")");
+        final Cursor c = context.getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection.toString(),
+                null, null);
+
+        if (c == null) {
+            return null;
+        }
+        c.moveToFirst();
+
+
+        try {
+
+            Uri uri = Uri.parse(c.getString(1));
+            c.close();
+
+            return uri;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress();
+                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                        boolean isIPv4 = sAddr.indexOf(':')<0;
+
+                        if (useIPv4) {
+                            if (isIPv4)
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
+                                return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) { }
+        return "";
+    }
 
 }

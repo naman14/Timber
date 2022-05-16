@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <string name="app_name">Timber</string>
     <string name="action_settings">Settings</string>
 
     <string name="accessibility_play">Play</string>
@@ -100,6 +101,15 @@
     <string name="colored_nav_bar">Colored Navigation Bar</string>
     <string name="colored_nav_bar_summary">Toggle navigation bar coloring</string>
 
+    <string name="albumart_lockscreen">Lockscreen</string>
+    <string name="albumart_lockscreen_summary">Show album art in lockscreen</string>
+
+    <string name="load_artist_album_image">Load artist/album images</string>
+    <string name="load_artist_album_image_summary">Load artist/album images from lastfm</string>
+
+    <string name="load_artist_album_image_mobile">Load artist/album images on mobile data</string>
+    <string name="load_artist_album_image_mobile_summary">Load artist/album images even if there is no wifi</string>
+
     <string name="gestures">Gestures</string>
     <string name="switching_tracks_by_gestures">Switching tracks using gestures</string>
     <string name="widget_standard">Timber standard widget</string>
@@ -121,7 +131,6 @@
 
 
     <!--do not translate these strings-->
-    <string name="app_name" translatable="false">Timber</string>
     <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>
     <string name="duration_format" translatable="false"><xliff:g id="hours">%1$s</xliff:g> <xliff:g id="minutes">%2$s</xliff:g></string>
     <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d:%3$02d</xliff:g></string>
@@ -134,9 +143,35 @@
     <string name="add_to_queue">Add to queue</string>
     <string name="play_next">Play next</string>
     <string name="new_playlist">New playlist</string>
-
+    <string name="share">Share</string>
+    <string name="delete_from_device">Delete from device</string>
+    <string name="remove_from_queue">Remove from queue</string>
 
     <string name="nothing_found">Nothing found</string>
     <string name="folders">Folders</string>
+    <string name="select_storage">Select storage</string>
 
+    <string name="lastfm_pref">Login to LastFM to scrobble</string>
+    <string name="lastfm_login_failture">Failed to Login</string>
+    <string name="lastfm_login">Login to LastFM</string>
+    <string name="lastfm_loged_in">Logged in as %s</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="always_load_album_images_lastfm">Always load album images from Last.fm</string>
+    <string name="always_load_album_images_lastfm_summary">If unchecked, album art will be fetched locally from song file if available</string>
+
+    <string name="menu_show_lyrics">Show lyrics</string>
+    <string name="no_lyrics">No lyrics found.</string>
+    <string name="lyrics_makeitpersonal">Powered by <a href="https://makeitpersonal.co/">makeitpersonal.co</a></string>
+    <string name="cast">Cast</string>
+    <string name="now_playing_no_track_selected">\"No current track selected.</string>
+    <string name="lyrics_loading">Loading...</string>
+
+    <string name="about_dialog_body"><![CDATA[
+    <b>Timber</b> is a fully featured open source music player.<br/><br/>
+    Designed and developed by <b>Naman Dwivedi</b>. Check out my
+    <a href="https://namand.in">Website</a> and <a href="https://github.com/naman14/Timber">GitHub</a>
+    <br/><br/>Also checkout <a href="https://play.google.com/store/apps/details?id=com.naman14.timberx">TimberX</a>,
+    material themed music player that works across all form factors.
+    ]]></string>
 </resources>

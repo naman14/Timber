@@ -26,8 +26,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
+
 import com.naman14.timber.ITimberService;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
@@ -245,19 +246,22 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1 - slideOffset);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1 - slideOffset);
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(1);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(1);
             }
 
             @Override
             public void onPanelExpanded(View panel) {
                 View nowPlayingCard = QuickControlsFragment.topContainer;
-                nowPlayingCard.setAlpha(0);
+                if (nowPlayingCard != null)
+                    nowPlayingCard.setAlpha(0);
             }
 
             @Override

@@ -165,8 +165,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     updateLastFM();
                 } else {
                     LastFmLoginDialog lastFmLoginDialog = new LastFmLoginDialog();
-                    lastFmLoginDialog.setTargetFragment(SettingsFragment.this, 0);
-                    lastFmLoginDialog.show(getFragmentManager(), LastFmLoginDialog.FRAGMENT_NAME);
+                    lastFmLoginDialog.show(getChildFragmentManager(), LastFmLoginDialog.FRAGMENT_NAME);
 
                 }
                 return true;

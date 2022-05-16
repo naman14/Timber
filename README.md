@@ -2,6 +2,9 @@
 
 Material Design Music Player
 
+This project is no longer in active development. Please refer to [TimberX](https://github.com/naman14/TimberX) instead
+
+
 
 <a href='https://f-droid.org/repository/browse/?fdid=naman14.timber'><img alt='Get it on F-Droid' src='https://guardianproject.info/wp-content/uploads/2014/07/logo-fdroid.png' height=60px/></a>
 

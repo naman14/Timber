@@ -2,8 +2,8 @@ package com.naman14.timber.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
+import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

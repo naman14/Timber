@@ -23,12 +23,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.Menu;
@@ -52,7 +52,6 @@ import com.naman14.timber.dataloaders.TopTracksLoader;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.Constants;
-import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.widgets.DividerItemDecoration;
 import com.naman14.timber.widgets.DragSortRecycler;
@@ -133,11 +132,21 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
 
         animate = getIntent().getBooleanExtra(Constants.ACTIVITY_TRANSITION, false);
         if (animate && TimberUtils.isLollipop()) {
-            getWindow().getEnterTransition().addListener(new EnterTransitionListener());
+            if(savedInstanceState != null && savedInstanceState.containsKey("ROTATION_RECREATION")){
+                setUpSongs();
+            }
+            else{
+                getWindow().getEnterTransition().addListener(new EnterTransitionListener());
+            }
         } else {
             setUpSongs();
         }
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ROTATION_RECREATION", "Rotacion");
     }
 
     private void setAlbumart() {

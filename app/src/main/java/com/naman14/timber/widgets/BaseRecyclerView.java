@@ -1,15 +1,13 @@
 package com.naman14.timber.widgets;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
-import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.utils.Helpers;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;

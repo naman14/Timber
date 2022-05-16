@@ -2,8 +2,8 @@ package com.naman14.timber.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;

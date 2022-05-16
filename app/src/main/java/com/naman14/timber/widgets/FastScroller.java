@@ -5,9 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.naman14.timber.R;
 
-import static android.support.v7.widget.RecyclerView.OnScrollListener;
+import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
 public class FastScroller extends LinearLayout {
     private static final int BUBBLE_ANIMATION_DURATION = 100;

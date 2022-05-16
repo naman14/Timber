@@ -1,12 +1,15 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.activities.BaseActivity;
+import com.naman14.timber.cast.TimberCastHelper;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;

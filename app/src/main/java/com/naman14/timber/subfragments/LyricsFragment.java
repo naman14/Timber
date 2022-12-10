@@ -26,6 +26,7 @@ import java.io.File;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import me.wcy.lrcview.LrcView;
 
 /**
  * Created by christoph on 10.12.16.
@@ -36,6 +37,8 @@ public class LyricsFragment extends Fragment {
     private String lyrics = null;
     private Toolbar toolbar;
     private View rootView;
+    private String syncLyrics = null;
+    private long audioId = Long.MIN_VALUE;
 
     @Nullable
     @Override
@@ -54,17 +57,39 @@ public class LyricsFragment extends Fragment {
 
         final View lyricsView = rootView.findViewById(R.id.lyrics);
         final TextView poweredbyTextView = (TextView) lyricsView.findViewById(R.id.lyrics_makeitpersonal);
+        final LrcView syncLyricsView = (LrcView) rootView.findViewById(R.id.sync_lyrics);
         poweredbyTextView.setVisibility(View.GONE);
         final TextView lyricsTextView = (TextView) lyricsView.findViewById(R.id.lyrics_text);
         lyricsTextView.setText(getString(R.string.lyrics_loading));
+        long newAudioId = MusicPlayer.getCurrentAudioId();
+        if (newAudioId != audioId) {
+            audioId = newAudioId;
+            lyrics = null;
+            syncLyrics = null;
+        }
         String filename = getRealPathFromURI(Uri.parse(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "/" + MusicPlayer.getCurrentAudioId()));
-        if (filename != null && lyrics == null) {
-            lyrics = LyricsExtractor.getLyrics(new File(filename));
+        if (filename != null && lyrics == null && syncLyrics == null) {
+            File mediaFile = new File(filename);
+            syncLyrics = LyricsExtractor.getSynchronizedLyrics(mediaFile);
+            if (syncLyrics == null) {
+                lyrics = LyricsExtractor.getLyrics(mediaFile);
+            }
         }
 
-        if (lyrics != null) {
+        if (syncLyrics != null) {
+            syncLyricsView.setVisibility(View.VISIBLE);
+            lyricsView.setVisibility(View.GONE);
+
+            syncLyricsView.loadLrc(syncLyrics);
+        } else if (lyrics != null) {
+            syncLyricsView.setVisibility(View.GONE);
+            lyricsView.setVisibility(View.VISIBLE);
+
             lyricsTextView.setText(lyrics);
         } else {
+            syncLyricsView.setVisibility(View.GONE);
+            lyricsView.setVisibility(View.VISIBLE);
+
             String artist = MusicPlayer.getArtistName();
             if (artist != null) {
                 int i = artist.lastIndexOf(" feat");

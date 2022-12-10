@@ -39,6 +39,7 @@ public class LyricsFragment extends Fragment {
     private View rootView;
     private String syncLyrics = null;
     private LrcView syncLyricsView;
+    private ActionBar actionBar;
     private long audioId = Long.MIN_VALUE;
 
     @Nullable
@@ -83,6 +84,12 @@ public class LyricsFragment extends Fragment {
         poweredbyTextView.setVisibility(View.GONE);
         final TextView lyricsTextView = (TextView) lyricsView.findViewById(R.id.lyrics_text);
         lyricsTextView.setText(getString(R.string.lyrics_loading));
+
+        if (MusicPlayer.getTrackName() != null) {
+            actionBar.setTitle(MusicPlayer.getTrackName());
+        } else {
+            actionBar.setTitle(getString(R.string.app_name));
+        }
         long newAudioId = MusicPlayer.getCurrentAudioId();
         if (newAudioId != audioId) {
             audioId = newAudioId;
@@ -147,11 +154,8 @@ public class LyricsFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        if (MusicPlayer.getTrackName() != null) {
-            ab.setTitle(MusicPlayer.getTrackName());
-        }
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

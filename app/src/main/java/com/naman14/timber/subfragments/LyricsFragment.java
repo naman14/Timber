@@ -38,6 +38,7 @@ public class LyricsFragment extends Fragment {
     private Toolbar toolbar;
     private View rootView;
     private String syncLyrics = null;
+    private LrcView syncLyricsView;
     private long audioId = Long.MIN_VALUE;
 
     @Nullable
@@ -46,12 +47,29 @@ public class LyricsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_lyrics,container,false);
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        syncLyricsView = (LrcView) rootView.findViewById(R.id.sync_lyrics);
+
         setupToolbar();
 
         loadLyrics();
 
         return rootView;
     }
+
+    Runnable mUpdateProgress = new Runnable() {
+
+        @Override
+        public void run() {
+
+            long position = MusicPlayer.position();
+            if (LyricsFragment.this.isResumed()) {
+                if (syncLyricsView.getVisibility() == View.VISIBLE) {
+                    syncLyricsView.updateTime(position);
+                }
+                syncLyricsView.postDelayed(mUpdateProgress, 50);
+            }
+        }
+    };
 
     private void loadLyrics() {
 
@@ -136,6 +154,7 @@ public class LyricsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         toolbar.setBackgroundColor(Color.TRANSPARENT);
+        syncLyricsView.post(mUpdateProgress);
     }
 
     private String getRealPathFromURI(Uri contentUri) {

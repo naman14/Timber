@@ -63,6 +63,10 @@ public class LyricsFragment extends Fragment {
 
             long position = MusicPlayer.position();
             if (LyricsFragment.this.isResumed()) {
+                long newAudioId = MusicPlayer.getCurrentAudioId();
+                if (newAudioId != audioId) {
+                    loadLyrics();
+                }
                 if (syncLyricsView.getVisibility() == View.VISIBLE) {
                     syncLyricsView.updateTime(position);
                 }

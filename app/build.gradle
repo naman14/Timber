@@ -34,6 +34,10 @@ android {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
 
@@ -61,6 +65,7 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.3.0'
     implementation 'com.google.code.gson:gson:2.3'
     implementation 'de.Maxr1998:track-selector-lib:1.2'
+    implementation 'me.wcy:lrcview:2.2'
 
     implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
     implementation 'com.afollestad.material-dialogs:commons:0.9.0.2'

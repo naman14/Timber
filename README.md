@@ -46,6 +46,7 @@ Changelog is available [here](https://github.com/naman14/Timber/blob/master/Chan
 
 * CyanogenMod's [Eleven Music Player](https://github.com/CyanogenMod/android_packages_apps_Eleven)
 * [TimelyTextView](https://github.com/adnan-SM/TimelyTextView)
+* [LrcView](https://github.com/wangchenyan/lrcview)
 * [MultiViewPager](https://github.com/Pixplicity/MultiViewPager)
 * [PlayPauseButton](https://github.com/recruit-lifestyle/PlayPauseButton)
 * [CircularSeekBar](https://github.com/devadvance/circularseekbar)

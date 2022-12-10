@@ -2,6 +2,7 @@ package com.naman14.timber.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -29,6 +30,20 @@ public class LyricsExtractor {
             }
         }catch(Exception e){}
         return null;
+    }
+
+    public static String getSynchronizedLyrics(File file) {
+        String directory = file.getParent();
+        String lrcName = changeOrAppendExtension(file.getName(), ".lrc");
+        File lrcFile = new File(directory, lrcName);
+        if (!lrcFile.exists()) {
+            return null;
+        }
+        try {
+            return FileUtils.readAllText(lrcFile);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 
     private static int readOgg(byte[] buf, InputStream in, int bytesinpage, int skip) throws IOException {
@@ -222,6 +237,13 @@ public class LyricsExtractor {
 
     private static int byteArrayToIntLE(byte[] b) {
         return b[0] & 0xFF | (b[1] & 0xFF) << 8 | (b[2] & 0xFF) << 16 | (b[3] & 0xFF) << 24;
+    }
+
+    private static String changeOrAppendExtension(String filename, String newExtension) {
+        if (filename.lastIndexOf('.') != -1) {
+            filename = filename.substring(0, filename.lastIndexOf('.'));
+        }
+        return filename + newExtension;
     }
 
 }

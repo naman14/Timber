@@ -149,4 +149,10 @@
 
     <string name="cancel">取消</string>
 
+    <string name="menu_show_lyrics">显示歌词</string>
+    <string name="no_lyrics">找不到歌词</string>
+    <string name="lyrics_makeitpersonal">歌词由 <a href="https://makeitpersonal.co/">makeitpersonal.co</a>提供</string>
+    <string name="cast">Cast</string>
+    <string name="now_playing_no_track_selected">\"没有选中的播放中曲目</string>
+    <string name="lyrics_loading">加载中...</string>
 </resources>

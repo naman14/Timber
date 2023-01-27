@@ -15,20 +15,29 @@ public class LyricsExtractor {
     public static String getLyrics(File file){
         String filename = file.getName();
         String fileending = filename.substring(filename.lastIndexOf('.')+1,filename.length()).toLowerCase();
+        String lyric = null;
         try{
             switch(fileending){
                 case "mp3":
-                    return getLyricsID3(file);
+                    lyric = getLyricsID3(file);
+                    break;
                 case "mp4":
                 case "m4a":
                 case "aac":
-                    return getLyricsMP4(file);
+                    lyric = getLyricsMP4(file);
+                    break;
                 case "ogg":
                 case "oga":
-                    return getLyricsVorbis(file);
+                    lyric = getLyricsVorbis(file);
+                    break;
             }
         }catch(Exception e){}
-        return null;
+        /* iTunes and some music manager use CR as newline, we replace CRLF and CR to LF to ensure it
+        * be correctly displayed */
+        if (lyric != null) {
+            lyric = lyric.replace("\r\n", "\n").replace("\r", "\n");
+        }
+        return lyric;
     }
 
     private static int readOgg(byte[] buf, InputStream in, int bytesinpage, int skip) throws IOException {

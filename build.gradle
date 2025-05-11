@@ -2,13 +2,13 @@
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
-        classpath 'com.google.gms:google-services:4.2.0'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:8.10.0' // latest stable
+        classpath 'com.google.gms:google-services:4.4.1'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -16,7 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
         maven { url "https://jitpack.io" }
     }
@@ -25,12 +25,12 @@ allprojects {
 ext {
     // Sdk and tools
     minSdkVersion = 16
-    targetSdkVersion = 28
-    compileSdkVersion = 28
+    targetSdkVersion = 34
+    compileSdkVersion = 34
 
     // App dependencies
-    supportLibraryVersion = '27.0.2'
-    retrofitVersion = '2.3.0'
-    okHttp3Version = '3.9.0'
+    appCompatVersion = '1.6.1'
+    retrofitVersion = '2.9.0'
+    okHttp3Version = '4.12.0'
 }
 

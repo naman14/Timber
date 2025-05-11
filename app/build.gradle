@@ -4,7 +4,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-
+    namespace = "com.naman14.timber"
     defaultConfig {
         applicationId "naman14.timber"
         minSdkVersion rootProject.minSdkVersion
@@ -29,37 +29,36 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        disable 'MissingTranslation'
-        disable 'ExtraTranslation'
+    lint {
+        disable 'MissingTranslation', 'ExtraTranslation'
     }
+
 
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "com.google.android.material:material:1.12.0"
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.4.0"
     implementation "androidx.palette:palette:1.0.0"
     implementation "androidx.percentlayout:percentlayout:1.0.0"
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation "androidx.mediarouter:mediarouter:1.1.0"
-    implementation 'com.google.android.gms:play-services-cast-framework:16.1.2'
+    implementation "androidx.mediarouter:mediarouter:1.7.0"
+    implementation 'com.google.android.gms:play-services-cast-framework:22.0.0'
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     implementation 'net.steamcrafted:materialiconlib:1.1.4'
     implementation 'com.squareup.retrofit:retrofit:1.9.0'
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     implementation 'com.squareup.okhttp:okhttp:2.3.0'
-    implementation 'com.google.code.gson:gson:2.3'
+    implementation 'com.google.code.gson:gson:2.11.0'
     implementation 'de.Maxr1998:track-selector-lib:1.2'
 
     implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
@@ -68,9 +67,9 @@ dependencies {
     implementation('com.github.naman14:app-theme-engine:0.5.2@aar') {
         transitive = true
     }
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation 'com.google.firebase:firebase-crashlytics:19.4.3'
 
-    implementation 'com.anjlab.android.iab.v3:library:1.0.+'
+    implementation 'com.anjlab.android.iab.v3:library:1.0.45'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
 }
 
